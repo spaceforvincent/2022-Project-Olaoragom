@@ -249,10 +249,15 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    // (빌드 / 수정 / 임시) 구글 플레이 서비스 의존성 추가했더니 핸드폰에서 실행 안됨
+    // implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    // implementation 'com.google.android.gms:play-services-location:21.0.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
