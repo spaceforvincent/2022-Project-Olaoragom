@@ -32,10 +32,10 @@ const {width, height} = 이런 식으로 쓰도록 코드 정리, 픽셀값은 �
 스타일 디버깅은 배경색 (backgroundColor) 줘서 확인하면 편함
 */
 const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get('window').height;
 // dp 를 픽셀로 바꿨음
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
-// const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
+const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const ClimbingHome = () => {
   // 위에 import 한 모듈로 navigation 선언

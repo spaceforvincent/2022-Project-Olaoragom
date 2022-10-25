@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 // 서체 import
 import {TextLight} from '../../components/common/TextFont';
+import {TextExtraBold} from '../../components/common/TextFont';
 
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
@@ -20,41 +21,71 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const PlaceTypeButton = () => {
-  // 기본 opacity
-  const buttonOpacity = useRef(new Animated.Value(0.5)).current;
-
   // 클릭시 opacity 변화와 이미지 변화 (opacity 기준 0.7)
+
+  // 처음 등장 시 애니메이션 (내려오기와 Opacity)
+  const revealFromTop = useRef(new Animated.Value(0)).current;
+  const revealOpacity = useRef(new Animated.Value(0)).current;
+
+  // 시작하자마자 위치 위에서 내려오고 Opacity 조절 (1초 기준)
+  Animated.timing(revealFromTop, {
+    toValue: heightPixel * 0.008,
+    useNativeDriver: true,
+    duration: 1000,
+  }).start();
+
+  Animated.timing(revealOpacity, {
+    toValue: 0.6,
+    useNativeDriver: true,
+    duration: 1000,
+  }).start();
+
+  // 좌표 바꾸는 건 이 Form 으로! (변수명 바꾸지 말 것)
+  const revealFromTopStyle = {
+    transform: [{translateY: revealFromTop}],
+  };
 
   // View 는 Animated 가 적용되지 않으므로 TouchableOpacity 객체 하나 만들어 줘야 한다
   const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+  const AnimatedView = Animated.createAnimatedComponent(View);
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.helgibutton} onPress={() => {}}>
-          헬기장
-        </TextLight>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.aidkitbutton} onPress={() => {}}>
-          구급함
-        </TextLight>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.toiletbutton} onPress={() => {}}>
-          화장실
-        </TextLight>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.dangerbutton} onPress={() => {}}>
-          위험
-        </TextLight>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.summitbutton} onPress={() => {}}>
-          정상
-        </TextLight>
-      </TouchableOpacity>
-    </View>
+    <AnimatedView style={[styles.container, revealFromTopStyle]}>
+      <AnimatedTouchable>
+        <TouchableOpacity style={styles.buttonbackground}>
+          <TextLight style={styles.helgibutton} onPress={() => {}}>
+            헬기장
+          </TextLight>
+        </TouchableOpacity>
+      </AnimatedTouchable>
+      <AnimatedTouchable>
+        <TouchableOpacity style={styles.buttonbackground}>
+          <TextLight style={styles.aidkitbutton} onPress={() => {}}>
+            구급함
+          </TextLight>
+        </TouchableOpacity>
+      </AnimatedTouchable>
+      <AnimatedTouchable>
+        <TouchableOpacity style={styles.buttonbackground}>
+          <TextLight style={styles.toiletbutton} onPress={() => {}}>
+            화장실
+          </TextLight>
+        </TouchableOpacity>
+      </AnimatedTouchable>
+      <AnimatedTouchable>
+        <TouchableOpacity style={styles.buttonbackground}>
+          <TextLight style={styles.dangerbutton} onPress={() => {}}>
+            위험
+          </TextLight>
+        </TouchableOpacity>
+      </AnimatedTouchable>
+      <AnimatedTouchable>
+        <TouchableOpacity style={styles.buttonbackground}>
+          <TextLight style={styles.summitbutton} onPress={() => {}}>
+            정상
+          </TextLight>
+        </TouchableOpacity>
+      </AnimatedTouchable>
+    </AnimatedView>
   );
 };
 export default PlaceTypeButton;
@@ -64,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     flexDirection: 'row',
-    top: heightPixel * 0.008,
+    // top: heightPixel * 0.008,
     right: widthPixel * 0.05,
   },
   // 가로로 정렬
