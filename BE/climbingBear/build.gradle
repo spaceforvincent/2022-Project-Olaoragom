@@ -26,8 +26,14 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// 배포 관련
+//	implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.5.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+//bootJar {
+//	layered()
+//}
