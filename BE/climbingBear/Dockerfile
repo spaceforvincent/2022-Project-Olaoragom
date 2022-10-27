@@ -1,4 +1,4 @@
-FROM openjdk:8
-ARG JAR_FILE=build/libs/*.jar
-COPY build.gradle .
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:8-jdk-alpine
+ARG JAR_FILE=build/libs/climbingBear-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} climbingBear.jar
+ENTRYPOINT ["java","-jar","/demo.jar"]
