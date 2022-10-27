@@ -15,10 +15,11 @@ import MapView, {Marker, PROVIDER_GOOGLE, Geojson} from 'react-native-maps';
 import {useSelector} from 'react-redux';
 // 지도 위에 띄울 버튼 import
 import ClimbingButton from './ClimbingButton';
+import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 
 // (임시) 포인트 찍기 확인용 선언
 import {palgongSpotData} from '../../assets/temp/PalgongData';
-// import {palgongPathData} from '../../assets/temp/PalgongData';
+import {palgongPathData} from '../../assets/temp/PalgongData';
 
 // (임시) 맵타입 바꾸기
 // (논의) Dimensions 창 크기 전역 관리
@@ -29,11 +30,17 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 // 이 페이지와 상관없이 지도 검색 gps 는 쓸 수 있어야 하므로 상태 관리 따로 할 예정
 
 // Polyline, MapType 메인에서 받아와야할듯..
-const ClimbingMap = ({latitude, longitude, mapType}) => {
+const ClimbingMap = ({latitude, longitude}) => {
   // useSelector 로 state 값을 들고오기
   // const latitude = useSelector(state => state.nowclimblocation.latitude);
   // const longitude = useSelector(state => state.nowclimblocation.longitude);
   // 실시간으로 데이터 store 에서 받아오도록 해야 한다
+
+  // 세부장소 띄우는 state 상태, false일 때 안 띄우기
+  const [placeType, setPlaceType] = useState(false);
+  // mapType 지정할 state
+  const [mapType, setMapType] = useState('standard');
+
   return (
     <View style={styles.container}>
       <MapView
@@ -64,6 +71,8 @@ const ClimbingMap = ({latitude, longitude, mapType}) => {
           strokeWidth={2}
         /> */}
       </MapView>
+      <ClimbingButton setMapType={setMapType} setPlaceType={setPlaceType} />
+      {placeType && <PlaceTypeButton />}
     </View>
   );
 };
@@ -71,9 +80,6 @@ const ClimbingMap = ({latitude, longitude, mapType}) => {
 export default ClimbingMap;
 
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
-  },
   // (임시) MapView 띄우는 확인 위한 공식 문서 style 에 dimensions 추가해서 화면 꽉 채우도록 설정
   container: {
     // ...StyleSheet.absoluteFillObject,
