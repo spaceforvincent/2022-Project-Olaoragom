@@ -21,7 +21,11 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar backgroundColor="black" barStyle="light-content" />
+        <StatusBar
+          backgroundColor={'transparent'}
+          barStyle="dark-content"
+          translucent={true}
+        />
         <HomeNavigation />
       </NavigationContainer>
     </Provider>
