@@ -12,6 +12,8 @@ public class ClimbingBearApplication {
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(ClimbingBearApplication.class, args);}
+		SpringApplication.run(ClimbingBearApplication.class, args);
+
+	}
 
 }
