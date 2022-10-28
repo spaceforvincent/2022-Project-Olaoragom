@@ -101,7 +101,11 @@ const ClimbingHome = () => {
       }).start();
     }
   }
-  // 받은 파라미터 값에 따라 다른 페이지로 라우트
+  /* 
+  받은 파라미터 값에 따라 다른 페이지로 라우트
+  (수정) 여기서 get 요청에서 받은 방 값이 있으면 이미 초대된 방이 있다고 뜨고 등산하기로 라우트
+  get 요청은 여럿이 갑니다 눌렀을 때 보내도 되려나
+  */
   function actualNavigate(payload) {
     if (aloneorTogether.ALONE == payload) {
       navigation.navigate('ClimbingGPS');
@@ -143,6 +147,7 @@ const ClimbingHome = () => {
         style={styles.buttonbackground}
         disabled={startAble}
         onPress={() => actualNavigate(checkNavigate.current)}>
+        {/* (수정) 여기서 Get 요청으로 정보 다 들고 와야 한다 */}
         <View style={[styles.startbutton, {backgroundColor: startColor}]}>
           <TextLight style={styles.startbuttontext}>등산 시작</TextLight>
         </View>
@@ -150,7 +155,7 @@ const ClimbingHome = () => {
     </View>
   );
 };
-
+// C:\Users\ssafy\Project\Third Project\S07P31D109\FE\ClimbingBear\src\screens\climbing\ClimbingHome.js
 export default ClimbingHome;
 
 const styles = StyleSheet.create({
