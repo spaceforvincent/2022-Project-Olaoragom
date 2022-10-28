@@ -5,5 +5,5 @@ COPY ${JAR_FILE} climbingBear-0.0.1-SNAPSHOT.jar
 #RUN apt-get -y update
 #RUN apt-get -y upgrade
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/climbingBear.jar"]
+ENTRYPOINT ["java","-jar","/climbingBear-0.0.1-SNAPSHOT.jar"]
 
