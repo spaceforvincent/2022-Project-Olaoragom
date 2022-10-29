@@ -1,8 +1,8 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
-const HaveBeenStamp = () => {
-  const image = require('../../assets/images/HaveBeenMarker2.png');
+const BlankStamp = () => {
+  const image = require('../../assets/images/Blank.png');
 
   return (
     <View style={styles.stamp}>
@@ -11,7 +11,7 @@ const HaveBeenStamp = () => {
   );
 };
 
-export default HaveBeenStamp;
+export default BlankStamp;
 const styles = StyleSheet.create({
   stamp: {
     marginTop: 10,
