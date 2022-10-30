@@ -41,6 +41,9 @@ dependencies {
 
 	// mysql
 	implementation 'mysql:mysql-connector-java'
+
+	// h2 : test 용
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

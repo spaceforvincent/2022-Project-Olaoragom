@@ -22,10 +22,10 @@ public class AccessTokenInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("OPTIONS")) return true;
         log.debug("request URI : {} ", request.getRequestURI());
         log.debug("request Method : {} " , request.getMethod());
-        if(request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) return true;
+        if(request.getMethod().equals("POST") && request.getRequestURI().equals("/user")) return true;
         try {
             String accessToken = getAccessToken(request.getHeader(HttpHeaders.AUTHORIZATION));
-            request.setAttribute("id", jwtProvider.getIdFromAccessToken(accessToken));
+            request.setAttribute("pk", jwtProvider.getIdFromAccessToken(accessToken));
             return true;
         }catch (Exception e) {
             throw new InvalidAccessTokenException();
