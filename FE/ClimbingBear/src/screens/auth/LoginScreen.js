@@ -1,22 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
-// 로그인폼 컴포넌트 import
-import LoginForm from '../../components/auth/LoginForm';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import AuthInput from '../../components/auth/AuthInput';
 
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
 const LoginScreen = () => {
   return (
-    <View>
-      <Text style={styles.temptext}>등산곰</Text>
-      <LoginForm />
+    <View style={styles.container}>
+      <Image source={require(`../../assets/images/LoginLogo.png`)} style={styles.image}/>
+      <Text style={styles.title}>올라오라곰</Text>
+      <AuthInput title={'email'} placeholder={'아이디'}/>
+      <AuthInput title={'password'} placeholder={'비밀번호'} secureTextEntry={true}/>
     </View>
   );
 };
 
-export default LoginScreen;
-
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-});
+  image: {
+    width: 250,
+    height: 250,
+  },
+  title: {
+    fontSize: 40,
+    margin: 5,
+  }
+})
+
+export default LoginScreen;
