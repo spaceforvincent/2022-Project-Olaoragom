@@ -1,9 +1,7 @@
 package com.example.climbingBear.domain.user.service;
 
 import com.example.climbingBear.domain.user.Repository.UserRepository;
-import com.example.climbingBear.domain.user.dto.GetAccessTokenResponseDto;
-import com.example.climbingBear.domain.user.dto.SignupReqDto;
-import com.example.climbingBear.domain.user.dto.SignupResDto;
+import com.example.climbingBear.domain.user.dto.*;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.global.jwt.JwtProvider;
@@ -31,5 +29,11 @@ public class UserService {
         User user = userRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
                 new NoExistUserException());
         return new GetAccessTokenResponseDto(jwtProvider.getAccessToken(user.getId()));
+    }
+
+    public LoginResDto login(LoginReqDto dto){
+        User user = userRepository.findByIdAndPw(dto.getId(), dto.getPw()).orElseThrow(() ->
+                new NoExistUserException());
+        return new LoginResDto(jwtProvider.getAccessToken(user.getId()), jwtProvider.getRefreshToken());
     }
 }
