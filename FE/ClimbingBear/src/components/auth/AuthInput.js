@@ -34,13 +34,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginVertical: 10,
     },
-    // title: {
-    //     marginBottom: 4,
-    // },
-    // focusedTitle: {
-    //     borderWidth: 2,
-    //     color: PRIMARY.DEFAULT
-    // },
     input: {
         borderWidth: 1,
         paddingHorizontal: 20,
