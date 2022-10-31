@@ -1,24 +1,76 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
-// 회원가입폼 컴포넌트 import
-import SignupForm from '../../components/auth/SignupForm';
+import React, { useEffect, useState } from 'react';
+import { Image, View, Text, StyleSheet, Pressable } from 'react-native';
+import AuthInput from '../../components/auth/AuthInput';
 
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
+
 const SignupScreen = () => {
+
+  const [ id, setId ] = useState('')
+  const [ password, setPassword ] = useState('');
+  const [ nickname, setNickname ] = useState('');
+
   return (
-    <View>
-      <Text style={styles.temptext}>
-        여긴 회원가입이 들어간 회원가입 스크린입니다!
-      </Text>
-      <SignupForm />
+    <View style={styles.container}>
+      <Image source={require(`../../assets/images/LoginLogo.png`)} style={styles.image}/>
+
+      <Text style={styles.title}>올라오라곰</Text>
+
+      <AuthInput 
+        title={'id'}
+        placeholder={'아이디'}
+        onChangeText={(text) => setId(text)}
+      />
+      <AuthInput 
+        title={'nickname'}
+        placeholder={'닉네임'}
+        onChangeText={(text) => setNickname(text)}
+      />
+      <AuthInput 
+        title={'password'}
+        placeholder={'비밀번호'}
+        onChangeText={(text) => setPassword(text)}
+      />
+      <AuthInput 
+        title={'password2'}
+        placeholder={'비밀번호 확인'}
+        onChangeText={(text) => setPassword(text)}
+      />
+
+      <Pressable style={styles.signInButton}>
+        <Text style={styles.signInText}>회원가입</Text>
+      </Pressable>
+
     </View>
   );
 };
 
-export default SignupScreen;
-
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  image: {
+    width: 250,
+    height: 250,
+  },
+  title: {
+    fontSize: 40,
+    margin: 5,
+  },
+  signInButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    backgroundColor: '#74B49B',
+    height: 40,
+    borderRadius: 4,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  signInText: {
+    color: 'white',
   },
 });
+
+export default SignupScreen;
