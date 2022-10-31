@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Dimensions, PixelRatio} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, PixelRatio, Alert} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import HaveBeenStamp from '../../components/calendar/HaveBeenStamp';
@@ -17,10 +17,19 @@ const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
+// 달력 코드
 const CalendarHome = ({navigation: {navigate}}) => {
+  //오늘 날짜
   const [dateNum, setDateNum] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  //수정/삭제 모달 ON/OFF
+  const [isModifyDeleteModalVisible, setIsModifyDeleteModalVisible] =
+    useState(false);
+  //검색/등록 모달 ON/OFF
+  const [isSearchRegisterModalVisible, setIsSearchRegisterModalVisible] =
+    useState(false);
+  //클릭한 날짜
   const [selectedDate, setSelectedDate] = useState('');
+  //사용자의 일정에 등록되어있는 산 이름
   const MountainName = '산 이름';
 
   //달력 내 날짜 컴포넌트... 따로 컴포넌트로 빼서 진행하고 싶은데 calendar 구조를 잘 모르겠어서 어떻게 빼야할지 모르겠다.
@@ -48,19 +57,32 @@ const CalendarHome = ({navigation: {navigate}}) => {
               <Text style={styles.mountainname}>{MountainName}</Text>
             </TouchableOpacity>
           ) : //(임시 : 갈 예정인 날짜 스탬프)
-          date.dateString === '2022-10-30' ? (
+          date.dateString === '2022-11-30' ? (
             <TouchableOpacity
               onPress={() => {
-                setIsModalVisible(!isModalVisible);
+                setIsModifyDeleteModalVisible(!isModifyDeleteModalVisible);
                 setSelectedDate(date.dateString);
               }}>
               <Text style={styles.activateddate}>{date.day}</Text>
               <NotHaveBeenStamp style={styles.stamp} />
               <Text style={styles.mountainname}>{MountainName}</Text>
             </TouchableOpacity>
-          ) : (
+          ) : date.datestring >= dateNum ? (
             //이번 달 날짜 표시
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setIsSearchRegisterModalVisible(!isSearchRegisterModalVisible);
+                setSelectedDate(date.dateString);
+              }}>
+              <Text style={styles.activateddate}>{date.day}</Text>
+              <BlankStamp />
+            </TouchableOpacity>
+          ) : (
+            //기록이 없는 지난 날짜
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert("일정을 등록할 수 없거나 기록이 없습니다.")
+              }}>
               <Text style={styles.activateddate}>{date.day}</Text>
               <BlankStamp />
             </TouchableOpacity>
@@ -99,25 +121,40 @@ const CalendarHome = ({navigation: {navigate}}) => {
   };
   LocaleConfig.defaultLocale = 'calendarData';
 
+  // Calendar 본체
   return (
     <View>
-      {isModalVisible ? <View style={styles.modalOverlay}></View> : <></>}
       <View style={styles.content}>
         <Calendar
           //요일 컴포넌트
           dayComponent={dayComponent}
-          monthFormat={'yyyy. MM'}
+          //달력 월 형식
+          monthFormat={'yyyy년 MM월'}
           style={styles.calendar}
           theme={theme}
+          //스와이프 기능 사용
           enableSwipeMonths={true}
         />
       </View>
+      {/* 일정 삭제/수정 모달 */}
       <ModifyDeleteModal
-        isModalVisible={isModalVisible}
-        setIsModalVisible={setIsModalVisible}
+        isModalVisible={isModifyDeleteModalVisible}
+        setIsModalVisible={setIsModifyDeleteModalVisible}
         selected={selectedDate}
         mountainName={MountainName}
       />
+      {/* 검색/동록 모달 */}
+      <SearchRegisterModal
+        isModalVisible={isSearchRegisterModalVisible}
+        setIsModalVisible={setIsSearchRegisterModalVisible}
+        selected={selectedDate}
+      />
+      {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
+      {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
+        <View style={styles.modalOverlay}></View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

@@ -20,8 +20,6 @@ const ModifyDeleteModal = ({
   selected,
   mountainName,
 }) => {
-  const windowWidth = Dimensions.get('window').width;
-
   return (
     <Modal
       visible={isModalVisible}
@@ -31,9 +29,7 @@ const ModifyDeleteModal = ({
         style={styles.modalOverlay}
         onPress={() => {
           setIsModalVisible(!isModalVisible);
-        }}>
-        <Text>닫기</Text>
-      </Pressable>
+        }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
           <Text style={styles.text}>{selected}</Text>
