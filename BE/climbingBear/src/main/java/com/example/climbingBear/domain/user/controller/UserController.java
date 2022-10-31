@@ -1,5 +1,7 @@
 package com.example.climbingBear.domain.user.controller;
 
+import com.example.climbingBear.domain.user.dto.LoginReqDto;
+import com.example.climbingBear.domain.user.dto.LoginResDto;
 import com.example.climbingBear.domain.user.dto.SignupReqDto;
 import com.example.climbingBear.domain.user.service.UserService;
 import com.example.climbingBear.global.common.CommonResponse;
@@ -22,7 +24,7 @@ public class UserController {
     private final UserService userService;
     private final JwtProvider jwtProvider;
     @PostMapping("/signup")
-    @ApiOperation(value = "회원가입", notes = "id, pw 입력")
+    @ApiOperation(value = "회원가입", notes = "id, pw, nickname 입력")
     public ResponseEntity<CommonResponse> signUpUser(@RequestBody SignupReqDto dto) throws IOException {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.signup(dto)), HttpStatus.OK);
     }
@@ -31,5 +33,11 @@ public class UserController {
     public ResponseEntity<CommonResponse> getAccessToken(HttpServletRequest request){
         String refreshToken = (String) request.getAttribute("refreshToken");
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.getAccessToken(refreshToken)), HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    @ApiOperation(value = "로그인", notes = "id, pw 입력")
+    public ResponseEntity<CommonResponse> login(@RequestBody LoginReqDto dto){
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.login(dto)), HttpStatus.OK);
     }
 }
