@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    @ApiOperation(value = "로그인", notes = "id, pw 입력")
+    @ApiOperation(value = "로그인", notes = "id, pw입력")
     public ResponseEntity<CommonResponse> login(@RequestBody LoginReqDto dto){
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.login(dto)), HttpStatus.OK);
     }
