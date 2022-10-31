@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View, StyleSheet, Button, Pressable } from 'react-native';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthInput from '../../components/auth/AuthInput';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 
 const LoginScreen = () => {
 
   const navigation = useNavigation();
+
+  const [ id, setId ] = useState('');
+  const [ password, setPassword ] = useState('');
 
   return (
     <View style={styles.container}>
@@ -15,8 +16,19 @@ const LoginScreen = () => {
 
       <Text style={styles.title}>올라오라곰</Text>
 
-      <AuthInput title={'email'} placeholder={'아이디'}/>
-      <AuthInput title={'password'} placeholder={'비밀번호'} secureTextEntry={true}/>
+        <AuthInput 
+          title={'email'}
+          value={id}
+          placeholder={'아이디'}
+          onChangeText={(text) => setId(text)}
+        />
+        <AuthInput
+          title={'password'}
+          value={password}
+          placeholder={'비밀번호'}
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+        />
       
       <Pressable style={styles.loginButton}>
         <Text style={styles.loginText}>로그인</Text>
@@ -26,7 +38,6 @@ const LoginScreen = () => {
       <Pressable>
         <Text style={styles.signupText} onPress={() => navigation.navigate('SignupScreen')}>회원가입</Text>
       </Pressable>
-
     </View>
   );
 };
@@ -50,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 100,
     backgroundColor: '#74B49B',
-    height: 30,
+    height: 40,
     borderRadius: 4,
     marginTop: 10,
     marginBottom: 20,

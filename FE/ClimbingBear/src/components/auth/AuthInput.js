@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Text, TextInput, StyleSheet, View } from "react-native";
 import PropTypes from 'prop-types'
 
-const AuthInput = ({title, placeholder, secureTextEntry}) => {
+const AuthInput = ({ value, title, placeholder, secureTextEntry, ...props }) => {
     const [ isFocused, setIsFocused ] = useState(false);
 
     return (
         <View style={styles.container}>
             {/* <Text style={styles.title}>{title}</Text> */}
             <TextInput
-                style={[styles.input, isFocused && styles.focusedInput]}
+                {...props}
+                value={value}
+                style={[styles.input, value && styles.valueInput, isFocused && styles.focusedInput]}
                 placeholder={placeholder ?? title}
                 placeholderTextColor={'#a3a3a3'}
                 autoCapitalize={'none'} // 첫글자 대문자 방지
@@ -26,6 +28,7 @@ const AuthInput = ({title, placeholder, secureTextEntry}) => {
 AuthInput.PropTypes = {
     title: PropTypes.string,
     placeholder: PropTypes.string,
+    value: PropTypes.string,
 }
 
 const styles = StyleSheet.create({
@@ -39,6 +42,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 8,
         height: 45,
+    },
+    valueInput: {
+        borderColor: 'black',
+        color: 'black',
     },
     focusedInput: {
         borderWidth: 2, 
