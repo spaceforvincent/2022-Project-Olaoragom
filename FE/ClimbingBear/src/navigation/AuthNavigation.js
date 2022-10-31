@@ -11,7 +11,9 @@ const Stack = createStackNavigator();
 // (임시) 더미 auth 네비게이터로 만들고 app.js 에 추가 필요
 const AuthNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator 
+      initialRouteName='LoginScreen'
+      screenOptions={{headerShown: false}}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
     </Stack.Navigator>
