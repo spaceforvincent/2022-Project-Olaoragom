@@ -34,6 +34,7 @@ const SearchRegisterModal = ({
   useEffect(() => {
     setAddSchedule({mountainName: enteredText, date: selected});
   }, [enteredText]);
+
   return (
     <Modal
       visible={isModalVisible}
@@ -53,7 +54,7 @@ const SearchRegisterModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              getSchedule(addSchedule);
+              getSchedule(selected, addSchedule);
               setIsModalVisible(!isModalVisible);
             }}>
             <View style={styles.button}>

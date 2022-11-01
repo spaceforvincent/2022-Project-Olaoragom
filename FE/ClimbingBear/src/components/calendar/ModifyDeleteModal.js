@@ -17,8 +17,14 @@ const windowHeight = Dimensions.get('window').height;
 const ModifyDeleteModal = ({
   isModalVisible,
   setIsModalVisible,
+  isSearchRegisterModalVisible,
+  setIsSearchRegisterModalVisible,
   selected,
   mountainName,
+  bookedDate,
+  deleteSchedule,
+  modifySchedule,
+  setModifyState,
 }) => {
   return (
     <Modal
@@ -39,14 +45,21 @@ const ModifyDeleteModal = ({
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
-            onPress={() => heightState()}>
+            onPress={() => {
+              setModifyState(true);
+              setIsModalVisible(!isModalVisible);
+              setIsSearchRegisterModalVisible(!isSearchRegisterModalVisible);
+            }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>일정 변경</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.modalbottom}
-            onPress={() => heightState()}>
+            onPress={() => {
+              deleteSchedule(selected);
+              setIsModalVisible(!isModalVisible);
+            }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>삭제</Text>
             </View>

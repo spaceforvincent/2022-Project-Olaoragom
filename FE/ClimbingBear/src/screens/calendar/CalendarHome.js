@@ -53,9 +53,28 @@ const CalendarHome = ({navigation: {navigate}}) => {
     return newArr;
   };
 
-  const getSchedule = obj => {
-    setBookedDate([...bookedDate, obj]);
+  const getSchedule = (selected, obj) => {
+    let copyArray = [...bookedDate];
+    if (modifyState) {
+      copyArray.map(record => {
+        if (record.date == selected) {
+          Object.assign(record, obj);
+          setModifyState(false);
+          return;
+        }
+      });
+
+      setBookedDate(copyArray);
+    } else {
+      setBookedDate([...bookedDate, obj]);
+    }
   };
+
+  const deleteSchedule = date => {
+    setBookedDate(bookedDate.filter(record => record.date !== date));
+  };
+
+  const [modifyState, setModifyState] = useState(false);
 
   //수정/삭제 모달 ON/OFF
   const [isModifyDeleteModalVisible, setIsModifyDeleteModalVisible] =
@@ -67,9 +86,6 @@ const CalendarHome = ({navigation: {navigate}}) => {
   const [selectedDate, setSelectedDate] = useState('');
   //클릭한 날짜의 산
   const [selectedMountain, setSelectedMountain] = useState('');
-
-  //사용자의 일정에 등록되어있는 산 이름
-  const MountainName = '산 이름';
 
   //달력 내 날짜 컴포넌트... 따로 컴포넌트로 빼서 진행하고 싶은데 calendar 구조를 잘 모르겠어서 어떻게 빼야할지 모르겠다.
   const dayComponent = ({date, state}) => {
@@ -203,6 +219,12 @@ const CalendarHome = ({navigation: {navigate}}) => {
         setIsModalVisible={setIsModifyDeleteModalVisible}
         selected={selectedDate}
         mountainName={selectedMountain}
+        bookedDate={bookedDate}
+        deleteSchedule={deleteSchedule}
+        isSearchRegisterModalVisible={isSearchRegisterModalVisible}
+        setIsSearchRegisterModalVisible={setIsSearchRegisterModalVisible}
+        modifyState={modifyState}
+        setModifyState={setModifyState}
       />
       {/* 검색/동록 모달 */}
       <SearchRegisterModal
