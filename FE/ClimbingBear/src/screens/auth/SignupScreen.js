@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Image, View, Text, StyleSheet, Pressable } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, View, Text, StyleSheet, Pressable} from 'react-native';
 import AuthInput from '../../components/auth/AuthInput';
 
-
 const SignupScreen = () => {
-
-  const [ id, setId ] = useState('')
-  const [ password, setPassword ] = useState('');
-  const [ nickname, setNickname ] = useState('');
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
 
   return (
     <View style={styles.container}>
-      <Image source={require(`../../assets/images/LoginLogo.png`)} style={styles.image}/>
+      <Image
+        source={require(`../../assets/images/LoginLogo.png`)}
+        style={styles.image}
+      />
 
       <Text style={styles.title}>올라오라곰</Text>
 
-      <AuthInput 
+      <AuthInput
         title={'id'}
         placeholder={'아이디'}
-        onChangeText={(text) => setId(text)}
+        onChangeText={text => setId(text)}
       />
-      <AuthInput 
+      <AuthInput
         title={'nickname'}
         placeholder={'닉네임'}
-        onChangeText={(text) => setNickname(text)}
+        onChangeText={text => setNickname(text)}
       />
-      <AuthInput 
+      <AuthInput
         title={'password'}
         placeholder={'비밀번호'}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={text => setPassword(text)}
       />
-      <AuthInput 
+      <AuthInput
         title={'password2'}
         placeholder={'비밀번호 확인'}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={text => setPassword(text)}
       />
 
       <Pressable style={styles.signInButton}>
         <Text style={styles.signInText}>회원가입</Text>
       </Pressable>
-
     </View>
   );
 };
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   image: {
     width: 250,

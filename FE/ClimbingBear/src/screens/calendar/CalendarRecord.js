@@ -8,6 +8,9 @@ const windowHeight = Dimensions.get('window').height;
 
 const CalendarRecord = ({navigation: {navigate}, route}) => {
   const [imageState, setImageState] = useState('map');
+  const [isHeightClicked, setIsHeightClicked] = useState(false);
+  const [isOrbitClicked, setIsOrbitClicked] = useState(false);
+  const [isMapClicked, setIsMapClicked] = useState(false);
   const distanceRecord = '3.275';
   const timeRecord = '03:27:45';
   const heightRecord = '500';
@@ -52,20 +55,56 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
           <Image style={styles.image} source={heightImage} />
         )}
         <View style={styles.buttoncontainer}>
-          <TouchableOpacity onPress={() => mapState()}>
-            <View style={styles.button}>
-              <Text style={styles.buttontext}>지도사진</Text>
-            </View>
+          <TouchableOpacity
+            onPress={() => {
+              mapState();
+              setIsMapClicked(true);
+              setIsOrbitClicked(false);
+              setIsHeightClicked(false);
+            }}>
+            {isMapClicked ? (
+              <View style={styles.clickedbutton}>
+                <Text style={styles.buttontext}>지도사진</Text>
+              </View>
+            ) : (
+              <View style={styles.button}>
+                <Text style={styles.buttontext}>지도사진</Text>
+              </View>
+            )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => orbitState()}>
-            <View style={styles.button}>
-              <Text style={styles.buttontext}>위성사진</Text>
-            </View>
+          <TouchableOpacity
+            onPress={() => {
+              orbitState();
+              setIsOrbitClicked(true);
+              setIsHeightClicked(false);
+              setIsMapClicked(false);
+            }}>
+            {isOrbitClicked ? (
+              <View style={styles.clickedbutton}>
+                <Text style={styles.buttontext}>위성사진</Text>
+              </View>
+            ) : (
+              <View style={styles.button}>
+                <Text style={styles.buttontext}>위성사진</Text>
+              </View>
+            )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => heightState()}>
-            <View style={styles.button}>
-              <Text style={styles.buttontext}>고도사진</Text>
-            </View>
+          <TouchableOpacity
+            onPress={() => {
+              heightState();
+              setIsHeightClicked(true);
+              setIsOrbitClicked(false);
+              setIsMapClicked(false);
+            }}>
+            {isHeightClicked ? (
+              <View style={styles.clickedbutton}>
+                <Text style={styles.buttontext}>고도사진</Text>
+              </View>
+            ) : (
+              <View style={styles.button}>
+                <Text style={styles.buttontext}>고도사진</Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -114,6 +153,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#91C788',
+    height: windowHeight * 0.035,
+    borderRadius: 15,
+    marginBottom: windowHeight * 0.01,
+  },
+  clickedbutton: {
+    backgroundColor: 'gray',
     height: windowHeight * 0.035,
     borderRadius: 15,
     marginBottom: windowHeight * 0.01,

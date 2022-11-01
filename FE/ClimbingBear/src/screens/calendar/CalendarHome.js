@@ -150,7 +150,6 @@ const CalendarHome = ({navigation: {navigate}}) => {
             </TouchableOpacity>
           )
         }
-
       </View>
     );
   };

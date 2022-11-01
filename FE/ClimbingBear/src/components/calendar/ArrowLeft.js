@@ -6,9 +6,16 @@ const IconLeft = () => {
 
   return (
     <View>
-      <Image source={image} />
+      <Image style={styles.arrow} source={image} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  arrow: {
+    width: 30,
+    height: 30,
+  },
+});
 
 export default IconLeft;
