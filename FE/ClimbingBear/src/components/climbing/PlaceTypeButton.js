@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   // absolute 일 땐 정렬이 안먹힘
   semicontainer: {
-    // position: 'absolute',
+    position: 'absolute',
     flexDirection: 'row',
     width: widthPixel * 0.33,
     justifyContent: 'space-evenly',
