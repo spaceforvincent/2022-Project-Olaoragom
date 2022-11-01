@@ -54,7 +54,7 @@ public class UserController {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.checkId(id)), HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/lists")
     @ApiOperation(value = "사용자 리스트", notes = "등산 메이트 검색을 위한 사용자 리스트")
     public ResponseEntity<?> getUserList(@RequestParam("id") String id)throws Exception {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.findAllUser(id)), HttpStatus.OK);
