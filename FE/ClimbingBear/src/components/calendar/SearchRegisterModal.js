@@ -15,10 +15,21 @@ import CalendarSearchBar from './SearchBar';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
-  const [enteredText,setEnteredText] = useState('');
-  const getEnteredText = enteredText => {
-    setEnteredText(enteredText);
+const SearchRegisterModal = ({
+  isModalVisible,
+  setIsModalVisible,
+  selected,
+  bookedDate,
+  getSchedule,
+}) => {
+  const [enteredText, setEnteredText] = useState('');
+  //검색창에서 받아온 일정
+  const [addSchedule, setAddSchedule] = useState({
+    mountainName: enteredText,
+    date: selected,
+  });
+  const getEnteredText = text => {
+    setEnteredText(text);
   };
   return (
     <Modal
@@ -38,7 +49,10 @@ const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
-            onPress={() => addSchedule(enteredText, selected)}>
+            onPress={() => {
+              setAddSchedule({mountainName: enteredText, date: selected});
+              getSchedule(addSchedule)
+            }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>등록하기</Text>
             </View>

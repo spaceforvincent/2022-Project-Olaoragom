@@ -31,17 +31,17 @@ const CalendarHome = ({navigation: {navigate}}) => {
   //오늘 날짜
   const [dateNum, setDateNum] = useState('');
   //예약되어있는 날짜
-  const bookedDate = [
+  const [bookedDate, setBookedDate] = useState([
     {mountainName: '와룡산', date: '2022-11-13'},
     {mountainName: '계룡산', date: '2022-11-14'},
     {mountainName: '용용산', date: '2022-11-15'},
-  ];
+  ]);
   //실제 갔다온 날짜
-  const havebeenDate = [
+  const [havebeenDate, setHaveBeenDate] = useState([
     {mountainName: '장도산', date: '2022-10-07'},
     {mountainName: '바보산', date: '2022-10-08'},
     {mountainName: '똥개산', date: '2022-10-09'},
-  ];
+  ]);
 
   //누른 날짜와 비교할 날짜 배열(실제 갔다온 날짜, 예약되어있는 날짜) 만들기
   const makeDateArr = list => {
@@ -52,6 +52,12 @@ const CalendarHome = ({navigation: {navigate}}) => {
     }
     return newArr;
   };
+
+  const getSchedule = obj => {
+    setBookedDate(...bookedDate, obj);
+    console.log(bookedDate);
+  };
+
   //수정/삭제 모달 ON/OFF
   const [isModifyDeleteModalVisible, setIsModifyDeleteModalVisible] =
     useState(false);
@@ -65,8 +71,6 @@ const CalendarHome = ({navigation: {navigate}}) => {
 
   //사용자의 일정에 등록되어있는 산 이름
   const MountainName = '산 이름';
-
-  const addSchedule = ({mountain, date}) => {};
 
   //달력 내 날짜 컴포넌트... 따로 컴포넌트로 빼서 진행하고 싶은데 calendar 구조를 잘 모르겠어서 어떻게 빼야할지 모르겠다.
   const dayComponent = ({date, state}) => {
@@ -167,7 +171,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
-  }, []);
+  }, [bookedDate]);
 
   //달력 요일 헤더 설정
   LocaleConfig.locales['calendarData'] = {
@@ -205,7 +209,9 @@ const CalendarHome = ({navigation: {navigate}}) => {
       <SearchRegisterModal
         isModalVisible={isSearchRegisterModalVisible}
         setIsModalVisible={setIsSearchRegisterModalVisible}
+        bookedDate={bookedDate}
         selected={selectedDate}
+        getSchedule={getSchedule}
       />
       {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
       {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
