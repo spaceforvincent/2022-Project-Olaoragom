@@ -1,9 +1,10 @@
 package com.example.climbingBear.domain.user.service;
 
-import com.example.climbingBear.domain.user.Repository.UserRepository;
+
 import com.example.climbingBear.domain.user.dto.*;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
+import com.example.climbingBear.domain.user.repository.UserRepository;
 import com.example.climbingBear.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
