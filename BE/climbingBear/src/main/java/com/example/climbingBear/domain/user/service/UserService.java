@@ -7,8 +7,12 @@ import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import com.example.climbingBear.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,4 +41,30 @@ public class UserService {
                 new NoExistUserException());
         return new LoginResDto(jwtProvider.getAccessToken(user.getId()), jwtProvider.getRefreshToken());
     }
+
+    public isExistResDto checkNickname(String nickname) throws Exception {
+        isExistResDto isExist = new isExistResDto();
+        if(userRepository.existsUserByNickname(nickname)){
+            isExist.setIsExist(true);
+        }else{
+            isExist.setIsExist(false);
+        }
+        return isExist;
+    }
+    public isExistResDto checkId(String id) throws Exception {
+        isExistResDto isExist = new isExistResDto();
+        if(userRepository.existsUserById(id)){
+            isExist.setIsExist(true);
+        }else{
+            isExist.setIsExist(false);
+        }
+        return isExist;
+    }
+
+    public List<UserListResDto> findAllUser(String userId) {
+        String id = userId;
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "nickname"));
+        return users.stream().map(UserListResDto::new).collect(Collectors.toList());
+    }
+
 }
