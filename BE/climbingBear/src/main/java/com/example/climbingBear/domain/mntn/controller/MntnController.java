@@ -28,7 +28,7 @@ public class MntnController {
     }
 
     @GetMapping("/list")
-    @ApiOperation(value = "산 이름 리스트", notes = "seq, name 제공")
+    @ApiOperation(value = "산 목록 리스트", notes = "seq, name 제공")
     public ResponseEntity<?> getMntnList(@RequestParam("id") String id)throws Exception {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.findAllMountain(id)), HttpStatus.OK);
     }
