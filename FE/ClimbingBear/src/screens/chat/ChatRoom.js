@@ -2,6 +2,7 @@ import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Button, ScrollView, TextInput} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {GiftedChat, IMessage} from 'react-native-gifted-chat';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
 const ChatRoom = () => {
@@ -40,6 +41,14 @@ const ChatRoom = () => {
 
   const submitMessage = () => {
     ws.send(messageText);
+    const storeData = async (value) => {
+      try {
+        const jsonValue = JSON.stringify(value)
+        await AsyncStorage.setItem('@storage_Key', jsonValue)
+      } catch (e) {
+        // saving error
+      }
+    }
     // 다시 입력란 비워둠
     setMessageText('')
     setInputFieldEmpty(true)
