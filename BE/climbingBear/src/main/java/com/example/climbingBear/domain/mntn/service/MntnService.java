@@ -32,8 +32,7 @@ public class MntnService {
         return mntnResDto;
     }
 
-    public List<MntnListResDto> findAllMountain(String userId){
-        String id = userId;
+    public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.DESC, "mntnNm"));
         return mountains.stream().map(MntnListResDto::new).collect(Collectors.toList());
     }

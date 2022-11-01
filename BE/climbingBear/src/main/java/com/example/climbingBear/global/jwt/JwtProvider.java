@@ -24,10 +24,10 @@ public class JwtProvider {
     private final Long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60 * 60;
     private final Long REFREST_TOKEN_EXPIRED_TIME = 1000L * 60 * 60 * 24 * 14;
 
-    public String getAccessToken(String id){
+    public String getAccessToken(Long id){
         Date now = new Date();
         return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim("id", id)
+                .claim("userSeq", id)
                 .setIssuer("beTravelic")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_TIME))
@@ -48,6 +48,11 @@ public class JwtProvider {
     public String getIdFromAccessToken(String accessToken) throws Exception{
         String id = (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().get("id");
         return  id;
+    }
+
+    public String getUserSeqFromAccessToken(String accessToken) throws Exception{
+        String userSeq = (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().get("userSeq");
+        return  userSeq;
     }
 
     public boolean isValidToken(String token){
