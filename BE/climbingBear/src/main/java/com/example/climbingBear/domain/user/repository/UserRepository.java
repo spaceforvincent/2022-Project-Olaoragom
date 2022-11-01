@@ -1,4 +1,4 @@
-package com.example.climbingBear.domain.user.Repository;
+package com.example.climbingBear.domain.user.repository;
 
 import com.example.climbingBear.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
