@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Image, View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import AuthInput from '../../components/auth/AuthInput';
 
-// 회원가입
-
-
-// const signUp = async () => {
-//   try {
-//     await axios.post(`http://k7d109.p.ssafy.io:8080/user/signup`,
-//       {
-//        id: id,
-//        pw: password,
-//        nickname: nickname
-//       });
-//   }
-//   catch (error) {
-//     console.log(error)
-//   }
-// }
+  // 회원가입
+  const signUp = async() => {
+    try {
+      const response = await await axios({
+        method: "post",
+        url: `http://k7d109.p.ssafy.io:8080/user/signup`,
+        data: {
+          id: id,
+          nickname: nickname,
+          pw: password
+        }
+      })
+      console.log(response.data)
+    }
+    catch (error) {
+      console.log(error)
+      console.log(error.response.data);
+      console.log(error.response.headers);
+    }
+  }
 
 const SignupScreen = () => {
 
@@ -59,7 +63,7 @@ const SignupScreen = () => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.signUpButton} onPress={console.log('얍')}>
+      <TouchableOpacity style={styles.signUpButton} onPress={() => signUp()}>
         <Text style={styles.signUpText}>회원가입</Text>
       </TouchableOpacity>
 
