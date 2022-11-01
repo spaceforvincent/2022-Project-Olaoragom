@@ -25,7 +25,7 @@ public class AccessTokenInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("POST") && request.getRequestURI().equals("/user")) return true;
         try {
             String accessToken = getAccessToken(request.getHeader(HttpHeaders.AUTHORIZATION));
-            request.setAttribute("pk", jwtProvider.getIdFromAccessToken(accessToken));
+            request.setAttribute("uerSeq", jwtProvider.getUserSeqFromAccessToken(accessToken));
             return true;
         }catch (Exception e) {
             throw new InvalidAccessTokenException();
