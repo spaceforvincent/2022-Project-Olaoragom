@@ -1,7 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthInput from '../../components/auth/AuthInput';
+
+const login = async( id, password ) => {
+  console.log(id)
+  console.log(password)
+  try {
+    const response = await axios({
+      method: "post",
+      url: `http://k7d109.p.ssafy.io:8080/user/login`,
+      data: {
+        id: id,
+        pw: password
+      }
+    })
+    console.log(response.data)
+    console.log(response.data.data.accessToken)
+  }
+    catch (error) {
+      console.log(error)
+      console.log(error.response.data);
+      console.log(error.response.headers);
+    }
+  }
 
 const LoginScreen = () => {
 
@@ -31,7 +54,7 @@ const LoginScreen = () => {
         />
       
       <Pressable style={styles.loginButton}>
-        <Text style={styles.loginText} onPress = {() => console.log('이건 되니?')}>로그인</Text>
+        <Text style={styles.loginText} onPress = {() => login( id, password )}>로그인</Text>
       </Pressable>
 
       <Text>아직 회원이 아니신가요?</Text>

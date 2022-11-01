@@ -4,9 +4,12 @@ import { Image, View, Text, StyleSheet, TouchableOpacity, Button } from 'react-n
 import AuthInput from '../../components/auth/AuthInput';
 
   // 회원가입
-  const signUp = async() => {
+  const signUp = async( id, password, nickname ) => {
+    console.log(id)
+    console.log(password)
+    console.log(nickname)
     try {
-      const response = await await axios({
+      const response = await axios({
         method: "post",
         url: `http://k7d109.p.ssafy.io:8080/user/signup`,
         data: {
@@ -63,7 +66,7 @@ const SignupScreen = () => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.signUpButton} onPress={() => signUp()}>
+      <TouchableOpacity style={styles.signUpButton} onPress={() => signUp( id, password, nickname)}>
         <Text style={styles.signUpText}>회원가입</Text>
       </TouchableOpacity>
 
