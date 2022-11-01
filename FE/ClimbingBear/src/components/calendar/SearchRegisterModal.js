@@ -31,6 +31,9 @@ const SearchRegisterModal = ({
   const getEnteredText = text => {
     setEnteredText(text);
   };
+  useEffect(() => {
+    setAddSchedule({mountainName: enteredText, date: selected});
+  }, [enteredText]);
   return (
     <Modal
       visible={isModalVisible}
@@ -50,8 +53,8 @@ const SearchRegisterModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              setAddSchedule({mountainName: enteredText, date: selected});
-              getSchedule(addSchedule)
+              getSchedule(addSchedule);
+              setIsModalVisible(!isModalVisible);
             }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>등록하기</Text>

@@ -54,8 +54,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
   };
 
   const getSchedule = obj => {
-    setBookedDate(...bookedDate, obj);
-    console.log(bookedDate);
+    setBookedDate([...bookedDate, obj]);
   };
 
   //수정/삭제 모달 ON/OFF
