@@ -10,11 +10,16 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
+import CalendarSearchBar from './SearchBar';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
+  const [enteredText,setEnteredText] = useState('');
+  const getEnteredText = enteredText => {
+    setEnteredText(enteredText);
+  };
   return (
     <Modal
       visible={isModalVisible}
@@ -29,10 +34,11 @@ const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
         <View style={styles.flexrow}>
           <Text style={styles.text}>등산 일정 등록</Text>
         </View>
+        <CalendarSearchBar getEnteredText={getEnteredText} />
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
-            onPress={() => heightState()}>
+            onPress={() => addSchedule(enteredText, selected)}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>등록하기</Text>
             </View>

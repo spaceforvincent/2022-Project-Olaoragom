@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 const NotHaveBeenStamp = () => {
-  const image = require('../../assets/images/NotHaveBeenMarker2.png');
+  const image = require('../../assets/images/NotHaveBeenMarker.png');
 
   return (
     <View style={styles.stamp}>
