@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -22,8 +23,16 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    @ApiOperation(value = "등산 계획 저장", notes = "year, month, day, mntnSeq 입력")
-    public ResponseEntity<CommonResponse> saveDiary(@RequestBody DiaryPostReqDto dto, @RequestParam("id") String id) throws Exception {
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.diarySave(dto, id)), HttpStatus.OK);
+    @ApiOperation(value = "등산 계획 저장", notes = "year, month, day, mntnSeq 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> saveDiary(HttpServletRequest request, @RequestBody DiaryPostReqDto dto) throws Exception {
+        Long userSeq = (Long) request.getAttribute("userSeq");
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.diarySave(dto, userSeq)), HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "등산 계획 조회", notes = "header에 token 입력")
+    public ResponseEntity<CommonResponse> getDiary(HttpServletRequest request) throws Exception {
+        Long userSeq = (Long) request.getAttribute("userSeq");
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.myDiarylist(userSeq)), HttpStatus.OK);
     }
 }
