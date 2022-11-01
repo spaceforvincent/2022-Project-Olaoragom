@@ -16,10 +16,10 @@ const SearchBar = ({setLatitude, setLongitude}) => {
   // (공부) TextInput 속성
   return (
     <View>
-      <TextInput
+      {/* <TextInput
         placeholder="산을 검색하세요"
         style={styles.temptext}
-        onSubmitEditing={() => relocate()}></TextInput>
+        onSubmitEditing={() => relocate()}></TextInput> */}
     </View>
   );
 };
