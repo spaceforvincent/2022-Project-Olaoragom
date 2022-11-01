@@ -9,9 +9,15 @@ import {
   Image,
 } from 'react-native';
 // 지도 모듈 import
-import MapView, {Marker, PROVIDER_GOOGLE, Geojson} from 'react-native-maps';
+import MapView, {
+  Marker,
+  PROVIDER_GOOGLE,
+  Geojson,
+  Polyline,
+} from 'react-native-maps';
 // 서체 import
 import {TextBold, TextMedium} from '../../components/common/TextFont';
+
 // useSelector 을 import 함으로서 우리가 만든 reducer state 에 접근 가능
 import {useSelector} from 'react-redux';
 // 지도 위에 띄울 버튼 import
@@ -20,8 +26,9 @@ import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 
 // (임시) 포인트 찍기 확인용 선언
 import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-// import {palgongPathData} from '../../assets/temp/PalgongData';
+// import tempgwanwakSpot from '../../assets/temp/tempgwanwakSpot';
+// (임시) polyline 그려보기
+import {line} from '../../assets/temp/temppolyline';
 
 // (임시) 맵타입 바꾸기
 // (논의) Dimensions 창 크기 전역 관리
@@ -76,25 +83,28 @@ const ClimbingMap = ({latitude, longitude}) => {
     setFeatures(path);
   }
 
+  // (임시) 켜자마자 등산로와 spot 렌더링
+  useEffect(() => {
+    pathfeature();
+  }, []);
+
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
   function pickPath(payload) {
-    if (pathIndex == payload) {
+    if (pathIndex != null && pathIndex == payload) {
       setPathIndex(null);
       features[payload].features[0].properties.color = 'rgba(79, 141, 86, 0.5)';
     }
-    // 그 전에 선택됐던 등산로 선택해제 해야 함
-    else {
+    // 그 전에 선택됐던 등산로 선택해제 해야 하고 중복 선택되면 안된다
+    else if (pathIndex != null && pathIndex != payload) {
       features[pathIndex].features[0].properties.color =
         'rgba(79, 141, 86, 0.5)';
       setPathIndex(payload);
       features[payload].features[0].properties.color = 'rgba(154, 31, 31, 0.7)';
+    } else {
+      setPathIndex(payload);
+      features[payload].features[0].properties.color = 'rgba(154, 31, 31, 0.7)';
     }
   }
-
-  // (임시) 켜자마자 등산로 렌더링
-  useEffect(() => {
-    pathfeature();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -120,10 +130,13 @@ const ClimbingMap = ({latitude, longitude}) => {
             />
           </Marker>
         ))} */}
+        {/* (임시) polyline 색 정해야 한다 */}
+        {/* <Polyline coordinates={line} strokeColor="#4AD63D" strokeWidth={3} /> */}
         {features &&
           features.map((item, index) => (
             <Geojson
               geojson={item}
+              key={index}
               strokeColor={item.features[0].properties.color}
               strokeWidth={2}
               tappable={true}
