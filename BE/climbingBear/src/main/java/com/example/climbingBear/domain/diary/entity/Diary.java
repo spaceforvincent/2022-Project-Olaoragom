@@ -2,10 +2,15 @@ package com.example.climbingBear.domain.diary.entity;
 
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.user.entity.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Diary {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "diary_seq")
@@ -22,4 +27,13 @@ public class Diary {
     private Integer month;
 
     private Integer day;
+
+    @Builder
+    private Diary (User user, Mountain mntn, Integer year, Integer month, Integer day){
+        this.user = user;
+        this.mntn = mntn;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 }
