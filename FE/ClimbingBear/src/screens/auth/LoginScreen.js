@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthInput from '../../components/auth/AuthInput';
 
@@ -31,13 +31,13 @@ const LoginScreen = () => {
         />
       
       <Pressable style={styles.loginButton}>
-        <Text style={styles.loginText}>로그인</Text>
+        <Text style={styles.loginText} onPress = {() => console.log('이건 되니?')}>로그인</Text>
       </Pressable>
 
       <Text>아직 회원이 아니신가요?</Text>
-      <Pressable>
-        <Text style={styles.signupText} onPress={() => navigation.navigate('SignupScreen')}>회원가입</Text>
-      </Pressable>
+      <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+        <Text style={styles.signupText}>회원가입하러가기</Text>
+      </TouchableOpacity>
     </View>
   );
 };

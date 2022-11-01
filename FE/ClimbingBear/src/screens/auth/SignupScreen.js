@@ -1,7 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Image, View, Text, StyleSheet, Pressable } from 'react-native';
+import axios from 'axios';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import AuthInput from '../../components/auth/AuthInput';
 
+// 회원가입
+
+
+// const signUp = async () => {
+//   try {
+//     await axios.post(`http://k7d109.p.ssafy.io:8080/user/signup`,
+//       {
+//        id: id,
+//        pw: password,
+//        nickname: nickname
+//       });
+//   }
+//   catch (error) {
+//     console.log(error)
+//   }
+// }
 
 const SignupScreen = () => {
 
@@ -17,28 +34,34 @@ const SignupScreen = () => {
 
       <AuthInput 
         title={'id'}
+        value={id}
         placeholder={'아이디'}
         onChangeText={(text) => setId(text)}
       />
       <AuthInput 
         title={'nickname'}
+        value={nickname}
         placeholder={'닉네임'}
         onChangeText={(text) => setNickname(text)}
       />
       <AuthInput 
         title={'password'}
+        value={password}
         placeholder={'비밀번호'}
+        secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
       <AuthInput 
-        title={'password2'}
+        title={'password'}
+        value={password}
         placeholder={'비밀번호 확인'}
+        secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
 
-      <Pressable style={styles.signInButton}>
-        <Text style={styles.signInText}>회원가입</Text>
-      </Pressable>
+      <TouchableOpacity style={styles.signUpButton} onPress={console.log('얍')}>
+        <Text style={styles.signUpText}>회원가입</Text>
+      </TouchableOpacity>
 
     </View>
   );
@@ -58,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     margin: 5,
   },
-  signInButton: {
+  signUpButton: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 100,
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  signInText: {
+  signUpText: {
     color: 'white',
   },
 });

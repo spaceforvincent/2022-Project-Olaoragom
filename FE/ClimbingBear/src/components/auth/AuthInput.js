@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, TextInput, StyleSheet, View } from "react-native";
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 
 const AuthInput = ({ value, title, placeholder, secureTextEntry, ...props }) => {
     const [ isFocused, setIsFocused ] = useState(false);
@@ -25,10 +25,10 @@ const AuthInput = ({ value, title, placeholder, secureTextEntry, ...props }) => 
 }
 
 // props 타입 지정
-AuthInput.PropTypes = {
-    title: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
+AuthInput.propTypes = {
+    title: propTypes.string,
+    placeholder: propTypes.string,
+    value: propTypes.string,
 }
 
 const styles = StyleSheet.create({
