@@ -58,6 +58,11 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
     // (수정) 조금 하드코딩인거 같아서 추후 수정 필요할듯
     // 위성지도, 일반지도 바뀌는 부분만 const 해서 수정하면 될듯?
     <View style={styles.container}>
+      <TouchableOpacity style={styles.buttonbackground}>
+        <TextLight style={styles.unclickbuttontext} onPress={() => {}}>
+          일행위치
+        </TextLight>
+      </TouchableOpacity>
       {!changeMapTypeStatus.current && (
         <TouchableOpacity style={styles.buttonbackground}>
           <TextLight
@@ -76,11 +81,6 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
           </TextLight>
         </TouchableOpacity>
       )}
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.unclickbuttontext} onPress={() => {}}>
-          일행위치
-        </TextLight>
-      </TouchableOpacity>
 
       {!placeTypeStatus.current && (
         <TouchableOpacity style={styles.buttonbackground}>
@@ -109,7 +109,7 @@ export default ClimbingButton;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: heightPixel * 0.16,
+    top: heightPixel * 0.185,
     right: widthPixel * 0.0005,
   },
   buttonbackground: {
@@ -118,14 +118,16 @@ const styles = StyleSheet.create({
     paddingRight: widthPixel * 0.01,
   },
   unclickbuttontext: {
-    padding: widthPixel * 0.009,
+    paddingHorizontal: widthPixel * 0.015,
+    paddingVertical: widthPixel * 0.006,
     backgroundColor: '#91C788',
     fontSize: widthPixel * 0.015,
     color: '#FFFFFF',
     borderRadius: 15,
   },
   clickbuttontext: {
-    padding: widthPixel * 0.009,
+    paddingHorizontal: widthPixel * 0.015,
+    paddingVertical: widthPixel * 0.006,
     backgroundColor: '#3D5B4F',
     fontSize: widthPixel * 0.015,
     color: '#FFFFFF',
