@@ -25,6 +25,12 @@ const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
+// 일시정지 버튼 payload
+const pauseInput = {
+  PAUSE: 'pause',
+  RESTART: 'restart',
+};
+
 const ClimbingInfo = ({altitude, distance}) => {
   const navigation = useNavigation();
 
@@ -33,25 +39,39 @@ const ClimbingInfo = ({altitude, distance}) => {
   const [nowMinutes, setNowMinutes] = useState(0);
   const [nowSeconds, setNowSeconds] = useState(0);
   // 일시정지 구현
-  const pause = useRef(false);
+  const [pause, setPause] = useState(false);
+  function pauseCount(payload) {
+    if (pauseInput.PAUSE == payload) {
+      setPause(true);
+    } else if (pauseInput.RESTART == payload) {
+      setPause(false);
+    }
+  }
 
+  // 타이머 지정 위한 변수
   const nowTime = useRef(0);
+  const intervalRef = useRef(null);
+  // 숫자 00 지정 위한 함수
+  function numberPad(n, width) {
+    n = n + '';
+    return n.length >= width
+      ? n
+      : new Array(width - n.length + 1).join('0') + n;
+  }
 
-  // 렌더링 되자마자 시작
+  // 일시정지하고 풀었을 때 interval 재지정
   useEffect(() => {
-    // interval 1초로 지정해서 시간 재기
-    const interval = setInterval(() => {
-      if (pause.current) {
-        clearInterval(interval);
-      } else {
+    if (!pause) {
+      intervalRef.current = setInterval(() => {
         nowTime.current++;
         // 시간, 분, 초 지정해주기
-        setNowSeconds(nowTime.current % 60);
-        setNowMinutes(Math.floor(nowTime.current / 60) % 60);
-        setNowHour(Math.floor(nowTime.current / 3600));
-      }
-    }, 1000);
-    // 일시정지를 눌렀을 때 (true)
+        setNowSeconds(numberPad(nowTime.current % 60, 2));
+        setNowMinutes(numberPad(Math.floor(nowTime.current / 60) % 60, 2));
+        setNowHour(numberPad(Math.floor(nowTime.current / 3600), 2));
+      }, 1000);
+    } else {
+      clearInterval(intervalRef.current);
+    }
   }, [pause]);
 
   return (
@@ -78,14 +98,30 @@ const ClimbingInfo = ({altitude, distance}) => {
           </TextMedium>
         </View>
       </View>
-      <View style={styles.climbbutton}>
-        <TouchableOpacity>
-          <TextMedium style={styles.climbbuttontext}>일시 정지</TextMedium>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ClimbingFinish')}>
-          <TextMedium style={styles.climbbuttontext}>등산 종료</TextMedium>
-        </TouchableOpacity>
-      </View>
+      {!pause && (
+        <View style={styles.climbbutton}>
+          <TouchableOpacity
+            onPress={() => {
+              pauseCount(pauseInput.PAUSE);
+            }}>
+            <TextMedium style={styles.climbbuttontext}>일시 정지</TextMedium>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ClimbingFinish')}>
+            <TextMedium style={styles.climbbuttontext}>등산 종료</TextMedium>
+          </TouchableOpacity>
+        </View>
+      )}
+      {pause && (
+        <View style={styles.climbbutton}>
+          <TouchableOpacity
+            onPress={() => {
+              pauseCount(pauseInput.RESTART);
+            }}>
+            <TextMedium style={styles.climbbuttontext}>등산 재시작</TextMedium>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -120,12 +156,14 @@ const styles = StyleSheet.create({
   climbinfo: {
     fontSize: widthPixel * 0.025,
     color: '#000000',
+    paddingVertical: widthPixel * 0.005,
   },
   climbinfonum: {
     // 부모 속성 무시하고 싶을 때 alignSelf
     alignSelf: 'flex-end',
-    fontSize: widthPixel * 0.025,
+    fontSize: widthPixel * 0.024,
     color: '#000000',
+    paddingVertical: widthPixel * 0.005,
   },
   climbbutton: {
     flexDirection: 'row',
