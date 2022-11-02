@@ -11,6 +11,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import CalendarSearchBar from './SearchBar';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -48,17 +54,15 @@ const SearchRegisterModal = ({
         }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
-          <Text style={styles.text}>등산 일정 등록</Text>
+          <TextExtraBold style={styles.text}>등산 일정 등록</TextExtraBold>
         </View>
         <CalendarSearchBar getEnteredText={getEnteredText} />
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              setIsToast(true);
               setIsModalVisible(!isModalVisible);
               getSchedule(selected, addSchedule);
-              console.log(bookedDate);
               handleToast('Register');
               setTimeout(() => {
                 setIsToast(false);
@@ -67,7 +71,7 @@ const SearchRegisterModal = ({
               }, 1000);
             }}>
             <View style={styles.button}>
-              <Text style={styles.buttontext}>등록하기</Text>
+              <TextBold style={styles.buttontext}>등록하기</TextBold>
             </View>
           </TouchableOpacity>
         </View>
@@ -105,8 +109,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#91C788',
-    height: windowHeight * 0.035,
+    width: windowWidth * 0.3,
+    height: windowHeight * 0.04,
     marginBottom: windowHeight * 0.01,
+    padding: 3,
+    borderRadius: 4,
   },
   buttontext: {
     color: 'white',

@@ -11,6 +11,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -30,12 +37,12 @@ const ModifyDeleteModal = ({
   setIsToast,
   setToastMsg,
 }) => {
-  useEffect(() => {}, [selected]);
   return (
     <Modal
       visible={isModalVisible}
       onRequestClose={() => setIsModalVisible(!isModalVisible)}
       transparent={true}>
+      {/* 모달 바깥 누르면 닫기 */}
       <Pressable
         style={styles.modalOverlay}
         onPress={() => {
@@ -43,11 +50,12 @@ const ModifyDeleteModal = ({
         }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
-          <Text style={styles.text}>{selected}</Text>
-          <Text style={styles.text}>{mountainName}</Text>
+          <TextExtraBold style={styles.text}>{selected}</TextExtraBold>
+          <TextExtraBold style={styles.text}>{mountainName}</TextExtraBold>
         </View>
-        <Text style={styles.text}>일정이 예약되어 있습니다</Text>
+        <TextBold style={styles.text}>일정이 예약되어 있습니다</TextBold>
         <View style={styles.flexrow}>
+          {/* 일정 수정상태 on & 검색/등록 모달로 이동 버튼 */}
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
@@ -56,13 +64,13 @@ const ModifyDeleteModal = ({
               setModifyState(true);
             }}>
             <View style={styles.button}>
-              <Text style={styles.buttontext}>일정 변경</Text>
+              <TextBold style={styles.buttontext}>일정 변경</TextBold>
             </View>
           </TouchableOpacity>
+          {/* 일정 삭제 & 토스트 메세지 띄움 */}
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              setIsToast(true);
               setIsModalVisible(!isModalVisible);
               handleToast('Delete');
               setTimeout(() => {
@@ -72,7 +80,7 @@ const ModifyDeleteModal = ({
               deleteSchedule(selected);
             }}>
             <View style={styles.button}>
-              <Text style={styles.buttontext}>삭제</Text>
+              <TextBold style={styles.buttontext}>삭제</TextBold>
             </View>
           </TouchableOpacity>
         </View>
@@ -86,19 +94,20 @@ const styles = StyleSheet.create({
   Modal: {
     position: 'absolute',
     marginVertical: windowHeight * 0.3,
-    marginHorizontal: windowWidth * 0.1,
-    width: windowWidth * 0.8,
+    marginHorizontal: windowWidth * 0.05,
+    width: windowWidth * 0.9,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 5,
-    borderColor: 'lightgreen',
+    borderColor: '#9ECD96',
     backgroundColor: 'white',
     textAlign: 'center',
   },
   text: {
     fontSize: 24,
-    padding: 20,
+    padding: 10,
+    marginTop: windowHeight * 0.03,
     textAlign: 'center',
   },
   flexrow: {
@@ -109,7 +118,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#91C788',
-    height: windowHeight * 0.035,
+    width: windowWidth * 0.25,
+    height: windowHeight * 0.04,
     marginBottom: windowHeight * 0.01,
   },
   buttontext: {

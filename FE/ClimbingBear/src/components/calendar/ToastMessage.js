@@ -1,5 +1,11 @@
 import React from 'react';
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -7,7 +13,7 @@ const windowHeight = Dimensions.get('window').height;
 const ToastMessage = ({message}) => {
   return (
     <View style={styles.toast}>
-      <Text style={styles.message}>{message}</Text>
+      <TextMedium style={styles.message}>{message}</TextMedium>
     </View>
   );
 };
@@ -19,12 +25,10 @@ const styles = StyleSheet.create({
     padding: 11,
     marginTop: windowHeight * 0.85,
     marginLeft: windowWidth * 0.3,
-
     minWidth: 200,
-    // transform: translate(-50%, -50%),
     zIndex: 3,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 4,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: 'black',
   },

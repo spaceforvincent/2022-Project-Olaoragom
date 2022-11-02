@@ -1,5 +1,10 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+
+// 현재 디바이스 창 크기(dp)를 가져오는 모듈
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const IconRight = () => {
   const image = require('../../assets/images/IconRight.png');
 
@@ -12,8 +17,8 @@ const IconRight = () => {
 
 const styles = StyleSheet.create({
   arrow: {
-    width: 30,
-    height: 30,
+    width: windowWidth * 0.03,
+    height: windowHeight * 0.03,
   },
 });
 
