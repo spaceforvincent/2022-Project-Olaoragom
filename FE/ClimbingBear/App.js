@@ -23,8 +23,8 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <StatusBar backgroundColor="black" barStyle="light-content" />
-        {/* <HomeNavigation /> */}
-        <AuthNavigation />
+        <HomeNavigation />
+        {/* <AuthNavigation /> */}
       </NavigationContainer>
     </Provider>
   );
