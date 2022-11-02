@@ -16,12 +16,27 @@ const ChatRoom = () => {
   // 다시 랜더링 되어도 동일한 참조값을 유지하기 위해 useRef 사용
   let ws = useRef(new WebSocket('ws://w567l.sse.codesandbox.io/')).current;
 
+  const navigation = useNavigation();
+  const route = useRoute();
+  // const [senderId, setSenderId] = useState(route.params.record.sender_id)
+  // const [receiverId, setReceiverId] = useState(route.params.record.receiver_id)
+
+
   useEffect(() => {
     const serverMessagesList = [];
     // 웹소켓 연결이 서버에 의해 열리면
     ws.onopen = () => {
       setServerState('서버에 연결되었습니다.')
       setDisableButton(false);
+      // async storage에서 불러옴
+      // const getData = async () => {
+      //   try {
+      //     const jsonValue = await AsyncStorage.getItem('@storage_Key')
+      //     return jsonValue != null ? JSON.parse(jsonValue) : null;
+      //   } catch(e) {
+      //     // error reading value
+      //   }
+      // }
     };
     // 연결이 닫힐 때 submit 버튼이 비활성화
     ws.onclose = (e) => {
@@ -41,14 +56,14 @@ const ChatRoom = () => {
 
   const submitMessage = () => {
     ws.send(messageText);
-    const storeData = async (value) => {
-      try {
-        const jsonValue = JSON.stringify(value)
-        await AsyncStorage.setItem('@storage_Key', jsonValue)
-      } catch (e) {
-        // saving error
-      }
-    }
+    // async storage에 저장
+    // const storeData = async (value) => {
+    //   try {
+    //     await AsyncStorage.setItem('dialogue', value)
+    //   } catch (e) {
+    //     // saving error
+    //   }
+    // }
     // 다시 입력란 비워둠
     setMessageText('')
     setInputFieldEmpty(true)
@@ -62,7 +77,15 @@ const ChatRoom = () => {
         height: 30,
         backgroundColor: '#D7FBE8',
         padding: 5,
-      }}>        
+      }}>
+        {/* 이전 화면으로 */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack()
+          }}
+        >
+          <Text>Back</Text>
+        </TouchableOpacity>        
         <Text>{serverState}</Text>
       </View>
       {/* 중간 */}
