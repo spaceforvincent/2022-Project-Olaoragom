@@ -25,7 +25,12 @@ const ModifyDeleteModal = ({
   deleteSchedule,
   modifySchedule,
   setModifyState,
+  handleToast,
+  isToast,
+  setIsToast,
+  setToastMsg,
 }) => {
+  useEffect(() => {}, [selected]);
   return (
     <Modal
       visible={isModalVisible}
@@ -46,9 +51,9 @@ const ModifyDeleteModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              setModifyState(true);
               setIsModalVisible(!isModalVisible);
               setIsSearchRegisterModalVisible(!isSearchRegisterModalVisible);
+              setModifyState(true);
             }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>일정 변경</Text>
@@ -57,8 +62,14 @@ const ModifyDeleteModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              deleteSchedule(selected);
+              setIsToast(true);
               setIsModalVisible(!isModalVisible);
+              handleToast('Delete');
+              setTimeout(() => {
+                setIsToast(false);
+                setToastMsg('');
+              }, 1000);
+              deleteSchedule(selected);
             }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>삭제</Text>

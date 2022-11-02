@@ -17,6 +17,7 @@ import ModifyDeleteModal from '../../components/calendar/ModifyDeleteModal';
 import SearchRegisterModal from '../../components/calendar/SearchRegisterModal';
 import IconLeft from '../../components/calendar/ArrowLeft';
 import IconRight from '../../components/calendar/ArrowRight';
+import ToastMessage from '../../components/calendar/ToastMessage';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -42,6 +43,17 @@ const CalendarHome = ({navigation: {navigate}}) => {
     {mountainName: '바보산', date: '2022-10-08'},
     {mountainName: '똥개산', date: '2022-10-09'},
   ]);
+  const toastMsgList = {
+    Delete: '삭제가 완료되었습니다.',
+    Register: '일정이 등록되었습니다.',
+  };
+
+  //토스트 메시지 사용
+  const handleToast = type => {
+    if (!isToast) {
+      setToastMsg(toastMsgList[type]);
+    }
+  };
 
   //누른 날짜와 비교할 날짜 배열(실제 갔다온 날짜, 예약되어있는 날짜) 만들기
   const makeDateArr = list => {
@@ -57,13 +69,10 @@ const CalendarHome = ({navigation: {navigate}}) => {
     let copyArray = [...bookedDate];
     if (modifyState) {
       copyArray.map(record => {
-        if (record.date == selected) {
+        if (record.date === selected) {
           Object.assign(record, obj);
-          setModifyState(false);
-          return;
         }
       });
-
       setBookedDate(copyArray);
     } else {
       setBookedDate([...bookedDate, obj]);
@@ -75,6 +84,8 @@ const CalendarHome = ({navigation: {navigate}}) => {
   };
 
   const [modifyState, setModifyState] = useState(false);
+  const [isToast, setIsToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
 
   //수정/삭제 모달 ON/OFF
   const [isModifyDeleteModalVisible, setIsModifyDeleteModalVisible] =
@@ -186,6 +197,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
+    setModifyState(false);
   }, [bookedDate]);
 
   //달력 요일 헤더 설정
@@ -225,6 +237,10 @@ const CalendarHome = ({navigation: {navigate}}) => {
         setIsSearchRegisterModalVisible={setIsSearchRegisterModalVisible}
         modifyState={modifyState}
         setModifyState={setModifyState}
+        handleToast={handleToast}
+        isToast={isToast}
+        setIsToast={setIsToast}
+        setToastMsg={setToastMsg}
       />
       {/* 검색/동록 모달 */}
       <SearchRegisterModal
@@ -233,7 +249,13 @@ const CalendarHome = ({navigation: {navigate}}) => {
         bookedDate={bookedDate}
         selected={selectedDate}
         getSchedule={getSchedule}
+        handleToast={handleToast}
+        setModifyState={setModifyState}
+        isToast={isToast}
+        setIsToast={setIsToast}
+        setToastMsg={setToastMsg}
       />
+      {isToast ? <ToastMessage message={toastMsg} /> : <></>}
       {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
       {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
         <View style={styles.modalOverlay}></View>

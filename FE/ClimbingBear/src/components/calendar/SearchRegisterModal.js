@@ -21,19 +21,20 @@ const SearchRegisterModal = ({
   selected,
   bookedDate,
   getSchedule,
+  handleToast,
+  setIsToast,
+  setToastMsg,
+  setModifyState,
 }) => {
   const [enteredText, setEnteredText] = useState('');
   //검색창에서 받아온 일정
-  const [addSchedule, setAddSchedule] = useState({
-    mountainName: enteredText,
-    date: selected,
-  });
+  const [addSchedule, setAddSchedule] = useState({});
   const getEnteredText = text => {
     setEnteredText(text);
   };
   useEffect(() => {
     setAddSchedule({mountainName: enteredText, date: selected});
-  }, [enteredText]);
+  }, [enteredText, selected]);
 
   return (
     <Modal
@@ -54,8 +55,16 @@ const SearchRegisterModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              getSchedule(selected, addSchedule);
+              setIsToast(true);
               setIsModalVisible(!isModalVisible);
+              getSchedule(selected, addSchedule);
+              console.log(bookedDate);
+              handleToast('Register');
+              setTimeout(() => {
+                setIsToast(false);
+                setToastMsg('');
+                setModifyState(false);
+              }, 1000);
             }}>
             <View style={styles.button}>
               <Text style={styles.buttontext}>등록하기</Text>
