@@ -10,7 +10,7 @@ import store from './src/store';
 import {Provider} from 'react-redux';
 // (임시) Auth 기능 보류하고 바로 지도/검색 (MapHome) 으로 가는 네비게이터 import
 import HomeNavigation from './src/navigation/HomeNavigation';
-import AuthNavigation from './src/navigation/AuthNavigation'
+import AuthNavigation from './src/navigation/AuthNavigation';
 
 function App() {
   // splash screen 종료시키는 코드 추가
@@ -22,7 +22,11 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar backgroundColor="black" barStyle="light-content" />
+        <StatusBar
+          backgroundColor={'transparent'}
+          barStyle="dark-content"
+          translucent={true}
+        />
         <HomeNavigation />
         {/* <AuthNavigation /> */}
       </NavigationContainer>
