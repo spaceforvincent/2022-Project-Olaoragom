@@ -50,8 +50,8 @@ public class JwtProvider {
         return  id;
     }
 
-    public String getUserSeqFromAccessToken(String accessToken) throws Exception{
-        String userSeq = (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().get("userSeq");
+    public Long getUserSeqFromAccessToken(String accessToken) throws Exception{
+        Long userSeq = (Long) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().get("userSeq");
         return  userSeq;
     }
 
