@@ -16,13 +16,13 @@ public class User {
     @Column(name = "user_seq")
     private long userSeq;
 
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "pw")
+    @Column(name = "pw", nullable = false)
     private String pw;
 
-    @Column(name = "nickaname")
+    @Column(name = "nickaname", nullable = false)
     private String nickname;
     @Column(name = "refresh_token")
     private String refreshToken;
