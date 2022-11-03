@@ -30,8 +30,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-//                .securityContexts(Arrays.asList(securityContext()))
-//                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -56,20 +56,20 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .build();
     }
 
-//    private SecurityContext securityContext(){
-//        return SecurityContext.builder()
-//                .securityReferences(defaultAuth())
-//                .build();
-//    }
+    private SecurityContext securityContext(){
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .build();
+    }
 
-//    private List<SecurityReference> defaultAuth(){
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
-//    }
-//
-//    private ApiKey apiKey(){
-//        return new ApiKey("Authorization", "Authorization", "header");
-//    }
+    private List<SecurityReference> defaultAuth(){
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+    }
+
+    private ApiKey apiKey(){
+        return new ApiKey("Authorization", "Authorization", "header");
+    }
 }

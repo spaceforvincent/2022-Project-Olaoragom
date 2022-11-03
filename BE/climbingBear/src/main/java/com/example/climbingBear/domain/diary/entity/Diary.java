@@ -36,4 +36,11 @@ public class Diary {
         this.month = month;
         this.day = day;
     }
+
+    public void update (Mountain mntn, Integer year, Integer month, Integer day) {
+        this.mntn = mntn;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
 }

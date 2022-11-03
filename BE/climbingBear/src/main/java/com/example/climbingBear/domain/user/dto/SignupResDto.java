@@ -6,8 +6,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SignupResDto {
-    private String refreshToken;
     private String accessToken;
+    private String refreshToken;
+
 
     public static SignupResDto of(String accessToken, String refreshToken){
         return SignupResDto.builder()

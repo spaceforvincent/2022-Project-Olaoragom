@@ -23,7 +23,7 @@ public class UserService {
 
     public SignupResDto signup (SignupReqDto dto){
         User user = dto.toUserEntity();
-        String accessToken = jwtProvider.getAccessToken(user.getId());
+        String accessToken = jwtProvider.getAccessToken(user.getUserSeq());
         String refreshToken = jwtProvider.getRefreshToken();
         user.updateRefreshToken(refreshToken);
         userRepository.save(user);
@@ -33,13 +33,13 @@ public class UserService {
     public GetAccessTokenResponseDto getAccessToken(String refreshToken) {
         User user = userRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
                 new NoExistUserException());
-        return new GetAccessTokenResponseDto(jwtProvider.getAccessToken(user.getId()));
+        return new GetAccessTokenResponseDto(jwtProvider.getAccessToken(user.getUserSeq()));
     }
 
     public LoginResDto login(LoginReqDto dto){
         User user = userRepository.findByIdAndPw(dto.getId(), dto.getPw()).orElseThrow(() ->
                 new NoExistUserException());
-        return new LoginResDto(jwtProvider.getAccessToken(user.getId()), jwtProvider.getRefreshToken());
+        return new LoginResDto(jwtProvider.getAccessToken(user.getUserSeq()), jwtProvider.getRefreshToken());
     }
 
     public isExistResDto checkNickname(String nickname) throws Exception {
@@ -61,9 +61,8 @@ public class UserService {
         return isExist;
     }
 
-    public List<UserListResDto> findAllUser(String userId) {
-        String id = userId;
-        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "nickname"));
+    public List<UserListResDto> findAllUser() {
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userSeq"));
         return users.stream().map(UserListResDto::new).collect(Collectors.toList());
     }
 
