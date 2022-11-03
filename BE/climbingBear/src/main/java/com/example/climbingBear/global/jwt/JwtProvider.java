@@ -8,9 +8,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Date;
 
@@ -21,13 +23,13 @@ public class JwtProvider {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
-    private final Long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60 * 60;
+    private final Long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60 * 60 * 60 * 60 * 60;
     private final Long REFREST_TOKEN_EXPIRED_TIME = 1000L * 60 * 60 * 24 * 14;
 
-    public String getAccessToken(String id){
+    public String getAccessToken(Long id){
         Date now = new Date();
         return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim("id", id)
+                .claim("userSeq", id)
                 .setIssuer("beTravelic")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRED_TIME))
@@ -50,6 +52,11 @@ public class JwtProvider {
         return  id;
     }
 
+    public Long getUserSeqFromAccessToken(String accessToken) throws Exception{
+        Long userSeq = Long.parseLong(String.valueOf(Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().get("userSeq")));
+        return  userSeq;
+    }
+
     public boolean isValidToken(String token){
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -58,4 +65,9 @@ public class JwtProvider {
             return false;
         }
     }
+    public Long getUserSeqFromRequest(HttpServletRequest request) throws Exception {
+        String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        return getUserSeqFromAccessToken(accessToken);
+    }
+
 }
