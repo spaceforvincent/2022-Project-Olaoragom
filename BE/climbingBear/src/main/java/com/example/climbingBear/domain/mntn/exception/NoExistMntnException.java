@@ -1,4 +1,4 @@
-package com.example.climbingBear.domain.diary.exception;
+package com.example.climbingBear.domain.mntn.exception;
 
 public class NoExistMntnException extends RuntimeException{
     public NoExistMntnException() {
