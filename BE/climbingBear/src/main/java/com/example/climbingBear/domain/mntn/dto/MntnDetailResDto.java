@@ -28,8 +28,6 @@ public class MntnDetailResDto {
 
     private String mntnEtccourse;
 
-    private String mntnTourisminf;
-
     private String mntnTransport;
 
     private List place;
@@ -43,7 +41,6 @@ public class MntnDetailResDto {
                 .mntnHeight(mntn.getMntnHeight())
                 .mntnDetails(mntn.getMntnDetails())
                 .mntnEtccourse(mntn.getMntnEtccourse())
-                .mntnTourisminf(mntn.getMntnTourisminf())
                 .mntnTransport(mntn.getMntnTransport())
                 .place(place)
                 .build();
