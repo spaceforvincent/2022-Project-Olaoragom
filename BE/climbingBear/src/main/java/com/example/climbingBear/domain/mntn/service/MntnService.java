@@ -1,13 +1,12 @@
 package com.example.climbingBear.domain.mntn.service;
 
 import com.example.climbingBear.domain.diary.exception.NoExistMntnException;
-import com.example.climbingBear.domain.mntn.dto.MntnDetailReqDto;
-import com.example.climbingBear.domain.mntn.dto.MntnDetailResDto;
-import com.example.climbingBear.domain.mntn.dto.MntnListResDto;
-import com.example.climbingBear.domain.mntn.dto.MntnResDto;
+import com.example.climbingBear.domain.mntn.dto.*;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 
+import com.example.climbingBear.domain.mntn.entity.MountainPlace;
 import com.example.climbingBear.domain.mntn.entity.Spot;
+import com.example.climbingBear.domain.mntn.repository.MntnPlaceRepository;
 import com.example.climbingBear.domain.mntn.repository.MntnRepository;
 import com.example.climbingBear.domain.mntn.repository.SpotRepository;
 import com.example.climbingBear.domain.user.dto.UserListResDto;
@@ -28,6 +27,7 @@ public class MntnService {
 
     private final MntnRepository mntnRepository;
     private final SpotRepository spotRepository;
+    private final MntnPlaceRepository mntnPlaceRepository;
 
     public MntnResDto mntnDetail(Long mntnSeq){
         Mountain mntn = mntnRepository.findByMntnSeq((mntnSeq)).orElseThrow(() ->
@@ -46,7 +46,13 @@ public class MntnService {
     public MntnDetailResDto getMntnDetail(Long mntnSeq){
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());
-        return MntnDetailResDto.ofMntnDetail(mntn);
+        List place = findMntnPlace(mntn);
+        return MntnDetailResDto.ofMntnDetail(mntn, place);
+    }
+
+    public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){
+        List<MountainPlace> mntnPlace = mntnPlaceRepository.findByMntn(mntn);
+        return mntnPlace.stream().map(MntnPlaceListResDto::new).collect(Collectors.toList());
     }
 
 }
