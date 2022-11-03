@@ -58,7 +58,7 @@ const CalendarSearchBar = ({getEnteredText}) => {
             <View key={r.id} style={styles.resultelement}>
               <Button
                 title={r.name}
-                color="red"
+                color="green"
                 onPress={() => {
                   setEnteredText(r.name); //검색바 내용 변경
                   getEnteredText(r.name); //enteredText 전송
