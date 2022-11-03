@@ -22,11 +22,11 @@ public class MntnController {
     private final MntnService mntnService;
     private final JwtProvider jwtProvider;
 
-    @GetMapping("/main")
-    @ApiOperation(value = "산 스팟 정보")
-    public ResponseEntity<CommonResponse> getMntnSpot(@RequestParam("mntn_seq") Long mntnSeq) throws IOException {
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.mntnDetail(mntnSeq)), HttpStatus.OK);
-    }
+//    @GetMapping("/main")
+//    @ApiOperation(value = "산 스팟 정보")
+//    public ResponseEntity<CommonResponse> getMntnSpot(@RequestParam("mntn_seq") Long mntnSeq) throws IOException {
+//        return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.mntnDetail(mntnSeq)), HttpStatus.OK);
+//    }
 
     @GetMapping("/list")
     @ApiOperation(value = "산 목록 리스트", notes = "seq, name 제공")

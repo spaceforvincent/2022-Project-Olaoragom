@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface SpotRepository extends JpaRepository<Spot, Long> {
 
-    Optional<Spot> findByMntnNm(Mountain mntn);
+//    Optional<Spot> findByMntnNm(Mountain mntn);
 }
