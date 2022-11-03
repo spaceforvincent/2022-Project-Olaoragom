@@ -41,4 +41,11 @@ public class MntnController {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.getMntnDetail(mntnSeq)), HttpStatus.OK);
     }
+
+    @GetMapping("/feature")
+    @ApiOperation(value = "산 특징 정보", notes = "lt : 구간길이, uppl : 상행시간, godn : 하행시간, dffl : 난이도, path : 등산로")
+    public ResponseEntity<?> getMntnFeature(HttpServletRequest request, @RequestParam("mntnSeq")Long mntnSeq)throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.getMntnFeature(mntnSeq)), HttpStatus.OK);
+    }
 }
