@@ -100,12 +100,13 @@ const PlaceTypeButton = () => {
         duration: 500,
         useNativeDriver: true,
       }).start();
+      console.log('뒷배경 색 코드', backColor);
 
-      Animated.timing(payload.opacity, {
-        toValue: 1,
-        useNativeDriver: true,
-        duration: 500,
-      }).start();
+      // Animated.timing(payload.opacity, {
+      //   toValue: 1,
+      //   useNativeDriver: true,
+      //   duration: 500,
+      // }).start();
     }
     // 버튼이 눌린 상태에서 취소할 때 투명도 조절
     else {
