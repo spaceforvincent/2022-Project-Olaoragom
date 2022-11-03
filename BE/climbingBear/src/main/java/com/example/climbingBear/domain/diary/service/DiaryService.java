@@ -1,10 +1,11 @@
 package com.example.climbingBear.domain.diary.service;
 
-import com.example.climbingBear.domain.diary.dto.DiaryListResDto;
-import com.example.climbingBear.domain.diary.dto.DiaryPostReqDto;
-import com.example.climbingBear.domain.diary.dto.DiaryPostResDto;
+import com.example.climbingBear.domain.diary.dto.*;
 import com.example.climbingBear.domain.diary.entity.Diary;
+import com.example.climbingBear.domain.diary.exception.NoExistDiaryException;
 import com.example.climbingBear.domain.diary.exception.NoExistMntnException;
+import com.example.climbingBear.domain.diary.exception.NoPermissionDeleteDiaryException;
+import com.example.climbingBear.domain.diary.exception.NoPermissionUpdateDiaryException;
 import com.example.climbingBear.domain.diary.repository.DiaryRepository;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.mntn.repository.MntnRepository;
@@ -34,6 +35,13 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
+    public List<DiaryListResDto> myDiarylist (Long userSeq){
+        System.out.println("userSeq :" + userSeq);
+        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+                new NoExistUserException());
+        List<Diary> diaries = diaryRepository.findByUser(user);
+        return diaries.stream().map(DiaryListResDto::new).collect(Collectors.toList());
+    }
     public DiaryPostResDto diarySave (DiaryPostReqDto dto, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
@@ -43,12 +51,31 @@ public class DiaryService {
         diaryRepository.save(diary);
         return DiaryPostResDto.of(diary.getDiarySeq());
     }
-    public List<DiaryListResDto> myDiarylist (Long userSeq){
-        System.out.println("userSeq :" + userSeq);
+    public DiaryUpdateResDto diaryUpdate (DiaryUpdateReqDto dto, Long userSeq)throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
-        List<Diary> diaries = diaryRepository.findByUser(user);
-        return diaries.stream().map(DiaryListResDto::new).collect(Collectors.toList());
+        Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
+                new NoExistMntnException());
+        Diary diary = diaryRepository.findByDiarySeq(dto.getDiarySeq()).orElseThrow(() ->
+                new NoExistDiaryException());
+        if (user.getUserSeq() == diary.getUser().getUserSeq()){
+            diary.update(mntn, dto.getYear(), dto.getMonth(), dto.getDay());
+            return DiaryUpdateResDto.of(diary.getDiarySeq());
+        }else {
+            throw new NoPermissionUpdateDiaryException();
+        }
+    }
+
+    public void diaryDelete(Long userSeq, Long diarySeq)throws Exception{
+        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+                new NoExistUserException());
+        Diary diary = diaryRepository.findByDiarySeq(diarySeq).orElseThrow(() ->
+                new NoExistDiaryException());
+        if (user.getUserSeq() == diary.getUser().getUserSeq()){
+            diaryRepository.delete(diary);
+        }else {
+            throw new NoPermissionDeleteDiaryException();
+        }
     }
 
 }

@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/list")
     @ApiOperation(value = "사용자 리스트", notes = "등산 메이트 검색을 위한 사용자 리스트")
     public ResponseEntity<?> getUserList(HttpServletRequest request)throws Exception {
-        Long userSeq = (Long) request.getAttribute("userSeq");
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.findAllUser()), HttpStatus.OK);
     }
 }

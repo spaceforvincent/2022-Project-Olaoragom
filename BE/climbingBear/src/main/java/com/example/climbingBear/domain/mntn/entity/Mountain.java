@@ -33,8 +33,8 @@ public class Mountain {
     @Column(name = "mntn_details")
     private String mntnDetails;
 
-    @Column(name = "mntn_overview")
-    private String mntnOverview;
+//    @Column(name = "mntn_overview")
+//    private String mntnOverview;
 
     @Column(name = "mntn_etccourse")
     private String mntnEtccourse;
