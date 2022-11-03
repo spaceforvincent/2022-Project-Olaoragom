@@ -2,6 +2,7 @@ package com.example.climbingBear.domain.diary.contoller;
 
 import com.example.climbingBear.domain.diary.dto.DiaryPostReqDto;
 import com.example.climbingBear.domain.diary.dto.DiaryPostResDto;
+import com.example.climbingBear.domain.diary.dto.DiaryUpdateReqDto;
 import com.example.climbingBear.domain.diary.service.DiaryService;
 import com.example.climbingBear.domain.user.dto.SignupReqDto;
 import com.example.climbingBear.domain.user.service.UserService;
@@ -26,13 +27,12 @@ import java.io.IOException;
 public class DiaryController {
     private final DiaryService diaryService;
     private final JwtProvider jwtProvider;
-    private final UserService userService;
-    private final AccessTokenInterceptor accessTokenInterceptor;
+
 
     @PostMapping
     @ApiOperation(value = "등산 계획 저장", notes = "year, month, day, mntnSeq 입력, header에 token 입력")
     public ResponseEntity<CommonResponse> saveDiary(HttpServletRequest request, @RequestBody DiaryPostReqDto dto) throws Exception {
-        Long userSeq = (Long) request.getAttribute("userSeq");
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.diarySave(dto, userSeq)), HttpStatus.OK);
     }
 
@@ -41,5 +41,20 @@ public class DiaryController {
     public ResponseEntity<CommonResponse> getDiary(HttpServletRequest request) throws Exception {
         Long userSeq = (Long) request.getAttribute("userSeq");
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.myDiarylist(userSeq)), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ApiOperation(value = "등산 계획 수정", notes = "year, month, day, mntnSeq 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> editDiary(HttpServletRequest request, @RequestBody DiaryUpdateReqDto dto) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.diaryUpdate(dto, userSeq)), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    @ApiOperation(value = "등산 계획 삭제", notes = "params에 diarySeq 입력")
+    public ResponseEntity<CommonResponse> deleteDiary(HttpServletRequest request, @RequestParam("diarySeq")Long diarySeq) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        diaryService.diaryDelete(userSeq, diarySeq);
+        return null;
     }
 }
