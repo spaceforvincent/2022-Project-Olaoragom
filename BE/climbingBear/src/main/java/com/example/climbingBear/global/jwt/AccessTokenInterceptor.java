@@ -14,18 +14,19 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class AccessTokenInterceptor implements HandlerInterceptor {
     private final Logger log = LoggerFactory.getLogger(AccessTokenInterceptor.class);
-
     private final JwtProvider jwtProvider;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+        System.out.println("prehandle 진입");
         if(request.getMethod().equals("OPTIONS")) return true;
         log.debug("request URI : {} ", request.getRequestURI());
         log.debug("request Method : {} " , request.getMethod());
         if(request.getMethod().equals("POST") && request.getRequestURI().equals("/user")) return true;
         try {
             String accessToken = getAccessToken(request.getHeader(HttpHeaders.AUTHORIZATION));
-            request.setAttribute("pk", jwtProvider.getIdFromAccessToken(accessToken));
+            request.setAttribute("userSeq", jwtProvider.getUserSeqFromAccessToken(accessToken));
+            System.out.println("interceptor : "+ request.getAttribute("userSeq"));
             return true;
         }catch (Exception e) {
             throw new InvalidAccessTokenException();
