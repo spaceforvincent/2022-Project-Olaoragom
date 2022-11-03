@@ -21,6 +21,6 @@ public class MountainPlace {
     @Column(name = "place_nm")
     private String placeNm;
 
-    @Column(name = "place_content")
+    @Column(name = "place_content", length = 3000)
     private String placeContent;
 }

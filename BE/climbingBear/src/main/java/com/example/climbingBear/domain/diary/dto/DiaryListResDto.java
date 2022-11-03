@@ -13,12 +13,14 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class DiaryListResDto {
+    private Long diarySeq;
     private Integer year;
     private Integer month;
     private Integer day;
     private String mntnNm;
 
     public DiaryListResDto(Diary diary){
+        this.diarySeq = diary.getDiarySeq();
         this.year = diary.getYear();
         this.month = diary.getMonth();
         this.day = diary.getDay();

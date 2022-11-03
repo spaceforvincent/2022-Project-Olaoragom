@@ -24,21 +24,21 @@ public class Mountain {
     @Column(name = "mntn_region")
     private String mntnRegion;
 
-    @Column(name = "mntn_reason")
+    @Column(name = "mntn_reason", length = 1000)
     private String mntnReason;
 
     @Column(name = "mntn_height")
     private String mntnHeight;
 
-    @Column(name = "mntn_details")
+    @Column(name = "mntn_details", length = 3000)
     private String mntnDetails;
 
 //    @Column(name = "mntn_overview")
 //    private String mntnOverview;
 
-    @Column(name = "mntn_etccourse")
+    @Column(name = "mntn_etccourse", length = 1000)
     private String mntnEtccourse;
 
-    @Column(name = "mntn_transport")
+    @Column(name = "mntn_transport", length = 1000)
     private String mntnTransport;
 }
