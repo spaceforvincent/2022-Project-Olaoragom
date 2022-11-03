@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import AuthInput from '../../components/auth/AuthInput';
+import React, { useCallback, useEffect, useState } from 'react';
 
-const login = async( id, password ) => {
-  console.log(id)
-  console.log(password)
-  try {
-    const response = await axios({
-      method: "post",
-      url: `http://k7d109.p.ssafy.io:8080/user/login`,
-      data: {
-        id: id,
-        pw: password
-      }
-    })
-    console.log(response.data)
-    console.log(response.data.data.accessToken)
-  }
-    catch (error) {
-      console.log(error)
-      console.log(error.response.data);
-      console.log(error.response.headers);
-    }
-  }
+import axios from 'axios';
+import { storeToken, getToken } from '../../apis/Auth';
+
+import { useNavigation } from '@react-navigation/native';
+import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import AuthInput from '../../components/auth/AuthInput';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+
 
 const LoginScreen = () => {
 
@@ -33,33 +16,89 @@ const LoginScreen = () => {
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
 
+  const onChangeId = useCallback(text => {
+    setId(text.trim())
+  }, [])
+  
+  const onChangePassword = useCallback(text => {
+    setPassword(text.trim())
+  }, [])
+
+  // 로그인 통신
+  const login = async() => {
+
+    if (!id || !id.trim()) {
+      return Alert.alert('알림', '아이디를 입력해주세요.');
+    }
+    if (!password || !password.trim()) {
+      return Alert.alert('알림', '비밀번호를 입력해주세요.');
+    }
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://k7d109.p.ssafy.io:8080/user/login`,
+        data: {
+          id: id,
+          pw: password
+        }
+      })
+
+      // (임시) 완료되면 콘솔 지우기!!
+      console.log(response.data)
+      console.log(response.data.data.accessToken)
+      console.log(response.data.status)
+  
+      const accessToken = response.data.data.accessToken
+      storeToken(accessToken)
+
+      // (임시) 사이드바 손보고 확인 한 번 더 해보기!!
+      // 로그인 성공하면, 산 지도로 이동
+      if (response.data.status === 'success') {
+        return navigation.navigate('MapHome')
+      }   
+    }
+
+      catch (error) {
+
+        if (error) {
+          return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
+        }
+
+        console.log(error)
+        console.log(error.response.data);
+
+      }
+    }
+
+
   return (
     <View style={styles.container}>
       <Image source={require(`../../assets/images/LoginLogo.png`)} style={styles.image}/>
 
-      <Text style={styles.title}>올라오라곰</Text>
+      <TextExtraBold style={styles.title}>올라오라곰</TextExtraBold>
 
         <AuthInput 
-          title={'email'}
+          title={'id'}
           value={id}
           placeholder={'아이디'}
-          onChangeText={(text) => setId(text)}
+          onChangeText={onChangeId}
         />
         <AuthInput
           title={'password'}
           value={password}
           placeholder={'비밀번호'}
           secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={onChangePassword}
         />
       
       <Pressable style={styles.loginButton}>
-        <Text style={styles.loginText} onPress = {() => login( id, password )}>로그인</Text>
+        <TextMedium style={styles.loginText} onPress = {() => login( id, password )}>로그인</TextMedium>
       </Pressable>
 
-      <Text>아직 회원이 아니신가요?</Text>
+      <TextMedium>아직 회원이 아니신가요?</TextMedium>
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-        <Text style={styles.signupText}>회원가입하러가기</Text>
+        <TextMedium style={styles.signupText}>회원가입하러가기</TextMedium>
       </TouchableOpacity>
     </View>
   );
@@ -74,6 +113,7 @@ const styles = StyleSheet.create({
   image: {
     width: 250,
     height: 250,
+    margin: 10,
   },
   title: {
     fontSize: 40,
