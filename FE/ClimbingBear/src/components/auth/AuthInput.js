@@ -1,6 +1,9 @@
 import {useState} from 'react';
-import {Text, TextInput, StyleSheet, View} from 'react-native';
 import propTypes from 'prop-types';
+
+import {Text, TextInput, StyleSheet, View} from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+
 
 const AuthInput = ({value, title, placeholder, secureTextEntry, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -46,6 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     height: 45,
+    fontFamily: 'SeoulNamsanB',
   },
   valueInput: {
     borderColor: 'black',
