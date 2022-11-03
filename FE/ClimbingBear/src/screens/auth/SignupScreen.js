@@ -1,13 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import axios, {AxiosError} from 'axios';
-import {
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 
 import AuthInput from '../../components/auth/AuthInput';
 
@@ -24,7 +17,7 @@ const signUp = async (id, password, nickname) => {
       },
     });
     console.log(response.data);
-    console.log(response.data.status)
+    console.log(response.data.status);
   } catch (error) {
     console.log(error);
     console.log(error.response.data);
@@ -102,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   idContainer: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   image: {
     width: 250,

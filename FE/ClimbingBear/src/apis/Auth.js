@@ -23,3 +23,35 @@ export const getToken = async () => {
     console.log(error.message);
   }
 };
+
+  // 로그인 통신
+  export const postLogin = async( id, password ) => {
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: API_URL + '/login',
+        data: {
+          id: id,
+          pw: password
+        }
+      })
+
+      // (임시) 완료되면 콘솔 지우기!!
+      // console.log(response.data)
+      // console.log(response.data.data.accessToken)
+      // console.log(response.data.status)
+
+      const accessToken = response.data.data.accessToken
+      storeToken(accessToken)
+
+      if ( response.data.status === 'success' ) {
+        return true
+      }
+    }
+      catch (error) {
+        console.log(error)
+        console.log(error.response.data);
+        return false
+      }
+    }

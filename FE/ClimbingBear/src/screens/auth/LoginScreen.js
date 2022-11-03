@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import axios from 'axios';
-import { storeToken, getToken } from '../../apis/Auth';
+import { postLogin } from '../../apis/Auth';
 
 import { useNavigation } from '@react-navigation/native';
-import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import AuthInput from '../../components/auth/AuthInput';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
@@ -24,53 +23,27 @@ const LoginScreen = () => {
     setPassword(text.trim())
   }, [])
 
-  // 로그인 통신
-  const login = async() => {
+  // 로그인
+  const login = async ( id, password ) => {
 
     if (!id || !id.trim()) {
       return Alert.alert('알림', '아이디를 입력해주세요.');
     }
-    if (!password || !password.trim()) {
+    else if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
-
-    try {
-      const response = await axios({
-        method: "post",
-        url: `http://k7d109.p.ssafy.io:8080/user/login`,
-        data: {
-          id: id,
-          pw: password
-        }
-      })
-
-      // (임시) 완료되면 콘솔 지우기!!
-      console.log(response.data)
-      console.log(response.data.data.accessToken)
-      console.log(response.data.status)
-  
-      const accessToken = response.data.data.accessToken
-      storeToken(accessToken)
-
-      // (임시) 사이드바 손보고 확인 한 번 더 해보기!!
-      // 로그인 성공하면, 산 지도로 이동
-      if (response.data.status === 'success') {
-        return navigation.navigate('MapHome')
-      }   
-    }
-
-      catch (error) {
-
-        if (error) {
-          return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
-        }
-
-        console.log(error)
-        console.log(error.response.data);
-
+    else {
+      const isAuthenticated = await postLogin(id, password)
+      // (임시) 사이드바 해결되면 네비게이터 수정하기!!
+      if ( isAuthenticated === true ) {
+        return navigation.navigate('SignupScreen')
+      }
+      else {
+        return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
       }
     }
 
+  }
 
   return (
     <View style={styles.container}>
