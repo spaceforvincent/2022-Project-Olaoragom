@@ -61,7 +61,6 @@ const SearchRegisterModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              setIsModalVisible(!isModalVisible);
               getSchedule(selected, addSchedule);
               handleToast('Register');
               setTimeout(() => {
@@ -69,6 +68,7 @@ const SearchRegisterModal = ({
                 setToastMsg('');
                 setModifyState(false);
               }, 1000);
+              setIsModalVisible(!isModalVisible);
             }}>
             <View style={styles.button}>
               <TextBold style={styles.buttontext}>등록하기</TextBold>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modalbottom: {
-    padding: 30,
+    padding: 0,
+    marginTop: windowHeight * 0.05,
   },
   button: {
     backgroundColor: '#91C788',

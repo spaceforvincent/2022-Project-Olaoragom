@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     fontSize: 20,
+    marginTop: windowHeight * 0.003,
   },
   modalOverlay: {
     flex: 1,

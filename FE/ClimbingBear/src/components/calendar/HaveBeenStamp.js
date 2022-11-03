@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
