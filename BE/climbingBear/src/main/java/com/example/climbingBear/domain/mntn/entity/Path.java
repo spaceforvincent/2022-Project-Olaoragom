@@ -12,8 +12,10 @@ public class Path {
     private Long pathSeq;
 
     @ManyToOne
-    @JoinColumn(name = "spot_seq")
-    private Spot spotSeq;
+    private Feature feature;
+
+    @ManyToOne
+    private Mountain mntn;
 
     private Float lat;
 
