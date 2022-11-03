@@ -39,7 +39,7 @@ public class DiaryController {
     @GetMapping
     @ApiOperation(value = "등산 계획 조회", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getDiary(HttpServletRequest request) throws Exception {
-        Long userSeq = (Long) request.getAttribute("userSeq");
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.myDiarylist(userSeq)), HttpStatus.OK);
     }
 

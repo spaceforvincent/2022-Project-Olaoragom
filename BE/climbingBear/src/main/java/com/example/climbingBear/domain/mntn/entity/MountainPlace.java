@@ -1,11 +1,13 @@
 package com.example.climbingBear.domain.mntn.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@Getter
 @Table(name = "mountain_place")
 public class MountainPlace {
 
