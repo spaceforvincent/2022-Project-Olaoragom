@@ -55,9 +55,15 @@ public class MntnService {
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());
         List<Feature> features = featureRepository.findByMntn(mntn);
-//        List path = findMntnPath(mntn);
+//        List<Feature> features = featureRepository.findByMntn(mntn);
+        for(Feature f : features){
+            System.out.println(f.getFetureSeq());
+            List paths = findMntnPath(f);
+            f.setPaths(paths);
+        }
         return features.stream().map(MntnFeatureResDto::new).collect(Collectors.toList());
     }
+
     public List<MntnPathListResDto> findMntnPath(Feature feature){
         List<Path> paths = pathRepository.findByFeature(feature);
         return paths.stream().map(MntnPathListResDto::new).collect(Collectors.toList());
