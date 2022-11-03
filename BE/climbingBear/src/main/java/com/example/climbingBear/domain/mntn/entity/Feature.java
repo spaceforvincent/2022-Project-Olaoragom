@@ -1,8 +1,11 @@
 package com.example.climbingBear.domain.mntn.entity;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +29,9 @@ public class Feature {
 
     @Column(name = "PMNTN_DFFL")
     private String pmtnDffl;
+
+    @OneToMany(mappedBy = "feature")
+    @Setter
+    private List<Path> paths=new ArrayList<>();
+
 }
