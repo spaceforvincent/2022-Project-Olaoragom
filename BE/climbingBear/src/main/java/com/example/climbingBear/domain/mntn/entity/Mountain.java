@@ -39,9 +39,6 @@ public class Mountain {
     @Column(name = "mntn_etccourse")
     private String mntnEtccourse;
 
-    @Column(name = "mntn_tourisminf")
-    private String mntnTourisminf;
-
     @Column(name = "mntn_transport")
     private String mntnTransport;
 }
