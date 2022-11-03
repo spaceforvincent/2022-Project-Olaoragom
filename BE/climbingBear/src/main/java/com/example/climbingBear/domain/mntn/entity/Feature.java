@@ -9,12 +9,11 @@ import javax.persistence.*;
 public class Feature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feture_seq")
+    @Column(name = "feature_seq")
     private Long fetureSeq;
 
     @ManyToOne
-    @JoinColumn(name = "mntn_seq")
-    private Mountain mntnSeq;
+    private Mountain mntn;
 
     @Column(name = "PMNTN_LT")
     private Float pmntnLt;
