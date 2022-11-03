@@ -1,9 +1,10 @@
-import {createSlice} from '@reduxjs/toolkit';
-
-// (임시) 더미 store 만들어 둔 상태로 수정 필요
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  data: {},
+  user: {},
+  isAuthenticated: false,
+  accessToken: "",
+  refreshToken: "",
 };
 
 export const authSlice = createSlice({
