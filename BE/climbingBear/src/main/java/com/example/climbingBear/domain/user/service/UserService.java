@@ -62,7 +62,7 @@ public class UserService {
     }
 
     public List<UserListResDto> findAllUser() {
-        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "nickname"));
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userSeq"));
         return users.stream().map(UserListResDto::new).collect(Collectors.toList());
     }
 

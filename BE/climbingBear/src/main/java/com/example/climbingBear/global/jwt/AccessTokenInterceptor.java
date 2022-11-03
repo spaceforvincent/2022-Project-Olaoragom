@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class AccessTokenInterceptor implements HandlerInterceptor {
     private final Logger log = LoggerFactory.getLogger(AccessTokenInterceptor.class);
-
     private final JwtProvider jwtProvider;
 
     @Override
@@ -27,7 +26,7 @@ public class AccessTokenInterceptor implements HandlerInterceptor {
         try {
             String accessToken = getAccessToken(request.getHeader(HttpHeaders.AUTHORIZATION));
             request.setAttribute("userSeq", jwtProvider.getUserSeqFromAccessToken(accessToken));
-            System.out.println("intercepter : "+ request.getAttribute("userSeq"));
+            System.out.println("interceptor : "+ request.getAttribute("userSeq"));
             return true;
         }catch (Exception e) {
             throw new InvalidAccessTokenException();
