@@ -2,6 +2,7 @@ package com.example.climbingBear.domain.mntn.dto;
 
 import com.example.climbingBear.domain.mntn.entity.Feature;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
+import com.example.climbingBear.domain.mntn.entity.Path;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class MntnFeatureResDto {
     private Integer pmntnGodn;
 
     private String pmtnDffl;
+    private List<Path> paths;
 
     public MntnFeatureResDto (Feature feature){
         this.fetureSeq = feature.getFetureSeq();
@@ -28,6 +30,7 @@ public class MntnFeatureResDto {
         this.pmntnLt = feature.getPmntnLt();
         this.pmntnUppl = feature.getPmntnUppl();
         this.pmtnDffl = feature.getPmtnDffl();
+        this.paths = feature.getPaths();
     }
 //    private List paths;
 
