@@ -11,15 +11,37 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import CalendarSearchBar from './SearchBar';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
-  const [enteredText,setEnteredText] = useState('');
-  const getEnteredText = enteredText => {
-    setEnteredText(enteredText);
+const SearchRegisterModal = ({
+  isModalVisible,
+  setIsModalVisible,
+  selected,
+  bookedDate,
+  getSchedule,
+  handleToast,
+  setIsToast,
+  setToastMsg,
+  setModifyState,
+}) => {
+  const [enteredText, setEnteredText] = useState('');
+  //검색창에서 받아온 일정
+  const [addSchedule, setAddSchedule] = useState({});
+  const getEnteredText = text => {
+    setEnteredText(text);
   };
+  useEffect(() => {
+    setAddSchedule({mountainName: enteredText, date: selected});
+  }, [enteredText, selected]);
+
   return (
     <Modal
       visible={isModalVisible}
@@ -32,15 +54,24 @@ const SearchRegisterModal = ({isModalVisible, setIsModalVisible, selected}) => {
         }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
-          <Text style={styles.text}>등산 일정 등록</Text>
+          <TextExtraBold style={styles.text}>등산 일정 등록</TextExtraBold>
         </View>
         <CalendarSearchBar getEnteredText={getEnteredText} />
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
-            onPress={() => addSchedule(enteredText, selected)}>
+            onPress={() => {
+              getSchedule(selected, addSchedule);
+              handleToast('Register');
+              setTimeout(() => {
+                setIsToast(false);
+                setToastMsg('');
+                setModifyState(false);
+              }, 1000);
+              setIsModalVisible(!isModalVisible);
+            }}>
             <View style={styles.button}>
-              <Text style={styles.buttontext}>등록하기</Text>
+              <TextBold style={styles.buttontext}>등록하기</TextBold>
             </View>
           </TouchableOpacity>
         </View>
@@ -74,12 +105,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modalbottom: {
-    padding: 30,
+    padding: 0,
+    marginTop: windowHeight * 0.05,
   },
   button: {
     backgroundColor: '#91C788',
-    height: windowHeight * 0.035,
+    width: windowWidth * 0.3,
+    height: windowHeight * 0.04,
     marginBottom: windowHeight * 0.01,
+    padding: 3,
+    borderRadius: 4,
   },
   buttontext: {
     color: 'white',
