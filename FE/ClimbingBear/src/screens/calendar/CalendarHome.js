@@ -24,6 +24,7 @@ import {
   TextBold,
   TextExtraBold,
 } from '../../components/common/TextFont';
+import axios from 'axios';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -72,6 +73,24 @@ const CalendarHome = ({navigation: {navigate}}) => {
   const [toastMsg, setToastMsg] = useState('');
   //페이지 마운트될 때 오늘 날짜 지정
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `http://k7d109.p.ssafy.io:8080/diary`,
+          headers: {
+            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjoyLCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NDQ2NzgwLCJleHAiOjI0NDUwNDY3ODB9.8ksOv2apivzIwKA26PEt7A-Uc5WR5bgOlHhA_KV0QiQ`,
+          },
+        });
+        console.log(response.data);
+        console.log(response.data.data.accessToken);
+      } catch (error) {
+        console.log(error);
+        console.log(error.response.data);
+        console.log(error.response.headers);
+      }
+    };
+
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -83,6 +102,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
+    loadData();
   }, [bookedDate, isToast]);
 
   //토스트 메시지 기능 사용
