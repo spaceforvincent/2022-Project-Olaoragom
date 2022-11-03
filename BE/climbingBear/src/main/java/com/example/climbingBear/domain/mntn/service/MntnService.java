@@ -29,14 +29,14 @@ public class MntnService {
     private final SpotRepository spotRepository;
     private final MntnPlaceRepository mntnPlaceRepository;
 
-    public MntnResDto mntnDetail(Long mntnSeq){
-        Mountain mntn = mntnRepository.findByMntnSeq((mntnSeq)).orElseThrow(() ->
-                new NoExistMntnException());
-        Spot spot = spotRepository.findByMntnNm(mntn).orElseThrow(() ->
-                new NoExistUserException());
-        MntnResDto mntnResDto = MntnResDto.ofSpot(spot);
-        return mntnResDto;
-    }
+//    public MntnResDto mntnDetail(Long mntnSeq){
+//        Mountain mntn = mntnRepository.findByMntnSeq((mntnSeq)).orElseThrow(() ->
+//                new NoExistMntnException());
+//        Spot spot = spotRepository.findByMntnNm(mntn).orElseThrow(() ->
+//                new NoExistUserException());
+//        MntnResDto mntnResDto = MntnResDto.ofSpot(spot);
+//        return mntnResDto;
+//    }
 
     public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.ASC, "mntnSeq"));
