@@ -1,17 +1,11 @@
 package com.example.climbingBear.domain.mntn.service;
 
-import com.example.climbingBear.domain.diary.exception.NoExistMntnException;
+import com.example.climbingBear.domain.mntn.exception.NoExistFeatureException;
+import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.mntn.dto.*;
-import com.example.climbingBear.domain.mntn.entity.Mountain;
+import com.example.climbingBear.domain.mntn.entity.*;
 
-import com.example.climbingBear.domain.mntn.entity.MountainPlace;
-import com.example.climbingBear.domain.mntn.entity.Spot;
-import com.example.climbingBear.domain.mntn.repository.MntnPlaceRepository;
-import com.example.climbingBear.domain.mntn.repository.MntnRepository;
-import com.example.climbingBear.domain.mntn.repository.SpotRepository;
-import com.example.climbingBear.domain.user.dto.UserListResDto;
-import com.example.climbingBear.domain.user.entity.User;
-import com.example.climbingBear.domain.user.exception.NoExistUserException;
+import com.example.climbingBear.domain.mntn.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -27,6 +21,8 @@ public class MntnService {
 
     private final MntnRepository mntnRepository;
     private final SpotRepository spotRepository;
+    private final FeatureRepository featureRepository;
+    private final PathRepository pathRepository;
     private final MntnPlaceRepository mntnPlaceRepository;
 
 //    public MntnResDto mntnDetail(Long mntnSeq){
@@ -53,6 +49,18 @@ public class MntnService {
     public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){
         List<MountainPlace> mntnPlace = mntnPlaceRepository.findByMntn(mntn);
         return mntnPlace.stream().map(MntnPlaceListResDto::new).collect(Collectors.toList());
+    }
+
+    public List<MntnFeatureResDto> getMntnFeature(Long mntnSeq){
+        Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
+                new NoExistMntnException());
+        List<Feature> features = featureRepository.findByMntn(mntn);
+//        List path = findMntnPath(mntn);
+        return features.stream().map(MntnFeatureResDto::new).collect(Collectors.toList());
+    }
+    public List<MntnPathListResDto> findMntnPath(Feature feature){
+        List<Path> paths = pathRepository.findByFeature(feature);
+        return paths.stream().map(MntnPathListResDto::new).collect(Collectors.toList());
     }
 
 }
