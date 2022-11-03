@@ -27,8 +27,8 @@ function App() {
           barStyle="dark-content"
           translucent={true}
         />
-        <HomeNavigation />
-        {/* <AuthNavigation /> */}
+        {/* <HomeNavigation /> */}
+        <AuthNavigation />
       </NavigationContainer>
     </Provider>
   );
