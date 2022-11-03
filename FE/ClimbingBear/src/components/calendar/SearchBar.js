@@ -49,6 +49,7 @@ const CalendarSearchBar = ({getEnteredText}) => {
             updateChange(text);
           }}
           value={enteredText}
+          style={styles.textinput}
         />
       </View>
       <View style={styles.result}>
@@ -57,10 +58,10 @@ const CalendarSearchBar = ({getEnteredText}) => {
             <View key={r.id} style={styles.resultelement}>
               <Button
                 title={r.name}
-                color="red"
+                color="green"
                 onPress={() => {
-                  getEnteredText(r.name);
-                  setEnteredText(r.name);
+                  setEnteredText(r.name); //검색바 내용 변경
+                  getEnteredText(r.name); //enteredText 전송
                   setResult([]);
                 }}></Button>
             </View>
@@ -81,10 +82,19 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.7,
     height: windowHeight * 0.05,
   },
+  textinput: {
+    fontFamily: 'SeoulNamsanB',
+    fontSize: 15,
+  },
+  buttontext: {
+    fontFamily: 'SeoulNamsanB',
+    fontSize: 10,
+  },
   result: {
     flexDirection: 'row',
   },
   resultelement: {
+    fontFamily: 'SeoulNamsanB',
     marginHorizontal: 1,
     marginVertical: 2,
     padding: 5,

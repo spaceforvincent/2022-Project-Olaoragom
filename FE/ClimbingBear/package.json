@@ -20,6 +20,7 @@
     "react-native": "0.70.3",
     "react-native-axios": "^0.17.1",
     "react-native-calendars": "^1.1290.0",
+    "react-native-calendars": "^1.1290.0",
     "react-native-encrypted-storage": "^4.0.2",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.7.1",
