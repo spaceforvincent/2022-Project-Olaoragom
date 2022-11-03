@@ -44,7 +44,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
         registry.addInterceptor(accessTokenInterceptor).addPathPatterns(Arrays.asList(
-                new String[]{"/diary"}));
+                new String[]{"/diary", "/mntn", "/mntn/**"}));
         registry.addInterceptor(accessTokenInterceptor).excludePathPatterns(Arrays.asList(
                 new String[]{"/h2-console", "/swagger-ui.html","/swagger-ui.html/**", "/swagger-resources", "/swagger-resources/**", "/v3/*", "/v3", "/user/**"}));
     }

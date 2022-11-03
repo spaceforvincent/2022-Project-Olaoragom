@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Data
 @Builder
@@ -31,7 +32,9 @@ public class MntnDetailResDto {
 
     private String mntnTransport;
 
-    public static MntnDetailResDto ofMntnDetail(Mountain mntn){
+    private List place;
+
+    public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place){
         return MntnDetailResDto.builder()
                 .mntnNm(mntn.getMntnNm())
                 .mntnSubnm(mntn.getMntnSubnm())
@@ -42,6 +45,7 @@ public class MntnDetailResDto {
                 .mntnEtccourse(mntn.getMntnEtccourse())
                 .mntnTourisminf(mntn.getMntnTourisminf())
                 .mntnTransport(mntn.getMntnTransport())
+                .place(place)
                 .build();
     }
 }
