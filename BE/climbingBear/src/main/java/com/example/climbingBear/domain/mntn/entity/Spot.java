@@ -14,31 +14,13 @@ public class Spot {
     private Long spotSeq;
 
     @ManyToOne
-    @JoinColumn(name = "MNTN_NM")
-    private Mountain mntnNm;
+    private Mountain mntn;
 
-    private Integer FID;
+    @Column(name = "spot_nm")
+    private String spotNm;
 
-    @Column(name = "POINT_SPOT")
-    private String pointSpot;
-
-    @Column(name = "MNTN_CODE")
-    private String mntnCode;
-
-    @Column(name = "MANAGE_SP1")
-    private Integer manageSp1;
-
-    @Column(name = "MANAGE_SP2")
-    private String manageSp2;
-
-    @Column(name = "DETAIL_SPO")
-    private String detailSpo;
-
-    @Column(name = "ECT_METER")
-    private String ectMeter;
-
-    @Column(name = "MNTN_ID")
-    private String mntnId;
+    @Column(name = "spot_num")
+    private String spotNum;
 
     @Column(name = "lat")
     private Float lat;
