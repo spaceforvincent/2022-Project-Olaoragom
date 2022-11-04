@@ -1,38 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { Image, View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 
+
+import { postSignUp, existNickname } from '../../apis/Auth'
 import AuthInput from '../../components/auth/AuthInput';
 
+
+import { Image, View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+
 // 회원가입
-const signUp = async (id, password, nickname) => {
-  try {
-    const response = await axios({
-      method: 'post',
-      url: `http://k7d109.p.ssafy.io:8080/user/signup`,
-      data: {
-        id: id,
-        nickname: nickname,
-        pw: password,
-      },
-    });
-    console.log(response.data);
-    console.log(response.data.status);
-  } catch (error) {
-    console.log(error);
-    console.log(error.response.data);
-    console.log(error.response.headers);
+const signUp = async(id, password, nickname) => {
+
+  if (!id || !id.trim()) {
+    return Alert.alert('알림', '아이디를 입력해주세요.');
   }
+  else if (!nickname || !nickname.trim()) {
+    return Alert.alert('알림', '닉네임을 입력해주세요.');
+  }
+  else if (!password || !password.trim()) {
+    return Alert.alert('알림', '비밀번호를 입력해주세요.');
+  }
+  else if (!password || !password.trim()) {
+    return Alert.alert('알림', '비밀번호를 확인해주세요.');
+  }
+
+  else {
+    const isAuthenticated = await postLogin(id, password)
+    // (임시) 사이드바 해결되면 네비게이터 수정하기!!
+    if ( isAuthenticated === true ) {
+      return navigation.navigate('SignupScreen')
+    }
+    else {
+      return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
+    }
+  }
+
 };
 
 const SignupScreen = () => {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
+  
+  // 아이디, 비밀번호, 닉네임
+  const [ id, setId ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ password2, setPassword2 ] = useState('');
+  const [ nickname, setNickname ] = useState('');
 
-  // 중복확인
-  const [checkNickname, setCheckNickname] = useState(false);
-  const [checkId, setCheckId] = useState(false);
+  const onchangeSignUpId = useCallback(text => {
+    setId(text.trim())
+  }, [])
+  const onchangeSignUpNickname = useCallback(text => {
+    setNickname(text.trim())
+  }, [])
+  const onchangeSignUpPassword = useCallback(text => {
+    setPassword(text.trim())
+  }, [])
+
+  // 아이디, 닉네임 중복확인
+  const [ isId, setIsId ] = useState(false);
+  const [ isNickname, setIsNickname ] = useState(false);
+
+
+  // 닉네임 중복확인
+  const checkNickname = async(nickname) => {
+
+    if (!nickname || !nickname.trim()) {
+      return Alert.alert('알림', '닉네임을 입력해주세요.');
+    }
+  
+    else {
+      setIsNickname(existNickname(nickname))
+      console.log('중복확인', isNickname)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -43,14 +82,13 @@ const SignupScreen = () => {
 
       <Text style={styles.title}>올라오라곰</Text>
 
-      <View style={styles.idContainer}>
+      <View style={styles.checkContainer}>
         <AuthInput
           title={'id'}
           value={id}
           placeholder={'아이디'}
-          onChangeText={text => setId(text)}
+          onChangeText={onchangeSignUpId}
         />
-
         <TouchableOpacity
           style={styles.checkButton}
           onPress={() => signUp(id, password, nickname)}>
@@ -58,25 +96,41 @@ const SignupScreen = () => {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.checkContainer}>
       <AuthInput
         title={'nickname'}
         value={nickname}
         placeholder={'닉네임'}
-        onChangeText={text => setNickname(text)}
+        onChangeText={onchangeSignUpNickname}
       />
+      <TouchableOpacity
+          style={styles.checkButton}
+          onPress={() => checkNickname(nickname)}>
+          <Text style={styles.signUpText}>중복검사</Text>
+      </TouchableOpacity>
+      </View>
+      <View style={styles.checkWarn}>
+      {
+        isNickname &&
+        <TextLight>중복된 닉네임입니다!</TextLight>
+      }
+      </View>
+      
+
+
       <AuthInput
         title={'password'}
         value={password}
         placeholder={'비밀번호'}
         secureTextEntry={true}
-        onChangeText={text => setPassword(text)}
+        onChangeText={onchangeSignUpPassword}
       />
       <AuthInput
         title={'password'}
-        value={password}
+        value={password2}
         placeholder={'비밀번호 확인'}
         secureTextEntry={true}
-        onChangeText={text => setPassword(text)}
+        onChangeText={text => setPassword2(text)}
       />
 
       <TouchableOpacity
@@ -94,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  idContainer: {
+  checkContainer: {
     flexDirection: 'row',
   },
   image: {
@@ -128,6 +182,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
+  checkWarn: {
+    color: 'red',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    textAlign: 'left'
+  }
 });
 
 export default SignupScreen;

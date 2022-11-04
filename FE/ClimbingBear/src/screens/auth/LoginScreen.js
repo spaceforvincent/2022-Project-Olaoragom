@@ -15,11 +15,10 @@ const LoginScreen = () => {
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
 
-  const onChangeId = useCallback(text => {
+  const onChangeLoginId = useCallback(text => {
     setId(text.trim())
   }, [])
-  
-  const onChangePassword = useCallback(text => {
+  const onChangeLoginPassword = useCallback(text => {
     setPassword(text.trim())
   }, [])
 
@@ -55,18 +54,18 @@ const LoginScreen = () => {
           title={'id'}
           value={id}
           placeholder={'아이디'}
-          onChangeText={onChangeId}
+          onChangeText={onChangeLoginId}
         />
         <AuthInput
           title={'password'}
           value={password}
           placeholder={'비밀번호'}
           secureTextEntry={true}
-          onChangeText={onChangePassword}
+          onChangeText={onChangeLoginPassword}
         />
       
       <Pressable style={styles.loginButton}>
-        <TextMedium style={styles.loginText} onPress = {() => login( id, password )}>로그인</TextMedium>
+        <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
       </Pressable>
 
       <TextMedium>아직 회원이 아니신가요?</TextMedium>
