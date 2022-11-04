@@ -1,151 +1,165 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
-import {SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Button, ScrollView, TextInput} from 'react-native';
+// 등산기록 스크린에서 유저 정보 받고
+// 여기서는 그 정보를 useRoute로 가져옴
+// 등산기록 스크린에서 네비게이션 푸쉬로 아이템 전달?
+/*
+ * @format
+ * @flow strict-local
+ */
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import {GiftedChat, IMessage} from 'react-native-gifted-chat';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
-const ChatRoom = () => {
-  const [serverState, setServerState] = useState('Loading...');
-  const [messageText, setMessageText] = useState('');
-  const [disableButton, setDisableButton] = useState(true);
-  const [inputFieldEmpty, setInputFieldEmpty] = useState(true);
-  const [serverMessages, setServerMessages] = useState([]);
-  // (공부) useState는 컴포넌트 함수가 다시 호출이 됨 
-  // 함수 내부의 변수들이 모두 다시 초기화가 되고 함수의 모든 로직이 다시 실행됨
-  // 다시 랜더링 되어도 동일한 참조값을 유지하기 위해 useRef 사용
-  let ws = useRef(new WebSocket('ws://w567l.sse.codesandbox.io/')).current;
-
+import { GiftedChat } from 'react-native-gifted-chat'
+ 
+const Chat = () => {  
   const navigation = useNavigation();
   const route = useRoute();
-  // const [senderId, setSenderId] = useState(route.params.record.sender_id)
-  // const [receiverId, setReceiverId] = useState(route.params.record.receiver_id)
+  const [messages, setMessages] = useState([]);
+  // const [senderNick, setSenderNick] = useState(route.params.record.sender_nick)
+  // const [receiverNick, setReceiverNick] = useState(route.params.record.receiver_nick)
+  // const [image_path, setImage_path] = useState(route.params.record.image_path)
+  const ws = useRef(null);
 
+  //  const [userList, setUserList] = useState([])
+  // (임시)
+  const userList = [
+    {
+      nickname: '근혜',
+      userSeq: 1,
+    },
+    {
+      nickname: '그네',
+      userSeq: 2,
+    },
+  ]
 
+  const receiverNick = userList[0].nickname
+  const senderNick = userList[1].nickname
+ 
   useEffect(() => {
-    const serverMessagesList = [];
-    // 웹소켓 연결이 서버에 의해 열리면
-    ws.onopen = () => {
-      setServerState('서버에 연결되었습니다.')
-      setDisableButton(false);
-      // async storage에서 불러옴
-      // const getData = async () => {
-      //   try {
-      //     const jsonValue = await AsyncStorage.getItem('@storage_Key')
-      //     return jsonValue != null ? JSON.parse(jsonValue) : null;
-      //   } catch(e) {
-      //     // error reading value
-      //   }
-      // }
+    console.log("소켓통신 가즈아")
+    // enter your websocket url
+    ws.current = new WebSocket(`wss://`)
+  //  ws.current = new WebSocket(`wss://w567l.sse.codesandbox.io/`)
+    ws.current.onopen = () => {
+      console.log("열렸다!!!")
     };
-    // 연결이 닫힐 때 submit 버튼이 비활성화
-    ws.onclose = (e) => {
-      setServerState('연결X. 인터넷이나 서버를 확인해주세요.')
-      setDisableButton(true);
+    ws.current.onclose = () => {
+      console.log("닫힘!")
     };
-    ws.onerror = (e) => {
-      console.log(e.message)
-      setServerState(e.message);
+    return () => {
+      ws.current.close();
     };
-    // 수신된 메시지를 serverMessages배열 에 추가
-    ws.onmessage = (e) => {
-      serverMessagesList.push(e.data);
-      setServerMessages([...serverMessagesList])
+  }, [])
+ 
+  useEffect(() => {
+    setMessages([
+      {
+        _nick: receiverNick, // receiver nickname
+        // _nick: userList[0].nickname,
+        text: '하이 에이치아이',
+        createdAt: new Date(), // 현재시각
+        user: {
+          _nick: senderNick,  // sender nick
+          // _nick: userList[1].nickname,         
+          // avatar: image_path,
+        },
+      },
+    ])
+  }, [])
+ 
+  useEffect(() => {
+    ws.current.onmessage = e => {
+      const response = JSON.parse(e.data);
+      console.log("onmessage=>", JSON.stringify(response));
+      let sentMessages = {
+        _nick: response.receiverNick,
+        text: response.message,
+        createdAt: new Date(response.createdAt),
+        // createdAt: new Date(response.createdAt * 1000),
+        user: {          
+          _nick: response.senderNick,
+          // avatar: image_path,
+        },
+      }
+      setMessages(previousMessages => GiftedChat.append(previousMessages, sentMessages))
     };
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const submitMessage = () => {
-    ws.send(messageText);
-    // async storage에 저장
-    // const storeData = async (value) => {
-    //   try {
-    //     await AsyncStorage.setItem('dialogue', value)
-    //   } catch (e) {
-    //     // saving error
-    //   }
-    // }
-    // 다시 입력란 비워둠
-    setMessageText('')
-    setInputFieldEmpty(true)
-  };
-
+  }, []);
+ 
+  const onSend = useCallback((messages = []) => {
+    let obj = {
+      "senderNick": senderNick,    
+      "receiverNick": receiverNick,
+      "message": messages[0].text,
+      "action": "message"
+    }
+    ws.current.send(JSON.stringify(obj))
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  }, [])
 
   return (
     <View style={styles.container}>
-      {/* 상단 */}
       <View style={{
-        height: 30,
-        backgroundColor: '#D7FBE8',
-        padding: 5,
+        padding: 15,
+        marginTop: 50,
+        backgroundColor: "black",
+        alignItems: "center",
+        justifyContent: 'center',
+        width: '100%'
       }}>
-        {/* 이전 화면으로 */}
         <TouchableOpacity
+          style={{
+            position: 'absolute',
+            left: 10,
+            borderColor: "#fff",
+            borderWidth: 1,
+            padding: 7,
+            borderRadius: 10
+          }}
           onPress={() => {
             navigation.goBack()
           }}
         >
-          <Text>Back</Text>
-        </TouchableOpacity>        
-        <Text>{serverState}</Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: "#fff",
+            }}
+          >{`Back`}</Text>
+        </TouchableOpacity>
+        <Text style={{
+          fontSize: 20,
+          fontWeight: 'bold',
+          color: "#fff"
+        }}>{`Chat list`}</Text>
       </View>
-      {/* 중간 */}
-      <View style={{
-        backgroundColor: '#F4F9F4',
-        padding: 5,
-        flexGrow: 1
-      }}>
-        <ScrollView>
-          {
-            serverMessages.map((item, idx) => {
-              return (
-                <Text key={idx}>{item}</Text>
-              )
-            })
-          }
-        </ScrollView>
-      </View>
-      {/* 하단 */}
-      {/* WebSockets에 성공적으로 연결되고 텍스트가 비어있지 않아야 활성화됨 */}
-      <View style={{
-        flexDirection: 'row',
-      }}>
-        <TextInput style={{
-          borderWidth: 1,
-          borderColor: '#E0E0E0',
-          flexGrow: 1,
-          padding: 5,
-          }} 
-          placeholder={'일행과 소통해보세요.'}
-          onChangeText={text => {
-            setMessageText(text)
-            setInputFieldEmpty(text.length > 0 ? false : true)
-          }}
-          value={messageText}
-        />
-        <Button
-         onPress={submitMessage}
-         title={'Submit'} 
-         disabled={disableButton || inputFieldEmpty}
-        />
-
-      </View>
-
+      <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: senderId,  // set sender id
+        }}
+      />
     </View>
-
   );
 };
-
-export default ChatRoom;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#ecf0f1',
-    paddingTop: 30,
-    padding: 8,
-  },
-  temptext: {
-    fontSize: 50,
-  },
-
+    backgroundColor: "#fff"
+  }
 });
+export default Chat;
+ 
