@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     private final AccessTokenInterceptor accessTokenInterceptor;
     private final RefreshTokenInterceptor refreshTokenInterceptor;
