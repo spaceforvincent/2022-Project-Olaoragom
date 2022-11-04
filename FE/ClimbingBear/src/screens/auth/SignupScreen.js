@@ -41,9 +41,11 @@ const SignupScreen = () => {
   
   // 아이디, 비밀번호, 닉네임
   const [ id, setId ] = useState('');
+  const [ nickname, setNickname ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ password2, setPassword2 ] = useState('');
-  const [ nickname, setNickname ] = useState('');
+
+  const [ isNickname, setIsNickname ] = useState('');
 
   const onchangeSignUpId = useCallback(text => {
     setId(text.trim())
@@ -55,21 +57,13 @@ const SignupScreen = () => {
     setPassword(text.trim())
   }, [])
 
-  // 아이디, 닉네임 중복확인
-  const [ isId, setIsId ] = useState(false);
-  const [ isNickname, setIsNickname ] = useState(false);
-
-
   // 닉네임 중복확인
-  const checkNickname = async(nickname) => {
-
+  const checkNickname = async (nickname) => {
     if (!nickname || !nickname.trim()) {
       return Alert.alert('알림', '닉네임을 입력해주세요.');
-    }
-  
-    else {
-      setIsNickname(existNickname(nickname))
-      console.log('중복확인', isNickname)
+    } else {
+      const res = await existNickname(nickname)
+      setIsNickname(res)
     }
   }
 
@@ -95,28 +89,27 @@ const SignupScreen = () => {
           <Text style={styles.signUpText}>중복검사</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.checkWarn}>
+        </View>
 
       <View style={styles.checkContainer}>
-      <AuthInput
-        title={'nickname'}
-        value={nickname}
-        placeholder={'닉네임'}
-        onChangeText={onchangeSignUpNickname}
-      />
-      <TouchableOpacity
+        <AuthInput
+          title={'nickname'}
+          value={nickname}
+          placeholder={'닉네임'}
+          onChangeText={onchangeSignUpNickname}
+        />
+        <TouchableOpacity
           style={styles.checkButton}
           onPress={() => checkNickname(nickname)}>
           <Text style={styles.signUpText}>중복검사</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </View>
       <View style={styles.checkWarn}>
-      {
-        isNickname &&
-        <TextLight>중복된 닉네임입니다!</TextLight>
-      }
+        {
+          isNickname && <TextLight style={styles.checkWarn}>중복된 닉네임입니다!</TextLight>
+        }
       </View>
-      
-
 
       <AuthInput
         title={'password'}

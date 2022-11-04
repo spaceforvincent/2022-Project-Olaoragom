@@ -68,7 +68,14 @@ export const getToken = async() => {
             nickName: nickname
           },
         });
-        return response.data.data.isExist
+
+        console.log('결과', response.data.data.isExist)
+        if ( response.data.data.isExist === true ) {
+          return true
+        }
+        else if ( response.data.data.isExist === false ) {
+          return false
+        }
       }
 
       catch  (error) {
