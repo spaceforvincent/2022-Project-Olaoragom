@@ -70,8 +70,11 @@ const SignupScreen = () => {
   return (
     <View style={styles.container}>
       <Image
+       
         source={require(`../../assets/images/LoginLogo.png`)}
+       
         style={styles.image}
+      
       />
 
       <Text style={styles.title}>올라오라곰</Text>

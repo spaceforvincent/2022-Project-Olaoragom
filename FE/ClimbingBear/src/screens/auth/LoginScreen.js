@@ -8,9 +8,7 @@ import AuthInput from '../../components/auth/AuthInput';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
 
-const LoginScreen = () => {
-
-  const navigation = useNavigation();
+const LoginScreen = ({navigation}) => {
 
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -68,9 +66,9 @@ const LoginScreen = () => {
         <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
       </Pressable>
 
-      <TextMedium>아직 회원이 아니신가요?</TextMedium>
+      <TextMediumMedium>아직 회원이 아니신가요?</TextMediumMedium>
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-        <TextMedium style={styles.signupText}>회원가입하러가기</TextMedium>
+        <TextMediumMedium style={styles.signupText}>회원가입하러가기</TextMediumMedium>
       </TouchableOpacity>
     </View>
   );
@@ -80,11 +78,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   image: {
     width: 250,
     height: 250,
+    margin: 10,
     margin: 10,
   },
   title: {
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
   },
   signupText: {
     textDecorationLine: 'underline',
-  }
-})
+  },
+});
 
 export default LoginScreen;

@@ -32,15 +32,19 @@ const SearchRegisterModal = ({
   setToastMsg,
   setModifyState,
 }) => {
-  const [enteredText, setEnteredText] = useState('');
+  const [enteredMountain, setEnteredMountain] = useState({});
   //검색창에서 받아온 일정
   const [addSchedule, setAddSchedule] = useState({});
-  const getEnteredText = text => {
-    setEnteredText(text);
+  const getEnteredMountain = obj => {
+    setEnteredMountain(obj);
   };
   useEffect(() => {
-    setAddSchedule({mountainName: enteredText, date: selected});
-  }, [enteredText, selected]);
+    setAddSchedule({
+      mountainName: enteredMountain.mountainName,
+      date: selected,
+      mntnSeq: enteredMountain.mntnSeq,
+    });
+  }, [enteredMountain, selected]);
 
   return (
     <Modal
@@ -56,12 +60,11 @@ const SearchRegisterModal = ({
         <View style={styles.flexrow}>
           <TextExtraBold style={styles.text}>등산 일정 등록</TextExtraBold>
         </View>
-        <CalendarSearchBar getEnteredText={getEnteredText} />
+        <CalendarSearchBar getEnteredMountain={getEnteredMountain} />
         <View style={styles.flexrow}>
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
-              getSchedule(selected, addSchedule);
               handleToast('Register');
               setTimeout(() => {
                 setIsToast(false);
@@ -69,6 +72,7 @@ const SearchRegisterModal = ({
                 setModifyState(false);
               }, 1000);
               setIsModalVisible(!isModalVisible);
+              getSchedule(selected, addSchedule);
             }}>
             <View style={styles.button}>
               <TextBold style={styles.buttontext}>등록하기</TextBold>
