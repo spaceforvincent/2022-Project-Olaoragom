@@ -247,8 +247,16 @@ const CalendarHome = ({navigation: {navigate}}) => {
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
               {bookedDate.find(record => record.date === date.dateString)
-                .mountainName.length <= 3 ? (
+                .mountainName.length == 3 ? (
                 <TextMedium style={styles.mountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : bookedDate.find(record => record.date === date.dateString)
+                  .mountainName.length == 2 ? (
+                <TextMedium style={styles.shortmountainname}>
                   {
                     bookedDate.find(record => record.date === date.dateString)
                       .mountainName
@@ -450,5 +458,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     marginLeft: windowWidth * 0.013,
+  },
+  shortmountainname: {
+    position: 'absolute',
+    marginTop: windowHeight * 0.075,
+    color: 'white',
+    fontSize: 16,
+    marginLeft: windowWidth * 0.033,
   },
 });
