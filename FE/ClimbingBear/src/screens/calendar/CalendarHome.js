@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -24,10 +24,17 @@ import {
   TextBold,
   TextExtraBold,
 } from '../../components/common/TextFont';
+import axios from 'axios';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+//오늘 날짜
+const today = new Date();
+const year = today.getFullYear();
+const month = today.getMonth() + 1;
+const day = today.getDate();
 
 // dp 를 pixel 로 바꿔주는 모듈 (폰트, 위치 조정할 때 쓰면 될 듯!)
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
@@ -35,12 +42,8 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 // 달력 코드
 const CalendarHome = ({navigation: {navigate}}) => {
-  //예약되어있는 날짜
-  const [bookedDate, setBookedDate] = useState([
-    {mountainName: '와룡산', date: '2022-11-13'},
-    {mountainName: '계룡산', date: '2022-11-14'},
-    {mountainName: '용용산', date: '2022-11-15'},
-  ]);
+  //예약된 날짜
+  const [bookedDate, setBookedDate] = useState([]);
   //실제 갔다온 날짜
   const [havebeenDate, setHaveBeenDate] = useState([
     {mountainName: '장도산', date: '2022-10-07'},
@@ -72,10 +75,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
   const [toastMsg, setToastMsg] = useState('');
   //페이지 마운트될 때 오늘 날짜 지정
   useEffect(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
+    loadSchedule();
     setDateNum(
       year +
         '-' +
@@ -83,7 +83,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
-  }, [bookedDate, isToast]);
+  }, [isToast]);
 
   //토스트 메시지 기능 사용
   const handleToast = type => {
@@ -102,24 +102,98 @@ const CalendarHome = ({navigation: {navigate}}) => {
     }
     return newArr;
   };
-  //검색/등록 모달로부터 스케쥴 받아오기
-  const getSchedule = (selected, obj) => {
+  //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
+  const getSchedule = async (selected, obj) => {
     let copyArray = [...bookedDate];
     if (modifyState) {
-      copyArray.map(record => {
-        if (record.date === selected) {
-          Object.assign(record, obj);
-        }
-      });
-      setBookedDate(copyArray);
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `http://k7d109.p.ssafy.io:8080/diary`,
+          headers: {
+            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          },
+          data: {
+            day: Number(selected.slice(8, 10)),
+            diarySeq: Number(
+              bookedDate.find(record => record.date === selected).diarySeq,
+            ),
+            mntnSeq: Number(obj.mntnSeq),
+            month: Number(selected.slice(5, 7)),
+            year: Number(selected.slice(0, 4)),
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      setBookedDate([...bookedDate, obj]);
+      try {
+        const response = await axios({
+          method: 'post',
+          url: `http://k7d109.p.ssafy.io:8080/diary`,
+          headers: {
+            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          },
+          data: {
+            day: Number(selected.slice(8, 10)),
+            mntnSeq: Number(obj.mntnSeq),
+            month: Number(selected.slice(5, 7)),
+            year: Number(selected.slice(0, 4)),
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  //일정 삭제
-  const deleteSchedule = date => {
-    setBookedDate(bookedDate.filter(record => record.date !== date));
+  //DB에서 일정 삭제
+  const deleteSchedule = async date => {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: `http://k7d109.p.ssafy.io:8080/diary`,
+        headers: {
+          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+        },
+        params: {
+          diarySeq: bookedDate.find(record => record.date === date).diarySeq,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+  //DB에서 일정 가져오기
+  const loadSchedule = async () => {
+    let tempArr = [];
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://k7d109.p.ssafy.io:8080/diary`,
+        headers: {
+          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+        },
+      });
+      response.data.data.map(record => {
+        tempArr.push({
+          mountainName: record.mntnNm,
+          date:
+            record.year +
+            '-' +
+            ('00' + record.month).slice(-2) +
+            '-' +
+            ('00' + record.day).slice(-2),
+          diarySeq: record.diarySeq,
+        });
+      });
+      setBookedDate(tempArr);
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data);
+      console.log(error.response.headers);
+    }
+  };
+
   //달력 내 날짜와의 상호작용을 위한 컴포넌트
   const dayComponent = ({date, state}) => {
     return (
@@ -158,7 +232,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
               </TextMedium>
             </TouchableOpacity>
           ) : //갈 예정인 날짜 스탬프
-          makeDateArr(bookedDate).includes(date.dateString) ? (
+          bookedDate && makeDateArr(bookedDate).includes(date.dateString) ? (
             <TouchableOpacity
               onPress={() => {
                 //일정 수정/삭제 모달 띄움
