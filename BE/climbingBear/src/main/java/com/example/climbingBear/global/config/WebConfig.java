@@ -18,8 +18,8 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-    private final AccessTokenInterceptor accessTokenInterceptor;
-    private final RefreshTokenInterceptor refreshTokenInterceptor;
+//    private final AccessTokenInterceptor accessTokenInterceptor;
+//    private final RefreshTokenInterceptor refreshTokenInterceptor;
 //    @Bean
 //    protected AccessTokenInterceptor accessTokenInterceptor() {
 //        return new AccessTokenInterceptor();
