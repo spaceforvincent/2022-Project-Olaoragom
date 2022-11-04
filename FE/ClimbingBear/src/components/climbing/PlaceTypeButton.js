@@ -91,16 +91,17 @@ const PlaceTypeButton = () => {
   // (수정) 버튼 눌렸을 시 띄우는 게 다른 함수
   function clickPlaceButton(payload) {
     // 버튼이 눌리지 않은 상태인데 눌렸을 때 투명도 조절
+    console.log('들어와?');
     if (!click.current) {
       click.current = true;
       // setButtonColor(payload.backgroundColor);
       // (수정) interpolation 애니메이션 주기
       Animated.timing(backColor, {
         toValue: 1,
-        duration: 500,
+        // duration: 500,
         useNativeDriver: true,
       }).start();
-      console.log('뒷배경 색 코드', backColor);
+      console.log('뒷배경 색 코드 red', backColor);
 
       // Animated.timing(payload.opacity, {
       //   toValue: 1,
@@ -114,9 +115,10 @@ const PlaceTypeButton = () => {
       // (수정) interpolation 애니메이션 주기
       Animated.timing(backColor, {
         toValue: 0,
-        duration: 500,
+        // duration: 500,
         useNativeDriver: true,
       }).start();
+      console.log('뒷배경 색 코드 black', backColor);
 
       // Animated.timing(payload.opacity, {
       //   toValue: 0.65,
@@ -134,7 +136,10 @@ const PlaceTypeButton = () => {
     <AnimatedView style={[styles.container, revealFromTopStyle]}>
       <AnimatedView style={[styles.semicontainer, {opacity: revealOpacity}]}>
         {/* <AnimatedTouchable style={{opacity: helgiOpacity}}> */}
-        <AnimatedTouchable>
+        <AnimatedTouchable
+          onPress={() => {
+            clickPlaceButton(PlaceButton.HELGI);
+          }}>
           {/* TouchableOpacity 클릭 시 하이라이트 해제 : activeOpacity={1} */}
           <TouchableOpacity
             activeOpacity={1}
@@ -146,10 +151,7 @@ const PlaceTypeButton = () => {
                   outputRange: ['rgb(162, 166, 160)', 'rgb(43, 137, 10)'],
                 }),
               },
-            ]}
-            onPress={() => {
-              clickPlaceButton(PlaceButton.HELGI);
-            }}>
+            ]}>
             <TextLight style={styles.placebutton}>헬기장</TextLight>
           </TouchableOpacity>
         </AnimatedTouchable>
