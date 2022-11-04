@@ -75,7 +75,7 @@ const SearchRegisterModal = ({
               getSchedule(selected, addSchedule);
             }}>
             <View style={styles.button}>
-              <TextBoldBold style={styles.buttontext}>등록하기</TextBoldBold>
+              <TextBold style={styles.buttontext}>등록하기</TextBold>
             </View>
           </TouchableOpacity>
         </View>

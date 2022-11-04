@@ -246,12 +246,22 @@ const CalendarHome = ({navigation: {navigate}}) => {
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
-              <TextMedium style={styles.mountainname}>
-                {
-                  bookedDate.find(record => record.date === date.dateString)
-                    .mountainName
-                }
-              </TextMedium>
+              {bookedDate.find(record => record.date === date.dateString)
+                .mountainName.length <= 3 ? (
+                <TextMedium style={styles.mountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : (
+                <TextMedium style={styles.longmountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              )}
             </TouchableOpacity>
           ) : //일정 예약 가능한 날짜일 때 (누른 날짜가 오늘 날짜의 달과 같고 일이 클 때, 혹은 누른 날짜가 오늘 날짜의 달보다 클 때)
           (Number(date.dateString.slice(5, 7)) == Number(dateNum.slice(5, 7)) &&
@@ -432,6 +442,13 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.075,
     color: 'white',
     fontSize: 15,
-    marginLeft: windowWidth * 0.02,
+    marginLeft: windowWidth * 0.022,
+  },
+  longmountainname: {
+    position: 'absolute',
+    marginTop: windowHeight * 0.075,
+    color: 'white',
+    fontSize: 14,
+    marginLeft: windowWidth * 0.013,
   },
 });
