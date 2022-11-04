@@ -18,27 +18,15 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-//    private final AccessTokenInterceptor accessTokenInterceptor;
-//    private final RefreshTokenInterceptor refreshTokenInterceptor;
-//    @Bean
-//    protected AccessTokenInterceptor accessTokenInterceptor() {
-//        return new AccessTokenInterceptor();
-//    }
+    private final AccessTokenInterceptor accessTokenInterceptor;
+    private final RefreshTokenInterceptor refreshTokenInterceptor;
 
-//    @Autowired
-//    AccessTokenInterceptor accessTokenInterceptor;
-//    @Autowired
-//    RefreshTokenInterceptor refreshTokenInterceptor;
-
-    @Bean
-    public AccessTokenInterceptor interceptor(){
-        return new AccessTokenInterceptor();
-    }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
-        registry.addInterceptor(accessTokenInterceptor).addPathPatterns("/**");
-        registry.addInterceptor(accessTokenInterceptor).excludePathPatterns(Arrays.asList(
+        registry.addInterceptor(accessTokenInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(Arrays.asList(
                 new String[]{"/h2-console", "/swagger-ui.html","/swagger-ui.html/**", "/swagger-resources", "/swagger-resources/**", "/v3/*", "/v3", "/user/**"}));
 }
     @Override
