@@ -65,6 +65,8 @@ const CalendarHome = ({navigation: {navigate}}) => {
     useState(false);
   // 토스트 메세지 ON/OFF
   const [isToast, setIsToast] = useState(false);
+  // 토스트 메세지 ON/OFF
+  const [isToast, setIsToast] = useState(false);
   //클릭한 날짜
   const [selectedDate, setSelectedDate] = useState('');
   //클릭한 날짜의 산
