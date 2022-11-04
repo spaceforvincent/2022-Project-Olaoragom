@@ -44,13 +44,13 @@ public class UserController {
 
     @GetMapping("/nickname")
     @ApiOperation(value = "닉네임 중복 확인", notes = "닉네임 입력")
-    public ResponseEntity<?> checkNickname(@PathVariable("nickName") String nickName) throws Exception {
+    public ResponseEntity<?> checkNickname(@RequestParam("nickName") String nickName) throws Exception {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.checkNickname(nickName)), HttpStatus.OK);
     }
 
     @GetMapping("/email")
     @ApiOperation(value = "이메일 중복 확인", notes = "닉네임 입력")
-    public ResponseEntity<?> checkEmail(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<?> checkEmail(@RequestParam("id") String id) throws Exception {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.checkId(id)), HttpStatus.OK);
     }
 
