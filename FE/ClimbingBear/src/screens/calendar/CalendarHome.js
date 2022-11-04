@@ -102,33 +102,61 @@ const CalendarHome = ({navigation: {navigate}}) => {
     }
     return newArr;
   };
-  //검색/등록 모달로부터 스케쥴 받아오기
-  const getSchedule = (selected, obj) => {
+  //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
+  const getSchedule = async (selected, obj) => {
     let copyArray = [...bookedDate];
     if (modifyState) {
-      copyArray.map(record => {
-        if (record.date === selected) {
-          Object.assign(record, obj);
-        }
-      });
-      setBookedDate(copyArray);
+      try {
+        const response = await axios({
+          method: 'put',
+          url: `http://k7d109.p.ssafy.io:8080/diary`,
+          headers: {
+            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          },
+          data: {
+            day: Number(selected.slice(8, 10)),
+            diarySeq: Number(
+              bookedDate.find(record => record.date === selected).diarySeq,
+            ),
+            mntnSeq: Number(obj.mntnSeq),
+            month: Number(selected.slice(5, 7)),
+            year: Number(selected.slice(0, 4)),
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      setBookedDate([...bookedDate, obj]);
+      try {
+        const response = await axios({
+          method: 'post',
+          url: `http://k7d109.p.ssafy.io:8080/diary`,
+          headers: {
+            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          },
+          data: {
+            day: Number(selected.slice(8, 10)),
+            mntnSeq: Number(obj.mntnSeq),
+            month: Number(selected.slice(5, 7)),
+            year: Number(selected.slice(0, 4)),
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  //일정 삭제
+  //DB에서 일정 삭제
   const deleteSchedule = async date => {
-    // setBookedDate(bookedDate.filter(record => record.date !== date));
     try {
       const response = await axios({
         method: 'delete',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjoxLCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NDUwNjAxLCJleHAiOjI0NDUwNTA2MDF9.b2yW6jxbScjp0Mx1M3_47A8c361eskglfgJGYdX6mKE`,
+          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
         },
         params: {
-          diarySeq: bookedDate.find(record => record.date === date)
-            .diarySeq,
+          diarySeq: bookedDate.find(record => record.date === date).diarySeq,
         },
       });
     } catch (error) {
@@ -143,7 +171,7 @@ const CalendarHome = ({navigation: {navigate}}) => {
         method: 'get',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjoxLCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NDUwNjAxLCJleHAiOjI0NDUwNTA2MDF9.b2yW6jxbScjp0Mx1M3_47A8c361eskglfgJGYdX6mKE`,
+          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
         },
       });
       response.data.data.map(record => {

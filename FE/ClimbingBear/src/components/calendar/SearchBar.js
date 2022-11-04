@@ -9,35 +9,49 @@ import {
   Dimensions,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const data = [
-  {id: 1, name: '지리산'},
-  {id: 2, name: '와룡산'},
-  {id: 3, name: '천마산'},
-  {id: 4, name: '천생산'},
-  {id: 5, name: '천일산'},
-  {id: 6, name: '천이산'},
-  {id: 7, name: '천삼산'},
-  {id: 8, name: '지로산'},
-  {id: 9, name: '백일산'},
-  {id: 10, name: '백이산'},
-  {id: 11, name: '산일산'},
-  {id: 12, name: '산이산'},
-  {id: 13, name: '산삼산'},
-];
-
-const CalendarSearchBar = ({getEnteredText}) => {
+const CalendarSearchBar = ({getEnteredMountain}) => {
+  useEffect(() => {
+    getMountainData();
+  }, [enteredText]);
+  const [mountainList, setMountainList] = useState([]);
   const [enteredText, setEnteredText] = useState('');
   const [result, setResult] = useState([]);
   const updateChange = text => {
-    let filterData = data.filter(d => d.name.includes(text));
+    let filterData = mountainList
+      .filter(d => d.mountainName.includes(text))
+      .slice(0, 4);
     if (text.length === 0 || text === '산') {
       filterData = [];
     }
     setResult(filterData);
+  };
+  const getMountainData = async () => {
+    let tempArr = [];
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://k7d109.p.ssafy.io:8080/mntn/list`,
+        headers: {
+          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+        },
+      });
+      response.data.data.map(record => {
+        tempArr.push({
+          mountainName: record.mntnNm,
+          mntnSeq: record.mntnSeq,
+        });
+      });
+      setMountainList(tempArr);
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data);
+      console.log(error.response.headers);
+    }
   };
   return (
     <View>
@@ -55,13 +69,13 @@ const CalendarSearchBar = ({getEnteredText}) => {
       <View style={styles.result}>
         {result.map(r => {
           return (
-            <View key={r.id} style={styles.resultelement}>
+            <View key={r.mntnSeq} style={styles.resultelement}>
               <Button
-                title={r.name}
+                title={r.mountainName}
                 color="green"
                 onPress={() => {
-                  setEnteredText(r.name); //검색바 내용 변경
-                  getEnteredText(r.name); //enteredText 전송
+                  setEnteredText(r.mountainName); //검색바 내용 변경
+                  getEnteredMountain(r); //enteredText 전송
                   setResult([]);
                 }}></Button>
             </View>
@@ -92,6 +106,8 @@ const styles = StyleSheet.create({
   },
   result: {
     flexDirection: 'row',
+    marginTop: windowHeight * 0.01,
+    justifyContent: 'flex-start',
   },
   resultelement: {
     fontFamily: 'SeoulNamsanB',
