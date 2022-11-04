@@ -18,8 +18,8 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-//    private final AccessTokenInterceptor accessTokenInterceptor;
-//    private final RefreshTokenInterceptor refreshTokenInterceptor;
+    private final AccessTokenInterceptor accessTokenInterceptor;
+    private final RefreshTokenInterceptor refreshTokenInterceptor;
 //    @Bean
 //    protected AccessTokenInterceptor accessTokenInterceptor() {
 //        return new AccessTokenInterceptor();
@@ -36,10 +36,9 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-    //        registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
-        registry.addInterceptor(this.interceptor()).addPathPatterns("/")
-                .excludePathPatterns("/diary");
-        registry.addInterceptor(this.interceptor()).excludePathPatterns(Arrays.asList(
+        registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
+        registry.addInterceptor(accessTokenInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(accessTokenInterceptor).excludePathPatterns(Arrays.asList(
                 new String[]{"/h2-console", "/swagger-ui.html","/swagger-ui.html/**", "/swagger-resources", "/swagger-resources/**", "/v3/*", "/v3", "/user/**"}));
 }
     @Override
@@ -57,8 +56,6 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.DELETE.name()
                 );
     }
-
-
 
 
 
