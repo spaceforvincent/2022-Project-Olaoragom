@@ -3,6 +3,8 @@ package com.example.climbingBear.domain.user.service;
 
 import com.example.climbingBear.domain.user.dto.*;
 import com.example.climbingBear.domain.user.entity.User;
+import com.example.climbingBear.domain.user.exception.ExistSameIdException;
+import com.example.climbingBear.domain.user.exception.ExistSameNickException;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import com.example.climbingBear.global.jwt.JwtProvider;
@@ -22,6 +24,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     public SignupResDto signup (SignupReqDto dto){
+        if (userRepository.existsById(dto.getId())){
+            throw new ExistSameIdException();
+        }
+        if (userRepository.existsByNickname(dto.getNickname())){
+            throw new ExistSameNickException();
+        }
+
         User user = dto.toUserEntity();
         String accessToken = jwtProvider.getAccessToken(user.getUserSeq());
         String refreshToken = jwtProvider.getRefreshToken();
