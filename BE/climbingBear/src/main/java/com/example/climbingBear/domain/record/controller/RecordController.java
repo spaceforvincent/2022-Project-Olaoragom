@@ -1,6 +1,7 @@
 package com.example.climbingBear.domain.record.controller;
 
 import com.example.climbingBear.domain.diary.dto.DiaryPostReqDto;
+import com.example.climbingBear.domain.record.dto.RecordDetailReqDto;
 import com.example.climbingBear.domain.record.dto.RecordPostReqDto;
 import com.example.climbingBear.domain.record.service.RecordService;
 import com.example.climbingBear.global.common.CommonResponse;
@@ -29,10 +30,17 @@ public class RecordController {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(recordService.recordSave(dto, userSeq)), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation(value = "등산 기록 리스트", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getRecordList(HttpServletRequest request) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(recordService.MyRecordList(userSeq)), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    @ApiOperation(value = "등산 기록 상세", notes = "diarySeq 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> getRecordList(HttpServletRequest request, RecordDetailReqDto dto) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(recordService.recordDetail(dto, userSeq)), HttpStatus.OK);
     }
 }
