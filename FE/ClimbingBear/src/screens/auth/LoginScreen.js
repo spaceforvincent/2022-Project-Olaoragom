@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { postLogin } from '../../apis/Auth';
-
 import { useNavigation } from '@react-navigation/native';
+
 import { Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
-import AuthInput from '../../components/auth/AuthInput';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
+import AuthInput from '../../components/auth/AuthInput';
 
 const LoginScreen = ({navigation}) => {
 
@@ -16,9 +16,11 @@ const LoginScreen = ({navigation}) => {
   const onChangeLoginId = useCallback(text => {
     setId(text.trim())
   }, [])
+
   const onChangeLoginPassword = useCallback(text => {
     setPassword(text.trim())
   }, [])
+
 
   // 로그인
   const login = async ( id, password ) => {
@@ -31,9 +33,8 @@ const LoginScreen = ({navigation}) => {
     }
     else {
       const isAuthenticated = await postLogin(id, password)
-      // (임시) 사이드바 해결되면 네비게이터 수정하기!!
       if ( isAuthenticated === true ) {
-        return navigation.navigate('SignupScreen')
+        return navigation.navigate('MapHome')
       }
       else {
         return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
@@ -42,18 +43,21 @@ const LoginScreen = ({navigation}) => {
 
   }
 
+
   return (
+
     <View style={styles.container}>
+
       <Image source={require(`../../assets/images/LoginLogo.png`)} style={styles.image}/>
 
       <TextExtraBold style={styles.title}>올라오라곰</TextExtraBold>
-
         <AuthInput 
           title={'id'}
           value={id}
           placeholder={'아이디'}
           onChangeText={onChangeLoginId}
         />
+
         <AuthInput
           title={'password'}
           value={password}
@@ -66,30 +70,36 @@ const LoginScreen = ({navigation}) => {
         <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
       </Pressable>
 
-      <TextMediumMedium>아직 회원이 아니신가요?</TextMediumMedium>
+      <TextMedium>아직 회원이 아니신가요?</TextMedium>
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-        <TextMediumMedium style={styles.signupText}>회원가입하러가기</TextMediumMedium>
+        <TextMedium style={styles.signupText}>회원가입하러가기</TextMedium>
       </TouchableOpacity>
+
     </View>
+
   );
 };
 
+
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
+
   image: {
     width: 250,
     height: 250,
     margin: 10,
-    margin: 10,
   },
+
   title: {
     fontSize: 40,
     margin: 5,
   },
+
   loginButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,12 +110,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
+
   loginText: {
     color: 'white',
   },
+
   signupText: {
     textDecorationLine: 'underline',
-  },
-});
+  }
+
+})
 
 export default LoginScreen;
