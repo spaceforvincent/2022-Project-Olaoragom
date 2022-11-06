@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { postLogin } from '../../apis/Auth';
-import { useNavigation } from '@react-navigation/native';
 
 import { Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
@@ -13,18 +12,17 @@ const LoginScreen = ({navigation}) => {
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
 
+  // input onchange
   const onChangeLoginId = useCallback(text => {
     setId(text.trim())
   }, [])
-
   const onChangeLoginPassword = useCallback(text => {
     setPassword(text.trim())
   }, [])
 
 
   // 로그인
-  const login = async ( id, password ) => {
-
+  const login = async (id, password) => {
     if (!id || !id.trim()) {
       return Alert.alert('알림', '아이디를 입력해주세요.');
     }
@@ -34,15 +32,14 @@ const LoginScreen = ({navigation}) => {
     else {
       const isAuthenticated = await postLogin(id, password)
       if ( isAuthenticated === true ) {
+        console.log('로그인 성공!')
         return navigation.navigate('MapHome')
       }
       else {
         return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');
       }
     }
-
   }
-
 
   return (
 
@@ -79,7 +76,6 @@ const LoginScreen = ({navigation}) => {
 
   );
 };
-
 
 const styles = StyleSheet.create({
 
