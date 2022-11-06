@@ -1,13 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { postLogin } from '../../apis/Auth';
+import { postLogin, getToken } from '../../apis/Auth';
+
+import { useDispatch } from 'react-redux';
 
 import { Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
 import AuthInput from '../../components/auth/AuthInput';
+import { authActions } from '../../store/Auth';
 
 const LoginScreen = ({navigation}) => {
+
+  const dispatch = useDispatch()
 
   const [ id, setId ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -33,6 +38,11 @@ const LoginScreen = ({navigation}) => {
       const isAuthenticated = await postLogin(id, password)
       if ( isAuthenticated === true ) {
         console.log('로그인 성공!')
+        const accessToken = await getToken()
+        dispatch(authActions.authenticate({
+          accessToken,
+          isAuthenticated
+        }))
         return navigation.navigate('MapHome')
       }
       else {
