@@ -21,7 +21,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { GiftedChat } from 'react-native-gifted-chat'
  
-const Chat = () => {  
+const ChatRoom = () => {  
   const navigation = useNavigation();
   const route = useRoute();
   const [messages, setMessages] = useState([]);
@@ -94,8 +94,8 @@ const Chat = () => {
       let sentMessages = {
         _id: response.receiverNick,
         text: response.message,
-        // createdAt: new Date(response.createdAt),
-        createdAt: new Date(response.createdAt * 1000),
+        createdAt: new Date(response.createdAt),
+        // createdAt: new Date(response.createdAt * 1000),
         user: {          
           _id: response.senderNick,
           // avatar: image_path,
@@ -190,7 +190,7 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatRoom;
 
 const styles = StyleSheet.create({
   container: {
