@@ -22,6 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
         registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
         registry.addInterceptor(accessTokenInterceptor)
                 .addPathPatterns("/**")
