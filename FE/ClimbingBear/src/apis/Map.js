@@ -26,3 +26,24 @@ export const getMountainList = async() => {
     }
     
 }
+
+// mountain detail
+export const getMountainDetail = async() => {
+  
+  const accessToken = await EncryptedStorage.getItem('accessToken')
+
+  try {
+    const response = await axios({
+      method: 'get',
+      url: API_URL + '/detail',
+      headers: {
+        Authorization: accessToken
+      }
+    })
+    console.log('데이터', response.data.data)
+  }
+  catch (error) {
+    console.log(error)
+    console.log(error.response.data)
+  }
+}

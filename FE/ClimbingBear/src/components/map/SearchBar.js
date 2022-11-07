@@ -5,15 +5,20 @@ import SearchableDropdown from 'react-native-searchable-dropdown'
 
 import { getMountainList } from "../../apis/Map";
 
-const SearchBar = ({navigation}) => {
+import MountainSemiDetail from './MountainSemiDetail'
+
+const SearchBar = ({navigation}, props) => {
   const [ items, setItems ] = useState([])
   const [ mountainId, setMountainId ] = useState('')
   const [ mountainName, setMountainName ] = useState('')
 
   // 세미 정보 모달
   const [ modalVisible, setModalVisible ] = useState(false)
-  const modalOpen = () => {
+  const modalOpen = (item) => {
+    console.log(item)
     setModalVisible(true)
+    setMountainId(item.id);
+    setMountainName(item.name);
   }
 
   // 산 리스트
@@ -38,16 +43,12 @@ const SearchBar = ({navigation}) => {
       <Fragment>
         <SearchableDropdown
           onItemSelect={item => {
-            setMountainId(item.id)
-            setMountainName(item.name)
-            onPress={modalOpen}
+            modalOpen(item)
           }}
-
           containerStyle={{
             backgroundColor: 'white',
-            padding: 15
+            padding: 15,
           }}
-
           itemStyle={{
             padding: 10,
             marginTop: 2,
@@ -63,12 +64,10 @@ const SearchBar = ({navigation}) => {
             color: '#222',
             marginTop: 10,
           }}
-     
           itemsContainerStyle={{maxHeight: 500}}
           items={items}
           defaultIndex={0}
           resetValue={false}
-
           textInputProps={{
             placeholder: '산 이름을 입력해주세요.',
             underlineColorAndroid: 'transparent',
@@ -86,6 +85,12 @@ const SearchBar = ({navigation}) => {
           }}
         />
       </Fragment>
+      <MountainSemiDetail
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        mountainId={mountainId}
+        mountainName={mountainName}
+      />
     </View>
   );
 }
