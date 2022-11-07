@@ -8,6 +8,7 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import CalendarHome from '../screens/calendar/CalendarHome';
 import MapHome from '../screens/map/MapHome';
 import {AuthNavigation} from './AuthNavigation';
+import { CalendarNavigation } from './CalendarNavigation';
 
 const drawer = createDrawerNavigator();
 
@@ -17,7 +18,7 @@ function DrawerNavigator() {
       useLegacyImplementation
       initialRouteName="Login">
       <drawer.Screen name="Login" component={AuthNavigation} />
-      <drawer.Screen name="Calendar" component={CalendarHome} />
+      <drawer.Screen name="Calendar" component={CalendarNavigation} />
       <drawer.Screen name="MapHome" component={MapHome} />
     </drawer.Navigator>
   );
