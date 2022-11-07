@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface FeatureRepository extends JpaRepository<Feature, Long> {
     List<Feature> findByMntn(Mountain mntn);
+    Optional<Feature> findFeatureByMntn(Mountain mntn);
 }

@@ -48,4 +48,10 @@ public class Mountain {
 
     @Column(name = "mntn_lon")
     private Float mntnLon;
+
+    @Column(name = "mntn_img_url")
+    private String mntnImg;
+
+    @Column(name = "path_img_url")
+    private String mntnPathImg;
 }

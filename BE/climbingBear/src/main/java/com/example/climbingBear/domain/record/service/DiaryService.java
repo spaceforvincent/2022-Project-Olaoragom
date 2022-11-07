@@ -1,14 +1,14 @@
-package com.example.climbingBear.domain.diary.service;
+package com.example.climbingBear.domain.record.service;
 
-import com.example.climbingBear.domain.diary.dto.*;
-import com.example.climbingBear.domain.diary.entity.Diary;
-import com.example.climbingBear.domain.diary.exception.NoExistDiaryException;
+import com.example.climbingBear.domain.record.Exception.NoExistDiaryException;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
-import com.example.climbingBear.domain.diary.exception.NoPermissionDeleteDiaryException;
-import com.example.climbingBear.domain.diary.exception.NoPermissionUpdateDiaryException;
-import com.example.climbingBear.domain.diary.repository.DiaryRepository;
+import com.example.climbingBear.domain.record.Exception.NoPermissionDeleteDiaryException;
+import com.example.climbingBear.domain.record.Exception.NoPermissionUpdateDiaryException;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.mntn.repository.MntnRepository;
+import com.example.climbingBear.domain.record.dto.*;
+import com.example.climbingBear.domain.record.entity.Record;
+import com.example.climbingBear.domain.record.repository.RecordRepository;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class DiaryService {
-    private final DiaryRepository diaryRepository;
+    private final RecordRepository recordRepository;
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
@@ -32,7 +32,7 @@ public class DiaryService {
         System.out.println("userSeq :" + userSeq);
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
-        List<Diary> diaries = diaryRepository.findByUser(user);
+        List<Record> diaries = recordRepository.findByUser(user);
         return diaries.stream().map(DiaryListResDto::new).collect(Collectors.toList());
     }
     public DiaryPostResDto diarySave (DiaryPostReqDto dto, Long userSeq) throws Exception {
@@ -40,32 +40,32 @@ public class DiaryService {
                 new NoExistUserException());
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
                 new NoExistMntnException());
-        Diary diary = dto.toDiaryEntity(user, mntn);
-        diaryRepository.save(diary);
-        return DiaryPostResDto.of(diary.getDiarySeq());
+        Record record = dto.toDiaryEntity(user, mntn);
+        recordRepository.save(record);
+        return DiaryPostResDto.of(record.getRecordSeq());
     }
     public DiaryUpdateResDto diaryUpdate (DiaryUpdateReqDto dto, Long userSeq)throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
                 new NoExistMntnException());
-        Diary diary = diaryRepository.findByDiarySeq(dto.getDiarySeq()).orElseThrow(() ->
+        Record record = recordRepository.findByRecordSeq(dto.getRecordSeq()).orElseThrow(() ->
                 new NoExistDiaryException());
-        if (user.getUserSeq() == diary.getUser().getUserSeq()){
-            diary.update(mntn, dto.getYear(), dto.getMonth(), dto.getDay());
-            return DiaryUpdateResDto.of(diary.getDiarySeq());
+        if (user.getUserSeq() == record.getUser().getUserSeq()){
+            record.update(mntn, dto.getYear(), dto.getMonth(), dto.getDay());
+            return DiaryUpdateResDto.of(record.getRecordSeq());
         }else {
             throw new NoPermissionUpdateDiaryException();
         }
     }
 
-    public void diaryDelete(Long userSeq, Long diarySeq)throws Exception{
+    public void diaryDelete(Long userSeq, Long recordSeq)throws Exception{
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
-        Diary diary = diaryRepository.findByDiarySeq(diarySeq).orElseThrow(() ->
+        Record record = recordRepository.findByRecordSeq(recordSeq).orElseThrow(() ->
                 new NoExistDiaryException());
-        if (user.getUserSeq() == diary.getUser().getUserSeq()){
-            diaryRepository.delete(diary);
+        if (user.getUserSeq() == record.getUser().getUserSeq()){
+            recordRepository.delete(record);
         }else {
             throw new NoPermissionDeleteDiaryException();
         }
