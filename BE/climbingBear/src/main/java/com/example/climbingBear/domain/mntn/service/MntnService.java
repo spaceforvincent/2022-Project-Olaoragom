@@ -1,6 +1,5 @@
 package com.example.climbingBear.domain.mntn.service;
 
-import com.example.climbingBear.domain.mntn.exception.NoExistFeatureException;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.mntn.dto.*;
 import com.example.climbingBear.domain.mntn.entity.*;
@@ -34,16 +33,20 @@ public class MntnService {
 //        return mntnResDto;
 //    }
 
+    @Transactional
     public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.ASC, "mntnSeq"));
         return mountains.stream().map(MntnListResDto::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public MntnDetailResDto getMntnDetail(Long mntnSeq){
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());
         List place = findMntnPlace(mntn);
-        return MntnDetailResDto.ofMntnDetail(mntn, place);
+        Feature feature = featureRepository.findFeatureByMntn(mntn).orElseThrow(() ->
+                new NoExistMntnException());
+        return MntnDetailResDto.ofMntnDetail(mntn, place, feature);
     }
 
     public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){

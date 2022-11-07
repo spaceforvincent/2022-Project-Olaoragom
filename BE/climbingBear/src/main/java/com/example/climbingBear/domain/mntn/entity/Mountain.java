@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
+//@Table(name = "mountains")
 public class Mountain {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +42,16 @@ public class Mountain {
 
     @Column(name = "mntn_transport", length = 1000)
     private String mntnTransport;
+
+    @Column(name = "mntn_lat")
+    private Float mntnLat;
+
+    @Column(name = "mntn_lon")
+    private Float mntnLon;
+
+    @Column(name = "mntn_img_url")
+    private String mntnImg;
+
+    @Column(name = "path_img_url")
+    private String mntnPathImg;
 }
