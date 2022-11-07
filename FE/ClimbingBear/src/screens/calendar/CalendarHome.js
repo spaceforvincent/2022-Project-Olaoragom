@@ -25,6 +25,7 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -102,8 +103,16 @@ function CalendarHome({navigation: {navigate}}) {
     }
     return newArr;
   };
+
+  //날짜 표기 형식 변경
+  const changeDateFormat = date => {
+    let newDate = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    return newDate;
+  };
+
   //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
   const getSchedule = async (selected, obj) => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     let copyArray = [...bookedDate];
     if (modifyState) {
       try {
@@ -111,7 +120,7 @@ function CalendarHome({navigation: {navigate}}) {
           method: 'put',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
           headers: {
-            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+            Authorization: accessToken,
           },
           data: {
             day: Number(selected.slice(8, 10)),
@@ -132,7 +141,7 @@ function CalendarHome({navigation: {navigate}}) {
           method: 'post',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
           headers: {
-            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+            Authorization: accessToken,
           },
           data: {
             day: Number(selected.slice(8, 10)),
@@ -148,12 +157,13 @@ function CalendarHome({navigation: {navigate}}) {
   };
   //DB에서 일정 삭제
   const deleteSchedule = async date => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     try {
       const response = await axios({
         method: 'delete',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          Authorization: accessToken,
         },
         params: {
           diarySeq: bookedDate.find(record => record.date === date).diarySeq,
@@ -165,13 +175,15 @@ function CalendarHome({navigation: {navigate}}) {
   };
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
+    console.log('달력', accessToken);
     let tempArr = [];
     try {
       const response = await axios({
         method: 'get',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          Authorization: accessToken,
         },
       });
       response.data.data.map(record => {
@@ -216,7 +228,7 @@ function CalendarHome({navigation: {navigate}}) {
               //등산 기록 페이지로 이동
               onPress={() =>
                 navigate('CalendarRecord', {
-                  date: date.dateString,
+                  date: changeDateFormat(date.dateString),
                   name: havebeenDate.find(
                     record => record.date === date.dateString,
                   ).mountainName,
@@ -237,7 +249,7 @@ function CalendarHome({navigation: {navigate}}) {
               onPress={() => {
                 //일정 수정/삭제 모달 띄움
                 setIsModifyDeleteModalVisible(!isModifyDeleteModalVisible);
-                setSelectedDate(date.dateString);
+                setSelectedDate(changeDateFormat(date.dateString));
                 //모달에서 갈 예정인 산 보여줄 용도로 산 이름 보내줌
                 setSelectedMountain(
                   bookedDate.find(record => record.date === date.dateString)
@@ -281,7 +293,7 @@ function CalendarHome({navigation: {navigate}}) {
               onPress={() => {
                 //검색/등록 모달 띄움
                 setIsSearchRegisterModalVisible(!isSearchRegisterModalVisible);
-                setSelectedDate(date.dateString);
+                setSelectedDate(changeDateFormat(date.dateString));
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <BlankStamp />
@@ -370,7 +382,7 @@ function CalendarHome({navigation: {navigate}}) {
       )}
     </View>
   );
-};
+}
 
 export default CalendarHome;
 
