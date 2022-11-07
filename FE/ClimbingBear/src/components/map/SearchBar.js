@@ -12,7 +12,7 @@ const SearchBar = ({navigation}, props) => {
   const [ items, setItems ] = useState([])
   const [ mountainId, setMountainId ] = useState('')
   const [ mountainName, setMountainName ] = useState('')
-  const [ mountainData, setMountainData ] = useState([])
+  const [ semiMountainData, setSemiMountainData ] = useState([])
 
   const [ modalVisible, setModalVisible ] = useState(false)
 
@@ -27,7 +27,7 @@ const SearchBar = ({navigation}, props) => {
 
     const initialData = async(mountainId) => {
       const response = await getMountainDetail(item.id)
-      setMountainData(response)
+      setSemiMountainData(response)
     }
     initialData()
   }
@@ -101,8 +101,8 @@ const SearchBar = ({navigation}, props) => {
         setModalVisible={setModalVisible}
         mountainId={mountainId}
         mountainName={mountainName}
-        mountainRegion={mountainData.mntnRegion}
-        mountainImage={mountainData.mntnImg}
+        mountainRegion={semiMountainData.mntnRegion}
+        mountainImage={semiMountainData.mntnImg}
       />
     </View>
   );
