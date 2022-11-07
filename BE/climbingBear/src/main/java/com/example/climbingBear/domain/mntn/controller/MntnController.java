@@ -37,7 +37,7 @@ public class MntnController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "산 상세 정보", notes = "")
-    public ResponseEntity<?> getMntnList(HttpServletRequest request, @RequestParam("mntnSeq")Long mntnSeq)throws Exception {
+    public ResponseEntity<?> getMntnDetail(HttpServletRequest request, @RequestParam("mntnSeq")Long mntnSeq)throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.getMntnDetail(mntnSeq)), HttpStatus.OK);
     }
