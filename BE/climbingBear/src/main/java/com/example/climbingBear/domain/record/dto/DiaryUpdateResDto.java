@@ -5,10 +5,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RecordPostResDto {
+public class DiaryUpdateResDto {
     private Long recordSeq;
-    public static RecordPostResDto of(Long recordSeq){
-        return RecordPostResDto.builder()
+
+    public static DiaryUpdateResDto of(Long recordSeq){
+        return DiaryUpdateResDto.builder()
                 .recordSeq(recordSeq)
                 .build();
     }

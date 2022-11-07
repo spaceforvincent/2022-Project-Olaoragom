@@ -1,4 +1,4 @@
-package com.example.climbingBear.domain.diary.dto;
+package com.example.climbingBear.domain.record.dto;
 
 import lombok.Data;
 
@@ -8,5 +8,5 @@ public class DiaryUpdateReqDto {
     private Integer month;
     private Integer day;
     private Long mntnSeq;
-    private Long diarySeq;
+    private Long recordSeq;
 }
