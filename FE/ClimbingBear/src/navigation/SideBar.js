@@ -7,6 +7,7 @@ import {
 import LoginScreen from '../screens/auth/LoginScreen';
 import CalendarHome from '../screens/calendar/CalendarHome';
 import MapHome from '../screens/map/MapHome';
+import MountainSemiDetail from '../screens/map/MountainSemiDetail';
 import {AuthNavigation} from './AuthNavigation';
 
 function CustomDrawerContent(props) {
@@ -36,6 +37,7 @@ function DrawerNavigator() {
       <drawer.Screen name="Login" component={AuthNavigation} />
       <drawer.Screen name="Calendar" component={CalendarHome} />
       <drawer.Screen name="MapHome" component={MapHome} />
+      <drawer.Screen name="MountainSemiDetail" component={MountainSemiDetail}/>
     </drawer.Navigator>
   );
 }
