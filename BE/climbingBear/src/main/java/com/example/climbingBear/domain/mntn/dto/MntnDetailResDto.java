@@ -32,8 +32,14 @@ public class MntnDetailResDto {
     private String mntnTransport;
 
     private List place;
+
     private String level;
-    public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place, Feature feature){
+
+    private String mntnImg;
+
+    private String mntnPathImg;
+
+    public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place, String level){
         return MntnDetailResDto.builder()
                 .mntnNm(mntn.getMntnNm())
                 .mntnSubnm(mntn.getMntnSubnm())
@@ -43,8 +49,10 @@ public class MntnDetailResDto {
                 .mntnDetails(mntn.getMntnDetails())
                 .mntnEtccourse(mntn.getMntnEtccourse())
                 .mntnTransport(mntn.getMntnTransport())
+                .mntnImg(mntn.getMntnImg())
+                .mntnPathImg(mntn.getMntnPathImg())
                 .place(place)
-                .level(feature.getPmtnDffl())
+                .level(level)
                 .build();
     }
 }
