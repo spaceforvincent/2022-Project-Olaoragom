@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import SearchBar from '../../components/map/SearchBar';
-import MountainSemiDetail from '../../components/map/MountainSemiDetail';
+import MountainSemiDetail from './MountainSemiDetail';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -58,8 +58,8 @@ const MapHome = () => {
           }}
 
           style={styles.map}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
+          // showsUserLocation={true}
+          // showsMyLocationButton={true}
           provider={PROVIDER_GOOGLE}
           zoomEnabled={true}
 
