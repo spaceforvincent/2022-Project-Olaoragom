@@ -1,6 +1,5 @@
 package com.example.climbingBear.domain.record.dto;
 
-import com.example.climbingBear.domain.diary.entity.Diary;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.record.entity.Record;
 import com.example.climbingBear.domain.user.entity.User;
@@ -10,10 +9,10 @@ import lombok.Data;
 @Data
 
 public class RecordPostReqDto {
+    private Long mntnSeq;
     private Integer year;
     private Integer month;
     private Integer day;
-    private Long mntnSeq;
     private Float distance;
     private String time;
 
@@ -26,6 +25,7 @@ public class RecordPostReqDto {
                 .user(user)
                 .distance(this.distance)
                 .time(this.time)
+                .isComplete(true)
                 .build();
     }
 }

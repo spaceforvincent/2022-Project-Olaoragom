@@ -1,24 +1,18 @@
-package com.example.climbingBear.domain.diary.contoller;
+package com.example.climbingBear.domain.record.controller;
 
-import com.example.climbingBear.domain.diary.dto.DiaryPostReqDto;
-import com.example.climbingBear.domain.diary.dto.DiaryPostResDto;
-import com.example.climbingBear.domain.diary.dto.DiaryUpdateReqDto;
-import com.example.climbingBear.domain.diary.service.DiaryService;
-import com.example.climbingBear.domain.user.dto.SignupReqDto;
-import com.example.climbingBear.domain.user.service.UserService;
+import com.example.climbingBear.domain.record.dto.DiaryPostReqDto;
+import com.example.climbingBear.domain.record.dto.DiaryUpdateReqDto;
+import com.example.climbingBear.domain.record.service.DiaryService;
 import com.example.climbingBear.global.common.CommonResponse;
-import com.example.climbingBear.global.jwt.AccessTokenInterceptor;
 import com.example.climbingBear.global.jwt.JwtProvider;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/diary")
@@ -37,7 +31,7 @@ public class DiaryController {
     }
 
     @GetMapping
-    @ApiOperation(value = "등산 계획 조회", notes = "header에 token 입력")
+    @ApiOperation(value = "등산 계획, 기록 조회", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getDiary(HttpServletRequest request) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(diaryService.myDiarylist(userSeq)), HttpStatus.OK);

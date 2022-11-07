@@ -12,4 +12,6 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     List<Record> findByUser (User user);
     Optional<Record> findByRecordSeq(Long recordSeq);
+
+    Optional<Record> findByUserAndYearAndMonthAndDay(User user, Integer year, Integer month, Integer day);
 }
