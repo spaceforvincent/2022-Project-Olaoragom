@@ -41,7 +41,7 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 // 달력 코드
-const CalendarHome = ({navigation: {navigate}}) => {
+function CalendarHome({navigation: {navigate}}) {
   //예약된 날짜
   const [bookedDate, setBookedDate] = useState([]);
   //실제 갔다온 날짜
