@@ -1,4 +1,4 @@
-package com.example.climbingBear.domain.diary.exception;
+package com.example.climbingBear.domain.record.Exception;
 
 public class NoPermissionDeleteDiaryException extends RuntimeException{
     public NoPermissionDeleteDiaryException(){
