@@ -1,12 +1,22 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder } from 'react-native';
-import { getMountainDetail } from '../../apis/Map';
-import propTypes from 'prop-types';
+import React, { useEffect, useState, useRef } from 'react'
 
-const MountainSemiDetail = props => {
-  const {modalVisible, setModalVisible} = props;
+import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, Image, TouchableOpacity } from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+import { getMountainDetail } from '../../apis/Map';
+
+import { useNavigation } from '@react-navigation/native';
+
+const MountainSemiDetail = (props) => {
+
+  const navigation = useNavigation()
+
+  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion, mountainImage } = props
+
   const screenHeight = Dimensions.get('screen').height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
+
+  const [ mountainData, setMountainData ] = useState([])
+
   const translateY = panY.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [0, 0, 1],
@@ -41,15 +51,6 @@ const MountainSemiDetail = props => {
     }),
   ).current;
 
-  // 산 리스트
-  useLayoutEffect(() => {
-    const initialData = async () => {
-      const response = await getMountain();
-    console.log('산상세', response)
-    }
-    initialData()
-  }, [])
-
   useEffect(() => {
     if (props.modalVisible) {
       resetBottomSheet.start();
@@ -61,6 +62,7 @@ const MountainSemiDetail = props => {
       setModalVisible(false);
     });
   };
+
 
   return (
     <Modal
@@ -78,18 +80,18 @@ const MountainSemiDetail = props => {
             transform: [{translateY: translateY}],
           }}
           {...panResponders.panHandlers}>
-          <Text>This is BottomSheet</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('MountainDetail', {mountainId: mountainId})}>
+            <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
+          </TouchableOpacity>
+          
+          {/* <Image src={mountainImage}></Image> */}
+
+          <TextBold>{mountainRegion}</TextBold>
+
         </Animated.View>
       </View>
     </Modal>
   );
-};
-
-MountainSemiDetail.propTypes = {
-  modalVisible: propTypes.boolean,
-  setModalVisible: propTypes.boolean,
-  mountainId: propTypes.int,
-  mountainName: propTypes.string,
 };
 
 const styles = StyleSheet.create({
@@ -109,6 +111,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
+
+  title: {
+    fontSize: 50,
+  }
 });
 
 export default MountainSemiDetail;

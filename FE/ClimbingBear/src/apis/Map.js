@@ -28,7 +28,7 @@ export const getMountainList = async() => {
 }
 
 // mountain detail
-export const getMountainDetail = async() => {
+export const getMountainDetail = async(mountainId) => {
   
   const accessToken = await EncryptedStorage.getItem('accessToken')
 
@@ -38,10 +38,14 @@ export const getMountainDetail = async() => {
       url: API_URL + '/detail',
       headers: {
         Authorization: accessToken
-      }
+      },
+      params: {
+        mntnSeq: mountainId
+      },
     })
-    console.log('데이터', response.data.data)
+    return response.data.data
   }
+
   catch (error) {
     console.log(error)
     console.log(error.response.data)

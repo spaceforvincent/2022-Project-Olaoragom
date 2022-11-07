@@ -10,6 +10,7 @@ import ChatRoom from '../screens/chat/ChatRoom';
 import MapHome from '../screens/map/MapHome';
 import {AuthNavigation} from './AuthNavigation';
 import { CalendarNavigation } from './CalendarNavigation';
+import { MapNavigation } from './MapNavigation';
 
 const drawer = createDrawerNavigator();
 
@@ -20,7 +21,7 @@ function DrawerNavigator() {
       initialRouteName="Login">
       <drawer.Screen name="Login" component={AuthNavigation} />
       <drawer.Screen name="Calendar" component={CalendarNavigation} />
-      <drawer.Screen name="MapHome" component={MapHome} />
+      <drawer.Screen name="Map" component={MapNavigation} />
       <drawer.Screen name="ChatRoom" component={ChatRoom} />
     </drawer.Navigator>
   );

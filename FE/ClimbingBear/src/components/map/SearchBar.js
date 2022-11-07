@@ -1,31 +1,41 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useState } from "react"
+
 import { View, StyleSheet } from "react-native"
 
 import SearchableDropdown from 'react-native-searchable-dropdown'
 
-import { getMountainList } from "../../apis/Map";
-
 import MountainSemiDetail from './MountainSemiDetail'
+import { getMountainDetail, getMountainList } from "../../apis/Map"
 
 const SearchBar = ({navigation}, props) => {
+
   const [ items, setItems ] = useState([])
   const [ mountainId, setMountainId ] = useState('')
   const [ mountainName, setMountainName ] = useState('')
+  const [ mountainData, setMountainData ] = useState([])
 
-  // 세미 정보 모달
   const [ modalVisible, setModalVisible ] = useState(false)
-  const modalOpen = (item) => {
+
+  // bottomsheet & 세미 데이터 통신
+  const semiDetail = (item) => {
+
     console.log(item)
     setModalVisible(true)
+
     setMountainId(item.id);
     setMountainName(item.name);
+
+    const initialData = async(mountainId) => {
+      const response = await getMountainDetail(item.id)
+      setMountainData(response)
+    }
+    initialData()
   }
 
   // 산 리스트
   useLayoutEffect(() => {
     const initialData = async () => {
       const response = await getMountainList();
-
       let templist = []
       response.map((mn, index) => {
         templist.push({
@@ -43,7 +53,7 @@ const SearchBar = ({navigation}, props) => {
       <Fragment>
         <SearchableDropdown
           onItemSelect={item => {
-            modalOpen(item)
+            semiDetail(item)
           }}
           containerStyle={{
             backgroundColor: 'white',
@@ -85,11 +95,14 @@ const SearchBar = ({navigation}, props) => {
           }}
         />
       </Fragment>
+
       <MountainSemiDetail
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         mountainId={mountainId}
         mountainName={mountainName}
+        mountainRegion={mountainData.mntnRegion}
+        mountainImage={mountainData.mntnImg}
       />
     </View>
   );

@@ -4,7 +4,6 @@ import propTypes from 'prop-types';
 import { Text, TextInput, StyleSheet, View } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
-
 const AuthInput = ({value, title, placeholder, secureTextEntry, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
 
