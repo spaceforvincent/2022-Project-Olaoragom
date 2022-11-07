@@ -34,11 +34,13 @@ public class MntnService {
 //        return mntnResDto;
 //    }
 
+    @Transactional
     public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.ASC, "mntnSeq"));
         return mountains.stream().map(MntnListResDto::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public MntnDetailResDto getMntnDetail(Long mntnSeq){
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());

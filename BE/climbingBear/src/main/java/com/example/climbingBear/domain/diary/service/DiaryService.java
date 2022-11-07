@@ -27,6 +27,7 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
+    @Transactional
     public List<DiaryListResDto> myDiarylist (Long userSeq){
         System.out.println("userSeq :" + userSeq);
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->

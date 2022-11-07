@@ -16,12 +16,14 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     private final AccessTokenInterceptor accessTokenInterceptor;
     private final RefreshTokenInterceptor refreshTokenInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
         registry.addInterceptor(refreshTokenInterceptor).addPathPatterns("/user/access-token");
         registry.addInterceptor(accessTokenInterceptor)
                 .addPathPatterns("/**")
