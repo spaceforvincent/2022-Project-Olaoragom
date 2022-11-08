@@ -17,7 +17,7 @@ public class Path {
     @ManyToOne
     private Mountain mntn;
 
-    private Float lat;
+    private double lat;
 
-    private Float lon;
+    private double lon;
 }
