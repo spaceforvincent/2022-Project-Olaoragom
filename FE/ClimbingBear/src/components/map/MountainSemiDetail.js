@@ -104,9 +104,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
+
   background: {
     flex: 1,
   },
+
   bottomSheetContainer: {
     height: 300,
     justifyContent: 'center',
@@ -118,6 +120,11 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 50,
+  },
+
+  image: {
+    width: 500,
+    height: 300,
   }
 });
 

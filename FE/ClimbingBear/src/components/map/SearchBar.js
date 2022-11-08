@@ -43,6 +43,7 @@ import { View, StyleSheet } from "react-native"
 
   // 산 리스트
   useLayoutEffect(() => {
+
     const initialData = async () => {
       const response = await getMountainList();
       let templist = []
