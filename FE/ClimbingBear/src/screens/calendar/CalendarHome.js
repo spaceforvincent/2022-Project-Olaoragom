@@ -46,11 +46,7 @@ function CalendarHome({navigation: {navigate}}) {
   //예약된 날짜
   const [bookedDate, setBookedDate] = useState([]);
   //실제 갔다온 날짜
-  const [havebeenDate, setHaveBeenDate] = useState([
-    {mountainName: '장도산', date: '2022-10-07'},
-    {mountainName: '바보산', date: '2022-10-08'},
-    {mountainName: '똥개산', date: '2022-10-09'},
-  ]);
+  const [havebeenDate, setHaveBeenDate] = useState([]);
   //토스트 메시지 내용 리스트
   const toastMsgList = {
     Delete: '삭제가 완료되었습니다.',
@@ -137,6 +133,7 @@ function CalendarHome({navigation: {navigate}}) {
       }
     } else {
       try {
+        console.log(selected);
         const response = await axios({
           method: 'post',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
@@ -144,9 +141,9 @@ function CalendarHome({navigation: {navigate}}) {
             Authorization: accessToken,
           },
           data: {
-            day: Number(selected.slice(8, 10)),
+            day: Number(selected.slice(10, 12)),
             mntnSeq: Number(obj.mntnSeq),
-            month: Number(selected.slice(5, 7)),
+            month: Number(selected.slice(6, 8)),
             year: Number(selected.slice(0, 4)),
           },
         });
@@ -177,7 +174,8 @@ function CalendarHome({navigation: {navigate}}) {
   const loadSchedule = async () => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
     console.log('달력', accessToken);
-    let tempArr = [];
+    let bookedArr = [];
+    let havebeenArr = [];
     try {
       const response = await axios({
         method: 'get',
@@ -187,18 +185,38 @@ function CalendarHome({navigation: {navigate}}) {
         },
       });
       response.data.data.map(record => {
-        tempArr.push({
-          mountainName: record.mntnNm,
-          date:
-            record.year +
-            '-' +
-            ('00' + record.month).slice(-2) +
-            '-' +
-            ('00' + record.day).slice(-2),
-          diarySeq: record.diarySeq,
-        });
+        if (record.complete) {
+          havebeenArr.push({
+            mountainName: record.mntnNm,
+            date:
+              record.year +
+              '-' +
+              ('00' + record.month).slice(-2) +
+              '-' +
+              ('00' + record.day).slice(-2),
+            diarySeq: record.diarySeq,
+            time: record.time,
+            distance: record.distance,
+            complete: record.complete,
+          });
+        } else {
+          bookedArr.push({
+            mountainName: record.mntnNm,
+            date:
+              record.year +
+              '-' +
+              ('00' + record.month).slice(-2) +
+              '-' +
+              ('00' + record.day).slice(-2),
+            diarySeq: record.diarySeq,
+            time: record.time,
+            distance: record.distance,
+            complete: record.complete,
+          });
+        }
       });
-      setBookedDate(tempArr);
+      setBookedDate(bookedArr);
+      setHaveBeenDate(havebeenArr);
     } catch (error) {
       console.log(error);
       console.log(error.response.data);
@@ -232,6 +250,12 @@ function CalendarHome({navigation: {navigate}}) {
                   name: havebeenDate.find(
                     record => record.date === date.dateString,
                   ).mountainName,
+                  time: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).time,
+                  distance: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).distance,
                 })
               }>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
