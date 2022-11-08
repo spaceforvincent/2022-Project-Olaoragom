@@ -1,6 +1,7 @@
 package com.example.climbingBear.domain.record.service;
 
 import com.example.climbingBear.domain.record.dto.DiaryListResDto;
+import com.example.climbingBear.domain.record.dto.RankByAllResDto;
 import com.example.climbingBear.domain.record.dto.RankByMonthReqDto;
 import com.example.climbingBear.domain.record.dto.RankByMonthResDto;
 import com.example.climbingBear.domain.record.entity.Record;
@@ -23,7 +24,7 @@ public class ChallengeService {
     private final UserRepository userRepository;
 
     // 월별 거리 순위
-    public List rankByMonth (Integer year, Integer month) throws Exception {
+    public List<RankByMonthResDto> rankByMonth (Integer year, Integer month) throws Exception {
         List<User> users = userRepository.findAll();
 //        System.out.println("users : "+users);
         Map<Long, Double> dic = new HashMap<>();
@@ -53,10 +54,10 @@ public class ChallengeService {
         List<Map.Entry<Long, Double>> entryList = new LinkedList<>(dic.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 //        System.out.println("List : "+entryList);
-        return entryList;
+        return entryList.stream().map(RankByMonthResDto::new).collect(Collectors.toList());
     }
     // 누적 거리 순위
-    public List rankAll () throws Exception {
+    public List<RankByAllResDto> rankAll () throws Exception {
         List<User> users = userRepository.findAll();
         Map<Long, Double> dic = new HashMap<>();
 
@@ -75,6 +76,6 @@ public class ChallengeService {
 
         List<Map.Entry<Long, Double>> entryList = new LinkedList<>(dic.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        return entryList;
+        return entryList.stream().map(RankByAllResDto::new).collect(Collectors.toList());
     }
 }
