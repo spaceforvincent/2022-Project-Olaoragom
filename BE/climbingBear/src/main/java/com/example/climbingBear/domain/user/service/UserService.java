@@ -81,4 +81,10 @@ public class UserService {
         return users.stream().map(UserListResDto::new).collect(Collectors.toList());
     }
 
+    public String findNicknameBySeq(Long userSeq){
+        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+                new NoExistUserException());
+        return user.getNickname();
+    }
+
 }
