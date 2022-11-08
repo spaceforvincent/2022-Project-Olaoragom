@@ -14,4 +14,5 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
     Optional<Record> findByRecordSeq(Long recordSeq);
 
     Optional<Record> findByUserAndYearAndMonthAndDay(User user, Integer year, Integer month, Integer day);
+    boolean existsByUserAndYearAndMonthAndDay(User user, Integer year, Integer month, Integer day);
 }

@@ -44,10 +44,10 @@ public class Mountain {
     private String mntnTransport;
 
     @Column(name = "mntn_lat")
-    private Float mntnLat;
+    private double mntnLat;
 
     @Column(name = "mntn_lon")
-    private Float mntnLon;
+    private double mntnLon;
 
     @Column(name = "mntn_img_url")
     private String mntnImg;

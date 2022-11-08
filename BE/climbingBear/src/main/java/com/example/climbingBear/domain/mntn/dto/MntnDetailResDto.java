@@ -39,8 +39,8 @@ public class MntnDetailResDto {
 
     private String mntnPathImg;
 
-    private Float mntnLat;
-    private Float mntnLon;
+    private double mntnLat;
+    private double mntnLon;
 
     public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place, String level){
         return MntnDetailResDto.builder()
