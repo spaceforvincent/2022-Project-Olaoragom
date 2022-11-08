@@ -57,8 +57,8 @@ const MapHome = () => {
           }}
 
           style={styles.map}
-          // showsUserLocation={true}
-          // showsMyLocationButton={true}
+          // // showsUserLocation={true}
+          // // showsMyLocationButton={true}
           provider={PROVIDER_GOOGLE}
           zoomEnabled={true}
 

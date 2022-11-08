@@ -36,6 +36,10 @@ const SearchBar = ({navigation}, props) => {
     }
     initialData(id)
   }
+    initialData(id)
+=======
+import { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { View, StyleSheet } from "react-native"
 
   // 산 리스트
   useLayoutEffect(() => {
