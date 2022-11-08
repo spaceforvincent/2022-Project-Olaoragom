@@ -23,11 +23,17 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
 
-    public SignupResDto signup (SignupReqDto dto){
-        if (userRepository.existsById(dto.getId())){
+    public SignupResDto signup (SignupReqDto dto) throws Exception {
+
+        isExistResDto checkedId;
+        checkedId = checkId(dto.getId());
+        isExistResDto checkedNickname;
+        checkedNickname = checkNickname(dto.getNickname());
+
+        if (checkedId.getIsExist()){
             throw new ExistSameIdException();
         }
-        if (userRepository.existsByNickname(dto.getNickname())){
+        if (checkedNickname.getIsExist()){
             throw new ExistSameNickException();
         }
 

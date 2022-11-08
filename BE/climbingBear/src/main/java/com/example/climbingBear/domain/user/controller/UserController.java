@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입", notes = "id, pw, nickname 입력")
-    public ResponseEntity<CommonResponse> signUpUser(@RequestBody SignupReqDto dto) throws IOException {
+    public ResponseEntity<CommonResponse> signUpUser(@RequestBody SignupReqDto dto) throws Exception {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(userService.signup(dto)), HttpStatus.OK);
     }
 

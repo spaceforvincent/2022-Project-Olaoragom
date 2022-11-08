@@ -7,8 +7,8 @@ import lombok.Data;
 public class MntnListResDto {
     private Long mntnSeq;
     private String mntnNm;
-    private Float mntnLat;
-    private Float mntnLon;
+    private double mntnLat;
+    private double mntnLon;
 
 
     public MntnListResDto(Mountain mntn){
