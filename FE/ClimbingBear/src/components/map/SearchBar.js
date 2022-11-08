@@ -34,6 +34,7 @@ const SearchBar = ({navigation}, props) => {
 
   // 산 리스트
   useLayoutEffect(() => {
+
     const initialData = async () => {
       const response = await getMountainList();
       let templist = []

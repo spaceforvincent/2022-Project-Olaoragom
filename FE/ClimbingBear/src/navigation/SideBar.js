@@ -19,10 +19,10 @@ function DrawerNavigator() {
     <drawer.Navigator
       useLegacyImplementation
       initialRouteName="Login">
-      <drawer.Screen name="Login" component={AuthNavigation} />
-      <drawer.Screen name="Calendar" component={CalendarNavigation} />
-      <drawer.Screen name="Map" component={MapNavigation} />
-      <drawer.Screen name="ChatRoom" component={ChatRoom} />
+      <drawer.Screen name="Login" component={AuthNavigation} options={{unmountOnBlur: true}}/>
+      <drawer.Screen name="Calendar" component={CalendarNavigation} options={{unmountOnBlur: true}}/>
+      <drawer.Screen name="Map" component={MapNavigation} options={{unmountOnBlur: true}}/>
+      <drawer.Screen name="ChatRoom" component={ChatRoom} options={{unmountOnBlur: true}}/>
     </drawer.Navigator>
   );
 }
