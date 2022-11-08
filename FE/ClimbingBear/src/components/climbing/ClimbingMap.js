@@ -30,6 +30,8 @@ import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
 // (임시) polyline 그려보기
 import {line} from '../../assets/temp/temppolyline';
 
+import {getPath} from '../../apis/Climb';
+
 // (임시) 맵타입 바꾸기
 // (논의) Dimensions 창 크기 전역 관리
 const windowWidth = Dimensions.get('window').width;
@@ -84,6 +86,36 @@ const ClimbingMap = ({latitude, longitude}) => {
   }
 
   // (임시) 켜자마자 등산로와 spot 렌더링
+  // useEffect(async () => {
+  //   const pathData = await getPath(10);
+  //   function pathfeature() {
+  //     pathData.forEach(item => {
+  //       const feature = {
+  //         type: 'FeatureCollection',
+  //         features: [
+  //           {
+  //             type: 'Feature',
+  //             geometry: {
+  //               type: 'MultiLineString',
+  //               coordinates: item.paths,
+  //             },
+  //             properties: {
+  //               length: item.pmntnLt,
+  //               level: item.pmtnDffl,
+  //               upmin: item.pmntnUppl,
+  //               downmin: item.pmntnGodn,
+  //               color: 'rgba(79, 141, 86, 0.5)',
+  //             },
+  //           },
+  //         ],
+  //       };
+  //       path.push(feature);
+  //     });
+  //     setFeatures(path);
+  //   }
+  //   pathfeature();
+  // }, []);
+
   useEffect(() => {
     pathfeature();
   }, []);
