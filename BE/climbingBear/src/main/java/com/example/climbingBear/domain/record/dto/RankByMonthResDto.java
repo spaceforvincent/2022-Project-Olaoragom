@@ -38,5 +38,5 @@ public class RankByMonthResDto {
 //        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
 //                new NoExistUserException());
 //        return user.getNickname();
-    }
+//    }
 }
