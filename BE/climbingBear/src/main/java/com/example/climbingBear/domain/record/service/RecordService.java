@@ -35,10 +35,12 @@ public class RecordService {
     public RecordPostResDto recordSave(RecordPostReqDto dto, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
-        Record oldRecord = recordRepository.findByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay()).orElseThrow(() ->
-                new NoRecordException());
-        if (oldRecord.isComplete() == false) {
-            recordRepository.delete(oldRecord);
+        if (recordRepository.existsByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay())){
+            Record oldRecord = recordRepository.findByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay()).orElseThrow(() ->
+                    new NoRecordException());
+            if (oldRecord.isComplete() == false) {
+                recordRepository.delete(oldRecord);
+            }
         }
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
                 new NoExistMntnException());
