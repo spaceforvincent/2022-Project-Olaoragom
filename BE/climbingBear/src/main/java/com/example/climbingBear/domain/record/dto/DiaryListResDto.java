@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Data
 @Getter
 @Builder
@@ -33,5 +35,7 @@ public class DiaryListResDto {
         this.time = record.getTime();
         this.distance = record.getDistance();
     }
+
+
 
 }
