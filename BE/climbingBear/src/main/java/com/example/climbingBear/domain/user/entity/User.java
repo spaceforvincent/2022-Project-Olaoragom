@@ -36,4 +36,5 @@ public class User {
         this.pw = pw;
         this.nickname = nickname;
     }
+
 }
