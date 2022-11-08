@@ -1,6 +1,5 @@
 package com.example.climbingBear.domain.mntn.service;
 
-import com.example.climbingBear.domain.mntn.exception.NoExistFeatureException;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.mntn.dto.*;
 import com.example.climbingBear.domain.mntn.entity.*;

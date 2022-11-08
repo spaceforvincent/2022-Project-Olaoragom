@@ -23,8 +23,8 @@ public class Spot {
     private String spotNum;
 
     @Column(name = "lat")
-    private Float lat;
+    private double lat;
 
     @Column(name = "lon")
-    private Float lon;
+    private double lon;
 }

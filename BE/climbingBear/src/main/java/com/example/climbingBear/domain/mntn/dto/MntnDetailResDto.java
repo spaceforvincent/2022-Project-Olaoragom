@@ -39,6 +39,9 @@ public class MntnDetailResDto {
 
     private String mntnPathImg;
 
+    private double mntnLat;
+    private double mntnLon;
+
     public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place, String level){
         return MntnDetailResDto.builder()
                 .mntnNm(mntn.getMntnNm())
@@ -51,6 +54,8 @@ public class MntnDetailResDto {
                 .mntnTransport(mntn.getMntnTransport())
                 .mntnImg(mntn.getMntnImg())
                 .mntnPathImg(mntn.getMntnPathImg())
+                .mntnLon(mntn.getMntnLon())
+                .mntnLat(mntn.getMntnLat())
                 .place(place)
                 .level(level)
                 .build();
