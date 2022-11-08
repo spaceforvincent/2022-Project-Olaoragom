@@ -22,14 +22,19 @@ const SearchBar = ({navigation}, props) => {
     console.log(item)
     setModalVisible(true)
 
+    
+
     setMountainId(item.id);
     setMountainName(item.name);
 
-    const initialData = async(mountainId) => {
-      const response = await getMountainDetail(item.id)
+    const id = item.id
+
+    const initialData = async() => {
+      const response = await getMountainDetail(id)
+      console.log('결과', response)
       setSemiMountainData(response)
     }
-    initialData()
+    initialData(id)
   }
 
   // 산 리스트
