@@ -25,43 +25,42 @@ const PlaceTypeButton = () => {
   const revealFromTop = useRef(new Animated.Value(0)).current;
   const revealOpacity = useRef(new Animated.Value(0)).current;
 
-  const helgiOpacity = useRef(new Animated.Value(0.65)).current;
-  const aidkitOpacity = useRef(new Animated.Value(0.65)).current;
-  const toiletOpacity = useRef(new Animated.Value(0.65)).current;
-  const dangerOpacity = useRef(new Animated.Value(0.65)).current;
-  const summitOpacity = useRef(new Animated.Value(0.65)).current;
+  // const helgiOpacity = useRef(new Animated.Value(0.65)).current;
+  // const aidkitOpacity = useRef(new Animated.Value(0.65)).current;
+  // const toiletOpacity = useRef(new Animated.Value(0.65)).current;
+  // const dangerOpacity = useRef(new Animated.Value(0.65)).current;
+  // const summitOpacity = useRef(new Animated.Value(0.65)).current;
 
-  // 버튼 색깔 정하는 ref (초기값 회색 / 비활성화)
-  const [buttonColor, setButtonColor] = useState('rgba(162, 166, 160, 0.65)');
+  // // 버튼 색깔 정하는 ref (초기값 회색 / 비활성화)
+  // const [buttonColor, setButtonColor] = useState('rgba(162, 166, 160, 0.65)');
+  // 기본 색 : #A2A6A0
 
   // 장소 버튼 종류
   const PlaceButton = {
     HELGI: {
       type: '5',
-      opacity: helgiOpacity,
+      // opacity: helgiOpacity,
       // backgroundColor: '#2B890A',
-      // RGBA 로 표현
-      backgroundColor: 'rgba(43, 137, 10, 1)',
     },
     AIDKIT: {
       type: '4',
-      opacity: aidkitOpacity,
-      backgroundColor: '#A32543',
+      // opacity: aidkitOpacity,
+      // backgroundColor: '#A32543',
     },
     TOILET: {
       type: '2',
-      opacity: toiletOpacity,
-      backgroundColor: '#5C8BC1',
+      // opacity: toiletOpacity,
+      // backgroundColor: '#5C8BC1',
     },
     DANGER: {
       type: '1',
-      opacity: dangerOpacity,
-      backgroundColor: '#D61515',
+      // opacity: dangerOpacity,
+      // backgroundColor: '#D61515',
     },
     SUMMIT: {
       type: '3',
-      opacity: summitOpacity,
-      backgroundColor: '#BBB51E',
+      // opacity: summitOpacity,
+      // backgroundColor: '#BBB51E',
     },
   };
 
@@ -84,48 +83,42 @@ const PlaceTypeButton = () => {
   };
 
   // 거점 버튼이 눌렸는지 여부(눌렸을 때 true) 상태 (렌더링이 필요 없을것이므로 ref)
-  const click = useRef(false);
+  // const click = useRef(false);
   // (임시) 배경색 바꿔보기
-  const [backColor] = useState(new Animated.Value(0));
+  // const [backColor] = useState(new Animated.Value(0));
 
   // (수정) 버튼 눌렸을 시 띄우는 게 다른 함수
   function clickPlaceButton(payload) {
-    // 버튼이 눌리지 않은 상태인데 눌렸을 때 투명도 조절
-    console.log('들어와?');
+    //   // 버튼이 눌리지 않은 상태인데 눌렸을 때 투명도 조절
     if (!click.current) {
       click.current = true;
-      // setButtonColor(payload.backgroundColor);
-      // (수정) interpolation 애니메이션 주기
-      Animated.timing(backColor, {
-        toValue: 1,
-        // duration: 500,
-        useNativeDriver: true,
-      }).start();
-      console.log('뒷배경 색 코드 red', backColor);
-
-      // Animated.timing(payload.opacity, {
-      //   toValue: 1,
-      //   useNativeDriver: true,
-      //   duration: 500,
-      // }).start();
+      //     Animated.timing(backColor, {
+      //       toValue: 1,
+      //       // duration: 500,
+      //       useNativeDriver: true,
+      //     }).start();
+      //     // Animated.timing(payload.opacity, {
+      //     //   toValue: 1,
+      //     //   useNativeDriver: true,
+      //     //   duration: 500,
+      //     // }).start();
     }
-    // 버튼이 눌린 상태에서 취소할 때 투명도 조절
+    //   // 버튼이 눌린 상태에서 취소할 때 투명도 조절
     else {
       click.current = false;
-      // (수정) interpolation 애니메이션 주기
-      Animated.timing(backColor, {
-        toValue: 0,
-        // duration: 500,
-        useNativeDriver: true,
-      }).start();
-      console.log('뒷배경 색 코드 black', backColor);
-
-      // Animated.timing(payload.opacity, {
-      //   toValue: 0.65,
-      //   useNativeDriver: true,
-      //   duration: 100,
-      // }).start();
-      // setButtonColor('#A2A6A0');
+      //     // (수정) interpolation 애니메이션 주기
+      //     Animated.timing(backColor, {
+      //       toValue: 0,
+      //       // duration: 500,
+      //       useNativeDriver: true,
+      //     }).start();
+      //     console.log('뒷배경 색 코드 black', backColor);
+      //     // Animated.timing(payload.opacity, {
+      //     //   toValue: 0.65,
+      //     //   useNativeDriver: true,
+      //     //   duration: 100,
+      //     // }).start();
+      //     // setButtonColor('#A2A6A0');
     }
   }
 
@@ -143,52 +136,44 @@ const PlaceTypeButton = () => {
           {/* TouchableOpacity 클릭 시 하이라이트 해제 : activeOpacity={1} */}
           <TouchableOpacity
             activeOpacity={1}
-            style={[
-              styles.buttonbackground,
-              {
-                backgroundColor: backColor.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ['rgb(162, 166, 160)', 'rgb(43, 137, 10)'],
-                }),
-              },
-            ]}>
+            style={[styles.buttonbackground, {backgroundColor: '#2B890A'}]}>
             <TextLight style={styles.placebutton}>헬기장</TextLight>
           </TouchableOpacity>
         </AnimatedTouchable>
-        <AnimatedTouchable style={{opacity: aidkitOpacity}}>
+        <AnimatedTouchable>
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.buttonbackground, {backgroundColor: '#A2A6A0'}]}
+            style={[styles.buttonbackground, {backgroundColor: '#A32543'}]}
             onPress={() => {
               clickPlaceButton(PlaceButton.AIDKIT);
             }}>
             <TextLight style={styles.placebutton}>구급함</TextLight>
           </TouchableOpacity>
         </AnimatedTouchable>
-        <AnimatedTouchable style={{opacity: toiletOpacity}}>
+        <AnimatedTouchable>
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.buttonbackground, {backgroundColor: '#A2A6A0'}]}
+            style={[styles.buttonbackground, {backgroundColor: '#5C8BC1'}]}
             onPress={() => {
               clickPlaceButton(PlaceButton.TOILET);
             }}>
             <TextLight style={styles.placebutton}>화장실</TextLight>
           </TouchableOpacity>
         </AnimatedTouchable>
-        <AnimatedTouchable style={{opacity: dangerOpacity}}>
+        <AnimatedTouchable>
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.buttonbackground, {backgroundColor: '#A2A6A0'}]}
+            style={[styles.buttonbackground, {backgroundColor: '#D61515'}]}
             onPress={() => {
               clickPlaceButton(PlaceButton.DANGER);
             }}>
             <TextLight style={styles.placebutton}>위험</TextLight>
           </TouchableOpacity>
         </AnimatedTouchable>
-        <AnimatedTouchable style={{opacity: summitOpacity}}>
+        <AnimatedTouchable>
           <TouchableOpacity
             activeOpacity={1}
-            style={[styles.buttonbackground, {backgroundColor: '#A2A6A0'}]}
+            style={[styles.buttonbackground, {backgroundColor: '#BBB51E'}]}
             onPress={() => {
               clickPlaceButton(PlaceButton.SUMMIT);
             }}>

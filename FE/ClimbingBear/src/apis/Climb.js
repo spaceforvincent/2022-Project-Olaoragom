@@ -1,62 +1,25 @@
-// // 추후 Encrypted storage 쓰기
-// import axios from 'axios';
-// // (임시) redux store 쓰기
-// import {useDispatch} from 'react-redux';
-// import {nowclimbingActions} from '../../store/Climbing';
+import axios from 'axios';
 
-// const API_URL = 'http://k7d109.p.ssafy.io:8080/user';
+const API_URL = 'http://k7d109.p.ssafy.io:8080';
 
-// const dispatch = useDispatch();
-
-// // accessToken => encryptedStorage STORE
-// export const storeToken = async accessToken => {
-//   try {
-//     await EncryptedStorage.setItem('accessToken', accessToken);
-//   } catch (error) {
-//     console.log(error);
-//     console.log(error.message);
-//   }
-// };
-
-// // accessToken => encryptedStorage GET
-// export const getToken = async () => {
-//   try {
-//     const authHeader = await EncryptedStorage.getItem('accessToken');
-//     return authHeader;
-//   } catch (error) {
-//     console.log(error);
-//     console.log(error.message);
-//   }
-// };
-
-//   // 로그인 통신
-//   export const postLogin = async( id, password ) => {
-
-//     try {
-//       const response = await axios({
-//         method: "post",
-//         url: API_URL + '/login',
-//         data: {
-//           id: id,
-//           pw: password
-//         }
-//       })
-
-//       // (임시) 완료되면 콘솔 지우기!!
-//       // console.log(response.data)
-//       // console.log(response.data.data.accessToken)
-//       // console.log(response.data.status)
-
-//       const accessToken = response.data.data.accessToken
-//       storeToken(accessToken)
-
-//       if ( response.data.status === 'success' ) {
-//         return true
-//       }
-//     }
-//       catch (error) {
-//         console.log(error)
-//         console.log(error.response.data);
-//         return false
-//       }
-//     }
+// 등산로 데이터 가져오기
+export const getPath = async mntnSeq => {
+  const accessToken =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjoyLCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3ODA0MzY4LCJleHAiOjI0NDU0MDQzNjh9.3vQ-6Aq3be5H1nHbxK4ZzmXxBsWno_qFdOC4GZbaW6g';
+  try {
+    const response = await axios({
+      method: 'get',
+      url: API_URL + `/mntn/feature`,
+      headers: {
+        Authorization: accessToken,
+      },
+      params: {
+        mntnSeq: mntnSeq,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    console.log('에러', error.response.data);
+  }
+};
