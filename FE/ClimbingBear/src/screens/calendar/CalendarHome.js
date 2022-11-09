@@ -25,6 +25,7 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -45,11 +46,7 @@ function CalendarHome({navigation: {navigate}}) {
   //예약된 날짜
   const [bookedDate, setBookedDate] = useState([]);
   //실제 갔다온 날짜
-  const [havebeenDate, setHaveBeenDate] = useState([
-    {mountainName: '장도산', date: '2022-10-07'},
-    {mountainName: '바보산', date: '2022-10-08'},
-    {mountainName: '똥개산', date: '2022-10-09'},
-  ]);
+  const [havebeenDate, setHaveBeenDate] = useState([]);
   //토스트 메시지 내용 리스트
   const toastMsgList = {
     Delete: '삭제가 완료되었습니다.',
@@ -102,8 +99,16 @@ function CalendarHome({navigation: {navigate}}) {
     }
     return newArr;
   };
+
+  //날짜 표기 형식 변경
+  const changeDateFormat = date => {
+    let newDate = date.replace('-', '년 ').replace('-', '월 ') + '일';
+    return newDate;
+  };
+
   //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
   const getSchedule = async (selected, obj) => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     let copyArray = [...bookedDate];
     if (modifyState) {
       try {
@@ -111,7 +116,7 @@ function CalendarHome({navigation: {navigate}}) {
           method: 'put',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
           headers: {
-            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+            Authorization: accessToken,
           },
           data: {
             day: Number(selected.slice(8, 10)),
@@ -128,16 +133,17 @@ function CalendarHome({navigation: {navigate}}) {
       }
     } else {
       try {
+        console.log(selected);
         const response = await axios({
           method: 'post',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
           headers: {
-            Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+            Authorization: accessToken,
           },
           data: {
-            day: Number(selected.slice(8, 10)),
+            day: Number(selected.slice(10, 12)),
             mntnSeq: Number(obj.mntnSeq),
-            month: Number(selected.slice(5, 7)),
+            month: Number(selected.slice(6, 8)),
             year: Number(selected.slice(0, 4)),
           },
         });
@@ -148,12 +154,13 @@ function CalendarHome({navigation: {navigate}}) {
   };
   //DB에서 일정 삭제
   const deleteSchedule = async date => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     try {
       const response = await axios({
         method: 'delete',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          Authorization: accessToken,
         },
         params: {
           diarySeq: bookedDate.find(record => record.date === date).diarySeq,
@@ -165,28 +172,51 @@ function CalendarHome({navigation: {navigate}}) {
   };
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
-    let tempArr = [];
+    const accessToken = await EncryptedStorage.getItem('accessToken');
+    console.log('달력', accessToken);
+    let bookedArr = [];
+    let havebeenArr = [];
     try {
       const response = await axios({
         method: 'get',
         url: `http://k7d109.p.ssafy.io:8080/diary`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          Authorization: accessToken,
         },
       });
       response.data.data.map(record => {
-        tempArr.push({
-          mountainName: record.mntnNm,
-          date:
-            record.year +
-            '-' +
-            ('00' + record.month).slice(-2) +
-            '-' +
-            ('00' + record.day).slice(-2),
-          diarySeq: record.diarySeq,
-        });
+        if (record.complete) {
+          havebeenArr.push({
+            mountainName: record.mntnNm,
+            date:
+              record.year +
+              '-' +
+              ('00' + record.month).slice(-2) +
+              '-' +
+              ('00' + record.day).slice(-2),
+            diarySeq: record.diarySeq,
+            time: record.time,
+            distance: record.distance,
+            complete: record.complete,
+          });
+        } else {
+          bookedArr.push({
+            mountainName: record.mntnNm,
+            date:
+              record.year +
+              '-' +
+              ('00' + record.month).slice(-2) +
+              '-' +
+              ('00' + record.day).slice(-2),
+            diarySeq: record.diarySeq,
+            time: record.time,
+            distance: record.distance,
+            complete: record.complete,
+          });
+        }
       });
-      setBookedDate(tempArr);
+      setBookedDate(bookedArr);
+      setHaveBeenDate(havebeenArr);
     } catch (error) {
       console.log(error);
       console.log(error.response.data);
@@ -216,10 +246,16 @@ function CalendarHome({navigation: {navigate}}) {
               //등산 기록 페이지로 이동
               onPress={() =>
                 navigate('CalendarRecord', {
-                  date: date.dateString,
+                  date: changeDateFormat(date.dateString),
                   name: havebeenDate.find(
                     record => record.date === date.dateString,
                   ).mountainName,
+                  time: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).time,
+                  distance: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).distance,
                 })
               }>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
@@ -237,7 +273,7 @@ function CalendarHome({navigation: {navigate}}) {
               onPress={() => {
                 //일정 수정/삭제 모달 띄움
                 setIsModifyDeleteModalVisible(!isModifyDeleteModalVisible);
-                setSelectedDate(date.dateString);
+                setSelectedDate(changeDateFormat(date.dateString));
                 //모달에서 갈 예정인 산 보여줄 용도로 산 이름 보내줌
                 setSelectedMountain(
                   bookedDate.find(record => record.date === date.dateString)
@@ -246,12 +282,30 @@ function CalendarHome({navigation: {navigate}}) {
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
-              <TextMedium style={styles.mountainname}>
-                {
-                  bookedDate.find(record => record.date === date.dateString)
-                    .mountainName
-                }
-              </TextMedium>
+              {bookedDate.find(record => record.date === date.dateString)
+                .mountainName.length == 3 ? (
+                <TextMedium style={styles.mountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : bookedDate.find(record => record.date === date.dateString)
+                  .mountainName.length == 2 ? (
+                <TextMedium style={styles.shortmountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : (
+                <TextMedium style={styles.longmountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              )}
             </TouchableOpacity>
           ) : //일정 예약 가능한 날짜일 때 (누른 날짜가 오늘 날짜의 달과 같고 일이 클 때, 혹은 누른 날짜가 오늘 날짜의 달보다 클 때)
           (Number(date.dateString.slice(5, 7)) == Number(dateNum.slice(5, 7)) &&
@@ -263,7 +317,7 @@ function CalendarHome({navigation: {navigate}}) {
               onPress={() => {
                 //검색/등록 모달 띄움
                 setIsSearchRegisterModalVisible(!isSearchRegisterModalVisible);
-                setSelectedDate(date.dateString);
+                setSelectedDate(changeDateFormat(date.dateString));
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <BlankStamp />
@@ -352,7 +406,7 @@ function CalendarHome({navigation: {navigate}}) {
       )}
     </View>
   );
-};
+}
 
 export default CalendarHome;
 
@@ -432,6 +486,20 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.075,
     color: 'white',
     fontSize: 15,
-    marginLeft: windowWidth * 0.02,
+    marginLeft: windowWidth * 0.022,
+  },
+  longmountainname: {
+    position: 'absolute',
+    marginTop: windowHeight * 0.075,
+    color: 'white',
+    fontSize: 14,
+    marginLeft: windowWidth * 0.013,
+  },
+  shortmountainname: {
+    position: 'absolute',
+    marginTop: windowHeight * 0.075,
+    color: 'white',
+    fontSize: 16,
+    marginLeft: windowWidth * 0.033,
   },
 });
