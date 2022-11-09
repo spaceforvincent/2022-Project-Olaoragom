@@ -15,6 +15,8 @@ const MountainSemiDetail = (props) => {
   const screenHeight = Dimensions.get('screen').height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
 
+  const [ mountainData, setMountainData ] = useState([])
+
   const translateY = panY.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [0, 0, 1],
@@ -50,7 +52,6 @@ const MountainSemiDetail = (props) => {
   ).current;
 
   useEffect(() => {
-    console.log('이미지', mountainImage)
     if (props.modalVisible) {
       resetBottomSheet.start();
     }
@@ -79,12 +80,11 @@ const MountainSemiDetail = (props) => {
             transform: [{translateY: translateY}],
           }}
           {...panResponders.panHandlers}>
-            <Image style={styles.Image} source={{uri: 'https://storage.cloud.google.com/climbingbear/1-8.jpg'}}></Image>
           <TouchableOpacity onPress={() => navigation.navigate('MountainDetail', {mountainId: mountainId})}>
             <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
           </TouchableOpacity>
           
-          
+          {/* <Image src={mountainImage}></Image> */}
 
           <TextBold>{mountainRegion}</TextBold>
 
@@ -95,20 +95,14 @@ const MountainSemiDetail = (props) => {
 };
 
 const styles = StyleSheet.create({
-  Image : {
-    width: 100,
-    height: 100
-  },
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
-
   background: {
     flex: 1,
   },
-
   bottomSheetContainer: {
     height: 300,
     justifyContent: 'center',
@@ -120,11 +114,6 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 50,
-  },
-
-  image: {
-    width: 500,
-    height: 300,
   }
 });
 
