@@ -22,13 +22,24 @@ function DrawerNavigator() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     
   return (
-    <drawer.Navigator useLegacyImplementation initialRouteName="Login">
-      <drawer.Screen name="Login" component={AuthNavigation} />
-      <drawer.Screen name="Calendar" component={CalendarNavigation} />
-      <drawer.Screen name="Map" component={MapNavigation} />
-      <drawer.Screen name="Climbing" component={ClimbingNavigation} />
-      <drawer.Screen name="ChatRoom" component={ChatRoom} />
-    </drawer.Navigator>
+    <>
+      {/* 로그인O */}
+      {isAuthenticated && (
+        <drawer.Navigator useLegacyImplementation initialRouteName="Login">
+          <drawer.Screen name="Calendar" component={CalendarNavigation} />
+          <drawer.Screen name="Climbing" component={ClimbingNavigation} />
+          <drawer.Screen name="Map" component={MapNavigation} />
+          <drawer.Screen name="ChatRoom" component={ChatRoom} />
+          <drawer.Screen name="logout" component={LogoutScreen}/>
+        </drawer.Navigator>
+      )}
+      {/* 로그인X */}
+      {isAuthenticated === false && (
+        <drawer.Navigator useLegacyImplementation initialRouteName="Login">
+          <drawer.Screen name="Login" component={AuthNavigation} options={{headerShown: false}}/>
+        </drawer.Navigator>
+      )}
+    </>
   );
 }
 
