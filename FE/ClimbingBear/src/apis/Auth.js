@@ -21,7 +21,8 @@ export const getToken = async() => {
 
   try {
     const authHeader= await EncryptedStorage.getItem('accessToken');
-    console.log('authHeader', authHeader)
+    // (임시)
+    // console.log('authHeader', authHeader)
     return authHeader;
   } 
   catch (error) {
@@ -45,7 +46,7 @@ export const postLogin = async(id, password) => {
     })
     // (임시)
     // console.log(response.data)
-    console.log(response.data.data.accessToken)
+    // console.log(response.data.data.accessToken)
     // console.log(response.data.status)
 
     const accessToken = response.data.data.accessToken
