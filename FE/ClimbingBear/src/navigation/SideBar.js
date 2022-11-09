@@ -11,6 +11,7 @@ import MapHome from '../screens/map/MapHome';
 import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
+import HomeNavigation from './HomeNavigation';
 
 const drawer = createDrawerNavigator();
 
@@ -18,19 +19,19 @@ function DrawerNavigator() {
   return (
     <drawer.Navigator
       useLegacyImplementation
-      initialRouteName="로그인"
+      initialRouteName="산 검색"
       screenOptions={{
         headerTransparent: true,
         headerTitle: '',
       }}>
-      <drawer.Screen name="로그인" component={AuthNavigation} />
-      <drawer.Screen name="나의 일정" component={CalendarNavigation} />
-      <drawer.Screen
+      {/* <drawer.Screen
         name="산 검색"
         component={MapNavigation}
         options={{unmountOnBlur: true}}
-      />
+      /> */}
+      <drawer.Screen name="나의 일정" component={CalendarNavigation} />
       <drawer.Screen name="채팅" component={ChatRoom} />
+      <drawer.Screen name="(임시) 등산기록측정" component={HomeNavigation} />
     </drawer.Navigator>
   );
 }

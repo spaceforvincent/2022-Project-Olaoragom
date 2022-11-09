@@ -7,7 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
 import store from './src/store';
 // Provider 로 app 을 감싸줘야 redux 의 store 를 갖고 올 수 있다
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 // (임시) Auth 기능 보류하고 바로 지도/검색 (MapHome) 으로 가는 네비게이터 import
 import HomeNavigation from './src/navigation/HomeNavigation';
 import AuthNavigation from './src/navigation/AuthNavigation';
@@ -20,20 +20,30 @@ function App() {
     SplashScreen.hide();
   }, []);
 
+  // 화면 전환을 위해 로그인 검정
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <DrawerNavigator />
-        <StatusBar
-          backgroundColor={'transparent'}
-          barStyle="dark-content"
-          translucent={true}
-        />
-        {/* <HomeNavigation /> */}
-        {/* <AuthNavigation /> */}
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <StatusBar
+        backgroundColor={'transparent'}
+        barStyle="dark-content"
+        translucent={true}
+      />
+      {/* 로그인 됐을 때 네비게이터 변경 */}
+      {/* {!isAuthenticated && <AuthNavigation />}
+      {isAuthenticated && <DrawerNavigator />} */}
+      <DrawerNavigator />
+    </NavigationContainer>
   );
 }
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
+export default AppWrapper;

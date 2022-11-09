@@ -20,4 +20,4 @@ const AuthNavigation = () => {
   );
 };
 
-export {AuthNavigation};
+export default AuthNavigation;

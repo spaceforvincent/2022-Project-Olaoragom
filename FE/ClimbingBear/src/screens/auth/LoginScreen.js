@@ -11,6 +11,8 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  Dimensions,
+  PixelRatio,
 } from 'react-native';
 import {
   TextLight,
@@ -21,6 +23,11 @@ import {
 
 import AuthInput from '../../components/auth/AuthInput';
 import {authActions} from '../../store/Auth';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
+const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -108,14 +115,15 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 250,
-    height: 250,
-    margin: 10,
+    width: widthPixel * 0.25,
+    height: heightPixel * 0.1,
+    marginVertical: widthPixel * 0.01,
   },
 
   title: {
-    fontSize: 40,
-    margin: 5,
+    fontSize: widthPixel * 0.045,
+    marginVertical: widthPixel * 0.01,
+    color: '#000000',
   },
 
   loginButton: {

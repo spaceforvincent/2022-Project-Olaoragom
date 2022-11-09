@@ -9,6 +9,8 @@ import com.facebook.react.ReactRootView;
 // react native navigation 모듈 설치 후 공식 문서에 따라 추가한 코드
 import android.os.Bundle;
 
+
+
 public class MainActivity extends ReactActivity {
 
   // react native navigation 모듈 설치 후 공식 문서에 따라 추가한 코드
