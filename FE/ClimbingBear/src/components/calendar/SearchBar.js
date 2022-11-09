@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -31,13 +32,14 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
     setResult(filterData);
   };
   const getMountainData = async () => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     let tempArr = [];
     try {
       const response = await axios({
         method: 'get',
         url: `http://k7d109.p.ssafy.io:8080/mntn/list`,
         headers: {
-          Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyU2VxIjo0LCJpc3MiOiJiZVRyYXZlbGljIiwiaWF0IjoxNjY3NTMyMjIzLCJleHAiOjI0NDUxMzIyMjN9.1EfEY-oYARyrfKzYEi1HSJS2s9aAF9_jcLryy86ASxg`,
+          Authorization: accessToken,
         },
       });
       response.data.data.map(record => {
