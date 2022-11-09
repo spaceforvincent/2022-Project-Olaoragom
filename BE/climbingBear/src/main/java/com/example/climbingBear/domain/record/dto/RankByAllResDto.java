@@ -2,6 +2,8 @@ package com.example.climbingBear.domain.record.dto;
 
 import com.example.climbingBear.domain.record.entity.Record;
 import com.example.climbingBear.domain.user.repository.UserRepository;
+import com.example.climbingBear.domain.user.service.UserService;
+import com.example.climbingBear.global.jwt.JwtProvider;
 import lombok.Data;
 
 import javax.naming.ldap.PagedResultsControl;
@@ -10,13 +12,13 @@ import java.util.Map;
 
 @Data
 public class RankByAllResDto {
-    private Long userSeq;
+//    private Long userSeq;
     private String nickname;
     private double distance;
 
-    public RankByAllResDto(Map.Entry<Long, Double> longDoubleEntry) {
-        this.userSeq = longDoubleEntry.getKey();
+    public RankByAllResDto(Map.Entry<String, Double> longDoubleEntry) {
+        this.nickname = longDoubleEntry.getKey();
         this.distance = longDoubleEntry.getValue();
-        this.nickname = getNickname();
+
     }
 }
