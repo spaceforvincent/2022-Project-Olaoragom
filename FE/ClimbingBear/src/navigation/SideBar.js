@@ -22,6 +22,7 @@ function DrawerNavigator() {
       <drawer.Screen name="Calendar" component={CalendarNavigation} />
       <drawer.Screen name="Map" component={MapNavigation} />
       <drawer.Screen name="ChatRoom" component={ChatRoom} />
+      <drawer.Screen name="ChatHome" component={ChatHome} />
     </drawer.Navigator>
   );
 }
