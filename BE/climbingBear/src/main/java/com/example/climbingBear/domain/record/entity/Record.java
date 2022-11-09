@@ -2,6 +2,7 @@ package com.example.climbingBear.domain.record.entity;
 
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.user.entity.User;
+import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,5 +45,4 @@ public class Record {
         this.month = month;
         this.day = day;
     }
-
 }
