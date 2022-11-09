@@ -29,9 +29,17 @@ public class ChatController {
     }
 
     @GetMapping
-    @ApiOperation(value = "채팅방 생성", notes = "채팅방 제목 입력, header에 token 입력")
+    @ApiOperation(value = "채팅방 목록 조회", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getChatRoomList(HttpServletRequest request) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.chatRoomList()), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    @ApiOperation(value = "채팅방 삭제", notes = "")
+    public ResponseEntity<CommonResponse> deleteChatRoom(HttpServletRequest request, @RequestParam Long chatRoomSeq) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        chatService.chatRoomDelete(chatRoomSeq, userSeq);
+        return null;
     }
 }
