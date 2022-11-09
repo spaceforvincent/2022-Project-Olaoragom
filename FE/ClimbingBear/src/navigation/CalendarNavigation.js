@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-// AuthNavigation 에서 사용(이동)할 페이지 import
+// CalendarNavigation 에서 사용(이동)할 페이지 import
 import CalendarHome from '../screens/calendar/CalendarHome';
 import CalendarRecord from '../screens/calendar/CalendarRecord';
 
