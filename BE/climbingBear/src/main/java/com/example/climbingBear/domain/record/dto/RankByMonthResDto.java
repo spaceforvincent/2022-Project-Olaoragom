@@ -20,23 +20,17 @@ import java.util.function.Function;
 
 @Data
 public class RankByMonthResDto {
-    private Long userSeq;
+//    private Long userSeq;
     private String nickname;
     private double distance;
 
 
 
-    public RankByMonthResDto (Map.Entry<Long, Double> longDoubleEntry) {
-        this.userSeq = longDoubleEntry.getKey();
+    public RankByMonthResDto (Map.Entry<String, Double> longDoubleEntry) {
+        this.nickname = longDoubleEntry.getKey();
         this.distance = longDoubleEntry.getValue();
-//        this.nickname = findNicknameBySeq(longDoubleEntry.getKey());
+
     }
 
-//    private String findNicknameBySeq(Long userSeq) {
-//
-//
-//        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-//                new NoExistUserException());
-//        return user.getNickname();
-    }
+
 }
