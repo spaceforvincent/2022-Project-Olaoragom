@@ -7,6 +7,7 @@ import com.example.climbingBear.domain.chat.dto.ChatRoomPostResDto;
 //import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.exception.NoExistChatRoomException;
 import com.example.climbingBear.domain.chat.repository.ChatRepository;
+import com.example.climbingBear.domain.diary.dto.DiaryListResDto;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
