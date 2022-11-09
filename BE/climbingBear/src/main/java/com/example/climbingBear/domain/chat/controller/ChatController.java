@@ -2,7 +2,7 @@ package com.example.climbingBear.domain.chat.controller;
 
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.service.ChatService;
-import com.example.climbingBear.domain.diary.dto.DiaryPostReqDto;
+
 import com.example.climbingBear.global.common.CommonResponse;
 import com.example.climbingBear.global.jwt.JwtProvider;
 import io.swagger.annotations.ApiOperation;

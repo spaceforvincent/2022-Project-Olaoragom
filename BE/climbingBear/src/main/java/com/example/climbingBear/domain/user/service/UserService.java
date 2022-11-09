@@ -54,7 +54,7 @@ public class UserService {
     public LoginResDto login(LoginReqDto dto){
         User user = userRepository.findByIdAndPw(dto.getId(), dto.getPw()).orElseThrow(() ->
                 new NoExistUserException());
-        return new LoginResDto(jwtProvider.getAccessToken(user.getUserSeq()), jwtProvider.getRefreshToken());
+        return new LoginResDto(jwtProvider.getAccessToken(user.getUserSeq()), jwtProvider.getRefreshToken(), user.getNickname());
     }
 
     public isExistResDto checkNickname(String nickname) throws Exception {
