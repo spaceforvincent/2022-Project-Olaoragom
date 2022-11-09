@@ -130,7 +130,6 @@ const ChatRoom = () => {
       {/* 상단 바1 */}
       <View style={{
         padding: 15,
-        // marginTop: 50,
         backgroundColor: "#D7FBE8",
         // color: "#858383",
         alignItems: "center",
