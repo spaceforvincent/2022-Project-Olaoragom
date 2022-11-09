@@ -7,6 +7,9 @@ const express = require('express');
 // 할당
 const app = express();
 
+let cors = require('cors');
+app.use(cors());
+
 // http 모듈을 추출
 const http = require('http');
 // ws 모듈을 추출
@@ -36,7 +39,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// 웹 서버를 8080 포트로 실행
+// 웹 서버를 8080 포트로 실행하여 대기시킴
 server.listen(8080, () => {
   console.log('Listening to port 8080');
 });

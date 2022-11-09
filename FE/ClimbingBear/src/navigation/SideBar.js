@@ -6,6 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import LoginScreen from '../screens/auth/LoginScreen';
 import CalendarHome from '../screens/calendar/CalendarHome';
+import ChatHome from '../screens/chat/ChatHome';
 import ChatRoom from '../screens/chat/ChatRoom';
 import MapHome from '../screens/map/MapHome';
 import {AuthNavigation} from './AuthNavigation';
@@ -21,6 +22,7 @@ function DrawerNavigator() {
       <drawer.Screen name="Login" component={AuthNavigation} />
       <drawer.Screen name="Calendar" component={CalendarNavigation} />
       <drawer.Screen name="MapHome" component={MapHome} />
+      <drawer.Screen name="ChatHome" component={ChatHome} />
       <drawer.Screen name="ChatRoom" component={ChatRoom} />
     </drawer.Navigator>
   );

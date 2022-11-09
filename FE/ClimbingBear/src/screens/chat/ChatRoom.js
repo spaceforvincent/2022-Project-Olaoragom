@@ -32,6 +32,12 @@ const ChatRoom = () => {
   // const [image_path, setImage_path] = useState(route.params.record.image_path)
   const ws = useRef(null);
 
+  // 현재 시각
+  const curr = new Date();
+  const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+  const KR_TIME_DIFF = 9 * 60 * 60 * 1000; //한국 시간(KST)은 UTC시간보다 9시간 더 빠르므로 9시간을 밀리초 단위로 변환.
+  const kr_curr = new Date(utc + KR_TIME_DIFF); //UTC 시간을 한국 시간으로 변환하기 위해 utc 밀리초 값에 9시간을 더함.
+
   //  const [userList, setUserList] = useState([])
   // (임시)
   const userList = [
@@ -76,7 +82,7 @@ const ChatRoom = () => {
         _id: receiverNick, // receiver nickname
         // _nick: userList[0].nickname,
         text: '등산시작!',
-        createdAt: new Date(), // 현재시각
+        createdAt: kr_curr, // 현재시각
         user: {
           _id: senderNick,  // sender nick
           // _nick: userList[1].nickname,         
@@ -116,6 +122,7 @@ const ChatRoom = () => {
     ws.current.send(JSON.stringify(obj))
     // 예전 메시지와 최신 메시지 병합
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    // 
   }, [])
 
   return (
@@ -123,7 +130,7 @@ const ChatRoom = () => {
       {/* 상단 바1 */}
       <View style={{
         padding: 15,
-        marginTop: 50,
+        // marginTop: 50,
         backgroundColor: "#D7FBE8",
         // color: "#858383",
         alignItems: "center",
@@ -171,7 +178,7 @@ const ChatRoom = () => {
         width: '100%'
       }}>
         <Text style={{
-            fontSize: 8,
+            fontSize: 16,
             fontWeight: 'bold',
             color: "#fff"
           }}>{serverState}</Text>
