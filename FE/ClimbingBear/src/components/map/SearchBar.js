@@ -63,10 +63,10 @@ const SearchBar = ({navigation}, props) => {
             padding: 10,
             marginTop: 2,
             height: 60,
-            backgroundColor: '#F9F7F7',
+            backgroundColor: 'white',
             borderColor: '#bbb',
             borderWidth: 1,
-            borderRadius: 5,
+            // borderRadius: 5,
           }}
           itemTextStyle={{
             fontFamily: 'SeoulNamsanL',

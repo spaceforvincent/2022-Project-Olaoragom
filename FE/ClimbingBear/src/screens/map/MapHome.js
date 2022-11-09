@@ -13,7 +13,6 @@ import {
 
 import SearchBar from '../../components/map/SearchBar';
 
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 

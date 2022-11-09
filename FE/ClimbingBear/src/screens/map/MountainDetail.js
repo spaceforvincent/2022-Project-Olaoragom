@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+
 import { getMountainDetail } from '../../apis/Map';
 
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
 const MountainDetail = ({navigation: {navigate}, route}) => {
-
-  const mountainId = route.params.mountainId
 
   const [ mountainData, setMountainData ] = useState([])
 
@@ -21,9 +20,25 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
 
   return (
     <View>
+      <View>
+        {/* 산 이미지 */}
+      </View>
+
+      <View style={styles.detailContainer}>
+        <View style={styles.textContainer}>
+        <TextExtraBold>{mountainData.mntnNm}</TextExtraBold>
+        <Text>{mountainData.mmtnSubnm}</Text>
+        <Text>{mountainData.mntnHeight}</Text>
+        <Text>{mountainData.mntnRegion}</Text>
+        <Text/>
         <Text>{mountainData.mntnDetails}</Text>
+        <Text/>
+        <Text>{mountainData.mntnEtccourse}</Text>
+        <Text/>
+        <Text>{mountainData.mntnTransport}</Text>
         <Text>{mountainData.level}</Text>
-        <Text>{mountainData.level}</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -31,7 +46,13 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
 export default MountainDetail;
 
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
+
+  detailContainer: {
+    borderWidth: 1, 
+    margin: 30,
   },
+  textContainer: {
+    margin: 20,
+  },
+
 });
