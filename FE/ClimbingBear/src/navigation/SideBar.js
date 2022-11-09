@@ -16,9 +16,7 @@ const drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
   return (
-    <drawer.Navigator
-      useLegacyImplementation
-      initialRouteName="Login">
+    <drawer.Navigator useLegacyImplementation initialRouteName="Login">
       <drawer.Screen name="Login" component={AuthNavigation} />
       <drawer.Screen name="Calendar" component={CalendarNavigation} />
       <drawer.Screen name="Map" component={MapNavigation} />

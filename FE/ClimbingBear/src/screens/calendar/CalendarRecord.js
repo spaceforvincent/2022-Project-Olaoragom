@@ -23,10 +23,6 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
   const [isHeightClicked, setIsHeightClicked] = useState(false);
   const [isOrbitClicked, setIsOrbitClicked] = useState(false);
   const [isMapClicked, setIsMapClicked] = useState(true);
-  //이동 거리 측정 기록
-  const distanceRecord = '3.275';
-  //시간 측정 기록
-  const timeRecord = '03:27:45';
   //고도 측정 기록
   const heightRecord = '500';
   //이미지 상태값 변경(지도)
@@ -50,12 +46,14 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
         <View>
           <TextExtraBold style={styles.category}>등산 거리</TextExtraBold>
           <TextExtraBold style={styles.category}>
-            {distanceRecord}km
+            {route.params.distance}km
           </TextExtraBold>
         </View>
         <View>
           <TextExtraBold style={styles.category}>등산 시간</TextExtraBold>
-          <TextExtraBold style={styles.category}>{timeRecord}</TextExtraBold>
+          <TextExtraBold style={styles.category}>
+            {route.params.time}
+          </TextExtraBold>
         </View>
         <View>
           <TextExtraBold style={styles.category}>최고 고도</TextExtraBold>
