@@ -43,7 +43,7 @@ const LoginScreen = ({navigation}) => {
           accessToken,
           isAuthenticated
         }))
-        return navigation.navigate('MapHome')
+        return navigation.navigate('Map')
       }
       else {
         return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');

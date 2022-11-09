@@ -59,9 +59,6 @@ const SignupScreen = ({navigation}) => {
       return Alert.alert('알림', '아이디 및 닉네임 중복확인을 진행해주세요😥')
     }
     else {
-      console.log(id)
-      console.log(nickname)
-      console.log(password)
       const isUser = await postSignUp(id, nickname, password)
       if (isUser === true) {
         return navigation.navigate('LoginScreen')        

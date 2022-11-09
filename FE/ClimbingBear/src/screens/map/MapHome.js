@@ -12,8 +12,6 @@ import {
 } from 'react-native';
 
 import SearchBar from '../../components/map/SearchBar';
-import MountainSemiDetail from '../../components/map/MountainSemiDetail';
-
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -58,8 +56,8 @@ const MapHome = () => {
           }}
 
           style={styles.map}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
+          // showsUserLocation={true}
+          // showsMyLocationButton={true}
           provider={PROVIDER_GOOGLE}
           zoomEnabled={true}
 
@@ -69,7 +67,6 @@ const MapHome = () => {
       {/* 검색어를 치고 검색버튼을 누르는 순간 검색 결과의 위치로 변경해줘야 한다
         따라서 props 기능으로 위/경도 재설정 state 를 보내는 것 */}
       <SearchBar setLatitude={setLatitude} setLongitude={setLongitude} />
-      <MountainSemiDetail />
     </SafeAreaView>
   );
 };

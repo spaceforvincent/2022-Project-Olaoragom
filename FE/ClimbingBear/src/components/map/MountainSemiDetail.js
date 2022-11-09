@@ -1,21 +1,120 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react'
 
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
-const MountainSemiDetail = () => {
+import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, Image, TouchableOpacity } from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+import { getMountainDetail } from '../../apis/Map';
+
+import { useNavigation } from '@react-navigation/native';
+
+const MountainSemiDetail = (props) => {
+
+  const navigation = useNavigation()
+
+  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion, mountainImage } = props
+
+  const screenHeight = Dimensions.get('screen').height;
+  const panY = useRef(new Animated.Value(screenHeight)).current;
+
+  const [ mountainData, setMountainData ] = useState([])
+
+  const translateY = panY.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: [0, 0, 1],
+  });
+
+  const resetBottomSheet = Animated.timing(panY, {
+    toValue: 0,
+    duration: 300,
+    useNativeDriver: true,
+  });
+
+  const closeBottomSheet = Animated.timing(panY, {
+    toValue: screenHeight,
+    duration: 300,
+    useNativeDriver: true,
+  });
+
+  const panResponders = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => false,
+      onPanResponderMove: (event, gestureState) => {
+        panY.setValue(gestureState.dy);
+      },
+      onPanResponderRelease: (event, gestureState) => {
+        if (gestureState.dy > 0 && gestureState.vy > 1.5) {
+          closeModal();
+        } else {
+          resetBottomSheet.start();
+        }
+      },
+    }),
+  ).current;
+
+  useEffect(() => {
+    if (props.modalVisible) {
+      resetBottomSheet.start();
+    }
+  }, [props.modalVisible]);
+
+  const closeModal = () => {
+    closeBottomSheet.start(() => {
+      setModalVisible(false);
+    });
+  };
+
+
   return (
-    <View>
-      <Text style={styles.temptext}>
-        이건 밑에 띄울 산 세미디테일 컴포넌트입니다
-      </Text>
-    </View>
+    <Modal
+      visible={modalVisible}
+      animationType={'fade'}
+      transparent
+      statusBarTranslucent>
+      <View style={styles.overlay}>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.background} />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={{
+            ...styles.bottomSheetContainer,
+            transform: [{translateY: translateY}],
+          }}
+          {...panResponders.panHandlers}>
+          <TouchableOpacity onPress={() => navigation.navigate('MountainDetail', {mountainId: mountainId})}>
+            <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
+          </TouchableOpacity>
+          
+          {/* <Image src={mountainImage}></Image> */}
+
+          <TextBold>{mountainRegion}</TextBold>
+
+        </Animated.View>
+      </View>
+    </Modal>
   );
 };
 
-export default MountainSemiDetail;
-
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 20,
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
+  background: {
+    flex: 1,
+  },
+  bottomSheetContainer: {
+    height: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+
+  title: {
+    fontSize: 50,
+  }
 });
+
+export default MountainSemiDetail;
