@@ -9,7 +9,8 @@ import {
   View,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 // import { Searchbar } from 'react-native-paper';
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   square: {
     width: windowWidth*0.5*0.7,
-    height: windowHeight*0.3
+    height: windowHeight*0.3,
     backgroundColor: "#858383"
   }
 });
