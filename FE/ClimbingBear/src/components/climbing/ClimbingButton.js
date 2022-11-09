@@ -58,11 +58,6 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
     // (수정) 조금 하드코딩인거 같아서 추후 수정 필요할듯
     // 위성지도, 일반지도 바뀌는 부분만 const 해서 수정하면 될듯?
     <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonbackground}>
-        <TextLight style={styles.unclickbuttontext} onPress={() => {}}>
-          일행위치
-        </TextLight>
-      </TouchableOpacity>
       {!changeMapTypeStatus.current && (
         <TouchableOpacity style={styles.buttonbackground}>
           <TextLight
@@ -109,7 +104,7 @@ export default ClimbingButton;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: heightPixel * 0.185,
+    top: heightPixel * 0.2,
     right: widthPixel * 0.0005,
   },
   buttonbackground: {
