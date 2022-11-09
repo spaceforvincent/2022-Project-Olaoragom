@@ -15,10 +15,8 @@ public class ChatRoom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatRoomSeq;
-
     @ManyToOne
     private User user;
-
     private String title;
 
     @Builder
