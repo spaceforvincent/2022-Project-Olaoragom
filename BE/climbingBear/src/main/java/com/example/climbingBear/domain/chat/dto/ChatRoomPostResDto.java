@@ -1,6 +1,5 @@
 package com.example.climbingBear.domain.chat.dto;
 
-import com.example.climbingBear.domain.diary.dto.DiaryPostResDto;
 import lombok.Builder;
 import lombok.Data;
 
