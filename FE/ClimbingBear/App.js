@@ -23,13 +23,13 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <DrawerNavigator /> */}
+        <DrawerNavigator />
         <StatusBar
           backgroundColor={'transparent'}
           barStyle="dark-content"
           translucent={true}
         />
-        <HomeNavigation />
+        {/* <HomeNavigation /> */}
         {/* <AuthNavigation /> */}
       </NavigationContainer>
     </Provider>

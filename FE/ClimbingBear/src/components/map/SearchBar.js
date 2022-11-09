@@ -1,69 +1,61 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from "react"
+import {Fragment, useEffect, useLayoutEffect, useState} from 'react';
 
-import { View, StyleSheet } from "react-native"
+import {View, StyleSheet} from 'react-native';
 
-import SearchableDropdown from 'react-native-searchable-dropdown'
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
-import MountainSemiDetail from './MountainSemiDetail'
-import { getMountainDetail, getMountainList } from "../../apis/Map"
+import MountainSemiDetail from './MountainSemiDetail';
+import {getMountainDetail, getMountainList} from '../../apis/Map';
 
 const SearchBar = ({navigation}, props) => {
+  const [items, setItems] = useState([]);
+  const [mountainId, setMountainId] = useState('');
+  const [mountainName, setMountainName] = useState('');
+  const [semiMountainData, setSemiMountainData] = useState([]);
 
-  const [ items, setItems ] = useState([])
-  const [ mountainId, setMountainId ] = useState('')
-  const [ mountainName, setMountainName ] = useState('')
-  const [ semiMountainData, setSemiMountainData ] = useState([])
-
-  const [ modalVisible, setModalVisible ] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
 
   // bottomsheet & 세미 데이터 통신
-  const semiDetail = (item) => {
-
-    console.log(item)
-    setModalVisible(true)
-
-    
+  const semiDetail = item => {
+    console.log(item);
+    setModalVisible(true);
 
     setMountainId(item.id);
     setMountainName(item.name);
 
-    const id = item.id
+    const id = item.id;
 
-    const initialData = async() => {
-      const response = await getMountainDetail(id)
-      console.log('결과', response)
-      setSemiMountainData(response)
-    }
-    initialData(id)
-  }
-    initialData(id)
-=======
-import { Fragment, useEffect, useLayoutEffect, useState } from "react";
-import { View, StyleSheet } from "react-native"
+    const initialData = async () => {
+      const response = await getMountainDetail(id);
+      console.log('결과', response);
+      setSemiMountainData(response);
+    };
+    initialData(id);
+  };
+  initialData(id);
 
   // 산 리스트
   useLayoutEffect(() => {
-
     const initialData = async () => {
       const response = await getMountainList();
-      let templist = []
+      let templist = [];
       response.map((mn, index) => {
         templist.push({
           id: mn.mntnSeq,
-          name: mn.mntnNm
-        })
-      })
-      setItems(templist)
-    }
-    initialData()
-  }, [])
- 
+          name: mn.mntnNm,
+        });
+      });
+      setItems(templist);
+    };
+    initialData();
+  }, []);
+
   return (
     <View>
       <Fragment>
         <SearchableDropdown
           onItemSelect={item => {
-            semiDetail(item)
+            semiDetail(item);
           }}
           containerStyle={{
             backgroundColor: 'white',
@@ -116,6 +108,6 @@ import { View, StyleSheet } from "react-native"
       />
     </View>
   );
-}
+};
 
 export default SearchBar;
