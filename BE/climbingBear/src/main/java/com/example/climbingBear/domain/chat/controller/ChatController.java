@@ -39,7 +39,7 @@ public class ChatController {
     @ApiOperation(value = "채팅방 삭제", notes = "")
     public ResponseEntity<CommonResponse> deleteChatRoom(HttpServletRequest request, @RequestParam Long chatRoomSeq) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
-        chatService.chatRoomDelete(chatRoomSeq, userSeq);
-        return null;
+        String result = chatService.chatRoomDelete(chatRoomSeq, userSeq);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(result), HttpStatus.OK);
     }
 }

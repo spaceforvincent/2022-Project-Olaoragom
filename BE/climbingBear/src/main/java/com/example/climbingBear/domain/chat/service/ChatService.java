@@ -37,13 +37,14 @@ public class ChatService {
         return chatRooms.stream().map(ChatRoomListResDto::new).collect(Collectors.toList());
     }
 
-    public void chatRoomDelete (Long chatRoomSeq, Long userSeq) throws Exception {
+    public String chatRoomDelete (Long chatRoomSeq, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         ChatRoom chatRoom = chatRepository.findByChatRoomSeq(chatRoomSeq).orElseThrow(() ->
                 new NoExistChatRoomException());
         if (chatRoom.getUser().getUserSeq() == user.getUserSeq()){
             chatRepository.delete(chatRoom);
+            return "삭제 완료됐습니다.";
         } else {
             throw new NoExistChatRoomException();
         }
