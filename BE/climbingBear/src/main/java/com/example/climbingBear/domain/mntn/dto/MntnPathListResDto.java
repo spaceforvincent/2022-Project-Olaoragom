@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class MntnPathListResDto {
-    private float lat;
-    private float lon;
+    private double lat;
+    private double lon;
 
     public MntnPathListResDto(Path path){
         this.lat = path.getLat();

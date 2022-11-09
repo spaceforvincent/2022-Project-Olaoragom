@@ -7,9 +7,14 @@ import lombok.Data;
 public class MntnListResDto {
     private Long mntnSeq;
     private String mntnNm;
+    private double mntnLat;
+    private double mntnLon;
+
 
     public MntnListResDto(Mountain mntn){
         this.mntnSeq = mntn.getMntnSeq();
         this.mntnNm = mntn.getMntnNm();
+        this.mntnLat = mntn.getMntnLat();
+        this.mntnLon = mntn.getMntnLon();
     }
 }

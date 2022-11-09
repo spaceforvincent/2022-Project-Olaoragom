@@ -1,6 +1,5 @@
 package com.example.climbingBear.domain.mntn.service;
 
-import com.example.climbingBear.domain.mntn.exception.NoExistFeatureException;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.mntn.dto.*;
 import com.example.climbingBear.domain.mntn.entity.*;
@@ -11,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Dictionary;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,16 +34,23 @@ public class MntnService {
 //        return mntnResDto;
 //    }
 
+    @Transactional
     public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.ASC, "mntnSeq"));
         return mountains.stream().map(MntnListResDto::new).collect(Collectors.toList());
     }
 
-    public MntnDetailResDto getMntnDetail(Long mntnSeq){
+    @Transactional
+    public MntnDetailResDto getMntnDetail(Long mntnSeq) {
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());
         List place = findMntnPlace(mntn);
-        return MntnDetailResDto.ofMntnDetail(mntn, place);
+        List<Feature> features = featureRepository.findByMntn(mntn);
+        String level = null;
+        for (Feature f : features) {
+            level = f.getPmtnDffl();
+        }
+        return MntnDetailResDto.ofMntnDetail(mntn, place, level);
     }
 
     public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){

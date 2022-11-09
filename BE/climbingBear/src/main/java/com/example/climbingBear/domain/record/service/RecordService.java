@@ -1,7 +1,5 @@
 package com.example.climbingBear.domain.record.service;
 
-import com.example.climbingBear.domain.diary.dto.DiaryListResDto;
-import com.example.climbingBear.domain.diary.repository.DiaryRepository;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.mntn.repository.MntnRepository;
@@ -28,15 +26,22 @@ public class RecordService {
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
-    public List<RecordListResDto> MyRecordList(Long userSeq) throws Exception {
-        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-                new NoExistUserException());
-        List<Record> records = recordRepository.findByUser(user);
-        return records.stream().map(RecordListResDto::new).collect(Collectors.toList());
-    }
+//    public List<RecordListResDto> MyRecordList(Long userSeq) throws Exception {
+//        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+//                new NoExistUserException());
+//        List<Record> records = recordRepository.findByUser(user);
+//        return records.stream().map(RecordListResDto::new).collect(Collectors.toList());
+//    }
     public RecordPostResDto recordSave(RecordPostReqDto dto, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
+        if (recordRepository.existsByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay())){
+            Record oldRecord = recordRepository.findByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay()).orElseThrow(() ->
+                    new NoRecordException());
+            if (oldRecord.isComplete() == false) {
+                recordRepository.delete(oldRecord);
+            }
+        }
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
                 new NoExistMntnException());
         Record record = dto.toRecordEntity(user, mntn);

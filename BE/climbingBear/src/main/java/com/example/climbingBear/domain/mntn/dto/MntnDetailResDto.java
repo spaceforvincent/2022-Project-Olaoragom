@@ -1,5 +1,6 @@
 package com.example.climbingBear.domain.mntn.dto;
 
+import com.example.climbingBear.domain.mntn.entity.Feature;
 import com.example.climbingBear.domain.mntn.entity.Mountain;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +33,16 @@ public class MntnDetailResDto {
 
     private List place;
 
-    public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place){
+    private String level;
+
+    private String mntnImg;
+
+    private String mntnPathImg;
+
+    private double mntnLat;
+    private double mntnLon;
+
+    public static MntnDetailResDto ofMntnDetail(Mountain mntn, List place, String level){
         return MntnDetailResDto.builder()
                 .mntnNm(mntn.getMntnNm())
                 .mntnSubnm(mntn.getMntnSubnm())
@@ -42,7 +52,12 @@ public class MntnDetailResDto {
                 .mntnDetails(mntn.getMntnDetails())
                 .mntnEtccourse(mntn.getMntnEtccourse())
                 .mntnTransport(mntn.getMntnTransport())
+                .mntnImg(mntn.getMntnImg())
+                .mntnPathImg(mntn.getMntnPathImg())
+                .mntnLon(mntn.getMntnLon())
+                .mntnLat(mntn.getMntnLat())
                 .place(place)
+                .level(level)
                 .build();
     }
 }
