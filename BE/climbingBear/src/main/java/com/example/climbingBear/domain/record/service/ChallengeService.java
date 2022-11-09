@@ -27,10 +27,10 @@ public class ChallengeService {
     public List<RankByMonthResDto> rankByMonth (Integer year, Integer month) throws Exception {
         List<User> users = userRepository.findAll();
 //        System.out.println("users : "+users);
-        Map<Long, Double> dic = new HashMap<>();
+        Map<String, Double> dic = new HashMap<>();
 //        dic.put(1, 23.4);
 //        dic.put(2, 233.4);
-        System.out.println("dic : "+dic);
+//        System.out.println("dic : "+dic);
 
         for (User u : users) {
 //            dic.put(u.getUserSeq(), u.getNickname());
@@ -40,18 +40,17 @@ public class ChallengeService {
 //            System.out.println("records : "+records);
             for (Record r : records) {
 //                System.out.println("records : "+r.getDistance());
-                if (r.getDistance() == null){
-                    dic.put(u.getUserSeq(), 0.0);
+                if (r.isComplete() == false){
                     continue;
                 }
                 sum += r.getDistance();
 //                System.out.println("sum : "+sum);
             }
-            dic.put(u.getUserSeq(), sum);
+            dic.put(u.getNickname(), sum);
         }
 //        System.out.println("dic : "+dic);
 
-        List<Map.Entry<Long, Double>> entryList = new LinkedList<>(dic.entrySet());
+        List<Map.Entry<String, Double>> entryList = new LinkedList<>(dic.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 //        System.out.println("List : "+entryList);
         return entryList.stream().map(RankByMonthResDto::new).collect(Collectors.toList());
@@ -59,22 +58,21 @@ public class ChallengeService {
     // 누적 거리 순위
     public List<RankByAllResDto> rankAll () throws Exception {
         List<User> users = userRepository.findAll();
-        Map<Long, Double> dic = new HashMap<>();
+        Map<String, Double> dic = new HashMap<>();
 
         for (User u : users) {
             Double sum = 0.0;
             List<Record> records = recordRepository.findByUser(u);
             for (Record r : records) {
-                if (r.getDistance() == null){
-                    dic.put(u.getUserSeq(), 0.0);
+                if (r.isComplete() == false){
                     continue;
                 }
                 sum += r.getDistance();
             }
-            dic.put(u.getUserSeq(), sum);
+            dic.put(u.getNickname(), sum);
         }
 
-        List<Map.Entry<Long, Double>> entryList = new LinkedList<>(dic.entrySet());
+        List<Map.Entry<String, Double>> entryList = new LinkedList<>(dic.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         return entryList.stream().map(RankByAllResDto::new).collect(Collectors.toList());
     }
