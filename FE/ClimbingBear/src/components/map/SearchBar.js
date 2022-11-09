@@ -22,28 +22,18 @@ const SearchBar = ({navigation}, props) => {
     console.log(item)
     setModalVisible(true)
 
-    
-
     setMountainId(item.id);
     setMountainName(item.name);
 
-    const id = item.id
-
-    const initialData = async() => {
-      const response = await getMountainDetail(id)
-      console.log('결과', response)
+    const initialData = async(mountainId) => {
+      const response = await getMountainDetail(item.id)
       setSemiMountainData(response)
     }
-    initialData(id)
+    initialData()
   }
-    initialData(id)
-=======
-import { Fragment, useEffect, useLayoutEffect, useState } from "react";
-import { View, StyleSheet } from "react-native"
 
   // 산 리스트
   useLayoutEffect(() => {
-
     const initialData = async () => {
       const response = await getMountainList();
       let templist = []
@@ -73,10 +63,10 @@ import { View, StyleSheet } from "react-native"
             padding: 10,
             marginTop: 2,
             height: 60,
-            backgroundColor: '#F9F7F7',
+            backgroundColor: 'white',
             borderColor: '#bbb',
             borderWidth: 1,
-            borderRadius: 5,
+            // borderRadius: 5,
           }}
           itemTextStyle={{
             fontFamily: 'SeoulNamsanL',

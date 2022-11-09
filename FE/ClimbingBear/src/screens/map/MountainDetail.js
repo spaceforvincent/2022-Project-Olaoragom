@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Image, Text, View, StyleSheet} from 'react-native';
+import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+
 import { getMountainDetail } from '../../apis/Map';
 
-// React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
 const MountainDetail = ({navigation: {navigate}, route}) => {
-
-  const mountainId = route.params.mountainId
 
   const [ mountainData, setMountainData ] = useState([])
 
@@ -13,7 +12,6 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
     const initialData = async() => {
       const response = await getMountainDetail(route.params.mountainId)
       console.log(response)
-      console.log('이미지', response.mntnImg)
       setMountainData(response)
     }
     initialData()
@@ -22,12 +20,25 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
 
   return (
     <View>
-        {/* <Text>{mountainData.mntnDetails}</Text> */}
-        <Text>상세페이지</Text>
+      <View>
+        {/* 산 이미지 */}
+      </View>
+
+      <View style={styles.detailContainer}>
+        <View style={styles.textContainer}>
+        <TextExtraBold>{mountainData.mntnNm}</TextExtraBold>
+        <Text>{mountainData.mmtnSubnm}</Text>
+        <Text>{mountainData.mntnHeight}</Text>
+        <Text>{mountainData.mntnRegion}</Text>
+        <Text/>
+        <Text>{mountainData.mntnDetails}</Text>
+        <Text/>
+        <Text>{mountainData.mntnEtccourse}</Text>
+        <Text/>
+        <Text>{mountainData.mntnTransport}</Text>
         <Text>{mountainData.level}</Text>
-        <Text>{mountainData.level}</Text>
-        <Image source={{ uri: "mountainData.mntnImg" }}
-        style={{width: 300, height: 300}}/>
+        </View>
+      </View>
     </View>
   );
 };
@@ -35,7 +46,13 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
 export default MountainDetail;
 
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
+
+  detailContainer: {
+    borderWidth: 1, 
+    margin: 30,
   },
+  textContainer: {
+    margin: 20,
+  },
+
 });

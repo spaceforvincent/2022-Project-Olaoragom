@@ -21,7 +21,8 @@ export const getToken = async() => {
 
   try {
     const authHeader= await EncryptedStorage.getItem('accessToken');
-    console.log('authHeader', authHeader)
+    // (임시)
+    // console.log('authHeader', authHeader)
     return authHeader;
   } 
   catch (error) {
