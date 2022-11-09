@@ -35,7 +35,7 @@ const HomeNavigation = () => {
       <Stack.Screen name="TempNavigation" component={TempNavigation} />
 
       <Stack.Screen name="MountainDetail" component={MountainDetail} />
-      <Stack.Screen name="MapHome" component={MapHome} />
+      
       <Stack.Screen name="ClimbingHome" component={ClimbingHome} />
       <Stack.Screen name="ClimbingGPS" component={ClimbingGPS} />
       <Stack.Screen name="ClimbingFinish" component={ClimbingFinish} />

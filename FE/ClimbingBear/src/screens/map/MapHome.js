@@ -13,7 +13,6 @@ import {
 
 import SearchBar from '../../components/map/SearchBar';
 
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -57,8 +56,8 @@ const MapHome = () => {
           }}
 
           style={styles.map}
-          // // showsUserLocation={true}
-          // // showsMyLocationButton={true}
+          // showsUserLocation={true}
+          // showsMyLocationButton={true}
           provider={PROVIDER_GOOGLE}
           zoomEnabled={true}
 
