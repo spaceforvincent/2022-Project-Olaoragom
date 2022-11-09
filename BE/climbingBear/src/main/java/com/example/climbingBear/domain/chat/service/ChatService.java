@@ -1,15 +1,20 @@
 package com.example.climbingBear.domain.chat.service;
 
+import com.example.climbingBear.domain.chat.dto.ChatRoomListResDto;
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostResDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.repository.ChatRepository;
+import com.example.climbingBear.domain.diary.dto.DiaryListResDto;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +29,10 @@ public class ChatService {
         ChatRoom chatRoom = dto.toChatEntity(user);
         chatRepository.save(chatRoom);
         return ChatRoomPostResDto.of(chatRoom.getChatRoomSeq());
+    }
+
+    public List<ChatRoomListResDto> chatRoomList () throws Exception {
+        List<ChatRoom> chatRooms = chatRepository.findAll();
+        return chatRooms.stream().map(ChatRoomListResDto::new).collect(Collectors.toList());
     }
 }

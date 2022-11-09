@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,9 +22,16 @@ public class ChatController {
     private final JwtProvider jwtProvider;
     private final ChatService chatService;
     @PostMapping
-    @ApiOperation(value = "채팅방 생성", notes = "")
-    public ResponseEntity<CommonResponse> saveDiary(HttpServletRequest request, @RequestBody ChatRoomPostReqDto dto) throws Exception {
+    @ApiOperation(value = "채팅방 생성", notes = "채팅방 제목 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> saveChatRoom(HttpServletRequest request, @RequestBody ChatRoomPostReqDto dto) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.chatRoomSave(dto, userSeq)), HttpStatus.OK);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "채팅방 생성", notes = "채팅방 제목 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> getChatRoomList(HttpServletRequest request) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.chatRoomList()), HttpStatus.OK);
     }
 }
