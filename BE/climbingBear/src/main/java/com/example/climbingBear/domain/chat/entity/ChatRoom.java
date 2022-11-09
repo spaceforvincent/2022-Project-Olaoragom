@@ -4,7 +4,6 @@ import com.example.climbingBear.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.persistence.*;
 
