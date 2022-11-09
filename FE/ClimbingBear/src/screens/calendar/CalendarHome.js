@@ -119,15 +119,18 @@ function CalendarHome({navigation: {navigate}}) {
             Authorization: accessToken,
           },
           data: {
-            day: Number(selected.slice(8, 10)),
-            diarySeq: Number(
-              bookedDate.find(record => record.date === selected).diarySeq,
+            day: Number(selected.slice(10, 12)),
+            recordSeq: Number(
+              bookedDate.find(
+                record => changeDateFormat(record.date) === selected,
+              ).diarySeq,
             ),
             mntnSeq: Number(obj.mntnSeq),
-            month: Number(selected.slice(5, 7)),
+            month: Number(selected.slice(6, 8)),
             year: Number(selected.slice(0, 4)),
           },
         });
+        console.log()
       } catch (error) {
         console.log(error);
       }
@@ -163,7 +166,9 @@ function CalendarHome({navigation: {navigate}}) {
           Authorization: accessToken,
         },
         params: {
-          diarySeq: bookedDate.find(record => record.date === date).diarySeq,
+          diarySeq: bookedDate.find(
+            record => changeDateFormat(record.date) === date,
+          ).diarySeq,
         },
       });
     } catch (error) {
