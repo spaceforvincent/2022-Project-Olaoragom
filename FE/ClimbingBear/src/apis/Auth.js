@@ -53,7 +53,7 @@ export const postLogin = async(id, password) => {
     storeToken(accessToken)
 
     if ( response.data.status === 'success' ) {
-      return true
+      return response.data
     }
   }
     catch (error) {
