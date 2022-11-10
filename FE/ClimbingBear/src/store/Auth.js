@@ -14,6 +14,7 @@ export const authSlice = createSlice({
   reducers: {
     authenticate(state, action) {
       state.accessToken = action.payload.accessToken
+      state.nickname = action.payload.nickname
       state.isAuthenticated = true
     },
   },
