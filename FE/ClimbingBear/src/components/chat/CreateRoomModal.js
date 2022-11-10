@@ -22,12 +22,13 @@ import { TextInput } from 'react-native-gesture-handler';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const baseUrl = ""
+const baseURL = "http://k7d109.p.ssafy.io:8080"
 
 const CreateRoomModal = () => {
   const [roomTitle, setRoomTitle] = useState(''); 
   const [maxMember, setmaxMember] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onChangeTitleHandler = (roomTitle) => {
     setRoomTitle(roomTitle);
@@ -36,16 +37,25 @@ const CreateRoomModal = () => {
     setmaxMember(maxMember);
   }
 
+  // 제목, 최대인원 설정 후 방 개설
   const onSubmitFormHandler = async (event) => {
     if (!roomTitle.trim()) {
       alert("채팅방명과 최대 인원 수를 다시 확인해주세요.");
       return;
     }
     setIsLoading(true);
+    const accessToken = await EncryptedStorage.getItem('accessToken');
     try {
-      const response = await axios.post(`${baseUrl}/`, {
-        roomTitle,
-        maxMember,
+      const response = await axios({
+        method: 'post',
+        url: `${baseURL}/chat`,
+        headers: {
+          Authorization: accessToken,
+        },
+        data: {
+          // title: roomTitle,
+          // maxMember,          
+        }
       });
       if (response.status === 201) {
         alert(` 생성한 데이터: ${JSON.stringify(response.data)}`);
@@ -61,7 +71,6 @@ const CreateRoomModal = () => {
     }
   };
   
-
   
   return (
     <Modal
@@ -101,4 +110,10 @@ const CreateRoomModal = () => {
       </View>
     </Modal>
   )
-}
+};
+
+export default CreateRoomModal;
+
+const styles = StyleSheet.create({
+
+})

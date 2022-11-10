@@ -50,6 +50,17 @@ const ChatHome = () => {
     });
   }, []);
 
+  // 해당 방의 채팅 내용 가져오기 => chatroom으로 코드 이동
+  const getData = async (value) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('room_id')
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+      // error reading value      
+    }
+  }  
+
+    
   const deleteRoom = async (room_id) => {
     await client.delete(`${room_id}`);
     setRooms(
@@ -58,15 +69,6 @@ const ChatHome = () => {
       })
     );
   };
-
-  const getData = async (value) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(room)
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch(e) {
-      // error reading value
-    }
-  }  
 
   return (
     <View>

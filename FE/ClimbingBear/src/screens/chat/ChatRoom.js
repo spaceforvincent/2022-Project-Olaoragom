@@ -20,12 +20,14 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { GiftedChat } from 'react-native-gifted-chat'
+import { useSelector } from 'react-redux'
  
 const ChatRoom = () => {  
   const navigation = useNavigation();
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const [serverState, setServerState] = useState('Loading...');
+  const nickname = useSelector((state) => state.auth.nickname)
 
   // const [senderNick, setSenderNick] = useState(route.params.record.sender_nick)
   // const [receiverNick, setReceiverNick] = useState(route.params.record.receiver_nick)
@@ -38,23 +40,37 @@ const ChatRoom = () => {
   const KR_TIME_DIFF = 9 * 60 * 60 * 1000; //한국 시간(KST)은 UTC시간보다 9시간 더 빠르므로 9시간을 밀리초 단위로 변환.
   const kr_curr = new Date(utc + KR_TIME_DIFF); //UTC 시간을 한국 시간으로 변환하기 위해 utc 밀리초 값에 9시간을 더함.
 
+  // const [userNick, setUserNick] = useState('')
+
+  // const onChangeUserNick = (userNick) => {
+  //   setUserNick(userNick);
+  // }
+
   // const getRoom = await
 
   //  const [userList, setUserList] = useState([])
   // (임시)
-  const userList = [
-    {
-      nickname: '근혜',
-      userSeq: 1,
-    },
-    {
-      nickname: '그네',
-      userSeq: 2,
-    },
-  ]
+  // const userList = [
+  //   {
+  //     nickname: '근혜',
+  //     userSeq: 1,
+  //   },
+  //   {
+  //     nickname: '그네',
+  //     userSeq: 2,
+  //   },
+  // ]
 
-  const receiverNick = userList[0].nickname
-  const senderNick = userList[1].nickname
+  // const receiverNick = userList[0].nickname
+  // const senderNick = userList[1].nickname
+
+  const [senderNick, setSenderNick] = useState(username)
+  const [receiversNick, setReceiversNick] = useState([])
+  const onChangeUserNick = (userNick) => {
+    setUserNick(userNick);
+  }
+
+  
  
   useEffect(() => {
     console.log("소켓통신 가즈아")
@@ -81,13 +97,11 @@ const ChatRoom = () => {
   useEffect(() => {
     setMessages([
       {
-        _id: receiverNick, // receiver nickname
-        // _nick: userList[0].nickname,
+        _id: receiversNick, // receiver nickname
         text: '등산시작!',
         createdAt: kr_curr, // 현재시각
         user: {
           _id: senderNick,  // sender nick
-          // _nick: userList[1].nickname,         
           // avatar: image_path,
         },
       },
@@ -100,7 +114,7 @@ const ChatRoom = () => {
       const response = JSON.parse(e.data);
       console.log("onmessage=>", JSON.stringify(response));
       let sentMessages = {
-        _id: response.receiverNick,
+        _id: response.receiversNick,
         text: response.message,
         createdAt: new Date(response.createdAt),
         // createdAt: new Date(response.createdAt * 1000),
@@ -117,7 +131,7 @@ const ChatRoom = () => {
   const onSend = useCallback((messages = []) => {
     let obj = {
       "senderNick": senderNick,    
-      "receiverNick": receiverNick,
+      "receiversNick": receiversNick,
       "message": messages[0].text,
       "action": "message"
     }
@@ -191,6 +205,7 @@ const ChatRoom = () => {
         messages={messages}
         onSend={messages => onSend(messages)}
         user={{
+          // 본인
           _id: senderNick,  // set sender nick
         }}
       />
