@@ -35,12 +35,17 @@ const LoginScreen = ({navigation}) => {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
     else {
-      const isAuthenticated = await postLogin(id, password)
-      if ( isAuthenticated === true ) {
+      const response = await postLogin(id, password)
+
+      if ( response.status === 'success' ) {
         console.log('로그인 성공!')
         const accessToken = await getToken()
+        const nickname = response.data.nickname
+        console.log(nickname)
+        const isAuthenticated = true
         dispatch(authActions.authenticate({
           accessToken,
+          nickname,
           isAuthenticated
         }))
         return navigation.navigate('Map')
