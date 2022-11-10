@@ -8,52 +8,55 @@ import MountainSemiDetail from './MountainSemiDetail'
 import { getMountainDetail, getMountainList } from "../../apis/Map"
 
 const SearchBar = ({navigation}, props) => {
+  
+  const [items, setItems] = useState([]);
+  const [mountainId, setMountainId] = useState('');
+  const [mountainName, setMountainName] = useState('');
+  const [semiMountainData, setSemiMountainData] = useState([]);
 
-  const [ items, setItems ] = useState([])
-  const [ mountainId, setMountainId ] = useState('')
-  const [ mountainName, setMountainName ] = useState('')
-  const [ semiMountainData, setSemiMountainData ] = useState([])
-
-  const [ modalVisible, setModalVisible ] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
 
   // bottomsheet & 세미 데이터 통신
-  const semiDetail = (item) => {
+  const semiDetail = (item, setLatitude, setLongitude) => {
+    // console.log(item)
 
-    console.log(item)
-    setModalVisible(true)
+    // 모달창
+    setModalVisible(true);
 
     setMountainId(item.id);
     setMountainName(item.name);
 
-    const initialData = async(mountainId) => {
-      const response = await getMountainDetail(item.id)
-      setSemiMountainData(response)
-    }
-    initialData()
-  }
+    const initialData = async () => {
+      const response = await getMountainDetail(item.id);
+      setSemiMountainData(response);
+      setLatitude(response.mntnLat)
+      setLongitude(response.mntnLon)
+    };
+    initialData();
+  };
 
   // 산 리스트
   useLayoutEffect(() => {
     const initialData = async () => {
       const response = await getMountainList();
-      let templist = []
+      let templist = [];
       response.map((mn, index) => {
         templist.push({
           id: mn.mntnSeq,
-          name: mn.mntnNm
-        })
-      })
-      setItems(templist)
-    }
-    initialData()
-  }, [])
- 
+          name: mn.mntnNm,
+        });
+      });
+      setItems(templist);
+    };
+    initialData();
+  }, []);
+
   return (
     <View>
       <Fragment>
         <SearchableDropdown
           onItemSelect={item => {
-            semiDetail(item)
+            semiDetail(item);
           }}
           containerStyle={{
             backgroundColor: 'white',

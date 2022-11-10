@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, Image, TouchableOpacity } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
-import { getMountainDetail } from '../../apis/Map';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,13 +9,12 @@ const MountainSemiDetail = (props) => {
 
   const navigation = useNavigation()
 
-  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion, mountainImage } = props
+  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion } = props
 
   const screenHeight = Dimensions.get('screen').height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
 
-  const [ mountainData, setMountainData ] = useState([])
-
+  // y축 위치
   const translateY = panY.interpolate({
     inputRange: [-1, 0, 1],
     outputRange: [0, 0, 1],
@@ -63,11 +61,10 @@ const MountainSemiDetail = (props) => {
     });
   };
 
-
   return (
     <Modal
       visible={modalVisible}
-      animationType={'fade'}
+      // animationType={'fade'}
       transparent
       statusBarTranslucent>
       <View style={styles.overlay}>
@@ -80,14 +77,20 @@ const MountainSemiDetail = (props) => {
             transform: [{translateY: translateY}],
           }}
           {...panResponders.panHandlers}>
-          <TouchableOpacity onPress={() => navigation.navigate('MountainDetail', {mountainId: mountainId})}>
-            <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
-          </TouchableOpacity>
-          
-          {/* <Image src={mountainImage}></Image> */}
-
-          <TextBold>{mountainRegion}</TextBold>
-
+          <View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('MountainDetail', {mountainId: mountainId})
+              }>
+              <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
+              <TextBold>{mountainRegion}</TextBold>
+            </TouchableOpacity>
+            <Image
+              style={styles.image}
+              source={{
+                uri: `https://storage.googleapis.com/climbingbear/1-${mountainId}.jpg`,
+              }}></Image>
+          </View>
         </Animated.View>
       </View>
     </Modal>
@@ -95,6 +98,8 @@ const MountainSemiDetail = (props) => {
 };
 
 const styles = StyleSheet.create({
+
+  // 모달창
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -113,7 +118,15 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 50,
+    fontSize: 30,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  image: {
+    marginTop: 10,
+    width: 350,
+    height: 200,
+    borderRadius: 5,
   }
 });
 

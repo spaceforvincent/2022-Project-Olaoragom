@@ -9,7 +9,6 @@ const AuthInput = ({value, title, placeholder, secureTextEntry, ...props}) => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>{title}</Text> */}
       <TextInput
         {...props}
         value={value}
