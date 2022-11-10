@@ -3,11 +3,17 @@ package com.example.climbingBear.domain.chat.controller;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.service.ChatService;
 
+import com.example.climbingBear.global.common.CommonResponse;
+import com.example.climbingBear.global.jwt.JwtProvider;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -15,6 +21,7 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatRoomController {
     private final ChatService chatService;
+    private final JwtProvider jwtProvider;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
