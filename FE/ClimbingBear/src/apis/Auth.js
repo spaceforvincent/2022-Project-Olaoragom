@@ -31,6 +31,20 @@ export const getToken = async() => {
 
 };
 
+// acessToken => encryptedStorage REMOVE
+export const removeToken = async() => {
+
+  try {
+    await EncryptedStorage.removeItem('accessToken')
+    console.log('삭제?')
+  }
+  catch (error) {
+    console.log(error)
+    console.log(error.message)
+  }
+
+}
+
 // 로그인
 export const postLogin = async(id, password) => {
 
