@@ -14,6 +14,8 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static jdk.nashorn.internal.objects.NativeMath.max;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -47,10 +49,28 @@ public class MntnService {
         List place = findMntnPlace(mntn);
         List<Feature> features = featureRepository.findByMntn(mntn);
         String level = null;
+        Integer easy = 0;
+        Integer middle = 0;
+        Integer hard = 0;
         for (Feature f : features) {
             level = f.getPmtnDffl();
+            if (level == "쉬움"){
+                easy += 1;
+            } else if (level == "중간") {
+                middle += 1;
+            } else {
+                hard += 1;
+            }
         }
-        return MntnDetailResDto.ofMntnDetail(mntn, place, level);
+        String result = null;
+        if (max(easy, middle, hard) == easy) {
+            result = "쉬움";
+        } else if (max(easy, middle, hard) == middle) {
+            result = "중간";
+        }else {
+            result = "어려움";
+        }
+        return MntnDetailResDto.ofMntnDetail(mntn, place, result);
     }
 
     public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){
