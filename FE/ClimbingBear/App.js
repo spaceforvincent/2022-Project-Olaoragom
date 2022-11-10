@@ -20,6 +20,11 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
+        <StatusBar
+          backgroundColor={'transparent'}
+          barStyle="dark-content"
+          translucent={true}
+        />
         <DrawerNavigator />
       </NavigationContainer>
     </Provider>

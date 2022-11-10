@@ -21,7 +21,11 @@ function DrawerNavigator() {
   return (
     <>
       {isAuthenticated ? (
-        <drawer.Navigator useLegacyImplementation initialRouteName="Login">
+        <drawer.Navigator useLegacyImplementation initialRouteName="Login"
+          screenOptions={{
+            headerTransparent: true,
+            headerTitle: '',
+        }}>
           <drawer.Screen name="Calendar" options={{unmountOnBlur: true, headerTitle:''}} component={CalendarNavigation} />
           <drawer.Screen name="Climbing" options={{unmountOnBlur: true, headerTitle:''}} component={ClimbingNavigation} />
           <drawer.Screen name="Map" options={{unmountOnBlur: true, headerTitle:''}} component={MapNavigation} />
