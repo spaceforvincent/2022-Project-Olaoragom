@@ -1,6 +1,6 @@
 package com.example.climbingBear.domain.chat.controller;
 
-import com.example.climbingBear.domain.chat.dto.ChatRoom;
+import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
