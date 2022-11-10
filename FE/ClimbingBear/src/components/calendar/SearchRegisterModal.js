@@ -65,13 +65,12 @@ const SearchRegisterModal = ({
           <TouchableOpacity
             style={styles.modalbottom}
             onPress={() => {
+              setIsModalVisible(!isModalVisible);
               handleToast('Register');
               setTimeout(() => {
                 setIsToast(false);
                 setToastMsg('');
-                setModifyState(false);
               }, 1000);
-              setIsModalVisible(!isModalVisible);
               getSchedule(selected, addSchedule);
             }}>
             <View style={styles.button}>

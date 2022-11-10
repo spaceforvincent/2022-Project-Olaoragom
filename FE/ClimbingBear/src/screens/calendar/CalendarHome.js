@@ -130,7 +130,7 @@ function CalendarHome({navigation: {navigate}}) {
             year: Number(selected.slice(0, 4)),
           },
         });
-        console.log()
+        setModifyState(false);
       } catch (error) {
         console.log(error);
       }
