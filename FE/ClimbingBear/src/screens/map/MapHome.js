@@ -16,14 +16,10 @@ import SearchBar from '../../components/map/SearchBar';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
 const MapHome = () => {
   // GPS => 기본설정 구미 사업장
   const [ latitude, setLatitude ] = useState(36.109328);
   const [ longitude, setLongitude ] = useState(128.415011);
-
-  // 마커
-  const [ markers, setMarkers ] = useState('');
 
   useEffect(() => {
     // 안드로이드 위치 설정 권한
@@ -47,22 +43,26 @@ const MapHome = () => {
     <SafeAreaView>
       <View style={styles.container}>
         <MapView
-          region={{
+          initialRegion={{
             latitude: latitude,
             longitude: longitude,
-            // 보여주는 범위
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.0001,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
 
           style={styles.map}
-          // showsUserLocation={true}
+          showsUserLocation={true}
           // showsMyLocationButton={true}
           provider={PROVIDER_GOOGLE}
           zoomEnabled={true}
 
-          ></MapView>
-        <Marker></Marker>
+          >
+          <Marker
+            coordinate={{latitude: latitude, longitude: longitude}}
+            title="this is a marker"
+            description="this is a marker example"
+          />
+          </MapView>
       </View>
       {/* 검색어를 치고 검색버튼을 누르는 순간 검색 결과의 위치로 변경해줘야 한다
         따라서 props 기능으로 위/경도 재설정 state 를 보내는 것 */}

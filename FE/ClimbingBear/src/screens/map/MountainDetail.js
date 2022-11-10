@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import { ScrollView , Text, View, StyleSheet } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
 import { getMountainDetail } from '../../apis/Map';
@@ -19,7 +19,7 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
   }, [])
 
   return (
-    <View>
+    <ScrollView>
       <View>
         {/* 산 이미지 */}
       </View>
@@ -39,7 +39,7 @@ const MountainDetail = ({navigation: {navigate}, route}) => {
         <Text>{mountainData.level}</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
