@@ -1,27 +1,29 @@
 package com.example.climbingBear.domain.chat.entity;
 
 import com.example.climbingBear.domain.user.entity.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.UUID;
 
-@Entity
 @Getter
+@Setter
+@Entity
 @NoArgsConstructor
 public class ChatRoom {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatRoomSeq;
-    @ManyToOne
-    private User user;
-    private String title;
+    private String roomId;
+    private String roomName;
 
-    @Builder
-    public ChatRoom (User user, String title){
-        this.user = user;
-        this.title = title;
+
+
+    public static ChatRoom create(String name) {
+        ChatRoom room = new ChatRoom();
+        room.roomId = UUID.randomUUID().toString();
+        room.roomName = name;
+        return room;
     }
-
 }
