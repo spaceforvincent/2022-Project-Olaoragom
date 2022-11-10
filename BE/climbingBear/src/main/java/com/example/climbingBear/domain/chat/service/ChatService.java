@@ -1,30 +1,27 @@
 package com.example.climbingBear.domain.chat.service;
 
-import com.example.climbingBear.domain.chat.dto.ChatRoom;
-import com.example.climbingBear.domain.chat.dto.ChatRoomListResDto;
-import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
-import com.example.climbingBear.domain.chat.dto.ChatRoomPostResDto;
+import com.example.climbingBear.domain.chat.entity.ChatRoom;
 //import com.example.climbingBear.domain.chat.entity.ChatRoom;
-import com.example.climbingBear.domain.chat.exception.NoExistChatRoomException;
 import com.example.climbingBear.domain.chat.repository.ChatRepository;
+import com.example.climbingBear.domain.chat.repository.ChatRoomRepository;
+import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.user.entity.User;
-import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ChatService {
 
     private Map<String, ChatRoom> chatRooms;
-
+    private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
     @PostConstruct
     //의존관게 주입완료되면 실행되는 코드
     private void init() {
@@ -34,9 +31,8 @@ public class ChatService {
     //채팅방 불러오기
     public List<ChatRoom> findAllRoom() {
         //채팅방 최근 생성 순으로 반환
-        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
+        List<ChatRoom> result = new ArrayList<>(chatRepository.findAll());
         Collections.reverse(result);
-
         return result;
     }
 
@@ -47,8 +43,11 @@ public class ChatService {
 
     //채팅방 생성
     public ChatRoom createRoom(String name) {
+//        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+//                new NoExistMntnException());
         ChatRoom chatRoom = ChatRoom.create(name);
-        chatRooms.put(chatRoom.getRoomId(), chatRoom);
+//        chatRooms.put(chatRoom.getRoomId(), chatRoom);
+        chatRepository.save(chatRooms.put(chatRoom.getRoomId(), chatRoom));
         return chatRoom;
     }
 }
