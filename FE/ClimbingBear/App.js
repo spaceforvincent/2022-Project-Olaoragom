@@ -8,9 +8,6 @@ import {StatusBar} from 'react-native';
 import store from './src/store';
 // Provider 로 app 을 감싸줘야 redux 의 store 를 갖고 올 수 있다
 import {Provider} from 'react-redux';
-// (임시) Auth 기능 보류하고 바로 지도/검색 (MapHome) 으로 가는 네비게이터 import
-import HomeNavigation from './src/navigation/HomeNavigation';
-import AuthNavigation from './src/navigation/AuthNavigation';
 import DrawerNavigator from './src/navigation/SideBar';
 
 function App() {
@@ -24,13 +21,6 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <DrawerNavigator />
-        {/* <StatusBar
-          backgroundColor={'transparent'}
-          barStyle="dark-content"
-          translucent={true}
-        /> */}
-        {/* <HomeNavigation /> */}
-        {/* <AuthNavigation /> */}
       </NavigationContainer>
     </Provider>
   );

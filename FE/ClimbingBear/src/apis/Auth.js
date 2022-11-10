@@ -21,7 +21,6 @@ export const getToken = async() => {
 
   try {
     const authHeader= await EncryptedStorage.getItem('accessToken');
-    // (임시)
     // console.log('authHeader', authHeader)
     return authHeader;
   } 
@@ -32,7 +31,7 @@ export const getToken = async() => {
 
 };
 
-// login
+// 로그인
 export const postLogin = async(id, password) => {
 
   try {
@@ -44,7 +43,6 @@ export const postLogin = async(id, password) => {
         pw: password
       }
     })
-    // (임시)
     // console.log(response.data)
     // console.log(response.data.data.accessToken)
     // console.log(response.data.status)
@@ -53,7 +51,7 @@ export const postLogin = async(id, password) => {
     storeToken(accessToken)
 
     if ( response.data.status === 'success' ) {
-      return true
+      return response.data
     }
   }
     catch (error) {
@@ -104,7 +102,6 @@ export const postLogin = async(id, password) => {
           id: id
         },
       });
-      // (임시)
       // console.log(response.data.data.isExist)
 
       if ( response.data.data.isExist === true ) {
@@ -122,8 +119,7 @@ export const postLogin = async(id, password) => {
 
   }
 
-
-  // 회원가입 통신
+  // 회원가입
   export const postSignUp = async(id, nickname, password) => {
 
     try {
@@ -136,7 +132,6 @@ export const postLogin = async(id, password) => {
           pw: password,
         },
       })
-      // (임시)
       // console.log('결과', response.data)
       // console.log(response.data.status)
 
