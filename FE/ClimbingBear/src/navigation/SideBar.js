@@ -5,7 +5,6 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
-import LogoutScreen from '../screens/auth/LogoutScreen'
 import { AuthNavigation} from './AuthNavigation';
 import { CalendarNavigation } from './CalendarNavigation';
 import { MapNavigation } from './MapNavigation';
@@ -27,7 +26,6 @@ function DrawerNavigator() {
           <drawer.Screen name="Climbing" options={{unmountOnBlur: true, headerTitle:''}} component={ClimbingNavigation} />
           <drawer.Screen name="Map" options={{unmountOnBlur: true, headerTitle:''}} component={MapNavigation} />
           <drawer.Screen name="ChatRoom" options={{unmountOnBlur: true, headerTitle:''}} component={ChatNavigation} />
-          <drawer.Screen name="logout" options={{unmountOnBlur: true, headerTitle:''}} component={LogoutScreen} />
         </drawer.Navigator>
       ) : (
         <drawer.Navigator useLegacyImplementation initialRouteName="Login">
