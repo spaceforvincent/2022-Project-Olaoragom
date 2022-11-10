@@ -59,7 +59,7 @@ const ChatHome = () => {
     );
   };
 
-  const getData = async () => {
+  const getData = async (value) => {
     try {
       const jsonValue = await AsyncStorage.getItem(room)
       return jsonValue != null ? JSON.parse(jsonValue) : null;
