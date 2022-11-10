@@ -17,7 +17,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { Searchbar } from 'react-native-paper';
+import axios from "axios";
+
+// axios instance
+const client = axios.create({
+  baseURL: "" 
+});
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -26,6 +31,8 @@ const Stack = createStackNavigator();
 
 const ChatHome = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [rooms, setRooms] = useState([]);
+
 
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -36,6 +43,22 @@ const ChatHome = () => {
   // const nickname = 
   // const isHost = 
 
+  // 방정보 get
+  useEffect(() => {
+    client.get('').then((response) => {
+      setRooms(response.data)
+    });
+  }, []);
+
+  const deleteRoom = async (room_id) => {
+    await client.delete(`${room_id}`);
+    setRooms(
+      rooms.filter((room) => {
+        return room.room_id !== room_id;
+      })
+    );
+  };
+
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(room)
@@ -43,7 +66,7 @@ const ChatHome = () => {
     } catch(e) {
       // error reading value
     }
-  }
+  }  
 
   return (
     <View>
@@ -64,11 +87,11 @@ const ChatHome = () => {
         {/* 채팅방장 닉네임 */}
         <Text>방장 닉네임</Text>
         {/* 방장이면 방 삭제 아이콘 보임 */}
+        {/* 누르면 방 삭제되도록 */}
+        {/* room_id? room_name? */}
         {nickname === {isHost} ||
           <Pressable
-            onPress={() => {              
-            }}>         
-
+            onPress={() => deleteRoom(room_id)}>
             <Icon
               name="delete"
               size={18}
@@ -81,9 +104,11 @@ const ChatHome = () => {
             alert('채팅방 입장합니다.');
           }}
         >
-          {/* 채팅방 제목 */}
+          {/* 채팅방 제목 */}          
           <Text>방 제목</Text>
         </TouchableOpacity>
+
+        
       </View>
       
     </View>
