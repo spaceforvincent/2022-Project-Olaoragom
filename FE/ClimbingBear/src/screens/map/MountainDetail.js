@@ -14,18 +14,18 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const MountainDetail = ({navigation, route}) => {
 
-  const [ mountainData, setMountainData ] = useState([])
-  const mntnId = route.params.mountainId
+  const [mountainData, setMountainData] = useState([]);
+  const mntnId = route.params.mountainId;
 
   useEffect(() => {
-    const initialData = async() => {
-      const response = await getMountainDetail(mntnId)
-      console.log(response)
-      setMountainData(response)
-    }
-    initialData()
-    console.log('상세', mountainData)
-  }, [])
+    const initialData = async () => {
+      const response = await getMountainDetail(mntnId);
+      console.log(response);
+      setMountainData(response);
+    };
+    initialData();
+    console.log('상세', mountainData);
+  }, []);
 
   return (
     <ScrollView>
@@ -68,16 +68,16 @@ const MountainDetail = ({navigation, route}) => {
           난이도 {mountainData.level}
         </TextExtraBold>
         {mountainData.level == '쉬움' && (
-          <TextBold style={styles.difficultText}>이 정도는 산책이죠!</TextBold>
+          <TextBold style={styles.difficultText}>이 정도는 산책 그 잡체!</TextBold>
         )}
         {mountainData.level == '중간' && (
           <TextBold style={styles.difficultText}>
-            간식의 힘이라면 충분해요!
+            간식의 힘이라면 충분!
           </TextBold>
         )}
         {mountainData.level == '어려움' && (
           <TextBold style={styles.difficultText}>
-            당신이라면 할 수 있어요!
+            중요한 것은 꺾이지 않는 마음!
           </TextBold>
         )}
       </View>
