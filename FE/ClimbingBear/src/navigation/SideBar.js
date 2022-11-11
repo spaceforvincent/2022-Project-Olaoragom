@@ -30,6 +30,7 @@ function DrawerNavigator() {
           <drawer.Screen name="Climbing" options={{unmountOnBlur: true, headerTitle:''}} component={ClimbingNavigation} />
           <drawer.Screen name="Map" options={{unmountOnBlur: true, headerTitle:''}} component={MapNavigation} />
           <drawer.Screen name="ChatRoom" options={{unmountOnBlur: true, headerTitle:''}} component={ChatNavigation} />
+          <drawer.Screen name="Logout" options={{unmountOnBlur: true, headerTitle:''}} component={AuthNavigation} />
         </drawer.Navigator>
       ) : (
         <drawer.Navigator useLegacyImplementation initialRouteName="Login">
