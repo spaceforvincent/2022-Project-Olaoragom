@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.annotation.sql.DataSourceDefinition;
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -15,15 +16,20 @@ import java.util.UUID;
 public class ChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatRoomSeq;
-    private String roomId;
-    private String roomName;
+    private String roomRealName;
+    private String roomTitle;
+    @ManyToOne
+    @JoinColumn(name = "user_user_seq")
+    private User user;
 
 
 
-    public static ChatRoom create(String name) {
-        ChatRoom room = new ChatRoom();
-        room.roomId = UUID.randomUUID().toString();
-        room.roomName = name;
-        return room;
+    @Builder
+    public  ChatRoom (String roomTitle, User user, String roomRealName) {
+        this.roomRealName = roomRealName;
+        this.user = user;
+        this.roomTitle = roomTitle;
+
     }
+
 }
