@@ -31,7 +31,7 @@ const pauseInput = {
   RESTART: 'restart',
 };
 
-const ClimbingInfo = ({altitude, distance}) => {
+const ClimbingInfo = ({altitude, distance, setFinishClimb}) => {
   const navigation = useNavigation();
 
   // 타이머 위해 지정한 변수들
@@ -108,7 +108,9 @@ const ClimbingInfo = ({altitude, distance}) => {
             <TextMedium style={styles.climbbuttontext}>일시 정지</TextMedium>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ClimbingFinish')}>
+            onPress={() => {
+              setFinishClimb(true)
+              navigation.navigate('ClimbingFinish')}}>
             <TextMedium style={styles.climbbuttontext}>등산 종료</TextMedium>
           </TouchableOpacity>
         </View>
