@@ -77,7 +77,8 @@ const ClimbingInfo = ({altitude, distance}) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <TextBold style={styles.titletextcolor}>등산 </TextBold>
+        { !pause && <TextBold style={styles.titletextcolor}>등산 </TextBold>}
+        { pause && <TextBold style={styles.titletextcolor}>쉬는 </TextBold>}
         <TextBold style={styles.titletext}>중 이에요!</TextBold>
       </View>
       <View style={styles.semicontainer}>
