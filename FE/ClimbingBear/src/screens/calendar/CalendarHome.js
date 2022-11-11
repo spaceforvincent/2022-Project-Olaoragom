@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -71,7 +71,7 @@ function CalendarHome({navigation: {navigate}}) {
   // 토스트 메세지 내용 변경
   const [toastMsg, setToastMsg] = useState('');
   //페이지 마운트될 때 오늘 날짜 지정
-  useEffect(() => {
+  useLayoutEffect(() => {
     loadSchedule();
     setDateNum(
       year +
@@ -80,13 +80,19 @@ function CalendarHome({navigation: {navigate}}) {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
-  }, [bookedDate]);
+    if (isToast) {
+      setTimeout(() => {
+        setIsToast(false);
+        setToastMsg('');
+      }, 1000);
+    }
+  }, [isToast]);
 
   //토스트 메시지 기능 사용
   const handleToast = type => {
     if (!isToast) {
-      setIsToast(true);
       setToastMsg(toastMsgList[type]);
+      setIsToast(true);
     }
   };
 
@@ -131,12 +137,12 @@ function CalendarHome({navigation: {navigate}}) {
           },
         });
         setModifyState(false);
+        loadSchedule();
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        console.log(selected);
         const response = await axios({
           method: 'post',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
@@ -150,6 +156,7 @@ function CalendarHome({navigation: {navigate}}) {
             year: Number(selected.slice(0, 4)),
           },
         });
+        loadSchedule();
       } catch (error) {
         console.log(error);
       }
@@ -171,6 +178,7 @@ function CalendarHome({navigation: {navigate}}) {
           ).diarySeq,
         },
       });
+      loadSchedule();
     } catch (error) {
       console.log(error);
     }
@@ -178,7 +186,6 @@ function CalendarHome({navigation: {navigate}}) {
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
-    console.log('달력', accessToken);
     let bookedArr = [];
     let havebeenArr = [];
     try {
@@ -402,13 +409,13 @@ function CalendarHome({navigation: {navigate}}) {
         setToastMsg={setToastMsg}
       />
       {/* 토스트 메세지 */}
-      {isToast ? <ToastMessage message={toastMsg} /> : <></>}
+      {isToast && <ToastMessage message={toastMsg} />}
       {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
-      {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
+      {/* {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
         <View style={styles.modalOverlay}></View>
       ) : (
         <></>
-      )}
+      )} */}
     </View>
   );
 }
