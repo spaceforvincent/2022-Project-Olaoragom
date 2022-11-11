@@ -1,7 +1,6 @@
 package com.example.climbingBear.domain.chat.entity;
 
 import com.example.climbingBear.domain.user.entity.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

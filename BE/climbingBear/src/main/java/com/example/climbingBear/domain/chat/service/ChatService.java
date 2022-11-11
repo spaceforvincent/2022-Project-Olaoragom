@@ -8,7 +8,6 @@ import com.example.climbingBear.domain.chat.repository.ChatRepository;
 import com.example.climbingBear.domain.chat.repository.ChatRoomRepository;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.user.entity.User;
-import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
