@@ -73,10 +73,6 @@ const ModifyDeleteModal = ({
             onPress={() => {
               setIsModalVisible(!isModalVisible);
               handleToast('Delete');
-              setTimeout(() => {
-                setIsToast(false);
-                setToastMsg('');
-              }, 1000);
               deleteSchedule(selected);
             }}>
             <View style={styles.button}>
