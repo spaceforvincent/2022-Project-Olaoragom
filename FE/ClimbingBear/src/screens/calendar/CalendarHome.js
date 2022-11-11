@@ -80,7 +80,7 @@ function CalendarHome({navigation: {navigate}}) {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
-  }, [isToast]);
+  }, [bookedDate]);
 
   //토스트 메시지 기능 사용
   const handleToast = type => {
