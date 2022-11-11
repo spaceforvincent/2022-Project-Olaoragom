@@ -1,11 +1,14 @@
 package com.example.climbingBear.domain.chat.service;
 
+import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
+import com.example.climbingBear.domain.chat.dto.ChatRoomPostResDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 //import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.repository.ChatRepository;
 import com.example.climbingBear.domain.chat.repository.ChatRoomRepository;
 import com.example.climbingBear.domain.mntn.exception.NoExistMntnException;
 import com.example.climbingBear.domain.user.entity.User;
+import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,16 @@ public class ChatService {
     private Map<String, ChatRoom> chatRooms;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
+
+    public ChatRoomPostResDto createRoom (ChatRoomPostReqDto dto, Long userSeq) throws Exception {
+        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+                new NoExistUserException());
+        ChatRoom chatRoom = dto.toChatEntity(user);
+        chatRooms.put(chatRoom.getRoomRealName(), chatRoom);
+        chatRepository.save(chatRoom);
+        return ChatRoomPostResDto.of(chatRoom.getChatRoomSeq());
+    }
+
     @PostConstruct
     //의존관게 주입완료되면 실행되는 코드
     private void init() {
@@ -40,16 +53,16 @@ public class ChatService {
     public ChatRoom findById(String roomId) {
         return chatRooms.get(roomId);
     }
-
-    //채팅방 생성
-    public ChatRoom createRoom(String name) {
-//        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-//                new NoExistMntnException());
-        ChatRoom chatRoom = ChatRoom.create(name);
-//        chatRooms.put(chatRoom.getRoomId(), chatRoom);
-        chatRepository.save(chatRooms.put(chatRoom.getRoomId(), chatRoom));
-        return chatRoom;
-    }
+//
+//    //채팅방 생성
+//    public ChatRoom createRoom(String name) {
+////        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+////                new NoExistMntnException());
+//        ChatRoom chatRoom = ChatRoom.create(name);
+////        chatRooms.put(chatRoom.getRoomId(), chatRoom);
+//        chatRepository.save(chatRooms.put(chatRoom.getRoomId(), chatRoom));
+//        return chatRoom;
+//    }
 }
 //@Service
 //@RequiredArgsConstructor
