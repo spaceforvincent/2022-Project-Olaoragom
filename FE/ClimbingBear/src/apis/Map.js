@@ -43,3 +43,17 @@ export const getMountainDetail = async mountainId => {
     console.log(error.response.data);
   }
 };
+
+// mountain weather
+export const getMountainWeather = async(lat, lng) => {
+  try {
+    const response = await axios({
+      url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&exclude=hourly,daily&appid=70be5caf0468b9040e9c7465ff5001c0`
+    })
+    console.log('날씨', response)
+    return response
+  } catch (error) {
+    console.log(error)
+    console.log(error.response.data)
+  }
+}

@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { ScrollView , View, Text, Image, StyleSheet, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
-import { getMountainDetail } from '../../apis/Map';
+import { getMountainDetail, getMountainWeather } from '../../apis/Map';
+import MountainWeather from '../../components/map/MountainWeather';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -15,6 +16,7 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 const MountainDetail = ({navigation, route}) => {
 
   const [mountainData, setMountainData] = useState([]);
+  const [ mountainWeather, setMountainWeather ] = useState([]);
   const mntnId = route.params.mountainId;
 
   useEffect(() => {
@@ -51,6 +53,8 @@ const MountainDetail = ({navigation, route}) => {
               <TextExtraBold style={styles.title}>등산하기</TextExtraBold>
             </TouchableOpacity>
           </View>
+          <TextBold style={styles.subnm}>{mountainData.mntnLat}</TextBold>
+          <TextBold style={styles.subnm}>{mountainData.mntnLon}</TextBold>
           <TextBold style={styles.subnm}>{mountainData.mntnSubnm}</TextBold>
           <TextBold style={styles.mntnHeight}>{mountainData.mntnHeight}</TextBold>
           <TextMedium style={styles.region}>{mountainData.mntnRegion}</TextMedium>
@@ -83,7 +87,9 @@ const MountainDetail = ({navigation, route}) => {
       </View>
 
       {/* 날씨 */}
-      <View style={styles.weatherContainer}></View>
+      <View style={styles.weatherContainer}>
+        <MountainWeather lat={mountainData.mntnLat} lng={mountainData.mntnLon}/>
+      </View>
 
       {/* 등산로 */}
       <View style={styles.imageContainer}>

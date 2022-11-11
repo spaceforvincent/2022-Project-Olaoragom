@@ -7,7 +7,7 @@ import SearchableDropdown from 'react-native-searchable-dropdown'
 import MountainSemiDetail from './MountainSemiDetail'
 import { getMountainDetail, getMountainList } from "../../apis/Map"
 
-const SearchBar = ({navigation}, props) => {
+const SearchBar = ({navigation}, setMarkerLat, setMarkerLon, props) => {
   const [items, setItems] = useState([]);
   const [mountainId, setMountainId] = useState('');
   const [mountainName, setMountainName] = useState('');
@@ -16,8 +16,10 @@ const SearchBar = ({navigation}, props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   // bottomsheet & 세미 데이터 통신
-  const semiDetail = (item, setMarkerLat, setMarkerLng) => {
+  const semiDetail = (item) => {
     // console.log(item)
+
+    props.setMarkerLat(getMountainDetail().mntnLat)
 
     // 모달창
     setModalVisible(true);
@@ -28,10 +30,13 @@ const SearchBar = ({navigation}, props) => {
     const initialData = async () => {
       const response = await getMountainDetail(item.id);
       setSemiMountainData(response);
-      setMarkerLat(response.mntnLat);
-      setMarkerLng(response.mntnLon);
+      // setMarkerLat(response.mntnLat)
+      // setMarkerLon(response.mntnLon)
     };
-    initialData();
+    initialData()
+    props.setMarkerLat(semiMountainData.mntnLat)
+    props.setMarkerLon(semiMountainData.mntnLon)
+    console.log('여기', semiMountainData.mntnLat)
   };
 
   // 산 리스트

@@ -15,8 +15,9 @@ const MapHome = () => {
   const [ longitude, setLongitude ] = useState(128.415011);
 
   // Marker
+
   const [ markerLat, setMarkerLat ] = useState('');
-  const [ markerLng, setMarkerLng ] = useState('');
+  const [ markerLon, setMarkerLon ] = useState('');
 
   useEffect(() => {
     // 안드로이드 위치 설정 권한
@@ -35,6 +36,10 @@ const MapHome = () => {
     };
     gpsPermissionAndroid();
   }, []);
+
+  useEffect(() => {
+    console.log('좀찍혀라', markerLat, markerLon)
+  })
 
   return (
     <SafeAreaView>
@@ -61,8 +66,8 @@ const MapHome = () => {
         </MapView>
       </View>
       
-      <SearchBar setMarkerLat={setMarkerLat} setMarkerLng={setMarkerLng} />
-      <TextBold>{markerLat}얍얍{markerLng}</TextBold>
+      <SearchBar setMarkerLat={setMarkerLat} setMarkerLon={setMarkerLon}/>
+      <TextBold>{markerLat}얍얍{markerLon}</TextBold>
     </SafeAreaView>
   );
 };
