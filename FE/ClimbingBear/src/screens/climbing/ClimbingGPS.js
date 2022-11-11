@@ -26,7 +26,7 @@ useDispatch 를 import 함으로서 우리가 만든 reducer action 사용 가�
 */
 import {useSelector, useDispatch} from 'react-redux';
 // dispatch 를 쓰기 위해 선언한 actions 을 스토어에서 import
-import {nowclimbingActions} from '../../store/Climbing';
+import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing'; 
 // async storage 쓰기 위해 import
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 /* 
@@ -52,7 +52,9 @@ const ClimbingGPS = () => {
 
   // 내 위치 임시저장할 state
   // (임시) 추후 polyline 위한 빈 리스트 생성하며 없앨 듯, useRef 사용
-  const [position, setPosition] = useState([]);
+  const [position, setPosition] = useState([{latitude: latitude, longitude: longitude}]);
+  // 위치 인덱스
+  const positionNum = useRef(-1)
 
   // watchposition 쓸 watchId
   const watchId = useRef(null);
@@ -84,6 +86,7 @@ const ClimbingGPS = () => {
   // 현재 내 위치를 가져오는 함수
   const getLocation = async () => {
     Geolocation.getCurrentPosition(pos => {
+      console.log("GeolocationCurrent", pos.coords)
       // (임시) 내가 설정한 위치로 들고옴
       dispatch(
         // nowclimbingActions.nowMyLocation({
@@ -105,11 +108,17 @@ const ClimbingGPS = () => {
   const getLocationUpdates = async () => {
     watchId.current = Geolocation.watchPosition(
       pos => {
+        console.log("GeolocationUpdate", pos.coords)
+
         const nowLatitude = pos.coords.latitude;
         const nowLongitude = pos.coords.longitude;
         const nowAltitude = pos.coords.altitude;
         // (임시) polyline 리스트 만들기
-        setPosition([...position, [nowLatitude, nowLongitude]]),
+        positionNum.current = positionNum.current + 1
+        setPosition((position) => [
+          ...position,
+          {latitude: nowLatitude, longitude: nowLongitude}
+        ]),
           dispatch(
             nowclimbingActions.nowMyLocation({
               latitude: nowLatitude,
@@ -161,18 +170,41 @@ const ClimbingGPS = () => {
 
   // (임시 / 확인) 위치가 추가될 때 마다 거리 함수 실행
   useEffect(() => {
+    // nlength = position.length
     if (position.length > 1) {
-      const lat1 = position[-2][0];
-      const lon1 = position[-2][1];
-      const lat2 = position[-1][0];
-      const lon2 = position[-1][1];
-      const nowDistance = computeDistance(lat1, lon1, lat2, lon2) + distance;
+      console.log("위치", position)
+      // const newPositionNum = positionNum.current + 1
+      // const lat1 = position[positionNum.current].latitude
+      // const lon1 = position[positionNum.current].longitude
+      // const lat2 = position[newPositionNum].latitude
+      // const lon2 = position[newPositionNum].longitude
+
+
+      // console.log("위치0", position)
+
+      // const position1 = position.slice(nlength-2, nlength-1);
+      // const position2 = position.slice(nlength-1, nlength);
+      // console.log("위치1", position1, "위치2", position2)
+
+      // const lon1 = position1.slice(0,1);
+      // const lat1 = position1.slice(1,2);
+      // console.log("lon1", lon1, "lat1", lat1)
+      // const lon2 = position2.slice(0,1);
+      // const lat2 = position2.slice(1,2);
+      // console.log("lon2", lon2, "lat2", lat2)
+
+      // #############
+      // const nowDistance = computeDistance(lat1, lon1, lat2, lon2) + distance;
+      // #############
+
       // dispatch 로 스토어에 저장
-      dispatch(
-        nowclimbingActions.nowDistance({
-          distance: nowDistance,
-        }),
-      );
+      // ###################
+      // dispatch(
+      //   nowclimbingActions.nowDistance({
+      //     distance: nowDistance,
+      //   }),
+      // );
+      // ###################
     }
   }, [position]);
 
@@ -192,6 +224,7 @@ const ClimbingGPS = () => {
           longitude={longitude}
           altitude={altitude}
           distance={distance}
+          position={position}
         />
       )}
       <ClimbingInfo altitude={altitude} distance={distance} />
