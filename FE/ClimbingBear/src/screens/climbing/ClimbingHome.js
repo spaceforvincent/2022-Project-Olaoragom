@@ -46,7 +46,6 @@ const ClimbingHome = () => {
   const dispatch = useDispatch();
 
   function currentPosition ()  {
-    console.log("실행됨")
     Geolocation.getCurrentPosition(pos => {
       // (임시) 내가 설정한 위치로 들고옴
       dispatch(

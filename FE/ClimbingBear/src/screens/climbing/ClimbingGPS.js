@@ -56,6 +56,9 @@ const ClimbingGPS = () => {
   // 위치 인덱스
   const positionNum = useRef(-1)
 
+  // 등산종료 상태
+  const [finishClimb, setFinishClimb] = useState(false)
+
   // watchposition 쓸 watchId
   const watchId = useRef(null);
 
@@ -225,9 +228,14 @@ const ClimbingGPS = () => {
           altitude={altitude}
           distance={distance}
           position={position}
+          finishClimb={finishClimb}
         />
       )}
-      <ClimbingInfo altitude={altitude} distance={distance} />
+      <ClimbingInfo 
+      altitude={altitude} 
+      distance={distance} 
+      finishClimb={finishClimb}
+      setFinishClimb={setFinishClimb}/>
     </View>
   );
 };
