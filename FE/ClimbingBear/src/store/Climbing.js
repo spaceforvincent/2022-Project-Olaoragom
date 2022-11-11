@@ -11,6 +11,7 @@ const initialState = {
   longitude: 126.9500385,
   altitude: 49,
   distance: 0,
+  uri: '',
 };
 
 export const nowclimbingSlice = createSlice({
@@ -27,6 +28,9 @@ export const nowclimbingSlice = createSlice({
     },
     nowDistance(state, action) {
       state.distance = action.payload.distance;
+    },
+    mapSnapshot(state, action) {
+      state.uri = action.payload.uri;
     },
   },
 });
