@@ -1,23 +1,33 @@
 import { removeToken } from "../../apis/Auth";
-import { useDispatch } from "react-redux";
+import { Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/Auth";
 import { useLayoutEffect } from "react";
+import LoginScreen from "./LoginScreen";
 
 const LogoutScreen = ({navigation}) => {
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    const logout = async() => {
-        const isAuthenticated = false
-        dispatch(authActions.authenticate({
-            isAuthenticated
-        }))
-        removeToken()
-        return navigation.navigator('LoginScreen')
-    }
+    // const logout = async() => {
+    //     try {
+    //         dispatch(authActions.logout())
+    //         removeToken()
+    //         console.log('로그아웃')
+    //         }
+    //     catch (error) {
+    //         console.log(error)
+    //     } 
+    // }
 
-    useLayoutEffect(() => {
-        logout()
-    }, [])
+    // useEffect(() => {
+    //     logout
+    // }, [])
+
+    return(
+        <View>
+            <Text>얍</Text>
+        </View>
+    )
 }
 
 export default LogoutScreen

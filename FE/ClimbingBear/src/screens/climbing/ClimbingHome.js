@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 // 자식 컴포넌트에서 navigation 을 사용하기 위한 모듈 import
 import {useNavigation} from '@react-navigation/native';
+// GPS 모듈 import
+import Geolocation from 'react-native-geolocation-service';
 // 서체 import
 import {
   TextLight,
@@ -19,7 +21,8 @@ import {
   TextBold,
   TextExtraBold,
 } from '../../components/common/TextFont';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
 /* 
 (논의) Dimensions 창 크기 전역 관리
 
@@ -38,6 +41,26 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const ClimbingHome = () => {
+
+  // action 을 들고 올 dispatch 선언
+  const dispatch = useDispatch();
+
+  function currentPosition ()  {
+    Geolocation.getCurrentPosition(pos => {
+      // (임시) 내가 설정한 위치로 들고옴
+      dispatch(
+        nowclimbingActions.nowMyLocation({
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude,
+        }),
+      );
+    });
+  };
+
+  useEffect(() => {
+    currentPosition()
+  }, [])
+
   // 위에 import 한 모듈로 navigation 선언
   const navigation = useNavigation();
   // 혼자 / 여럿 버튼 누를 때마다 받을 파라미터 선언
