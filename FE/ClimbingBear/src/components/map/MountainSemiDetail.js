@@ -49,6 +49,7 @@ const MountainSemiDetail = (props) => {
     }),
   ).current;
 
+  // 모달창 열고 닫기
   useEffect(() => {
     if (props.modalVisible) {
       resetBottomSheet.start();
@@ -98,7 +99,6 @@ const MountainSemiDetail = (props) => {
 };
 
 const styles = StyleSheet.create({
-
   // 모달창
   overlay: {
     flex: 1,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
-
+  // 본문
   title: {
     fontSize: 30,
     marginTop: 10,
