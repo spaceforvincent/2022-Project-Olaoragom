@@ -1,53 +1,45 @@
-import axios from "axios";
-import EncryptedStorage from 'react-native-encrypted-storage'
+import axios from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
-const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn'
+const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn';
 
 // mountain list
-export const getMountainList = async() => {
+export const getMountainList = async () => {
+  const accessToken = await EncryptedStorage.getItem('accessToken');
 
-    const accessToken = await EncryptedStorage.getItem('accessToken')
-
-    try {
-      const response = await axios({
-        method: 'get',
-        url: API_URL + '/list',
-        headers: {
-            Authorization: accessToken
-        },
-      });
-
-      return response.data.data
-    } 
-    
-    catch (error) {
-      console.log(error);
-      console.log(error.response.data);
-    }
-    
-}
+  try {
+    const response = await axios({
+      method: 'get',
+      url: API_URL + '/list',
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    console.log(error.response.data);
+  }
+};
 
 // mountain detail
-export const getMountainDetail = async(mountainId) => {
-  
-  const accessToken = await EncryptedStorage.getItem('accessToken')
+export const getMountainDetail = async mountainId => {
+  const accessToken = await EncryptedStorage.getItem('accessToken');
 
   try {
     const response = await axios({
       method: 'get',
       url: API_URL + '/detail',
       headers: {
-        Authorization: accessToken
+        Authorization: accessToken,
       },
       params: {
-        mntnSeq: mountainId
+        mntnSeq: mountainId,
       },
-    })
-    return response.data.data
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    console.log(error.response.data);
   }
-
-  catch (error) {
-    console.log(error)
-    console.log(error.response.data)
-  }
-}
+};
