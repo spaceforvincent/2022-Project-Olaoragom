@@ -28,7 +28,7 @@ import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
 // import tempgwanwakSpot from '../../assets/temp/tempgwanwakSpot';
 // (임시) polyline 그려보기
-import {line} from '../../assets/temp/temppolyline';
+// import {line} from '../../assets/temp/temppolyline';
 
 import {getPath} from '../../apis/Climb';
 
@@ -41,7 +41,7 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 // 이 페이지와 상관없이 지도 검색 gps 는 쓸 수 있어야 하므로 상태 관리 따로 할 예정
 
 // Polyline, MapType 메인에서 받아와야할듯..
-const ClimbingMap = ({latitude, longitude}) => {
+const ClimbingMap = ({latitude, longitude, position}) => {
   // useSelector 로 state 값을 들고오기
   // const latitude = useSelector(state => state.nowclimblocation.latitude);
   // const longitude = useSelector(state => state.nowclimblocation.longitude);
@@ -162,8 +162,7 @@ const ClimbingMap = ({latitude, longitude}) => {
             />
           </Marker>
         ))} */}
-        {/* (임시) polyline 색 정해야 한다 */}
-        {/* <Polyline coordinates={line} strokeColor="#4AD63D" strokeWidth={3} /> */}
+        <Polyline coordinates={position} strokeColor="#2E64FE" strokeWidth={15} />
         {features &&
           features.map((item, index) => (
             <Geojson
