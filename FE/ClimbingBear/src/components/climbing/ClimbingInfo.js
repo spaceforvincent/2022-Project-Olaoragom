@@ -18,6 +18,9 @@ import {
 
 // 자식 컴포넌트에서 navigation 을 사용하기 위한 모듈 import
 import {useNavigation} from '@react-navigation/native';
+// 리덕스 스토어 import
+import {useSelector, useDispatch} from 'react-redux';
+import {nowclimbingActions} from '../../store/Climbing';
 
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
@@ -33,6 +36,7 @@ const pauseInput = {
 
 const ClimbingInfo = ({altitude, distance, setFinishClimb}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   // 타이머 위해 지정한 변수들
   const [nowHour, setNowHour] = useState(0);
@@ -109,7 +113,15 @@ const ClimbingInfo = ({altitude, distance, setFinishClimb}) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
+              // snapshot 찍기 위해 status 바꾸기
               setFinishClimb(true)
+              dispatch(
+                nowclimbingActions.climbTime({
+                 hour: nowHour,
+                 min: nowMinutes,
+                 sec: nowSeconds,
+                })
+              )
               navigation.navigate('ClimbingFinish')}}>
             <TextMedium style={styles.climbbuttontext}>등산 종료</TextMedium>
           </TouchableOpacity>
