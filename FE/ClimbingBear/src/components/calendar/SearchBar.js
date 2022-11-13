@@ -106,14 +106,6 @@ const styles = StyleSheet.create({
     fontFamily: 'SeoulNamsanB',
     fontSize: 10,
   },
-  textinput: {
-    fontFamily: 'SeoulNamsanB',
-    fontSize: 15,
-  },
-  buttontext: {
-    fontFamily: 'SeoulNamsanB',
-    fontSize: 10,
-  },
   result: {
     flexDirection: 'row',
     marginTop: windowHeight * 0.01,

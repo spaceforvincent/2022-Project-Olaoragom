@@ -30,14 +30,13 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const ChatHome = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [rooms, setRooms] = useState([]);
-
-
-  const onChangeSearch = query => setSearchQuery(query);
-
-  // encrypt storage에서 유저정보 가져오기
-  // const 
+  // 방 개설 모달 ON/OFF
+  const [isCreateRoomModalVisible, setIsCreateRoomModalVisible] =
+    useState(false);
+  // 삭제 확인 모달 ON/OFF
+  const [isDeleteRoomModalVisible, setIsDeleteRoomModalVisible] =
+    useState(false);
 
   // async storage에서 방 정보 가져오기
   // const nickname = 
@@ -58,7 +57,9 @@ const ChatHome = () => {
     } catch(e) {
       // error reading value      
     }
-  }  
+  }
+
+  
 
     
   const deleteRoom = async (room_id) => {
@@ -70,13 +71,17 @@ const ChatHome = () => {
     );
   };
 
+  // const 
+
   return (
     <View>
       {/* 채팅방 개설 버튼 */}
       {/* 모달 띄워야 */}
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text style={{fontSize:18}}>채팅방 개설</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      
+
       {/* 방 검색 창 & 버튼 */}
       {/* <Searchbar
         placeholder="Search"

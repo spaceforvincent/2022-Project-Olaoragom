@@ -24,7 +24,10 @@ const windowHeight = Dimensions.get('window').height;
 
 const baseURL = "http://k7d109.p.ssafy.io:8080"
 
-const CreateRoomModal = () => {
+const CreateRoomModal = ({
+  modalVisible,
+  setmodalVisible,
+}) => {
   const [roomTitle, setRoomTitle] = useState(''); 
   const [maxMember, setmaxMember] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +84,13 @@ const CreateRoomModal = () => {
         setModalVisible(!modalVisible);
       }}
     >
-      <View>
+      <Pressable
+        style={styles.modalOverlay}
+        onPress={() => {
+          setModalVisible(!isModalVisible);
+        }}></Pressable>
+
+      <View style={styles.Modal}>
         <Text>채팅방명</Text>
         <TextInput
           placeholder=''
