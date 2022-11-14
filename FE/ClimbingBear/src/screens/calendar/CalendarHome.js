@@ -326,15 +326,17 @@ function CalendarHome({navigation: {navigate}}) {
                   ).distance,
                 })
               }>
-              <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
+<<<<<<< HEAD
+              <TextMedium style={styles.dday}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
               {checkNameLength(
                 havebeenDate.find(record => record.date === date.dateString)
                   .mountainName,
               )}
             </TouchableOpacity>
-          ) : //갈 예정인 날짜 스탬프
-          bookedDate && makeDateArr(bookedDate).includes(date.dateString) ? (
+          ) : //오늘 날짜 표시(등산 미완료)
+          dateNum === date.dateString &&
+            makeDateArr(bookedDate).includes(date.dateString) ? (
             <TouchableOpacity
               onPress={() => {
                 //일정 수정/삭제 모달 띄움
@@ -346,7 +348,14 @@ function CalendarHome({navigation: {navigate}}) {
                     .mountainName,
                 );
               }}>
-              <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
+<<<<<<< HEAD
+              <TextMedium style={styles.dday}>{date.day}</TextMedium>
+              <NotHaveBeenStamp style={styles.stamp} />
+              {checkNameLength(
+                bookedDate.find(record => record.date === date.dateString)
+                  .mountainName,
+=======
+              <TextMedium style={styles.wenttoday}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
               {checkNameLength(
                 bookedDate.find(record => record.date === date.dateString)

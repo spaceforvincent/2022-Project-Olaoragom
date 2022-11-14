@@ -8,6 +8,7 @@ import MountainDetail from '../screens/map/MountainDetail';
 import ClimbingHome from '../screens/climbing/ClimbingHome';
 import ClimbingGPS from '../screens/climbing/ClimbingGPS';
 import ClimbingFinish from '../screens/climbing/ClimbingFinish';
+import CalendarHome from '../screens/calendar/CalendarHome';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ const MapNavigation = () => {
       <Stack.Screen name="ClimbingHome" component={ClimbingHome} />
       <Stack.Screen name="ClimbingGPS" component={ClimbingGPS} />
       <Stack.Screen name="ClimbingFinish" component={ClimbingFinish} />
+      <Stack.Screen name="CalendarHome" component={CalendarHome} />
     </Stack.Navigator>
   );
 };

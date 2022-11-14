@@ -8,7 +8,7 @@ import {
   PixelRatio,
   TouchableOpacity,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {
   TextLight,
@@ -18,6 +18,7 @@ import {
 } from '../../components/common/TextFont';
 // 통신
 import {postClimbingData} from '../../apis/Climbing';
+import SaveEndModal from '../../components/climbing/SaveEndModal';
 
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
@@ -33,6 +34,11 @@ const month = today.getMonth() + 1; // 월
 const date = today.getDate(); // 날짜
 
 const ClimbingFinishInfo = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // action 을 들고 올 dispatch 선언
+  const dispatch = useDispatch();
+
   const distance = useSelector(state => state.nowclimbing.distance);
   const dis = Math.ceil(distance);
   const hour = useSelector(state => state.nowclimbing.hour);
@@ -59,10 +65,20 @@ const ClimbingFinishInfo = () => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          postClimbingData(date, dis, mntnseq, month, time, year);
+          postClimbingData(date, dis, mntnseq, month, time, year),
+            setIsModalVisible(true);
+          dispatch(
+            nowclimbingActions.myClimbStatus({
+              climbStatus: false,
+            }),
+          );
         }}>
         <TextMedium style={styles.infosave}>기록하기</TextMedium>
       </TouchableOpacity>
+      <SaveEndModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
     </View>
   );
 };
