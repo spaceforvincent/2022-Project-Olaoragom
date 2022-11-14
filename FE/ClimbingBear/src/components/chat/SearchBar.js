@@ -105,6 +105,9 @@ const styles = styleSheet.create({
     justifyContent: 'flex-start'
   },
   foundRoomElement: {
-
+    // fontFamily: 'SeoulNamsanB',
+    // marginHorizontal: 1,
+    // marginVertical: 2,
+    // padding: 5,
   },
 });
