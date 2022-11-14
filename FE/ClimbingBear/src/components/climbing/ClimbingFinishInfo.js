@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, View, StyleSheet, Dimensions,
-  PixelRatio, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  PixelRatio,
+  TouchableOpacity,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import {
@@ -9,6 +16,8 @@ import {
   TextBold,
   TextExtraBold,
 } from '../../components/common/TextFont';
+// 통신
+import {postClimbingData} from '../../apis/Climbing';
 
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
@@ -16,35 +25,44 @@ const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
+// 날짜
+const today = new Date();
+
+const year = today.getFullYear(); // 년도
+const month = today.getMonth() + 1; // 월
+const date = today.getDate(); // 날짜
+
 const ClimbingFinishInfo = () => {
   const distance = useSelector(state => state.nowclimbing.distance);
+  const dis = Math.ceil(distance);
   const hour = useSelector(state => state.nowclimbing.hour);
   const min = useSelector(state => state.nowclimbing.min);
   const sec = useSelector(state => state.nowclimbing.sec);
+  const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
+  const time = `${hour}:${min}:${sec}`;
 
   return (
     <View style={styles.container}>
-    <View style={styles.semicontainer}>
-      <View >
-      <TextMedium style={styles.infotext}>
-      등산 거리
-      </TextMedium>
-      <TextMedium style={styles.infotext}>
-      {distance} km
-      </TextMedium>
+      <View style={styles.semicontainer}>
+        <View>
+          <TextMedium style={styles.infotext}>등산 거리</TextMedium>
+          <TextMedium style={styles.infotext}>
+            {distance.toFixed(2)} km
+          </TextMedium>
+        </View>
+        <View>
+          <TextMedium style={styles.infotext}>등산 시간</TextMedium>
+          <TextMedium style={styles.infotext}>
+            {hour} : {min} : {sec}
+          </TextMedium>
+        </View>
       </View>
-      <View>
-      <TextMedium style={styles.infotext}>
-      등산 시간
-      </TextMedium>
-      <TextMedium style={styles.infotext}>
-      {hour} : {min} : {sec}
-      </TextMedium>
-      </View>
-          </View>
-      <TouchableOpacity>
-            <TextMedium style={styles.infosave}>기록하기</TextMedium>
-          </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          postClimbingData(date, dis, mntnseq, month, time, year);
+        }}>
+        <TextMedium style={styles.infosave}>기록하기</TextMedium>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -57,19 +75,19 @@ const styles = StyleSheet.create({
     color: '#000000',
     paddingVertical: widthPixel * 0.005,
   },
-  container:{
+  container: {
     // backgroundColor:'black'
   },
-  semicontainer:{
-    flexDirection:'row',
-    justifyContent:'space-around'
+  semicontainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  infosave:{
+  infosave: {
     backgroundColor: '#74B49B',
     borderRadius: 15,
     paddingVertical: widthPixel * 0.01,
     paddingHorizontal: widthPixel * 0.025,
     fontSize: widthPixel * 0.02,
     color: '#FFFFFF',
-  }
+  },
 });
