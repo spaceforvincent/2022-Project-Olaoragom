@@ -51,14 +51,12 @@ const month = today.getMonth() + 1; // 월
 const date = today.getDate(); // 날짜
 
 const ClimbingHome = ({route}) => {
-  // 산 이름
-  const [mntnname, setMntnname] = useState('');
-
   const mntnId = route.params.mntnId;
 
   // action 을 들고 올 dispatch 선언
   const dispatch = useDispatch();
   const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
+  const mntnname = useSelector(state => state.nowclimbing.mntnname);
 
   function currentPosition() {
     Geolocation.getCurrentPosition(pos => {
@@ -75,14 +73,18 @@ const ClimbingHome = ({route}) => {
   useEffect(() => {
     currentPosition();
     dispatch(
-      nowclimbingActions.getMntnName({
+      nowclimbingActions.getMntnId({
         mntnseq: mntnId,
       }),
     );
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
       const name = response.mntnNm;
-      setMntnname(name);
+      dispatch(
+        nowclimbingActions.getMntnName({
+          mntnname: name,
+        }),
+      );
     };
     initialData();
   }, []);

@@ -8,6 +8,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   climbStatus: false,
   mntnseq: '',
+  mntnname: '',
   latitude: 35.907757,
   longitude: 127.766922,
   altitude: 49,
@@ -22,8 +23,11 @@ export const nowclimbingSlice = createSlice({
   name: 'nowclimbing',
   initialState,
   reducers: {
-    getMntnName(state, action) {
+    getMntnId(state, action) {
       state.mntnseq = action.payload.mntnseq;
+    },
+    getMntnName(state, action) {
+      state.mntnname = action.payload.mntnname;
     },
     nowMyLocation(state, action) {
       state.latitude = action.payload.latitude;
