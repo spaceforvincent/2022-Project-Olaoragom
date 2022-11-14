@@ -20,6 +20,8 @@ import {
 import {postClimbingData} from '../../apis/Climbing';
 import SaveEndModal from '../../components/climbing/SaveEndModal';
 
+import {nowclimbingActions} from '../../store/Climbing';
+
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
