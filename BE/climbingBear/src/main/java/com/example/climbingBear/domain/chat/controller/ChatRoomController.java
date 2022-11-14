@@ -46,7 +46,7 @@ public class ChatRoomController {
     // 채팅방을 찾아서 클라이언트를 chatroom 으로 보낸다.
     @GetMapping("/chat/room")
     @ApiOperation(value = "채팅방 입장", notes = "")
-    public String roomDetail(Model model, @PathVariable String roomId) {
+    public String roomDetail(Model model, String roomId) {
 
         log.info("roomId {}", roomId);
 
