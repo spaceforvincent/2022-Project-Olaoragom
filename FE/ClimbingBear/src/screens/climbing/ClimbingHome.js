@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 // 자식 컴포넌트에서 navigation 을 사용하기 위한 모듈 import
 import {useNavigation} from '@react-navigation/native';
+// GPS 모듈 import
+import Geolocation from 'react-native-geolocation-service';
 // 서체 import
 import {
   TextLight,
@@ -19,6 +21,10 @@ import {
   TextBold,
   TextExtraBold,
 } from '../../components/common/TextFont';
+import {useSelector, useDispatch} from 'react-redux';
+import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
+// 통신 코드
+import {getMountainDetail} from '../../apis/Map';
 
 /* 
 (논의) Dimensions 창 크기 전역 관리
@@ -37,7 +43,52 @@ const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
-const ClimbingHome = () => {
+// 날짜
+const today = new Date();
+
+const year = today.getFullYear(); // 년도
+const month = today.getMonth() + 1; // 월
+const date = today.getDate(); // 날짜
+
+const ClimbingHome = ({route}) => {
+  const mntnId = route.params.mntnId;
+
+  // action 을 들고 올 dispatch 선언
+  const dispatch = useDispatch();
+  const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
+  const mntnname = useSelector(state => state.nowclimbing.mntnname);
+
+  function currentPosition() {
+    Geolocation.getCurrentPosition(pos => {
+      // (임시) 내가 설정한 위치로 들고옴
+      dispatch(
+        nowclimbingActions.nowMyLocation({
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude,
+        }),
+      );
+    });
+  }
+
+  useEffect(() => {
+    currentPosition();
+    dispatch(
+      nowclimbingActions.getMntnId({
+        mntnseq: mntnId,
+      }),
+    );
+    const initialData = async () => {
+      const response = await getMountainDetail(mntnId);
+      const name = response.mntnNm;
+      dispatch(
+        nowclimbingActions.getMntnName({
+          mntnname: name,
+        }),
+      );
+    };
+    initialData();
+  }, []);
+
   // 위에 import 한 모듈로 navigation 선언
   const navigation = useNavigation();
   // 혼자 / 여럿 버튼 누를 때마다 받을 파라미터 선언
@@ -115,11 +166,12 @@ const ClimbingHome = () => {
   }
 
   return (
-    // 산 이름, 날짜 props로 받아오기
     <View style={styles.container}>
       <View style={styles.infotext}>
-        <TextExtraBold style={styles.mountainname}>천생산</TextExtraBold>
-        <TextMedium style={styles.todaydate}>2022년 10월 20일</TextMedium>
+        <TextExtraBold style={styles.mountainname}>{mntnname}</TextExtraBold>
+        <TextMedium style={styles.todaydate}>
+          {year}년 {month}월 {date}일
+        </TextMedium>
       </View>
       <View style={styles.imagecheck}>
         <AnimatedTouchable

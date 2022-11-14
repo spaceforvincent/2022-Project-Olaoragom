@@ -8,7 +8,6 @@ import MountainSemiDetail from './MountainSemiDetail'
 import { getMountainDetail, getMountainList } from "../../apis/Map"
 
 const SearchBar = ({navigation}, props) => {
-  
   const [items, setItems] = useState([]);
   const [mountainId, setMountainId] = useState('');
   const [mountainName, setMountainName] = useState('');
@@ -17,7 +16,7 @@ const SearchBar = ({navigation}, props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   // bottomsheet & 세미 데이터 통신
-  const semiDetail = (item, setLatitude, setLongitude) => {
+  const semiDetail = (item, setMarkerLat, setMarkerLng) => {
     // console.log(item)
 
     // 모달창
@@ -29,8 +28,8 @@ const SearchBar = ({navigation}, props) => {
     const initialData = async () => {
       const response = await getMountainDetail(item.id);
       setSemiMountainData(response);
-      setLatitude(response.mntnLat)
-      setLongitude(response.mntnLon)
+      setMarkerLat(response.mntnLat);
+      setMarkerLng(response.mntnLon);
     };
     initialData();
   };
@@ -61,6 +60,7 @@ const SearchBar = ({navigation}, props) => {
           containerStyle={{
             backgroundColor: 'white',
             padding: 15,
+            marginTop: 50,
           }}
           itemStyle={{
             padding: 10,
@@ -109,6 +109,12 @@ const SearchBar = ({navigation}, props) => {
       />
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 30,
+  },
+});
 
 export default SearchBar;
