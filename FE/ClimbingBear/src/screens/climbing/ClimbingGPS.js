@@ -26,7 +26,7 @@ useDispatch 를 import 함으로서 우리가 만든 reducer action 사용 가�
 */
 import {useSelector, useDispatch} from 'react-redux';
 // dispatch 를 쓰기 위해 선언한 actions 을 스토어에서 import
-import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing'; 
+import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
 // async storage 쓰기 위해 import
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 /* 
@@ -52,12 +52,14 @@ const ClimbingGPS = () => {
 
   // 내 위치 임시저장할 state
   // (임시) 추후 polyline 위한 빈 리스트 생성하며 없앨 듯, useRef 사용
-  const [position, setPosition] = useState([{latitude: latitude, longitude: longitude}]);
+  const [position, setPosition] = useState([
+    {latitude: latitude, longitude: longitude},
+  ]);
   // 위치 인덱스
-  const positionNum = useRef(-1)
+  const positionNum = useRef(-1);
 
   // 등산종료 상태
-  const [finishClimb, setFinishClimb] = useState(false)
+  const [finishClimb, setFinishClimb] = useState(false);
 
   // watchposition 쓸 watchId
   const watchId = useRef(null);
@@ -89,14 +91,8 @@ const ClimbingGPS = () => {
   // 현재 내 위치를 가져오는 함수
   const getLocation = async () => {
     Geolocation.getCurrentPosition(pos => {
-      console.log("GeolocationCurrent", pos.coords)
-      // (임시) 내가 설정한 위치로 들고옴
+      console.log('GeolocationCurrent', pos.coords);
       dispatch(
-        // nowclimbingActions.nowMyLocation({
-        //   latitude: 37.4565095,
-        //   longitude: 126.9500385,
-        //   altitude: 49,
-        // }),
         nowclimbingActions.nowMyLocation({
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
@@ -111,16 +107,16 @@ const ClimbingGPS = () => {
   const getLocationUpdates = async () => {
     watchId.current = Geolocation.watchPosition(
       pos => {
-        console.log("GeolocationUpdate", pos.coords)
+        console.log('GeolocationUpdate', pos.coords);
 
         const nowLatitude = pos.coords.latitude;
         const nowLongitude = pos.coords.longitude;
         const nowAltitude = pos.coords.altitude;
         // (임시) polyline 리스트 만들기
-        positionNum.current = positionNum.current + 1
-        setPosition((position) => [
+        positionNum.current = positionNum.current + 1;
+        setPosition(position => [
           ...position,
-          {latitude: nowLatitude, longitude: nowLongitude}
+          {latitude: nowLatitude, longitude: nowLongitude},
         ]),
           dispatch(
             nowclimbingActions.nowMyLocation({
@@ -171,50 +167,24 @@ const ClimbingGPS = () => {
     return () => backHandler.remove();
   }, []);
 
-  // (임시 / 확인) 위치가 추가될 때 마다 거리 함수 실행
+  // 위치가 추가될 때 마다 거리 함수 실행
   useEffect(() => {
-    // nlength = position.length
     if (position.length > 1) {
-      console.log("위치", position)
-      // const newPositionNum = positionNum.current + 1
-      // const lat1 = position[positionNum.current].latitude
-      // const lon1 = position[positionNum.current].longitude
-      // const lat2 = position[newPositionNum].latitude
-      // const lon2 = position[newPositionNum].longitude
-
-
-      // console.log("위치0", position)
-
-      // const position1 = position.slice(nlength-2, nlength-1);
-      // const position2 = position.slice(nlength-1, nlength);
-      // console.log("위치1", position1, "위치2", position2)
-
-      // const lon1 = position1.slice(0,1);
-      // const lat1 = position1.slice(1,2);
-      // console.log("lon1", lon1, "lat1", lat1)
-      // const lon2 = position2.slice(0,1);
-      // const lat2 = position2.slice(1,2);
-      // console.log("lon2", lon2, "lat2", lat2)
-
-      // #############
-      // const nowDistance = computeDistance(lat1, lon1, lat2, lon2) + distance;
-      // #############
-
+      const newPositionNum = positionNum.current + 1;
+      const lat1 = position[positionNum.current].latitude;
+      const lon1 = position[positionNum.current].longitude;
+      const lat2 = position[newPositionNum].latitude;
+      const lon2 = position[newPositionNum].longitude;
+      // 거리 계산
+      const nowDistance = computeDistance(lat1, lon1, lat2, lon2) + distance;
       // dispatch 로 스토어에 저장
-      // ###################
-      // dispatch(
-      //   nowclimbingActions.nowDistance({
-      //     distance: nowDistance,
-      //   }),
-      // );
-      // ###################
+      dispatch(
+        nowclimbingActions.nowDistance({
+          distance: nowDistance,
+        }),
+      );
     }
   }, [position]);
-
-  // (확인) [position] 이 없어도 호출이 계속 되는건가? -> 되는데 추후 조건 더 줘야할 듯
-  // useEffect(() => {
-  //   getLocationUpdates();
-  // }, [position]);
 
   return (
     // climbStatus 가 true 일 때 기록 시작하고 종료할 때 status false 로 되돌리기
@@ -231,11 +201,12 @@ const ClimbingGPS = () => {
           finishClimb={finishClimb}
         />
       )}
-      <ClimbingInfo 
-      altitude={altitude} 
-      distance={distance} 
-      finishClimb={finishClimb}
-      setFinishClimb={setFinishClimb}/>
+      <ClimbingInfo
+        altitude={altitude}
+        distance={distance}
+        finishClimb={finishClimb}
+        setFinishClimb={setFinishClimb}
+      />
     </View>
   );
 };
