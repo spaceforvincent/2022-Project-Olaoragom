@@ -4,12 +4,12 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn';
 
 export const postClimbingData = async (
-  mntnSeq,
-  year,
-  month,
   day,
-  time,
   distance,
+  mntnSeq,
+  month,
+  time,
+  year,
 ) => {
   const accessToken = await EncryptedStorage.getItem('accessToken');
   try {
