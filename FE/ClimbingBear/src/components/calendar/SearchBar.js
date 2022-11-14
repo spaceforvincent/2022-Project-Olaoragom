@@ -7,6 +7,7 @@ import {
   Button,
   StyleSheet,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -79,6 +80,7 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
                   setEnteredText(r.mountainName); //검색바 내용 변경
                   getEnteredMountain(r); //enteredText 전송
                   setResult([]);
+                  Keyboard.dismiss();
                 }}></Button>
             </View>
           );
@@ -97,14 +99,6 @@ const styles = StyleSheet.create({
     borderColor: '#C2C2C2',
     width: windowWidth * 0.7,
     height: windowHeight * 0.05,
-  },
-  textinput: {
-    fontFamily: 'SeoulNamsanB',
-    fontSize: 15,
-  },
-  buttontext: {
-    fontFamily: 'SeoulNamsanB',
-    fontSize: 10,
   },
   textinput: {
     fontFamily: 'SeoulNamsanB',

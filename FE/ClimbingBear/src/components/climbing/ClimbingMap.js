@@ -19,7 +19,9 @@ import MapView, {
 import {TextBold, TextMedium} from '../../components/common/TextFont';
 
 // useSelector 을 import 함으로서 우리가 만든 reducer state 에 접근 가능
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
+
 // 지도 위에 띄울 버튼 import
 import ClimbingButton from './ClimbingButton';
 import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
@@ -41,7 +43,7 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 // 이 페이지와 상관없이 지도 검색 gps 는 쓸 수 있어야 하므로 상태 관리 따로 할 예정
 
 // Polyline, MapType 메인에서 받아와야할듯..
-const ClimbingMap = ({latitude, longitude, position}) => {
+const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   // useSelector 로 state 값을 들고오기
   // const latitude = useSelector(state => state.nowclimblocation.latitude);
   // const longitude = useSelector(state => state.nowclimblocation.longitude);
@@ -56,6 +58,8 @@ const ClimbingMap = ({latitude, longitude, position}) => {
 
   const [features, setFeatures] = useState(null);
   const [pathIndex, setPathIndex] = useState(null);
+
+  const dispatch = useDispatch();
 
   const path = [];
 
@@ -138,20 +142,44 @@ const ClimbingMap = ({latitude, longitude, position}) => {
     }
   }
 
+  // 스냅샷 찍는 함수
+  function takeSnapshot() {
+    const snapshot = map.takeSnapshot({
+      width: 300,
+      height: 300,
+      format: 'png',
+      result: 'file',
+    });
+    snapshot.then(uri => {
+      dispatch(
+        nowclimbingActions.mapSnapshot({
+          uri: uri,
+        }),
+      );
+    });
+  }
+
+  {
+    finishClimb && takeSnapshot();
+  }
+
   return (
     <View style={styles.container}>
       <MapView
         region={{
           latitude: latitude,
           longitude: longitude,
-          latitudeDelta: 0.08,
+          latitudeDelta: 0.004,
           longitudeDelta: 0.001,
         }}
         mapType={mapType}
         style={styles.map}
         showsUserLocation={true}
         showsMyLocationButton={false}
-        provider={PROVIDER_GOOGLE}>
+        provider={PROVIDER_GOOGLE}
+        ref={map => {
+          this.map = map;
+        }}>
         {/* (임시) 포인트, path 확인용 */}
         {/* Each child in a list should have a unique "key" prop 경고 해결 */}
         {/* {palgongSpotData.map(loc => (
@@ -162,7 +190,11 @@ const ClimbingMap = ({latitude, longitude, position}) => {
             />
           </Marker>
         ))} */}
-        <Polyline coordinates={position} strokeColor="#2E64FE" strokeWidth={15} />
+        <Polyline
+          coordinates={position}
+          strokeColor="#2E64FE"
+          strokeWidth={5}
+        />
         {features &&
           features.map((item, index) => (
             <Geojson

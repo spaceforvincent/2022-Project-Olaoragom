@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -71,7 +71,7 @@ function CalendarHome({navigation: {navigate}}) {
   // 토스트 메세지 내용 변경
   const [toastMsg, setToastMsg] = useState('');
   //페이지 마운트될 때 오늘 날짜 지정
-  useEffect(() => {
+  useLayoutEffect(() => {
     loadSchedule();
     setDateNum(
       year +
@@ -80,13 +80,19 @@ function CalendarHome({navigation: {navigate}}) {
         '-' +
         ('00' + day.toString()).slice(-2),
     );
+    if (isToast) {
+      setTimeout(() => {
+        setIsToast(false);
+        setToastMsg('');
+      }, 1000);
+    }
   }, [isToast]);
 
   //토스트 메시지 기능 사용
   const handleToast = type => {
     if (!isToast) {
-      setIsToast(true);
       setToastMsg(toastMsgList[type]);
+      setIsToast(true);
     }
   };
 
@@ -130,13 +136,13 @@ function CalendarHome({navigation: {navigate}}) {
             year: Number(selected.slice(0, 4)),
           },
         });
-        console.log()
+        setModifyState(false);
+        loadSchedule();
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        console.log(selected);
         const response = await axios({
           method: 'post',
           url: `http://k7d109.p.ssafy.io:8080/diary`,
@@ -150,6 +156,7 @@ function CalendarHome({navigation: {navigate}}) {
             year: Number(selected.slice(0, 4)),
           },
         });
+        loadSchedule();
       } catch (error) {
         console.log(error);
       }
@@ -171,6 +178,7 @@ function CalendarHome({navigation: {navigate}}) {
           ).diarySeq,
         },
       });
+      loadSchedule();
     } catch (error) {
       console.log(error);
     }
@@ -178,7 +186,6 @@ function CalendarHome({navigation: {navigate}}) {
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
-    console.log('달력', accessToken);
     let bookedArr = [];
     let havebeenArr = [];
     try {
@@ -224,8 +231,6 @@ function CalendarHome({navigation: {navigate}}) {
       setHaveBeenDate(havebeenArr);
     } catch (error) {
       console.log(error);
-      console.log(error.response.data);
-      console.log(error.response.headers);
     }
   };
 
@@ -240,7 +245,94 @@ function CalendarHome({navigation: {navigate}}) {
               <TextMedium style={styles.disableddate}>{date.day}</TextMedium>
               <BlankStamp style={styles.stamp} />
             </TouchableOpacity>
-          ) : // 오늘 날짜 표시
+          ) : // 오늘 날짜 표시(등산 완료)
+          dateNum === date.dateString &&
+            makeDateArr(havebeenDate).includes(date.dateString) ? (
+            <TouchableOpacity
+              //등산 기록 페이지로 이동
+              onPress={() =>
+                navigate('CalendarRecord', {
+                  date: changeDateFormat(date.dateString),
+                  name: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).mountainName,
+                  time: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).time,
+                  distance: havebeenDate.find(
+                    record => record.date === date.dateString,
+                  ).distance,
+                })
+              }>
+              <TextMedium style={styles.wenttoday}>{date.day}</TextMedium>
+              <HaveBeenStamp style={styles.stamp} />
+              {havebeenDate.find(record => record.date === date.dateString)
+                .mountainName.length == 3 ? (
+                <TextMedium style={styles.mountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : havebeenDate.find(record => record.date === date.dateString)
+                  .mountainName.length == 2 ? (
+                <TextMedium style={styles.shortmountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : (
+                <TextMedium style={styles.longmountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              )}
+            </TouchableOpacity>
+          ) : //오늘 날짜 표시(등산 미완료)
+          dateNum === date.dateString &&
+            makeDateArr(bookedDate).includes(date.dateString) ? (
+            <TouchableOpacity
+              onPress={() => {
+                //일정 수정/삭제 모달 띄움
+                setIsModifyDeleteModalVisible(!isModifyDeleteModalVisible);
+                setSelectedDate(changeDateFormat(date.dateString));
+                //모달에서 갈 예정인 산 보여줄 용도로 산 이름 보내줌
+                setSelectedMountain(
+                  bookedDate.find(record => record.date === date.dateString)
+                    .mountainName,
+                );
+              }}>
+              <TextMedium style={styles.wenttoday}>{date.day}</TextMedium>
+              <NotHaveBeenStamp style={styles.stamp} />
+              {bookedDate.find(record => record.date === date.dateString)
+                .mountainName.length == 3 ? (
+                <TextMedium style={styles.mountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : bookedDate.find(record => record.date === date.dateString)
+                  .mountainName.length == 2 ? (
+                <TextMedium style={styles.shortmountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : (
+                <TextMedium style={styles.longmountainname}>
+                  {
+                    bookedDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              )}
+            </TouchableOpacity>
+          ) : //오늘 날짜 표시(아무 일정 없음)
           dateNum === date.dateString ? (
             <TouchableOpacity>
               <TextMedium style={styles.today}>{date.day}</TextMedium>
@@ -265,12 +357,30 @@ function CalendarHome({navigation: {navigate}}) {
               }>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
-              <TextMedium style={styles.mountainname}>
-                {
-                  havebeenDate.find(record => record.date === date.dateString)
-                    .mountainName
-                }
-              </TextMedium>
+              {havebeenDate.find(record => record.date === date.dateString)
+                .mountainName.length == 3 ? (
+                <TextMedium style={styles.mountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : havebeenDate.find(record => record.date === date.dateString)
+                  .mountainName.length == 2 ? (
+                <TextMedium style={styles.shortmountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              ) : (
+                <TextMedium style={styles.longmountainname}>
+                  {
+                    havebeenDate.find(record => record.date === date.dateString)
+                      .mountainName
+                  }
+                </TextMedium>
+              )}
             </TouchableOpacity>
           ) : //갈 예정인 날짜 스탬프
           bookedDate && makeDateArr(bookedDate).includes(date.dateString) ? (
@@ -402,8 +512,8 @@ function CalendarHome({navigation: {navigate}}) {
         setToastMsg={setToastMsg}
       />
       {/* 토스트 메세지 */}
-      {isToast ? <ToastMessage message={toastMsg} /> : <></>}
-      {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
+      {isToast && <ToastMessage message={toastMsg} />}
+      {/*검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
       {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
         <View style={styles.modalOverlay}></View>
       ) : (
@@ -506,5 +616,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     marginLeft: windowWidth * 0.033,
+  },
+  wenttoday: {
+    backgroundColor: 'green',
+    borderRadius: 15,
+    color: 'white',
+    fontSize: 20,
+    textAlign: 'center',
+    width: windowHeight * 0.025,
+    height: windowHeight * 0.025,
+    marginLeft: windowWidth * 0.04,
   },
 });

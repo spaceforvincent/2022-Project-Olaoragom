@@ -21,7 +21,7 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const BeforeClimbTimer = () => {
   // (공부) Vue 에서 computed 와 비슷한 기능
-  const nowTime = useRef(3);
+  const nowTime = useRef(1);
   const [time, setTime] = useState(nowTime.current);
   const dispatch = useDispatch();
 
@@ -51,9 +51,9 @@ const BeforeClimbTimer = () => {
   return (
     <View style={styles.container}>
       <View style={styles.subcontainer}>
-        {time > 0 && (
+        {/* {time > 0 && (
           <TextExtraBold style={styles.timetext}>{time}</TextExtraBold>
-        )}
+        )} */}
         {time == 0 && (
           <TextExtraBold style={styles.starttext}>
             <TextExtraBold style={styles.textcolor}>등산 </TextExtraBold>
