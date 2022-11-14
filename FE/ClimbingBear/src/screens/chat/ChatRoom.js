@@ -19,7 +19,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import { useSelector } from 'react-redux'
  
 const ChatRoom = () => {  
@@ -27,7 +27,10 @@ const ChatRoom = () => {
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const [serverState, setServerState] = useState('Loading...');
+  const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
+  // ChatHome의 타이틀 가져오기
+  
 
   // const [senderNick, setSenderNick] = useState(route.params.record.sender_nick)
   // const [receiverNick, setReceiverNick] = useState(route.params.record.receiver_nick)
@@ -64,7 +67,7 @@ const ChatRoom = () => {
   // const receiverNick = userList[0].nickname
   // const senderNick = userList[1].nickname
 
-  const [senderNick, setSenderNick] = useState(username)
+  const [senderNick, setSenderNick] = useState(nickname)
   const [receiversNick, setReceiversNick] = useState([])
   const onChangeUserNick = (userNick) => {
     setUserNick(userNick);
@@ -102,6 +105,7 @@ const ChatRoom = () => {
         createdAt: kr_curr, // 현재시각
         user: {
           _id: senderNick,  // sender nick
+          name: senderNick, // 표시되는 닉넴
           // avatar: image_path,
         },
       },
@@ -120,6 +124,7 @@ const ChatRoom = () => {
         // createdAt: new Date(response.createdAt * 1000),
         user: {          
           _id: response.senderNick,
+          name: response.senderNick,
           // avatar: image_path,
         },
       }
@@ -178,8 +183,8 @@ const ChatRoom = () => {
         <Text style={{
           fontSize: 20,
           fontWeight: 'bold',
-          color: "#858383"
-        }}>{`일행과 대화 중`}</Text>
+          color: "#595757"
+        }}>{`타이틀`}</Text>
       </View>
 
       {/* 상단 바2 */}
@@ -204,9 +209,38 @@ const ChatRoom = () => {
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
+        renderAvatar={null}            // 사진 제거
+        renderUsernameOnMessage={true} // default는 false
+        renderBubble={props => {
+          return (
+            <Bubble
+              {...props}
+    
+              textStyle={{
+                right: {
+                  color: '#646464',
+                  fontFamily: "CerebriSans-Book"
+                },
+                left: {
+                  color: '#646464',
+                  fontFamily: "CerebriSans-Book"
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  backgroundColor: '#F5F5F5',
+                },
+                right: {
+                  backgroundColor: "#F5F5F5",
+                },
+              }}
+            />
+          );
+        }}
         user={{
           // 본인
           _id: senderNick,  // set sender nick
+          name: senderNick,
         }}
       />
     </View>

@@ -388,7 +388,7 @@ function CalendarHome({navigation: {navigate}}) {
         handleToast={handleToast}
         setToastMsg={setToastMsg}
       />
-      {/* 검색/동록 모달 */}
+      {/* 검색/등록 모달 */}
       <SearchRegisterModal
         isModalVisible={isSearchRegisterModalVisible}
         setIsModalVisible={setIsSearchRegisterModalVisible}

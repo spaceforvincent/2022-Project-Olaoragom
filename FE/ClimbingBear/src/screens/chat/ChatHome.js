@@ -18,6 +18,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
+import CreateRoomModal from '../../components/chat/CreateRoomModal';
+import ChatSearchBar from '../../components/chat/SearchBar';
 
 // axios instance
 const client = axios.create({
@@ -31,18 +33,25 @@ const Stack = createStackNavigator();
 
 const ChatHome = () => {
   const [rooms, setRooms] = useState([]);
+
+  const [enteredChatRoomList, setEnteredChatRoomList] = useState({});
+  const getEnteredChatRoomList = obj => {
+    setEnteredChatRoomList(obj)
+  };
+
   // 방 개설 모달 ON/OFF
   const [isCreateRoomModalVisible, setIsCreateRoomModalVisible] =
-    useState(false);
+    useState(false);  
   // 삭제 확인 모달 ON/OFF
   const [isDeleteRoomModalVisible, setIsDeleteRoomModalVisible] =
     useState(false);
+  // 방 들어갈 때 확인 모달 ON/OFF  
+  const [isEnterRoomModalVisible, setIsEnterRoomModalVisible] =
+    useState(false);
 
-  // async storage에서 방 정보 가져오기
-  // const nickname = 
-  // const isHost = 
 
   // 방정보 get
+  // api 완성되면 수정 필요
   useEffect(() => {
     client.get('').then((response) => {
       setRooms(response.data)
@@ -60,8 +69,7 @@ const ChatHome = () => {
   }
 
   
-
-    
+  // 방 삭제      
   const deleteRoom = async (room_id) => {
     await client.delete(`${room_id}`);
     setRooms(
@@ -71,30 +79,41 @@ const ChatHome = () => {
     );
   };
 
-  // const 
 
   return (
     <View>
       {/* 채팅방 개설 버튼 */}
-      {/* 모달 띄워야 */}
-      {/* <TouchableOpacity>
+      {/* 모달 띄워야 */}      
+      <TouchableOpacity onPress={() => {
+        setIsCreateRoomModalVisible(!isCreateRoomModalVisible);
+      }}>
         <Text style={{fontSize:18}}>채팅방 개설</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
+
+      <CreateRoomModal
+        modalVisible={isCreateRoomModalVisible}        
+        setmodalVisible={setIsCreateRoomModalVisible}        
+      ></CreateRoomModal>
       
 
-      {/* 방 검색 창 & 버튼 */}
-      {/* <Searchbar
-        placeholder="Search"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-      /> */}
+      {/* 방 검색 창 */}
+      <ChatSearchBar 
+        getEnteredChatRoomList={getEnteredChatRoomList}
+      ></ChatSearchBar>
+      
+      {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
+      {isCreateRoomModalVisible || isDeleteRoomModalVisible || isEnterRoomModalVisible ? (
+        <View style={styles.modalOverlay}></View>
+      ) : (
+        <></>
+      )}
+
+      
       {/* 채팅방 목록 */}
-      {/* CreateRoom 모달 정보 가져오기 */}
       <View style={styles.square}>
         {/* 채팅방장 닉네임 */}
         <Text>방장 닉네임</Text>
-        {/* 방장이면 방 삭제 아이콘 보임 */}
-        {/* 누르면 방 삭제되도록 */}
+        {/* 방장이면 방 삭제 버튼 보임 */}
         {/* room_id? room_name? */}
         {nickname === {isHost} ||
           <Pressable
@@ -113,9 +132,7 @@ const ChatHome = () => {
         >
           {/* 채팅방 제목 */}          
           <Text>방 제목</Text>
-        </TouchableOpacity>
-
-        
+        </TouchableOpacity>        
       </View>
       
     </View>
@@ -132,7 +149,9 @@ const styles = StyleSheet.create({
   square: {
     width: windowWidth*0.5*0.7,
     height: windowHeight*0.3,
-    backgroundColor: "#858383"
+    backgroundColor: "#A7D7C5",
+    color: '#FFFFFF',
+    borderTopRightRadius: 16,
   },
   deleteIcon: {
 

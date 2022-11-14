@@ -64,7 +64,7 @@ const ChatSearchBar = ({getEnteredChatRoomList}) => {
       <View style={styles.foundRoom}>
         {foundRoom.map(r => {
           return (
-            // <View key={r.} style={styles.resultelement}>
+            // <View key={r.} style={styles.foundRoomElement}>
             //   <Button
             //     title={r.}
             //     color=
@@ -104,7 +104,7 @@ const styles = styleSheet.create({
     marginTop: windowHeight*0.01,
     justifyContent: 'flex-start'
   },
-  resultelement: {
+  foundRoomElement: {
 
   },
 });
