@@ -112,6 +112,17 @@ function CalendarHome({navigation: {navigate}}) {
     return newDate;
   };
 
+  //산 이름 길이 따라 다른 스타일 적용
+  const checkNameLength = name => {
+    if (name.length == 3) {
+      return <TextMedium style={styles.mountainname}>{name}</TextMedium>;
+    } else if (name.length == 2) {
+      return <TextMedium style={styles.shortmountainname}>{name}</TextMedium>;
+    } else {
+      return <TextMedium style={styles.longmountainname}>{name}</TextMedium>;
+    }
+  };
+
   //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
   const getSchedule = async (selected, obj) => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
@@ -264,31 +275,11 @@ function CalendarHome({navigation: {navigate}}) {
                   ).distance,
                 })
               }>
-              <TextMedium style={styles.wenttoday}>{date.day}</TextMedium>
+              <TextMedium style={styles.dday}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
-              {havebeenDate.find(record => record.date === date.dateString)
-                .mountainName.length == 3 ? (
-                <TextMedium style={styles.mountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : havebeenDate.find(record => record.date === date.dateString)
-                  .mountainName.length == 2 ? (
-                <TextMedium style={styles.shortmountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : (
-                <TextMedium style={styles.longmountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
+              {checkNameLength(
+                havebeenDate.find(record => record.date === date.dateString)
+                  .mountainName,
               )}
             </TouchableOpacity>
           ) : //오늘 날짜 표시(등산 미완료)
@@ -305,31 +296,11 @@ function CalendarHome({navigation: {navigate}}) {
                     .mountainName,
                 );
               }}>
-              <TextMedium style={styles.wenttoday}>{date.day}</TextMedium>
+              <TextMedium style={styles.dday}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
-              {bookedDate.find(record => record.date === date.dateString)
-                .mountainName.length == 3 ? (
-                <TextMedium style={styles.mountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : bookedDate.find(record => record.date === date.dateString)
-                  .mountainName.length == 2 ? (
-                <TextMedium style={styles.shortmountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : (
-                <TextMedium style={styles.longmountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
+              {checkNameLength(
+                bookedDate.find(record => record.date === date.dateString)
+                  .mountainName,
               )}
             </TouchableOpacity>
           ) : //오늘 날짜 표시(아무 일정 없음)
@@ -357,29 +328,9 @@ function CalendarHome({navigation: {navigate}}) {
               }>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
-              {havebeenDate.find(record => record.date === date.dateString)
-                .mountainName.length == 3 ? (
-                <TextMedium style={styles.mountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : havebeenDate.find(record => record.date === date.dateString)
-                  .mountainName.length == 2 ? (
-                <TextMedium style={styles.shortmountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : (
-                <TextMedium style={styles.longmountainname}>
-                  {
-                    havebeenDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
+              {checkNameLength(
+                havebeenDate.find(record => record.date === date.dateString)
+                  .mountainName,
               )}
             </TouchableOpacity>
           ) : //갈 예정인 날짜 스탬프
@@ -397,29 +348,9 @@ function CalendarHome({navigation: {navigate}}) {
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <NotHaveBeenStamp style={styles.stamp} />
-              {bookedDate.find(record => record.date === date.dateString)
-                .mountainName.length == 3 ? (
-                <TextMedium style={styles.mountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : bookedDate.find(record => record.date === date.dateString)
-                  .mountainName.length == 2 ? (
-                <TextMedium style={styles.shortmountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
-              ) : (
-                <TextMedium style={styles.longmountainname}>
-                  {
-                    bookedDate.find(record => record.date === date.dateString)
-                      .mountainName
-                  }
-                </TextMedium>
+              {checkNameLength(
+                bookedDate.find(record => record.date === date.dateString)
+                  .mountainName,
               )}
             </TouchableOpacity>
           ) : //일정 예약 가능한 날짜일 때 (누른 날짜가 오늘 날짜의 달과 같고 일이 클 때, 혹은 누른 날짜가 오늘 날짜의 달보다 클 때)
@@ -617,7 +548,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: windowWidth * 0.033,
   },
-  wenttoday: {
+  dday: {
     backgroundColor: 'green',
     borderRadius: 15,
     color: 'white',
