@@ -123,6 +123,34 @@ function CalendarHome({navigation: {navigate}}) {
     }
   };
 
+  //Record Navigation
+  const recordNavigation = (havebeenDate, date) => {
+    navigate('CalendarRecord', {
+      date: changeDateFormat(date.dateString),
+      name: havebeenDate.find(record => record.date === date.dateString)
+        .mountainName,
+      time: havebeenDate.find(record => record.date === date.dateString).time,
+      distance: havebeenDate.find(record => record.date === date.dateString)
+        .distance,
+    });
+  };
+
+  //Push Record
+  const pushRecord = (arr, record) => {
+    arr.push({
+      mountainName: record.mntnNm,
+      date:
+        record.year +
+        '-' +
+        ('00' + record.month).slice(-2) +
+        '-' +
+        ('00' + record.day).slice(-2),
+      diarySeq: record.diarySeq,
+      time: record.time,
+      distance: record.distance,
+      complete: record.complete,
+    });
+  };
   //검색/등록 모달로부터 스케쥴 받아와서 저장 or 수정
   const getSchedule = async (selected, obj) => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
@@ -209,33 +237,9 @@ function CalendarHome({navigation: {navigate}}) {
       });
       response.data.data.map(record => {
         if (record.complete) {
-          havebeenArr.push({
-            mountainName: record.mntnNm,
-            date:
-              record.year +
-              '-' +
-              ('00' + record.month).slice(-2) +
-              '-' +
-              ('00' + record.day).slice(-2),
-            diarySeq: record.diarySeq,
-            time: record.time,
-            distance: record.distance,
-            complete: record.complete,
-          });
+          pushRecord(havebeenArr, record);
         } else {
-          bookedArr.push({
-            mountainName: record.mntnNm,
-            date:
-              record.year +
-              '-' +
-              ('00' + record.month).slice(-2) +
-              '-' +
-              ('00' + record.day).slice(-2),
-            diarySeq: record.diarySeq,
-            time: record.time,
-            distance: record.distance,
-            complete: record.complete,
-          });
+          pushRecord(bookedArr, record);
         }
       });
       setBookedDate(bookedArr);
@@ -261,20 +265,7 @@ function CalendarHome({navigation: {navigate}}) {
             makeDateArr(havebeenDate).includes(date.dateString) ? (
             <TouchableOpacity
               //등산 기록 페이지로 이동
-              onPress={() =>
-                navigate('CalendarRecord', {
-                  date: changeDateFormat(date.dateString),
-                  name: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).mountainName,
-                  time: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).time,
-                  distance: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).distance,
-                })
-              }>
+              onPress={() => recordNavigation(havebeenDate, date)}>
               <TextMedium style={styles.dday}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
               {checkNameLength(
@@ -312,20 +303,7 @@ function CalendarHome({navigation: {navigate}}) {
           makeDateArr(havebeenDate).includes(date.dateString) ? (
             <TouchableOpacity
               //등산 기록 페이지로 이동
-              onPress={() =>
-                navigate('CalendarRecord', {
-                  date: changeDateFormat(date.dateString),
-                  name: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).mountainName,
-                  time: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).time,
-                  distance: havebeenDate.find(
-                    record => record.date === date.dateString,
-                  ).distance,
-                })
-              }>
+              onPress={() => recordNavigation(havebeenDate, date)}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
               <HaveBeenStamp style={styles.stamp} />
               {checkNameLength(
