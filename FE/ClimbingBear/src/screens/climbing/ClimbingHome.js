@@ -23,6 +23,9 @@ import {
 } from '../../components/common/TextFont';
 import {useSelector, useDispatch} from 'react-redux';
 import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
+// 통신 코드
+import {getMountainDetail} from '../../apis/Map';
+
 /* 
 (논의) Dimensions 창 크기 전역 관리
 
@@ -40,12 +43,24 @@ const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
-const ClimbingHome = () => {
+// 날짜
+const today = new Date();
+
+const year = today.getFullYear(); // 년도
+const month = today.getMonth() + 1; // 월
+const date = today.getDate(); // 날짜
+
+const ClimbingHome = ({route}) => {
+  // 산 이름
+  const [mntnname, setMntnname] = useState('');
+
+  const mntnId = route.params.mntnId;
 
   // action 을 들고 올 dispatch 선언
   const dispatch = useDispatch();
+  const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
 
-  function currentPosition ()  {
+  function currentPosition() {
     Geolocation.getCurrentPosition(pos => {
       // (임시) 내가 설정한 위치로 들고옴
       dispatch(
@@ -55,11 +70,22 @@ const ClimbingHome = () => {
         }),
       );
     });
-  };
+  }
 
   useEffect(() => {
-    currentPosition()
-  }, [])
+    currentPosition();
+    dispatch(
+      nowclimbingActions.getMntnName({
+        mntnseq: mntnId,
+      }),
+    );
+    const initialData = async () => {
+      const response = await getMountainDetail(mntnId);
+      const name = response.mntnNm;
+      setMntnname(name);
+    };
+    initialData();
+  }, []);
 
   // 위에 import 한 모듈로 navigation 선언
   const navigation = useNavigation();
@@ -138,11 +164,12 @@ const ClimbingHome = () => {
   }
 
   return (
-    // 산 이름, 날짜 props로 받아오기
     <View style={styles.container}>
       <View style={styles.infotext}>
-        <TextExtraBold style={styles.mountainname}>천생산</TextExtraBold>
-        <TextMedium style={styles.todaydate}>2022년 10월 20일</TextMedium>
+        <TextExtraBold style={styles.mountainname}>{mntnname}</TextExtraBold>
+        <TextMedium style={styles.todaydate}>
+          {year}년 {month}월 {date}일
+        </TextMedium>
       </View>
       <View style={styles.imagecheck}>
         <AnimatedTouchable
