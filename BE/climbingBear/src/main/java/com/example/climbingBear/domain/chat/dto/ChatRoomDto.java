@@ -1,26 +1,21 @@
 package com.example.climbingBear.domain.chat.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.web.socket.WebSocketSession;
+import com.sun.istack.NotNull;
+import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.Map;
 
+@Data
+@Builder
+@EqualsAndHashCode
 @Getter
 @Setter
 public class ChatRoomDto {
-    private String roomId;
-    private String name;
-    private Set<WebSocketSession> sessions = new HashSet<>();
-    //WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
+    @NotNull
+    private String roomId; // 채팅방 아이디
+    private String roomName; // 채팅방 이름
+    private int userCount; // 채팅방 인원수
 
-    public static ChatRoomDto create(String name){
-        ChatRoomDto room = new ChatRoomDto();
-
-        room.roomId = UUID.randomUUID().toString();
-        room.name = name;
-        return room;
-    }
+    // ChatRoomDto 클래스는 하나로 가되 서비스를 나누었음
+    private Map<String, ?> userList;
 }
