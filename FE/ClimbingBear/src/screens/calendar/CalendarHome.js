@@ -410,12 +410,12 @@ function CalendarHome({navigation: {navigate}}) {
       />
       {/* 토스트 메세지 */}
       {isToast && <ToastMessage message={toastMsg} />}
-      {/* 검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
-      {/* {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
+      {/*검색/등록 모달 띄우는 상황이나 수정/삭제 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
+      {isModifyDeleteModalVisible || isSearchRegisterModalVisible ? (
         <View style={styles.modalOverlay}></View>
       ) : (
         <></>
-      )} */}
+      )}
     </View>
   );
 }
