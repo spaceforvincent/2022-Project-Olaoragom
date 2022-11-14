@@ -143,26 +143,25 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   }
 
   // 스냅샷 찍는 함수
-  function takeSnapshot () {
+  function takeSnapshot() {
     const snapshot = map.takeSnapshot({
-      width: 300,      
-      height: 300,     
-      format: 'png',   
-      result: 'file'  
+      width: 300,
+      height: 300,
+      format: 'png',
+      result: 'file',
     });
-    snapshot.then((uri) => {
+    snapshot.then(uri => {
       dispatch(
         nowclimbingActions.mapSnapshot({
-          uri: uri
-        }))
+          uri: uri,
+        }),
+      );
     });
   }
 
   {
-    finishClimb && takeSnapshot()
+    finishClimb && takeSnapshot();
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -170,7 +169,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
         region={{
           latitude: latitude,
           longitude: longitude,
-          latitudeDelta: 0.08,
+          latitudeDelta: 0.004,
           longitudeDelta: 0.001,
         }}
         mapType={mapType}
@@ -178,7 +177,9 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
         showsUserLocation={true}
         showsMyLocationButton={false}
         provider={PROVIDER_GOOGLE}
-        ref={map => { this.map = map}}>
+        ref={map => {
+          this.map = map;
+        }}>
         {/* (임시) 포인트, path 확인용 */}
         {/* Each child in a list should have a unique "key" prop 경고 해결 */}
         {/* {palgongSpotData.map(loc => (
@@ -189,7 +190,11 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
             />
           </Marker>
         ))} */}
-        <Polyline coordinates={position} strokeColor="#2E64FE" strokeWidth={15} />
+        <Polyline
+          coordinates={position}
+          strokeColor="#2E64FE"
+          strokeWidth={5}
+        />
         {features &&
           features.map((item, index) => (
             <Geojson
