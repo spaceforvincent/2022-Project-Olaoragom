@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid, SafeAreaView, ScrollView, View, StyleSheet, Text, Dimensions } from 'react-native';
-
+import { useSelector } from 'react-redux';
 import SearchBar from '../../components/map/SearchBar';
 import { TextBold } from '../../components/common/TextFont';
 
@@ -14,10 +14,8 @@ const MapHome = () => {
   const [ latitude, setLatitude ] = useState(36.109328);
   const [ longitude, setLongitude ] = useState(128.415011);
 
-  // Marker
-
-  const [ markerLat, setMarkerLat ] = useState('');
-  const [ markerLon, setMarkerLon ] = useState('');
+  const markerLat = useSelector((state) => state.map.markerLat)
+  const markerLon = useSelector((state) => state.map.markerLon)
 
   useEffect(() => {
     // 안드로이드 위치 설정 권한
@@ -37,18 +35,13 @@ const MapHome = () => {
     gpsPermissionAndroid();
   }, []);
 
-  useEffect(() => {
-    console.log('좀찍혀라', markerLat, markerLon)
-  })
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <MapView
           region={{
-            latitude: latitude,
-            longitude: longitude,
-            // 보여주는 범위
+            latitude: markerLat,
+            longitude: markerLon,
             latitudeDelta: 0.005,
             longitudeDelta: 0.0001,
           }}
@@ -59,15 +52,14 @@ const MapHome = () => {
           zoomEnabled={true}>
 
           <Marker
-            coordinate={{latitude: latitude, longitude: longitude}}
+            coordinate={{latitude: parseFloat(markerLat), longitude: parseFloat(markerLon)}}
             title="this is a marker"
             description="this is a marker example"
           />
         </MapView>
       </View>
       
-      <SearchBar setMarkerLat={setMarkerLat} setMarkerLon={setMarkerLon}/>
-      <TextBold>{markerLat}얍얍{markerLon}</TextBold>
+      <SearchBar/>
     </SafeAreaView>
   );
 };

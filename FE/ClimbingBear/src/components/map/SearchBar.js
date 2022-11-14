@@ -1,13 +1,17 @@
 import { Fragment, useEffect, useLayoutEffect, useState } from "react"
 
 import { View, StyleSheet } from "react-native"
+import { useDispatch } from "react-redux"
 
 import SearchableDropdown from 'react-native-searchable-dropdown'
 
 import MountainSemiDetail from './MountainSemiDetail'
 import { getMountainDetail, getMountainList } from "../../apis/Map"
+import { mapActions } from "../../store/Map"
 
-const SearchBar = ({navigation}, setMarkerLat, setMarkerLon, props) => {
+const SearchBar = ({navigation}) => {
+  const dispatch = useDispatch()
+
   const [items, setItems] = useState([]);
   const [mountainId, setMountainId] = useState('');
   const [mountainName, setMountainName] = useState('');
@@ -17,9 +21,6 @@ const SearchBar = ({navigation}, setMarkerLat, setMarkerLon, props) => {
 
   // bottomsheet & 세미 데이터 통신
   const semiDetail = (item) => {
-    // console.log(item)
-
-    props.setMarkerLat(getMountainDetail().mntnLat)
 
     // 모달창
     setModalVisible(true);
@@ -27,16 +28,21 @@ const SearchBar = ({navigation}, setMarkerLat, setMarkerLon, props) => {
     setMountainId(item.id);
     setMountainName(item.name);
 
+    const markerLat = item.lat;
+    const markerLon = item.lon;
+
+    dispatch(mapActions.marker({
+      markerLat,
+      markerLon,
+    }))
+
+
+
     const initialData = async () => {
       const response = await getMountainDetail(item.id);
       setSemiMountainData(response);
-      // setMarkerLat(response.mntnLat)
-      // setMarkerLon(response.mntnLon)
     };
     initialData()
-    props.setMarkerLat(semiMountainData.mntnLat)
-    props.setMarkerLon(semiMountainData.mntnLon)
-    console.log('여기', semiMountainData.mntnLat)
   };
 
   // 산 리스트
@@ -48,6 +54,8 @@ const SearchBar = ({navigation}, setMarkerLat, setMarkerLon, props) => {
         templist.push({
           id: mn.mntnSeq,
           name: mn.mntnNm,
+          lat: mn.mntnLat,
+          lon: mn.mntnLon,
         });
       });
       setItems(templist);
