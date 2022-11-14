@@ -1,60 +1,78 @@
 package com.example.climbingBear.domain.chat.controller;
 
-import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
-import com.example.climbingBear.domain.chat.entity.ChatRoom;
-import com.example.climbingBear.domain.chat.service.ChatService;
-
-import com.example.climbingBear.global.common.CommonResponse;
-import com.example.climbingBear.global.jwt.JwtProvider;
+import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
+import com.example.climbingBear.domain.chat.dto.ChatRoomMap;
+import com.example.climbingBear.domain.chat.service.ChatRoomService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/chat")
+@Slf4j
 public class ChatRoomController {
-    private final ChatService chatService;
-    private final JwtProvider jwtProvider;
 
-    // 채팅 리스트 화면
-    @GetMapping("/room")
-    public String rooms(Model model) {
-        return "/room";
-    }
+    // ChatService Bean 가져오기
+    private final ChatRoomService chatServiceMain;
 
-    // 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
-    @ResponseBody
-    public List<ChatRoom> room() {
-        return chatService.findAllRoom();
-    }
     // 채팅방 생성
-    @PostMapping("/room")
-    @ApiOperation(value = "채팅방 생성", notes = "")
-    public  ResponseEntity<CommonResponse> createRoom(HttpServletRequest request, @RequestBody ChatRoomPostReqDto dto) throws Exception {
-        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.createRoom(dto, userSeq)), HttpStatus.OK);
+    // 채팅방 생성 후 다시 / 로 return
+    @PostMapping("/chat/createroom")
+    @ApiOperation(value = "채팅방 생성", notes = "채팅방 생성 후 다시 /로 return")
+    public String createRoom(@RequestParam("roomName") String name, RedirectAttributes rttr) {
+
+        // log.info("chk {}", secretChk);
+
+        // 매개변수 : 방 이름, 패스워드, 방 잠금 여부, 방 인원수
+        ChatRoomDto room;
+
+        room = chatServiceMain.createChatRoom(name);
+
+
+        log.info("CREATE Chat Room [{}]", room);
+
+        rttr.addFlashAttribute("roomName", room);
+        return "redirect:/";
     }
 
     // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
+    // 파라미터로 넘어오는 roomId 를 확인후 해당 roomId 를 기준으로
+    // 채팅방을 찾아서 클라이언트를 chatroom 으로 보낸다.
+    @GetMapping("/chat/room")
+    @ApiOperation(value = "채팅방 입장", notes = "")
     public String roomDetail(Model model, @PathVariable String roomId) {
-        model.addAttribute("roomId", roomId);
-        return "/roomdetail";
+
+        log.info("roomId {}", roomId);
+
+        ChatRoomDto room = ChatRoomMap.getInstance().getChatRooms().get(roomId);
+
+        model.addAttribute("room", room);
+        return "chatroom";
     }
 
-    // 특정 채팅방 조회
-    @GetMapping("/room/{roomId}")
-    @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
-        return chatService.findById(roomId);
+
+    // 채팅방 삭제
+    @ApiOperation(value = "채팅방 삭제", notes = "")
+    @GetMapping("/chat/delRoom/{roomId}")
+    public String delChatRoom(@PathVariable String roomId) {
+
+        // roomId 기준으로 chatRoomMap 에서 삭제, 해당 채팅룸 안에 있는 사진 삭제
+        chatServiceMain.delChatRoom(roomId);
+
+        return "redirect:/";
     }
+
+    // 유저 카운트
+//    @GetMapping("/chat/chkUserCnt/{roomId}")
+//    @ResponseBody
+//    public boolean chUserCnt(@PathVariable String roomId) {
+//
+//        return chatServiceMain.chkRoomUserCnt(roomId);
+//    }
 }
