@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { getMountainWeather } from "../../apis/Map";
 
-const MountainWeather = (props) => {
+const MountainWeather = ({lat, lon}) => {
 
-    const { lat, lng } = props
     const [ weather, setWeather ] = useState([])
 
     useEffect(() => {
         console.log('위도', lat)
-        console.log('경도', lng)
+        console.log('경도', lon)
         const initialData = async() => {
-            const response = await getMountainWeather(lat, lng)
-            console.log(response)
+            const response = await getMountainWeather(lat, lon)
+            console.log(response.data)
             setWeather(response)
         }
         initialData()

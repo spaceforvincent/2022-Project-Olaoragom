@@ -34,7 +34,7 @@ const MountainDetail = ({navigation, route}) => {
       {/* 산 이미지 */}
       <View style={styles.imageContainer}>
         <Image
-          style={styles.image}
+          style={styles.mntnImage}
           source={{
             uri: `https://storage.googleapis.com/climbingbear/1-${mntnId}.jpg`,
           }}></Image>
@@ -45,19 +45,19 @@ const MountainDetail = ({navigation, route}) => {
         <View style={styles.textContainer}>
           <View style={styles.detailHeader}>
             <TextExtraBold style={styles.mntnTitle}>{mountainData.mntnNm}</TextExtraBold>
+            <TextBold style={styles.mntnHeight}>
+            <Image source={require('../../assets/images/mntn.png')} style={styles.icon}></Image>
+            {mountainData.mntnHeight}</TextBold>
             <TouchableOpacity
               style={styles.climbingButton}
               onPress={() =>
                 navigation.navigate('ClimbingHome', {mntnId: mntnId})
               }>
-              <TextExtraBold style={styles.title}>등산하기</TextExtraBold>
+              <TextMedium style={styles.buttonTitle}>등산하기</TextMedium>
             </TouchableOpacity>
           </View>
-          <TextBold style={styles.subnm}>{mountainData.mntnLat}</TextBold>
-          <TextBold style={styles.subnm}>{mountainData.mntnLon}</TextBold>
-          <TextBold style={styles.subnm}>{mountainData.mntnSubnm}</TextBold>
-          <TextBold style={styles.mntnHeight}>{mountainData.mntnHeight}</TextBold>
           <TextMedium style={styles.region}>{mountainData.mntnRegion}</TextMedium>
+          <TextBold style={styles.subnm}>{mountainData.mntnSubnm}</TextBold>
           <TextLight style={styles.detail}>{mountainData.mntnDetails}</TextLight>
           <TextBold style={styles.reasonTitle}>100대 명산 선정 이유</TextBold>
           <TextLight style={styles.reason}>{mountainData.mntnReason}</TextLight>
@@ -72,7 +72,7 @@ const MountainDetail = ({navigation, route}) => {
           난이도 {mountainData.level}
         </TextExtraBold>
         {mountainData.level == '쉬움' && (
-          <TextBold style={styles.difficultText}>이 정도는 산책 그 잡체!</TextBold>
+          <TextBold style={styles.difficultText}>이 정도는 산책 그 잡채!</TextBold>
         )}
         {mountainData.level == '중간' && (
           <TextBold style={styles.difficultText}>
@@ -88,13 +88,13 @@ const MountainDetail = ({navigation, route}) => {
 
       {/* 날씨 */}
       <View style={styles.weatherContainer}>
-        <MountainWeather lat={mountainData.mntnLat} lng={mountainData.mntnLon}/>
+        <MountainWeather lat={mountainData.mntnLat} lon={mountainData.mntnLon}/>
       </View>
 
       {/* 등산로 */}
       <View style={styles.imageContainer}>
         <Image
-          style={styles.image}
+          style={styles.passImage}
           source={{
             uri: `https://storage.googleapis.com/climbingbear/${mntnId}.png`,
           }}></Image>
@@ -129,47 +129,49 @@ const styles = StyleSheet.create({
     borderColor: '#B2B2B2',
   },
   detailHeader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  image: {
+  mntnImage: {
     margin: 20,
+    marginTop: windowHeight * 0.06,
     height: windowHeight * 0.3,
     borderRadius: 10,
     resizeMode: "stretch",
   },
-
   mntnTitle: {
-    fontSize: 30,
-    marginBottom: 10,
+    fontSize: 35,
+    marginBottom: 5,
   },
-
+  mntnHeight: {
+    marginTop: 13,
+    marginRight: windowWidth * 0.2,
+  },
   reasonTitle: {
-    color: '#FF6464',
+    color: '#FEA82F',
     marginTop: 10,
+    fontSize: 15,
   },
-
   reason: {
     marginTop: 10,
   },
-
   region: {
-    marginTop: 10,
+    marginBottom: 20,
   },
-  
+  subnm: {
+    color: '#52734D'
+  },
   detail: {
     marginTop: 10,
   },
-
-  mntnHeight: {
-    marginTop: 10,
+  buttonTitle: {
+    color: 'white'
   },
-
   difficultyTitle: {
     fontSize: 15,
     margin: 10,
     marginBottom: 0,
   },
-
   difficultText: {
     margin: 10,
   },
@@ -178,12 +180,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,
-    backgroundColor: '#74B49B',
-    color: 'white',
+    backgroundColor: '#91C483',
     height: 40,
     borderRadius: 4,
-    marginTop: 10,
-    marginBottom: 20,
+  },
+
+  passImage: {
+    margin: 20,
+    marginTop: windowHeight * 0.05,
+    height: windowHeight * 0.3,
+    borderRadius: 10,
+    resizeMode: "stretch",
+  },
+
+  icon: {
+    marginTop: 0,
+    width: 20,
+    height: 20,
   }
 
 });
