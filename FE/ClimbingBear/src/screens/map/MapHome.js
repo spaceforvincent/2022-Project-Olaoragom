@@ -53,8 +53,6 @@ const MapHome = () => {
 
           <Marker
             coordinate={{latitude: parseFloat(markerLat), longitude: parseFloat(markerLon)}}
-            title="this is a marker"
-            description="this is a marker example"
           />
         </MapView>
       </View>
