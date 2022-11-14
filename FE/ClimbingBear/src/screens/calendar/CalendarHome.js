@@ -415,7 +415,7 @@ function CalendarHome({navigation: {navigate}}) {
         <View style={styles.modalOverlay}></View>
       ) : (
         <></>
-      )}
+      )} */}
     </View>
   );
 }

@@ -151,7 +151,6 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
       result: 'file'  
     });
     snapshot.then((uri) => {
-      console.log("스냅샷", uri)
       dispatch(
         nowclimbingActions.mapSnapshot({
           uri: uri
@@ -162,6 +161,8 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   {
     finishClimb && takeSnapshot()
   }
+
+
 
   return (
     <View style={styles.container}>

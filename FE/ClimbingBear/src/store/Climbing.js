@@ -7,10 +7,15 @@ import {createSlice} from '@reduxjs/toolkit';
 // 등산 하는지 안하는지 초기값(false)
 const initialState = {
   climbStatus: false,
-  latitude: 37.4565095,
-  longitude: 126.9500385,
+  mntnseq: '',
+  mntnname: '',
+  latitude: 35.907757,
+  longitude: 127.766922,
   altitude: 49,
   distance: 0,
+  hour: 0,
+  min: 0,
+  sec: 0,
   uri: '',
 };
 
@@ -18,6 +23,12 @@ export const nowclimbingSlice = createSlice({
   name: 'nowclimbing',
   initialState,
   reducers: {
+    getMntnId(state, action) {
+      state.mntnseq = action.payload.mntnseq;
+    },
+    getMntnName(state, action) {
+      state.mntnname = action.payload.mntnname;
+    },
     nowMyLocation(state, action) {
       state.latitude = action.payload.latitude;
       state.longitude = action.payload.longitude;
@@ -28,6 +39,11 @@ export const nowclimbingSlice = createSlice({
     },
     nowDistance(state, action) {
       state.distance = action.payload.distance;
+    },
+    climbTime(state, action) {
+      state.hour = action.payload.hour;
+      state.min = action.payload.min;
+      state.sec = action.payload.sec;
     },
     mapSnapshot(state, action) {
       state.uri = action.payload.uri;
