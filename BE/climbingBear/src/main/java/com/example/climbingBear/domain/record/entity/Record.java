@@ -25,11 +25,12 @@ public class Record {
     private Integer day;
     private Float distance;
     private String time;
+    private String imgUrl;
 
     private boolean isComplete;
 
     @Builder
-    private Record (User user, Mountain mntn, Integer year, Integer month, Integer day, Float distance, String time, boolean isComplete){
+    private Record (User user, Mountain mntn, Integer year, Integer month, Integer day, Float distance, String time, String imgUrl, boolean isComplete){
         this.user = user;
         this.mntn = mntn;
         this.year = year;
@@ -38,6 +39,7 @@ public class Record {
         this.time = time;
         this.distance = distance;
         this.isComplete = isComplete;
+        this.imgUrl = imgUrl;
     }
     public void update (Mountain mntn, Integer year, Integer month, Integer day) {
         this.mntn = mntn;
