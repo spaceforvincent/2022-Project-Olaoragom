@@ -42,12 +42,14 @@ const ClimbingFinishInfo = () => {
   const dispatch = useDispatch();
 
   const distance = useSelector(state => state.nowclimbing.distance);
-  const dis = Math.ceil(distance);
+  // const dis = Math.ceil(distance);
+  const dis = parseFloat(distance.toFixed(2));
   const hour = useSelector(state => state.nowclimbing.hour);
   const min = useSelector(state => state.nowclimbing.min);
   const sec = useSelector(state => state.nowclimbing.sec);
   const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
   const time = `${hour}:${min}:${sec}`;
+  const imgUrl = useSelector(state => state.nowclimbing.uri);
 
   return (
     <View style={styles.container}>
@@ -69,7 +71,7 @@ const ClimbingFinishInfo = () => {
         style={styles.infopost}
         onPress={() => {
           // 기록 저장 POST 요청 보내기
-          postClimbingData(date, dis, mntnseq, month, time, year),
+          postClimbingData(date, dis, imgUrl, mntnseq, month, time, year),
             setIsModalVisible(true);
           dispatch(
             nowclimbingActions.myClimbStatus({
