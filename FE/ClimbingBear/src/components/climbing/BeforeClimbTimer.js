@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-evenly',
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   subcontainer: {
     alignItems: 'center',
