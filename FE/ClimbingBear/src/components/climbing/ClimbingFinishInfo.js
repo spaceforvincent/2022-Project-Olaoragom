@@ -66,7 +66,9 @@ const ClimbingFinishInfo = () => {
         </View>
       </View>
       <TouchableOpacity
+        style={styles.infopost}
         onPress={() => {
+          // 기록 저장 POST 요청 보내기
           postClimbingData(date, dis, mntnseq, month, time, year),
             setIsModalVisible(true);
           dispatch(
@@ -88,17 +90,22 @@ const ClimbingFinishInfo = () => {
 export default ClimbingFinishInfo;
 
 const styles = StyleSheet.create({
+  container: {
+    width: windowWidth,
+  },
+  semicontainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    paddingBottom: widthPixel * 0.01,
+  },
   infotext: {
     fontSize: widthPixel * 0.024,
     color: '#000000',
     paddingVertical: widthPixel * 0.005,
   },
-  container: {
-    // backgroundColor:'black'
-  },
-  semicontainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  infopost: {
+    paddingTop: widthPixel * 0.01,
+    paddingHorizontal: widthPixel * 0.133,
   },
   infosave: {
     backgroundColor: '#74B49B',
