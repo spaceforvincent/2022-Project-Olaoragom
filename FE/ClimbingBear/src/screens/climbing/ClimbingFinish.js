@@ -66,13 +66,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
   },
   semicontainer: {
     alignItems: 'center',
   },
   mountainname: {
-    fontSize: widthPixel * 0.07,
-    padding: widthPixel * 0.005,
+    fontSize: widthPixel * 0.065,
+    paddingTop: widthPixel * 0.03,
     color: '#000000',
   },
   todaydate: {
@@ -94,7 +95,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   image: {
-    width: windowWidth * 0.9,
+    width: windowWidth * 0.85,
     height: windowHeight * 0.35,
+    marginTop: widthPixel * 0.02,
+    borderColor: '#000000',
+    borderRadius: 10,
+    borderWidth: 0.15,
   },
 });

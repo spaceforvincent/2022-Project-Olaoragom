@@ -41,7 +41,6 @@ const LoginScreen = ({navigation}) => {
         console.log('로그인 성공!')
         const accessToken = await getToken()
         const nickname = response.data.nickname
-        console.log(nickname)
         const isAuthenticated = true
         dispatch(authActions.authenticate({
           accessToken,
