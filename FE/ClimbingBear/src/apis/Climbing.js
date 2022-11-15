@@ -6,6 +6,7 @@ const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn';
 export const postClimbingData = async (
   day,
   distance,
+  imgUrl,
   mntnSeq,
   month,
   time,
@@ -22,6 +23,7 @@ export const postClimbingData = async (
       data: {
         day: day,
         distance: distance,
+        imgUrl: imgUrl,
         mntnSeq: mntnSeq,
         month: month,
         time: time,
