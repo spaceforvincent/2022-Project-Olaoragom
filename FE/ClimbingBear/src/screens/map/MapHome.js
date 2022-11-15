@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useIsFocused} from 'react';
+import React, {useEffect, useState} from 'react';
 import MapView from 'react-native-map-clustering';
 import {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector} from 'react-redux';

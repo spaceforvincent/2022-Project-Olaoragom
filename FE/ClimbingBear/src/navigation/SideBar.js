@@ -13,10 +13,6 @@ import {ChatNavigation} from './ChatNavigation';
 import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-
 const drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
