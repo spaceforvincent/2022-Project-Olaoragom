@@ -24,26 +24,26 @@ function DrawerNavigator() {
           useLegacyImplementation
           initialRouteName="Login"
           screenOptions={{
-            headerTransparent: true,
+            headerTransparent: false,
             headerTitle: '',
           }}>
           <drawer.Screen
-            name="Calendar"
+            name="달력"
             options={{unmountOnBlur: true, headerTitle: ''}}
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="Map"
+            name="산 검색"
             options={{unmountOnBlur: true, headerTitle: ''}}
             component={MapNavigation}
           />
           <drawer.Screen
-            name="ChatRoom"
+            name="채팅"
             options={{unmountOnBlur: true, headerTitle: ''}}
             component={ChatNavigation}
           />
           <drawer.Screen
-            name="Logout"
+            name="로그아웃"
             options={{unmountOnBlur: true, headerTitle: ''}}
             component={AuthNavigation}
           />
@@ -51,7 +51,7 @@ function DrawerNavigator() {
       ) : (
         <drawer.Navigator useLegacyImplementation initialRouteName="Login">
           <drawer.Screen
-            name="Login"
+            name="로그인"
             component={AuthNavigation}
             options={{headerShown: false}}
           />
