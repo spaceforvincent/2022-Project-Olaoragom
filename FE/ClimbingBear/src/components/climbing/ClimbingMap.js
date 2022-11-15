@@ -15,6 +15,8 @@ import MapView, {
   Geojson,
   Polyline,
 } from 'react-native-maps';
+// 스냅샷 저장할 async storage
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // 서체 import
 import {TextBold, TextMedium} from '../../components/common/TextFont';
 
@@ -157,6 +159,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
           uri: uri,
         }),
       );
+      console.log(uri);
     });
   }
 
