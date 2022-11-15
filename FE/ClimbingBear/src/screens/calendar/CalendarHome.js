@@ -225,6 +225,7 @@ function CalendarHome({navigation: {navigate}}) {
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
+    console.log(accessToken);
     let bookedArr = [];
     let havebeenArr = [];
     try {
