@@ -9,6 +9,7 @@ import {
   Dimensions,
   Animated,
   PixelRatio,
+  Alert,
 } from 'react-native';
 // 자식 컴포넌트에서 navigation 을 사용하기 위한 모듈 import
 import {useNavigation} from '@react-navigation/native';
@@ -161,7 +162,8 @@ const ClimbingHome = ({route}) => {
     if (aloneorTogether.ALONE == payload) {
       navigation.navigate('ClimbingGPS');
     } else {
-      navigation.navigate('ClimbCompanyAdd');
+      Alert.alert('경고', '추후 구현 예정입니다!');
+      // navigation.navigate('ClimbCompanyAdd');
     }
   }
 
@@ -215,12 +217,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    paddingTop: widthPixel * 0.03,
   },
   infotext: {
     alignItems: 'center',
   },
   mountainname: {
-    fontSize: widthPixel * 0.07,
+    fontSize: widthPixel * 0.065,
     padding: widthPixel * 0.005,
     color: '#000000',
   },
