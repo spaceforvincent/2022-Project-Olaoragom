@@ -4,6 +4,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import {StyleSheet} from 'react-native';
 
 import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
@@ -11,6 +12,10 @@ import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
 import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const drawer = createDrawerNavigator();
 
@@ -26,10 +31,18 @@ function DrawerNavigator() {
           screenOptions={{
             headerTransparent: false,
             headerTitleAlign: 'center',
+            drawerStyle: {
+              width: 200,
+            },
           }}>
           <drawer.Screen
-            name="달력"
+            name="등산 달력"
             options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer2.png')}></Image>
+              ),
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -44,8 +57,13 @@ function DrawerNavigator() {
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="산 검색"
+            name="100대 명산"
             options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer1.png')}></Image>
+              ),
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -62,6 +80,11 @@ function DrawerNavigator() {
           <drawer.Screen
             name="채팅"
             options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer3.png')}></Image>
+              ),
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -106,3 +129,10 @@ function DrawerNavigator() {
 }
 
 export default DrawerNavigator;
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 20,
+    height: 20,
+  },
+});
