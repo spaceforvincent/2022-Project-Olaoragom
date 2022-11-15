@@ -1,55 +1,48 @@
 package com.example.climbingBear.domain.chat.controller;
 
-import com.example.climbingBear.domain.chat.dto.ChatRoomListResDto;
-import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
-import com.example.climbingBear.domain.chat.dto.ChatRoomResDto;
-import com.example.climbingBear.domain.chat.service.ChatRoomService;
-import com.example.climbingBear.domain.chat.service.ChatRoomSockService;
-import com.example.climbingBear.domain.user.dto.SignupReqDto;
-import com.example.climbingBear.domain.user.service.UserService;
-import com.example.climbingBear.global.common.CommonResponse;
-import com.example.climbingBear.global.jwt.JwtProvider;
-import io.swagger.annotations.ApiOperation;
+import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
+import com.example.climbingBear.domain.chat.entity.ChatRoom;
+import com.example.climbingBear.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-@RestController
-@RequestMapping("/chat-room")
+@Controller
 @RequiredArgsConstructor
-@Slf4j
+@RequestMapping("/chat")
 public class ChatRoomController {
-    private final UserService userService;
-    private final ChatRoomService chatRoomService;
-    private final ChatRoomSockService chatRoomSockService;
-    private final JwtProvider jwtProvider;
+    private final ChatService chatService;
 
-
-    @PostMapping()
-    @ApiOperation(value = "채팅방 생성", notes = "roomName 입력")
-    public ResponseEntity<CommonResponse> signUpUser(HttpServletRequest request, @RequestBody ChatRoomPostReqDto dto) throws Exception {
-        Long userSeq = (Long) jwtProvider.getUserSeqFromRequest(request);
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatRoomService.saveChatRoom(dto, userSeq)), HttpStatus.OK);
+    // 채팅 리스트 화면
+    @GetMapping("/room")
+    public String rooms(Model model) {
+        return "/chat/room";
     }
-    @GetMapping()
-    @ApiOperation(value = "채팅방 목록 조회", notes = "roomName 입력")
-    public ResponseEntity<CommonResponse> signUpUser(HttpServletRequest request) throws Exception {
-        Long userSeq = (Long) jwtProvider.getUserSeqFromRequest(request);
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatRoomService.listChatRoom(userSeq)), HttpStatus.OK);
+    // 모든 채팅방 목록 반환
+    @GetMapping("/rooms")
+    @ResponseBody
+    public List<ChatRoomDto> room() {
+        return chatService.findAllRoom();
     }
-
-//    @PostMapping("/{room-seq}/join")
-//    @ApiOperation(value = "방 입장", notes = "방 입장")
-//    public ResponseEntity<ChatRoomResDto> joinRoom(HttpServletRequest request, @PathVariable("room-seq") Long roomSeq) throws Exception {
-//        Long userSeq = (Long) jwtProvider.getUserSeqFromRequest(request);
-//        log.info("[Room] 유저({}) 방 ({}) 입장", userSeq, roomSeq);
-//        // 방 입장
-//        return new ResponseEntity<ChatRoomResDto>((MultiValueMap<String, String>) chatRoomSockService.joinRoom(roomSeq, userSeq), HttpStatus.OK);
-//    }
+    // 채팅방 생성
+    @PostMapping("/room")
+    @ResponseBody
+    public ChatRoomDto createRoom(@RequestParam String name) {
+        return chatService.createRoom(name);
+    }
+    // 채팅방 입장 화면
+    @GetMapping("/room/enter/{roomId}")
+    public String roomDetail(Model model, @PathVariable String roomId) {
+        model.addAttribute("roomId", roomId);
+        return "/roomdetail";
+    }
+    // 특정 채팅방 조회
+    @GetMapping("/room/{roomId}")
+    @ResponseBody
+    public ChatRoomDto roomInfo(@PathVariable String roomId) {
+        return chatService.findById(roomId);
+    }
 }
