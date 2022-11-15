@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   // (임시) MapView 띄우는 확인 위한 공식 문서 style 에 dimensions 추가해서 화면 꽉 채우도록 설정
   container: {
     // ...StyleSheet.absoluteFillObject,
-    height: windowHeight * 0.65,
+    height: windowHeight * 0.55,
     width: windowWidth,
     // position: 'relative',
   },

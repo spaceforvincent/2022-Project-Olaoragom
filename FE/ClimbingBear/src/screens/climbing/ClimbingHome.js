@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    paddingTop: widthPixel * 0.03,
+    backgroundColor: '#FFFFFF',
   },
   infotext: {
     alignItems: 'center',

@@ -148,23 +148,6 @@ const ClimbingGPS = () => {
     getLocation();
     getLocationUpdates();
     // 뒤로가기 눌렀을 때 취소
-    const backAction = () => {
-      Alert.alert('기록 측정이 종료됩니다', '그래도 나가시겠습니까?', [
-        {
-          text: '취소',
-          onPress: () => null,
-        },
-        {text: '확인', onPress: () => BackHandler.exitApp()},
-      ]);
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
   }, []);
 
   // 위치가 추가될 때 마다 거리 함수 실행
@@ -222,7 +205,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   mapcontainer: {
-    height: windowHeight * 0.6,
+    height: windowHeight * 0,
     width: windowWidth,
   },
 });

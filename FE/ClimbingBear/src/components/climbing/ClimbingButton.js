@@ -104,7 +104,7 @@ export default ClimbingButton;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: heightPixel * 0.2,
+    top: heightPixel * 0.17,
     right: widthPixel * 0.0005,
   },
   buttonbackground: {

@@ -66,7 +66,7 @@ const PlaceTypeButton = () => {
 
   // 시작하자마자 위치 위에서 내려오고 Opacity 조절 (1초 기준)
   Animated.timing(revealFromTop, {
-    toValue: heightPixel * 0.022,
+    toValue: heightPixel * 0.006,
     useNativeDriver: true,
     duration: 1000,
   }).start();
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   semicontainer: {
     position: 'absolute',
     flexDirection: 'row',
-    width: widthPixel * 0.33,
+    width: widthPixel * 0.35,
     justifyContent: 'space-evenly',
     // top: heightPixel * 0.008,
     // right: widthPixel * 0.05,

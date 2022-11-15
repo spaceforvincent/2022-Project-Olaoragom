@@ -23,8 +23,16 @@ const MapNavigation = () => {
         name="MountainDetail"
         component={MountainDetail}></Stack.Screen>
       <Stack.Screen name="ClimbingHome" component={ClimbingHome} />
-      <Stack.Screen name="ClimbingGPS" component={ClimbingGPS} />
-      <Stack.Screen name="ClimbingFinish" component={ClimbingFinish} />
+      <Stack.Screen
+        name="ClimbingGPS"
+        component={ClimbingGPS}
+        options={{gestureEnabled: false}}
+      />
+      <Stack.Screen
+        name="ClimbingFinish"
+        component={ClimbingFinish}
+        options={{gestureEnabled: false}}
+      />
       <Stack.Screen name="CalendarHome" component={CalendarHome} />
       <Stack.Screen name="CalendarRecord" component={CalendarRecord} />
     </Stack.Navigator>

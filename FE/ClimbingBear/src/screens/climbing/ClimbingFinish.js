@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   },
   mountainname: {
     fontSize: widthPixel * 0.065,
-    paddingTop: widthPixel * 0.03,
     color: '#000000',
   },
   todaydate: {
