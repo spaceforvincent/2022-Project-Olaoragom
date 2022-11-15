@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import { ScrollView , View, Text, Image, StyleSheet, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
 
 import { getMountainDetail, getMountainWeather } from '../../apis/Map';
-import MountainWeather from '../../components/map/MountainWeather';
 
 // 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +17,8 @@ const MountainDetail = ({navigation, route}) => {
   const [mountainData, setMountainData] = useState([]);
   const [ mountainWeather, setMountainWeather ] = useState([]);
   const mntnId = route.params.mountainId;
+  const lat = route.params.mountainLat;
+  const lon = route.params.mountainLon;
 
   useEffect(() => {
     const initialData = async () => {
@@ -27,6 +28,14 @@ const MountainDetail = ({navigation, route}) => {
     };
     initialData();
   }, []);
+
+  // useEffect(() => {
+  //   const tempData = async() => {
+  //     const response = await getMountainWeather(lat, lon)
+  //     setMountainWeather(response)
+  //   }
+  //   tempData();
+  // }, [])
 
   return (
     <ScrollView>
@@ -76,65 +85,75 @@ const MountainDetail = ({navigation, route}) => {
         </View>
       </View>
 
-      {/* 산 난이도 */}
-      <View style={styles.difficultyContainer}>
-        <View style={styles.difficultyTextContainer}>
-          <View style={styles.difficultyHeader}>
-            <TextExtraBold style={styles.difficultyTitle}>난이도</TextExtraBold>
-            <TextExtraBold style={styles.difficultyContent}>
-              {mountainData.level}
-            </TextExtraBold>
+      <View style={styles.detailBody}>
+        {/* 산 난이도 */}
+        <View style={styles.difficultyContainer}>
+          <View style={styles.difficultyTextContainer}>
+            <View style={styles.difficultyHeader}>
+              <TextExtraBold style={styles.difficultyTitle}>
+                난이도
+              </TextExtraBold>
+              <TextExtraBold style={styles.difficultyContent}>
+                {mountainData.level}
+              </TextExtraBold>
+            </View>
+            {mountainData.level == '쉬움' && (
+              <TextBold style={styles.difficultText}>
+                이 정도는 산책 그 잡채!
+              </TextBold>
+            )}
+            {mountainData.level == '중간' && (
+              <TextBold style={styles.difficultText}>
+                간식의 힘이라면 충분!
+              </TextBold>
+            )}
+            {mountainData.level == '어려움' && (
+              <TextBold style={styles.difficultText}>
+                중요한 것은 꺾이지 않는 마음!
+              </TextBold>
+            )}
           </View>
-          {mountainData.level == '쉬움' && (
-            <TextBold style={styles.difficultText}>
-              이 정도는 산책 그 잡채!
-            </TextBold>
-          )}
-          {mountainData.level == '중간' && (
-            <TextBold style={styles.difficultText}>
-              간식의 힘이라면 충분!
-            </TextBold>
-          )}
-          {mountainData.level == '어려움' && (
-            <TextBold style={styles.difficultText}>
-              중요한 것은 꺾이지 않는 마음!
-            </TextBold>
-          )}
+          <View>
+            {mountainData.level == '쉬움' && (
+              <Image
+                source={require('../../assets/images/easy.png')}
+                style={styles.difficultyImage}></Image>
+            )}
+            {mountainData.level == '중간' && (
+              <Image
+                source={require('../../assets/images/normal.png')}
+                style={styles.difficultyImage}></Image>
+            )}
+            {mountainData.level == '어려움' && (
+              <Image
+                source={require('../../assets/images/hard.png')}
+                style={styles.difficultyImage}></Image>
+            )}
+          </View>
         </View>
-        <View>
-        {mountainData.level == '쉬움' && (
-            <Image
-            source={require('../../assets/images/easy.png')}
-            style={styles.difficultyImage}></Image>
-          )}
-          {mountainData.level == '중간' && (
-            <Image
-            source={require('../../assets/images/normal.png')}
-            style={styles.difficultyImage}></Image>
-          )}
-          {mountainData.level == '어려움' && (
-            <Image
-            source={require('../../assets/images/hard.png')}
-            style={styles.difficultyImage}></Image>
-          )}
-          
-        </View>
-      </View>
 
-      {/* 날씨 */}
-      {/* <View style={styles.weatherContainer}>
-        <MountainWeather weatherLat={mountainData.mntnLat} weatherLon={mountainData.mntnLon}/>
-      </View> */}
+        {/* 날씨 */}
+        {/* <View style={styles.weatherContainer}>
+        <TextBold style={styles.weatherTemp}>{Math.round(mountainWeather.main.temp - 272)}</TextBold>
+          <View style={styles.weatherHeader}>
+          <TextBold style={styles.weatherText}>{mountainWeather.weather[0].main}</TextBold>
+          <TextBold style={styles.weatherHumidity}>습도 {mountainWeather.main.humidity}</TextBold>
+          </View>
+          <Image
+            style={styles.weatherImage}
+            source={{
+              uri: `http://openweathermap.org/img/wn/${mountainWeather.weather[0].icon}.png`,
+            }}></Image>
+        </View> */}
+      </View>
 
       {/* 등산로 */}
       <View style={styles.imageContainer}>
-        {
-          mountainData.mntnPathImg == 'x' && (
-            <View style={styles.nopathImage}>
-              <TextBold>등산로 정보 준비중😥</TextBold>
-            </View>
-          )
-        }
+        {mountainData.mntnPathImg == 'x' && (
+          <View style={styles.nopathImage}>
+            <TextBold>등산로 정보 준비중😥</TextBold>
+          </View>
+        )}
         <Image
           style={styles.pathImage}
           source={{
@@ -166,7 +185,21 @@ const styles = StyleSheet.create({
   detailTitle: {
     flexDirection: 'row'
   },
+  // detailBody: {
+  //   flexDirection: 'row'
+  // },
   difficultyContainer: {
+    margin: 10,
+    // marginRight: windowWidth * 0.01,
+    marginBottom: 0,
+    borderWidth: 1, 
+    borderRadius: 10,
+    borderColor: '#B2B2B2',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  weatherContainer: {
+    marginLeft: 0,
     margin: 10,
     marginBottom: 0,
     borderWidth: 1, 
@@ -174,6 +207,8 @@ const styles = StyleSheet.create({
     borderColor: '#B2B2B2',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: '#F6F6F6',
+    width: windowWidth * 0.35
   },
   detailHeader: {
     flexDirection: 'row',
@@ -270,6 +305,19 @@ const styles = StyleSheet.create({
     marginRight: 20,
     width: windowWidth * 0.1,
     height: windowHeight * 0.05,
+  },
+  weatherImage: {
+    margin: 10,
+    width: windowWidth * 0.1,
+    height: windowHeight * 0.05,
+  },
+  weatherTemp: {
+    fontSize: 30,
+    margin: 20,
+    marginRight: 10,
+  },
+  weatherHeader: {
+    flexDirection: 'column',
+    marginTop: 20,
   }
-
 });

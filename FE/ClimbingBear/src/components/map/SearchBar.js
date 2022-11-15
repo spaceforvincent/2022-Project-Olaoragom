@@ -126,6 +126,8 @@ const SearchBar = (props) => {
         mountainName={mountainName}
         mountainRegion={semiMountainData.mntnRegion}
         mountainImage={semiMountainData.mntnImg}
+        mountainLat={semiMountainData.mntnLat}
+        mountainLon={semiMountainData.mntnLon}
       />
     </View>
   );

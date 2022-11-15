@@ -10,7 +10,7 @@ const MountainSemiDetail = (props) => {
 
   const navigation = useNavigation()
 
-  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion } = props
+  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion, mountainLat, mountainLon } = props
 
   const screenHeight = Dimensions.get('screen').height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
@@ -82,7 +82,7 @@ const MountainSemiDetail = (props) => {
           <View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('MountainDetail', {mountainId: mountainId})
+                navigation.navigate('MountainDetail', {mountainId: mountainId, mountainLat: mountainLat, mountainLon: mountainLon})
               }>
               <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
               <TextBold style={styles.region}>{mountainRegion}</TextBold>
