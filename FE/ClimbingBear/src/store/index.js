@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {authSlice} from './Auth';
 import {nowclimbingSlice} from './Climbing';
+import { mapSlice } from './Map';
 
 /* 
 스토어의 main
@@ -12,6 +13,7 @@ const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     nowclimbing: nowclimbingSlice.reducer,
+    map: mapSlice.reducer
   },
 });
 
