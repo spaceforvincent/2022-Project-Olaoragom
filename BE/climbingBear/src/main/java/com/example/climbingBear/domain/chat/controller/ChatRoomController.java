@@ -44,12 +44,12 @@ public class ChatRoomController {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatRoomService.listChatRoom(userSeq)), HttpStatus.OK);
     }
 
-    @PostMapping("/{room-seq}/join")
-    @ApiOperation(value = "방 입장", notes = "방 입장")
-    public ResponseEntity<ChatRoomResDto> joinRoom(HttpServletRequest request, @PathVariable("room-seq") Long roomSeq) throws Exception {
-        Long userSeq = (Long) jwtProvider.getUserSeqFromRequest(request);
-        log.info("[Room] 유저({}) 방 ({}) 입장", userSeq, roomSeq);
-        // 방 입장
-        return new ResponseEntity<ChatRoomResDto>((MultiValueMap<String, String>) chatRoomSockService.joinRoom(roomSeq, userSeq), HttpStatus.OK);
-    }
+//    @PostMapping("/{room-seq}/join")
+//    @ApiOperation(value = "방 입장", notes = "방 입장")
+//    public ResponseEntity<ChatRoomResDto> joinRoom(HttpServletRequest request, @PathVariable("room-seq") Long roomSeq) throws Exception {
+//        Long userSeq = (Long) jwtProvider.getUserSeqFromRequest(request);
+//        log.info("[Room] 유저({}) 방 ({}) 입장", userSeq, roomSeq);
+//        // 방 입장
+//        return new ResponseEntity<ChatRoomResDto>((MultiValueMap<String, String>) chatRoomSockService.joinRoom(roomSeq, userSeq), HttpStatus.OK);
+//    }
 }
