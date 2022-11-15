@@ -41,7 +41,6 @@ const LoginScreen = ({navigation}) => {
         console.log('로그인 성공!')
         const accessToken = await getToken()
         const nickname = response.data.nickname
-        console.log(nickname)
         const isAuthenticated = true
         dispatch(authActions.authenticate({
           accessToken,
@@ -78,9 +77,9 @@ const LoginScreen = ({navigation}) => {
           onChangeText={onChangeLoginPassword}
         />
       
-      <Pressable style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton}>
         <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
-      </Pressable>
+      </TouchableOpacity>
 
       <TextMedium>아직 회원이 아니신가요?</TextMedium>
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
