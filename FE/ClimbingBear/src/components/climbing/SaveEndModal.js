@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableOpacity,
   PixelRatio,
+  PixelRatio,
 } from 'react-native';
 
 import {
@@ -53,14 +54,14 @@ const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
             onPress={() => {
               setIsModalVisible(!isModalVisible);
             }}>
-            <View
+            <TouchableOpacity
               style={styles.button}
               onPress={() => {
                 navigation.navigate('CalendarHome');
                 setIsModalVisible(false);
               }}>
               <TextBold style={styles.buttontext}>보러 가기</TextBold>
-            </View>
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </View>
