@@ -14,7 +14,7 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/chat")
                 .setAllowedOrigins("http://k7d109.p.ssafy.io:8080")
-                .setAllowedOriginPatterns("*").withSockJS();
+                .withSockJS();
     }
 
     @Override
