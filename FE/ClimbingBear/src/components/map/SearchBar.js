@@ -73,9 +73,9 @@ const SearchBar = ({navigation}) => {
           }}
           containerStyle={{
             backgroundColor: '#ffffff',
-            marginTop: windowHeight * 0.05,
-            width: windowWidth * 0.85,
-            marginLeft: windowWidth * 0.12,
+            marginTop: windowHeight * 0.1,
+            width: windowWidth * 0.9,
+            marginLeft: windowWidth * 0.05,
             borderRadius: 5,
           }}
           itemStyle={{
