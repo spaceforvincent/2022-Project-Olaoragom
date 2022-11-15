@@ -25,8 +25,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
-const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
-const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
   const navigation = useNavigation();
@@ -48,7 +46,7 @@ const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
           </TextExtraBold>
         </View>
         <TextBold style={styles.text}>
-          저장 기록은 달력에서 {'\n'} {'\n'} 확인할 수 있습니다
+          저장 기록은 달력에서 {'\n'} 확인할 수 있습니다
         </TextBold>
         <View style={styles.flexrow}>
           <TouchableOpacity
