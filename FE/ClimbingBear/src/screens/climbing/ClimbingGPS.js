@@ -201,12 +201,14 @@ const ClimbingGPS = () => {
           finishClimb={finishClimb}
         />
       )}
-      <ClimbingInfo
-        altitude={altitude}
-        distance={distance}
-        finishClimb={finishClimb}
-        setFinishClimb={setFinishClimb}
-      />
+      {climbStatus && (
+        <ClimbingInfo
+          altitude={altitude}
+          distance={distance}
+          finishClimb={finishClimb}
+          setFinishClimb={setFinishClimb}
+        />
+      )}
     </View>
   );
 };
@@ -216,34 +218,11 @@ export default ClimbingGPS;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'space-between',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
   },
-  // mapcontainer: {
-  //   height: windowHeight * 0.6,
-  //   width: windowWidth,
-  // },
-  changescrollnext: {
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    top: widthPixel * 0.2,
-    right: widthPixel * 0.0001,
-  },
-  changescrollprev: {
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    top: widthPixel * 0.2,
-  },
-  arrowright: {
-    height: widthPixel * 0.05,
-    width: widthPixel * 0.05,
-  },
-  arrowleft: {
-    height: widthPixel * 0.05,
-    width: widthPixel * 0.05,
-  },
-  temp: {
-    fontSize: 30,
+  mapcontainer: {
+    height: windowHeight * 0.6,
+    width: windowWidth,
   },
 });

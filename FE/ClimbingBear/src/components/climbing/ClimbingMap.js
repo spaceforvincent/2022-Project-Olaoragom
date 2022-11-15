@@ -63,31 +63,32 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
 
   const path = [];
 
-  function pathfeature() {
-    tempgwanwakPath.features.forEach(item => {
-      const feature = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'MultiLineString',
-              coordinates: item.geometry.paths,
-            },
-            properties: {
-              length: item.attributes.PMNTN_LT,
-              level: item.attributes.PMNTN_DFFL,
-              upmin: item.attributes.PMNTN_UPPL,
-              downmin: item.attributes.PMNTN_GODN,
-              color: 'rgba(79, 141, 86, 0.5)',
-            },
-          },
-        ],
-      };
-      path.push(feature);
-    });
-    setFeatures(path);
-  }
+  // 등산로 가져오기 추후 구현
+  // function pathfeature() {
+  //   tempgwanwakPath.features.forEach(item => {
+  //     const feature = {
+  //       type: 'FeatureCollection',
+  //       features: [
+  //         {
+  //           type: 'Feature',
+  //           geometry: {
+  //             type: 'MultiLineString',
+  //             coordinates: item.geometry.paths,
+  //           },
+  //           properties: {
+  //             length: item.attributes.PMNTN_LT,
+  //             level: item.attributes.PMNTN_DFFL,
+  //             upmin: item.attributes.PMNTN_UPPL,
+  //             downmin: item.attributes.PMNTN_GODN,
+  //             color: 'rgba(79, 141, 86, 0.5)',
+  //           },
+  //         },
+  //       ],
+  //     };
+  //     path.push(feature);
+  //   });
+  //   setFeatures(path);
+  // }
 
   // (임시) 켜자마자 등산로와 spot 렌더링
   // useEffect(async () => {
@@ -121,7 +122,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   // }, []);
 
   useEffect(() => {
-    pathfeature();
+    // pathfeature();
   }, []);
 
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
@@ -146,7 +147,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   function takeSnapshot() {
     const snapshot = map.takeSnapshot({
       width: 300,
-      height: 300,
+      height: 350,
       format: 'png',
       result: 'file',
     });

@@ -9,6 +9,7 @@ import {
   Dimensions,
   Alert,
   TouchableOpacity,
+  PixelRatio,
 } from 'react-native';
 
 import {
@@ -21,6 +22,8 @@ import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
+const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
   const navigation = useNavigation();
@@ -37,12 +40,12 @@ const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
         }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
-          <TextExtraBold style={styles.text}>
+          <TextExtraBold style={styles.texttitle}>
             기록이 저장되었습니다!
           </TextExtraBold>
         </View>
         <TextBold style={styles.text}>
-          저장 기록은 달력에서 확인할 수 있습니다
+          저장 기록은 달력에서 {'\n'} 확인할 수 있습니다
         </TextBold>
         <View style={styles.flexrow}>
           <TouchableOpacity
@@ -50,15 +53,13 @@ const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
             onPress={() => {
               setIsModalVisible(!isModalVisible);
             }}>
-            <View style={styles.button}>
-              <TextBold
-                onPress={() => {
-                  navigation.navigate('CalendarHome');
-                  setIsModalVisible(false);
-                }}
-                style={styles.buttontext}>
-                보러 가기
-              </TextBold>
+            <View
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('CalendarHome');
+                setIsModalVisible(false);
+              }}>
+              <TextBold style={styles.buttontext}>보러 가기</TextBold>
             </View>
           </TouchableOpacity>
         </View>
@@ -77,18 +78,25 @@ const styles = StyleSheet.create({
     marginHorizontal: windowWidth * 0.05,
     width: windowWidth * 0.9,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    borderWidth: 5,
+    borderWidth: widthPixel * 0.004,
     borderColor: '#9ECD96',
     backgroundColor: 'white',
     textAlign: 'center',
+    borderRadius: widthPixel * 0.005,
   },
-  text: {
-    fontSize: 24,
-    padding: 10,
+  texttitle: {
+    fontSize: widthPixel * 0.03,
+    padding: widthPixel * 0.005,
     marginTop: windowHeight * 0.03,
     textAlign: 'center',
+    color: '#000000',
+  },
+  text: {
+    fontSize: widthPixel * 0.025,
+    padding: widthPixel * 0.005,
+    marginTop: windowHeight * 0.03,
   },
   flexrow: {
     flexDirection: 'row',
@@ -98,9 +106,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#91C788',
-    width: windowWidth * 0.25,
-    height: windowHeight * 0.04,
-    marginBottom: windowHeight * 0.01,
+    borderRadius: widthPixel * 0.005,
+    paddingHorizontal: widthPixel * 0.01,
+    paddingVertical: widthPixel * 0.005,
   },
   buttontext: {
     color: 'white',
