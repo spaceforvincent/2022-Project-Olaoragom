@@ -77,9 +77,9 @@ const LoginScreen = ({navigation}) => {
           onChangeText={onChangeLoginPassword}
         />
       
-      <Pressable style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton}>
         <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
-      </Pressable>
+      </TouchableOpacity>
 
       <TextMedium>아직 회원이 아니신가요?</TextMedium>
       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
