@@ -1,6 +1,9 @@
 package com.example.climbingBear.domain.chat.dto;
 
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
+import com.example.climbingBear.domain.mntn.entity.Mountain;
+import com.example.climbingBear.domain.record.entity.Record;
+import com.example.climbingBear.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,14 +18,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChatRoomDto {
 
-    private String roomId;
+    private Long roomSeq;
     private String roomName;
+    private String roomRealName;
+    private Long hostUser;
 
-
-    public static ChatRoomDto create(String name) {
-        ChatRoomDto room = new ChatRoomDto();
-        room.roomId = UUID.randomUUID().toString();
-        room.roomName = name;
-        return room;
+    public ChatRoomDto(ChatRoom chatRoom){
+        this.roomSeq = chatRoom.getRoomSeq();
+        this.roomName = chatRoom.getRoomName();
+        this.roomRealName = chatRoom.getRoomRealName();
+        this.hostUser = chatRoom.getUser().getUserSeq();
     }
 }
