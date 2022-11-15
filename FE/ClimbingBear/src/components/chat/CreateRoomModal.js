@@ -90,11 +90,11 @@ const CreateRoomModal = ({
       }}
     >
       {/* blur effect */}
-      {/* <Pressable
+      <Pressable
         style={styles.modalOverlay}
         onPress={() => {
-          setModalVisible(!isModalVisible);
-        }}></Pressable> */}
+          setModalVisible(!modalVisible);
+        }}></Pressable>
 
       <View style={styles.Modal}>
         <TextBold style={styles.modaltitle}>채팅방 개설</TextBold>

@@ -62,20 +62,20 @@ const ChatSearchBar = ({getEnteredChatRoomList}) => {
         />
       </View>
       <View style={styles.foundRoom}>
-        {foundRoom.map(r => {
+        {/* {foundRoom.map(r => {
           return (
-            // <View key={r.} style={styles.foundRoomElement}>
-            //   <Button
-            //     title={r.}
-            //     color=
-            //     onPress={() => {
-            //       setEnteredText(r.title); //검색바 내용 변경
-            //       getEnteredChatRoomList(r); //enteredText 전송
-            //       setFoundRoom([]);
-            //     }}></Button>
-            // </View>
+            <View key={r.} style={styles.foundRoomElement}>
+              <Button
+                title={r.}
+                color=
+                onPress={() => {
+                  setEnteredText(r.title); //검색바 내용 변경
+                  getEnteredChatRoomList(r); //enteredText 전송
+                  setFoundRoom([]);
+                }}></Button>
+            </View>
           );
-        })}
+        })} */}
       </View>
     </>
   );

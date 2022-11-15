@@ -38,7 +38,7 @@ function DrawerNavigator() {
             component={MapNavigation}
           />
           <drawer.Screen
-            name="ChatRoom"
+            name="ChatHome"
             options={{unmountOnBlur: true, headerTitle: ''}}
             component={ChatNavigation}
           />

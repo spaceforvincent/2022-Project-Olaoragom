@@ -52,16 +52,24 @@ const ChatHome = () => {
 
   // 방정보 get
   // api 완성되면 수정 필요
+  // useEffect(() => {
+  //   client.get('').then((response) => {
+  //     setRooms(response.data)
+  //   });
+  // }, []);
   useEffect(() => {
-    client.get('').then((response) => {
-      setRooms(response.data)
-    });
-  }, []);
+    loadChatList();
+  })
+
+  // 백서버에서 채팅방 제목과 호스트 가져오기
+  const loadChatTitle = async () => {
+    
+  }
 
   // 해당 방의 채팅 내용 가져오기 => chatroom으로 코드 이동
-  const getData = async (value) => {
+  const loadChatContent = async (value) => {
     try {
-      const jsonValue = await AsyncStorage.getItem('room_id')
+      const jsonValue = await AsyncStorage.getItem('roomId')
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch(e) {
       // error reading value      
@@ -70,13 +78,28 @@ const ChatHome = () => {
 
   
   // 방 삭제      
-  const deleteRoom = async (room_id) => {
-    await client.delete(`${room_id}`);
-    setRooms(
-      rooms.filter((room) => {
-        return room.room_id !== room_id;
-      })
-    );
+  // const deleteRoom = async (roomId) => {
+  //   await client.delete(`${roomId}`);
+  //   setRooms(
+  //     rooms.filter((room) => {
+  //       return room.roomId !== roomId;
+  //     })
+  //   );
+  // };
+  const deleteRoom = async (rooomId) => {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: `http://k7d109.p.ssafy.io:8080/chat/delRoom/{roomId}`,
+        params: {
+          roomId: roomId,
+        },
+      });
+      // 방목록에 적용되어 나오게 하는 메서드
+      
+    } catch (error) {
+      console.log(error);
+    }    
   };
 
 
@@ -114,10 +137,9 @@ const ChatHome = () => {
         {/* 채팅방장 닉네임 */}
         <Text>방장 닉네임</Text>
         {/* 방장이면 방 삭제 버튼 보임 */}
-        {/* room_id? room_name? */}
         {nickname === {isHost} ||
           <Pressable
-            onPress={() => deleteRoom(room_id)}>
+            onPress={() => deleteRoom(roomId)}>
             <Icon
               name="delete"
               size={18}
