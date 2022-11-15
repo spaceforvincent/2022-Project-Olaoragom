@@ -55,10 +55,10 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
             {route.params.time}
           </TextExtraBold>
         </View>
-        <View>
+        {/* <View>
           <TextExtraBold style={styles.category}>최고 고도</TextExtraBold>
           <TextExtraBold style={styles.category}>{heightRecord}m</TextExtraBold>
-        </View>
+        </View> */}
       </View>
       <View style={styles.map}>
         {/* 이미지 상태값에 따라 띄워줄 사진 변경 */}
@@ -116,7 +116,7 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
               setIsOrbitClicked(false);
               setIsMapClicked(false);
             }}>
-            {/* 버튼 눌려진 상태 표시 */}
+            {/* 버튼 눌려진 상태 표시
             {isHeightClicked ? (
               <View style={styles.clickedbutton}>
                 <TextMedium style={styles.buttontext}>고도사진</TextMedium>
@@ -125,7 +125,7 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
               <View style={styles.button}>
                 <TextMedium style={styles.buttontext}>고도사진</TextMedium>
               </View>
-            )}
+            )} */}
           </TouchableOpacity>
         </View>
       </View>
