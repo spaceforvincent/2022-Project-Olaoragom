@@ -1,6 +1,7 @@
 package com.example.climbingBear.domain.chat.controller;
 
 import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
+import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.service.ChatService;
 import com.example.climbingBear.domain.record.dto.DiaryPostReqDto;
@@ -41,7 +42,7 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ApiOperation(value = "채팅방 생성", notes = "roomName 입력, header에 token 입력")
-    public ResponseEntity<CommonResponse> createChatRoom(HttpServletRequest request, @RequestBody ChatRoomDto dto) throws Exception {
+    public ResponseEntity<CommonResponse> createChatRoom(HttpServletRequest request, @RequestBody ChatRoomPostReqDto dto) throws Exception {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.createRoom(dto, userSeq)), HttpStatus.OK);
     }

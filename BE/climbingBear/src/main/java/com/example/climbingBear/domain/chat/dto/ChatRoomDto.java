@@ -18,18 +18,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChatRoomDto {
 
-//    private String roomRealName;
+    private Long roomSeq;
     private String roomName;
+    private String roomRealName;
+    private Long hostUser;
 
-
-    public ChatRoom create(User user) {
-        return ChatRoom.builder()
-                .roomRealName(UUID.randomUUID().toString())
-                .roomName(this.roomName)
-                .user(user)
-                .build();
-
+    public ChatRoomDto(ChatRoom chatRoom){
+        this.roomSeq = chatRoom.getRoomSeq();
+        this.roomName = chatRoom.getRoomName();
+        this.roomRealName = chatRoom.getRoomRealName();
+        this.hostUser = chatRoom.getUser().getUserSeq();
     }
-
-
 }
