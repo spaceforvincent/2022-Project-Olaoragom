@@ -10,7 +10,6 @@ import {
   Alert,
   TouchableOpacity,
   PixelRatio,
-  PixelRatio,
 } from 'react-native';
 
 import {
