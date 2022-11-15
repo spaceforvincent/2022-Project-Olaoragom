@@ -48,12 +48,13 @@ public class ChatRoomController {
     }
 
     // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
+    @GetMapping("/room/enter/{roomSeq}")
     @ApiOperation(value = "채팅방 입장", notes = "header에 token 입력")
-    public String roomDetail(Model model, @PathVariable String roomId) {
-        System.out.println(model);
-        model.addAttribute("roomId", roomId);
-        return "redirect:/roomdetail";
+    public ResponseEntity<CommonResponse> enterRoom(HttpServletRequest request, @PathVariable Long roomSeq) throws Exception {
+//        System.out.println(model);
+//        model.addAttribute("roomId", roomId);
+//        return "redirect:/roomdetail";
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.findByRoomId(roomSeq)), HttpStatus.OK);
     }
 
     // 특정 채팅방 조회

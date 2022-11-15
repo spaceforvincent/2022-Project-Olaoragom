@@ -4,6 +4,7 @@ import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.user.entity.User;
+import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,9 +39,11 @@ public class ChatRoomRepository {
         return chatRooms.stream().map(ChatRoomDto::new).collect(Collectors.toList());
     }
 
-//    public ChatRoomDto findRoomById(String id){
-//        return chatRoomMap.get(id);
-//    }
+    public ChatRoom findRoomById(Long id){
+        ChatRoom chatRoom = roomRepository.findByRoomSeq(id).orElseThrow(() ->
+                new NoExistUserException());
+        return chatRoom;
+    }
 
     public ChatRoom createRoom(ChatRoomPostReqDto dto, User user){
 

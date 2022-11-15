@@ -40,10 +40,14 @@ public class ChatService {
         return result;
     }
 
-//    //채팅방 하나 불러오기
-//    public ChatRoom findById(String roomId) {
-//        return chatRooms.get(roomId);
-//    }
+    //채팅방 하나 불러오기
+    public ChatRoomDto findByRoomId (Long roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findRoomById(roomId);
+        System.out.println("CHATROOM : " + chatRoom);
+        ChatRoomDto chatRoomDto = new ChatRoomDto(chatRoom);
+        System.out.println("DTO : " + chatRoomDto);
+        return chatRoomDto;
+    }
 
     //채팅방 생성
     public ChatRoomPostResDto createRoom(ChatRoomPostReqDto dto, Long userSeq) {
