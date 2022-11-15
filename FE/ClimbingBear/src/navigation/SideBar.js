@@ -9,7 +9,7 @@ import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
-
+import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
 const drawer = createDrawerNavigator();
@@ -24,34 +24,78 @@ function DrawerNavigator() {
           useLegacyImplementation
           initialRouteName="Login"
           screenOptions={{
-            headerTransparent: true,
-            headerTitle: '',
+            headerTransparent: false,
+            headerTitleAlign: 'center',
           }}>
           <drawer.Screen
-            name="Calendar"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="달력"
+            options={{
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="Map"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="산 검색"
+            options={{
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={MapNavigation}
           />
           <drawer.Screen
-            name="ChatRoom"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="채팅"
+            options={{
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={ChatNavigation}
           />
           <drawer.Screen
-            name="Logout"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="로그아웃"
+            options={{
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={AuthNavigation}
           />
         </drawer.Navigator>
       ) : (
         <drawer.Navigator useLegacyImplementation initialRouteName="Login">
           <drawer.Screen
-            name="Login"
+            name="로그인"
             component={AuthNavigation}
             options={{headerShown: false}}
           />
