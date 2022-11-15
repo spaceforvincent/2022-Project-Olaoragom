@@ -1,6 +1,7 @@
 package com.example.climbingBear.domain.chat.repository;
 
 import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
+import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,36 +11,42 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
 public class ChatRoomRepository {
 
-    private Map<String, ChatRoomDto> chatRoomDTOMap;
+    private Map<Long, ChatRoom> chatRoomMap;
+    private final RoomRepository roomRepository;
     @Autowired
     private EntityManager em;
+
+    public ChatRoomRepository(RoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
+    }
+
     @PostConstruct
     private void init(){
-        chatRoomDTOMap = new LinkedHashMap<>();
+        chatRoomMap = new LinkedHashMap<>();
     }
 
     public List<ChatRoomDto> findAllRooms(){
         //채팅방 생성 순서 최근 순으로 반환
-        List<ChatRoomDto> result = new ArrayList<>(chatRoomDTOMap.values());
-        Collections.reverse(result);
-
-        return result;
+        List<ChatRoom> chatRooms = new ArrayList<>(roomRepository.findAll());
+        System.out.println(chatRooms);
+        return chatRooms.stream().map(ChatRoomDto::new).collect(Collectors.toList());
     }
 
-    public ChatRoomDto findRoomById(String id){
-        return chatRoomDTOMap.get(id);
-    }
+//    public ChatRoomDto findRoomById(String id){
+//        return chatRoomMap.get(id);
+//    }
 
-    public ChatRoom createRoom(ChatRoomDto chatRoomDto, User user){
+    public ChatRoom createRoom(ChatRoomPostReqDto dto, User user){
 
         // 집어넣을 데이터 설정
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setRoomName(chatRoomDto.getRoomName());
+        chatRoom.setRoomName(dto.getRoomName());
         chatRoom.setRoomRealName(UUID.randomUUID().toString());
         chatRoom.setUser(user);
 
@@ -48,6 +55,9 @@ public class ChatRoomRepository {
 
         // primary key 생성
         em.flush();
+
+        // 방 관리자 생성
+        chatRoomMap.put(chatRoom.getRoomSeq(), new ChatRoom());
 
         // 데이터 리턴
         return chatRoom;
