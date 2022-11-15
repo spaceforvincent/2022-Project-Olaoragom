@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, Button, View, StyleSheet, Dimensions} from 'react-native';
+import {Image, Text, Button, View, StyleSheet, Dimensions, AsyncStorage} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   TextLight,
@@ -23,6 +23,16 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
   const [isHeightClicked, setIsHeightClicked] = useState(false);
   const [isOrbitClicked, setIsOrbitClicked] = useState(false);
   const [isMapClicked, setIsMapClicked] = useState(true);
+  const [uri, setUri] = useState('');
+  const load = async () => {
+    const uri = await AsyncStorage.getItem('uri');
+    setUri(uri);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
   //고도 측정 기록
   const heightRecord = '500';
   //이미지 상태값 변경(지도)
@@ -34,9 +44,9 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
     setImageState('orbit');
   };
   //이미지 상태값 변경(고도)
-  const heightState = () => {
-    setImageState('height');
-  };
+  // const heightState = () => {
+  //   setImageState('height');
+  // };
 
   return (
     <View>
@@ -55,15 +65,15 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
             {route.params.time}
           </TextExtraBold>
         </View>
-        <View>
+        {/* <View>
           <TextExtraBold style={styles.category}>최고 고도</TextExtraBold>
           <TextExtraBold style={styles.category}>{heightRecord}m</TextExtraBold>
-        </View>
+        </View> */}
       </View>
       <View style={styles.map}>
         {/* 이미지 상태값에 따라 띄워줄 사진 변경 */}
         {imageState === 'map' ? (
-          <Image style={styles.image} source={mapImage} />
+          <Image style={styles.image} source={{uri: uri}} />
         ) : imageState === 'orbit' ? (
           <Image style={styles.image} source={orbitImage} />
         ) : (
@@ -116,7 +126,7 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
               setIsOrbitClicked(false);
               setIsMapClicked(false);
             }}>
-            {/* 버튼 눌려진 상태 표시 */}
+            {/* 버튼 눌려진 상태 표시
             {isHeightClicked ? (
               <View style={styles.clickedbutton}>
                 <TextMedium style={styles.buttontext}>고도사진</TextMedium>
@@ -125,7 +135,7 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
               <View style={styles.button}>
                 <TextMedium style={styles.buttontext}>고도사진</TextMedium>
               </View>
-            )}
+            )} */}
           </TouchableOpacity>
         </View>
       </View>
