@@ -9,7 +9,7 @@ import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
-
+import { Image } from 'react-native';
 import {useSelector} from 'react-redux';
 
 const drawer = createDrawerNavigator();
@@ -25,7 +25,15 @@ function DrawerNavigator() {
           initialRouteName="Login"
           screenOptions={{
             headerTransparent: false,
-            headerTitle: '',
+            headerTitle: () => (
+              <Image
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
+                source={require('../assets/images/LoginLogo.png')}
+              />
+            ),
           }}>
           <drawer.Screen
             name="달력"
@@ -34,7 +42,7 @@ function DrawerNavigator() {
           />
           <drawer.Screen
             name="산 검색"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            options={{unmountOnBlur: true}}
             component={MapNavigation}
           />
           <drawer.Screen
