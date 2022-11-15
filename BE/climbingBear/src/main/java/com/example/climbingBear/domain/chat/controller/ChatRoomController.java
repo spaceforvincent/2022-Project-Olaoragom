@@ -3,11 +3,18 @@ package com.example.climbingBear.domain.chat.controller;
 import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
 import com.example.climbingBear.domain.chat.service.ChatService;
+import com.example.climbingBear.domain.record.dto.DiaryPostReqDto;
+import com.example.climbingBear.global.common.CommonResponse;
+import com.example.climbingBear.global.jwt.JwtProvider;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -15,27 +22,33 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatRoomController {
     private final ChatService chatService;
+    private final JwtProvider jwtProvider;
 
     // 채팅 리스트 화면
-    @GetMapping("/room")
-    public String rooms(Model model) {
-        return "/chat/room";
-    }
+//    @GetMapping("/room")
+//    public String rooms(Model model) {
+//        return "/chat/room";
+//    }
+
     // 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
-    @ResponseBody
-    public List<ChatRoomDto> room() {
-        return chatService.findAllRoom();
+    @GetMapping("/room-list")
+    @ApiOperation(value = "채팅방 목록", notes = "")
+    public ResponseEntity<CommonResponse> getRoomList(HttpServletRequest request) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.findAllRoom()), HttpStatus.OK);
     }
+
     // 채팅방 생성
     @PostMapping("/room")
-    @ResponseBody
-    public ChatRoomDto createRoom(@RequestParam String name) {
-        return chatService.createRoom(name);
+    @ApiOperation(value = "채팅방 생성", notes = "roomName 입력, header에 token 입력")
+    public ResponseEntity<CommonResponse> createChatRoom(HttpServletRequest request, @RequestBody ChatRoomDto dto) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.createRoom(dto, userSeq)), HttpStatus.OK);
     }
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
+    @ApiOperation(value = "채팅방 입장", notes = "header에 token 입력")
     public String roomDetail(Model model, @PathVariable String roomId) {
         System.out.println(model);
         model.addAttribute("roomId", roomId);
@@ -43,9 +56,9 @@ public class ChatRoomController {
     }
 
     // 특정 채팅방 조회
-    @GetMapping("/room/{roomId}")
-    @ResponseBody
-    public ChatRoomDto roomInfo(@PathVariable String roomId) {
-        return chatService.findById(roomId);
-    }
+//    @GetMapping("/room/{roomId}")
+//    @ResponseBody
+//    public ChatRoomDto roomInfo(@PathVariable String roomId) {
+//        return chatService.findById(roomId);
+//    }
 }

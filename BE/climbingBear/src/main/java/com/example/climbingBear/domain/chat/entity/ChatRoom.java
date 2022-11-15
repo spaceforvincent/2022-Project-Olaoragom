@@ -10,21 +10,26 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class ChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatRoomSeq;
+    private Long roomSeq;
 
     @Column(name = "room_name")
     private String roomName;
+
+    @Column(name = "room_real_name")
+    private String roomRealName;
 
     @ManyToOne
     private User user;
 
     @Builder
-    private ChatRoom (String roomName, User user){
+    private ChatRoom (String roomName, User user, String roomRealName){
         this.user = user;
         this.roomName = roomName;
+        this.roomRealName = roomRealName;
     }
 
 }
