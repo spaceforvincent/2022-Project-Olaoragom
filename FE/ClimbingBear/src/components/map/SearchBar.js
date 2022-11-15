@@ -1,13 +1,20 @@
 import { Fragment, useEffect, useLayoutEffect, useState } from "react"
 
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, Dimensions } from "react-native"
+import { useDispatch } from "react-redux"
 
 import SearchableDropdown from 'react-native-searchable-dropdown'
 
 import MountainSemiDetail from './MountainSemiDetail'
 import { getMountainDetail, getMountainList } from "../../apis/Map"
+import { mapActions } from "../../store/Map"
 
-const SearchBar = ({navigation}, props) => {
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const SearchBar = ({navigation}) => {
+  const dispatch = useDispatch()
+
   const [items, setItems] = useState([]);
   const [mountainId, setMountainId] = useState('');
   const [mountainName, setMountainName] = useState('');
@@ -16,8 +23,7 @@ const SearchBar = ({navigation}, props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   // bottomsheet & 세미 데이터 통신
-  const semiDetail = (item, setMarkerLat, setMarkerLng) => {
-    // console.log(item)
+  const semiDetail = (item) => {
 
     // 모달창
     setModalVisible(true);
@@ -25,13 +31,19 @@ const SearchBar = ({navigation}, props) => {
     setMountainId(item.id);
     setMountainName(item.name);
 
+    const markerLat = item.lat;
+    const markerLon = item.lon;
+
+    dispatch(mapActions.marker({
+      markerLat,
+      markerLon,
+    }))
+
     const initialData = async () => {
       const response = await getMountainDetail(item.id);
       setSemiMountainData(response);
-      setMarkerLat(response.mntnLat);
-      setMarkerLng(response.mntnLon);
     };
-    initialData();
+    initialData()
   };
 
   // 산 리스트
@@ -43,6 +55,8 @@ const SearchBar = ({navigation}, props) => {
         templist.push({
           id: mn.mntnSeq,
           name: mn.mntnNm,
+          lat: mn.mntnLat,
+          lon: mn.mntnLon,
         });
       });
       setItems(templist);
@@ -58,18 +72,20 @@ const SearchBar = ({navigation}, props) => {
             semiDetail(item);
           }}
           containerStyle={{
-            backgroundColor: 'white',
-            padding: 15,
-            marginTop: 50,
+            backgroundColor: '#ffffff',
+            marginTop: windowHeight * 0.05,
+            width: windowWidth * 0.85,
+            marginLeft: windowWidth * 0.12,
+            borderRadius: 5,
           }}
           itemStyle={{
-            padding: 10,
-            marginTop: 2,
-            height: 60,
+            padding: 5,
+            marginTop: 1,
+            height: 50,
             backgroundColor: 'white',
-            borderColor: '#bbb',
+            borderColor: '#DFDFDE',
             borderWidth: 1,
-            // borderRadius: 5,
+            borderRadius: 5,
           }}
           itemTextStyle={{
             fontFamily: 'SeoulNamsanL',
@@ -82,7 +98,7 @@ const SearchBar = ({navigation}, props) => {
           defaultIndex={0}
           resetValue={false}
           textInputProps={{
-            placeholder: '산 이름을 입력해주세요.',
+            placeholder: '산 이름을 입력해주세요',
             underlineColorAndroid: 'transparent',
             style: {
               padding: 12,
@@ -110,11 +126,5 @@ const SearchBar = ({navigation}, props) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 30,
-  },
-});
 
 export default SearchBar;
