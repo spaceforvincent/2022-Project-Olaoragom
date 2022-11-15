@@ -25,7 +25,8 @@ const windowHeight = Dimensions.get('window').height;
 
 const DeleteRoomModal = ({
   modalVisible,
-  setIsModalVisible,
+  setModalVisible,
+  one,
 }) => {
   const navigation = useNavigation();  
 
@@ -41,7 +42,7 @@ const DeleteRoomModal = ({
       <Pressable
         style={styles.modalOverlay}
         onPress={() => {
-          setIsModalVisible(!isModalVisible);
+          setModalVisible(!modalVisible);
         }}></Pressable>
       <View style={styles.Modal}>
         <TextBold>정말 삭제하시겠습니까?</TextBold>
@@ -50,16 +51,18 @@ const DeleteRoomModal = ({
           <Pressable
             style={styles.nobtn}
             onPress={() => {
+              setModalVisible(!modalVisible)
               // go back
-              navigation.goBack()
-            }}></Pressable>
+              navigation.goBack();
+            }}>No</Pressable>
           {/* yes 버튼 */}
           <Pressable
             style={styles.yesbtn}
             onPress={() => {
+              setModalVisible(!modalVisible)
               // delete room function
-
-            }}></Pressable>
+              deleteRoom(one);
+            }}>Yes</Pressable>
         </View>
       </View>
       

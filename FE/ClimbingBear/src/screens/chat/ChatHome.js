@@ -61,20 +61,10 @@ const ChatHome = () => {
     loadChatList();
   })
 
-  // 백서버에서 채팅방 제목과 호스트 가져오기
-  const loadChatTitle = async () => {
+  // 백서버에서 채팅방 리스트(제목과 호스트) 가져오기
+  const loadChatList = async () => {
     
-  }
-
-  // 해당 방의 채팅 내용 가져오기 => chatroom으로 코드 이동
-  const loadChatContent = async (value) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('roomId')
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch(e) {
-      // error reading value      
-    }
-  }
+  }  
 
   
   // 방 삭제      
@@ -96,7 +86,7 @@ const ChatHome = () => {
         },
       });
       // 방목록에 적용되어 나오게 하는 메서드
-      
+      loadChatList();
     } catch (error) {
       console.log(error);
     }    

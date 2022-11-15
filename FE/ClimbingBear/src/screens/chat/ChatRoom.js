@@ -73,7 +73,15 @@ const ChatRoom = () => {
     setUserNick(userNick);
   }
 
-  
+  // async storage 해당 방의 채팅 내용 가져오기 
+  const loadChatContent = async (value) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('roomId')
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+      // error reading value      
+    }
+  }  
  
   useEffect(() => {
     console.log("소켓통신 가즈아")
