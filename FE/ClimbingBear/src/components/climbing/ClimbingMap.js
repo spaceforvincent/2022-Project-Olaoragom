@@ -154,12 +154,15 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
       result: 'file',
     });
     snapshot.then(uri => {
-      dispatch(
-        nowclimbingActions.mapSnapshot({
-          uri: uri,
-        }),
-      );
-      console.log(uri);
+      const save = async () => {
+        await AsyncStorage.setItem('uri', uri);
+        dispatch(
+          nowclimbingActions.mapSnapshot({
+            uri: uri,
+          }),
+        );
+      };
+      save();
     });
   }
 
