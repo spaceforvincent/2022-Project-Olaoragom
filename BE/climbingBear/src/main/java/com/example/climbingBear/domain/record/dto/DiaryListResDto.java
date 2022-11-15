@@ -23,6 +23,7 @@ public class DiaryListResDto {
     private boolean isComplete;
     private String time;
     private Float distance;
+    private String imgUrl;
 
 
     public DiaryListResDto(Record record){
@@ -34,6 +35,7 @@ public class DiaryListResDto {
         this.isComplete = record.isComplete();
         this.time = record.getTime();
         this.distance = record.getDistance();
+        this.imgUrl = record.getImgUrl();
     }
 
 

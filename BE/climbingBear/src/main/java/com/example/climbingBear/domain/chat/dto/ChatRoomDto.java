@@ -1,6 +1,11 @@
 package com.example.climbingBear.domain.chat.dto;
 
+import com.example.climbingBear.domain.chat.entity.ChatRoom;
+import com.example.climbingBear.domain.mntn.entity.Mountain;
+import com.example.climbingBear.domain.record.entity.Record;
+import com.example.climbingBear.domain.user.entity.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -10,17 +15,21 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ChatRoomDto {
-    private String roomId;
-    private String name;
-    private Set<WebSocketSession> sessions = new HashSet<>();
-    //WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
 
-    public static ChatRoomDto create(String name){
-        ChatRoomDto room = new ChatRoomDto();
+//    private String roomRealName;
+    private String roomName;
 
-        room.roomId = UUID.randomUUID().toString();
-        room.name = name;
-        return room;
+
+    public ChatRoom create(User user) {
+        return ChatRoom.builder()
+                .roomRealName(UUID.randomUUID().toString())
+                .roomName(this.roomName)
+                .user(user)
+                .build();
+
     }
+
+
 }
