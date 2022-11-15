@@ -33,12 +33,15 @@ public class ChatRoomController {
     public ChatRoomDto createRoom(@RequestParam String name) {
         return chatService.createRoom(name);
     }
+
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
+        System.out.println(model);
         model.addAttribute("roomId", roomId);
-        return "/roomdetail";
+        return "redirect:/roomdetail";
     }
+
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
