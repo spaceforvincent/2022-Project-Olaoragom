@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { getMountainWeather } from "../../apis/Map";
 
-const MountainWeather = ({lat, lon}) => {
+const MountainWeather = (props) => {
+
+    const { weatherLat, weatherLon } = props
 
     const [ weather, setWeather ] = useState([])
 
     useEffect(() => {
-        console.log('위도', lat)
-        console.log('경도', lon)
         const initialData = async() => {
-            const response = await getMountainWeather(lat, lon)
+            const response = await getMountainWeather(weatherLat, weatherLon)
             console.log(response.data)
             setWeather(response)
         }
@@ -20,7 +20,7 @@ const MountainWeather = ({lat, lon}) => {
 
     return(
         <View>
-
+            <Text>얍</Text>
         </View>
     )
 }

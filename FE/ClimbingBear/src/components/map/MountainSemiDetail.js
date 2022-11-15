@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
-
 import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, Image, TouchableOpacity } from 'react-native';
 import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
-
 import { useNavigation } from '@react-navigation/native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const MountainSemiDetail = (props) => {
 
@@ -84,7 +85,7 @@ const MountainSemiDetail = (props) => {
                 navigation.navigate('MountainDetail', {mountainId: mountainId})
               }>
               <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
-              <TextBold>{mountainRegion}</TextBold>
+              <TextBold style={styles.region}>{mountainRegion}</TextBold>
             </TouchableOpacity>
             <Image
               style={styles.image}
@@ -118,14 +119,18 @@ const styles = StyleSheet.create({
   },
   // 본문
   title: {
-    fontSize: 30,
-    marginTop: 10,
+    fontSize: 35,
+    margin: 10,
     marginBottom: 5,
   },
+  region: {
+    marginLeft: 10,
+    marginBottom: 2,
+  },
   image: {
-    marginTop: 10,
-    width: 350,
-    height: 200,
+    margin: 10,
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.2,
     borderRadius: 5,
   }
 });
