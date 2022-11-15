@@ -15,6 +15,7 @@ public class RecordPostReqDto {
     private Integer day;
     private Float distance;
     private String time;
+    private String imgUrl;
 
     public Record toRecordEntity(User user, Mountain mntn){
         return  Record.builder()
@@ -26,6 +27,7 @@ public class RecordPostReqDto {
                 .distance(this.distance)
                 .time(this.time)
                 .isComplete(true)
+                .imgUrl(this.imgUrl)
                 .build();
     }
 }
