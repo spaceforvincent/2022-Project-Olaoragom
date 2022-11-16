@@ -55,6 +55,7 @@ const MapHome = () => {
               style={styles.map}
               showsUserLocation={true}
               showsMyLocationButton={false}
+              clusterColor={"#F4A442"}
               // onClusterPress={(cluster, markers) => {navigation.navigate('MountainDetail', {mountainId: marker.mntnSeq})}}
               provider={PROVIDER_GOOGLE}
               zoomEnabled={true}>
@@ -67,7 +68,7 @@ const MapHome = () => {
                   }}>
                   <Image
                     style={styles.marker}
-                    source={require(`../../assets/images/marker6.png`)}></Image>
+                    source={require(`../../assets/images/marker5.png`)}></Image>
                 </Marker>
               ))}
             </MapView>
@@ -104,8 +105,8 @@ const MapHome = () => {
                     longitude: parseFloat(marker.mntnLon),
                   }}>
                   <Image
-                    style={styles.marker}
-                    source={require(`../../assets/images/marker2.png`)}></Image>
+                    style={styles.markerClose}
+                    source={require(`../../assets/images/marker.png`)}></Image>
                 </Marker>
               ))}
             </MapView>
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   marker: {
-    height: 35,
-    width: 35,
+    height: 30,
+    width: 30,
   },
   clusterButton: {
     margin: 10,
@@ -159,4 +160,8 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: 'white',
   },
+  markerClose: {
+    height: 50,
+    width: 50,
+  }
 });
