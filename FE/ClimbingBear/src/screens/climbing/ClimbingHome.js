@@ -162,8 +162,7 @@ const ClimbingHome = ({route}) => {
     if (aloneorTogether.ALONE == payload) {
       navigation.navigate('ClimbingGPS');
     } else {
-      Alert.alert('경고', '추후 구현 예정입니다!');
-      // navigation.navigate('ClimbCompanyAdd');
+      navigation.navigate('ClimbCompanyAdd');
     }
   }
 
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    paddingTop: widthPixel * 0.03,
+    backgroundColor: '#FFFFFF',
   },
   infotext: {
     alignItems: 'center',

@@ -2,6 +2,7 @@ import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn';
+const API_URL_COMPANY = 'http://k7d109.p.ssafy.io:8080/user';
 
 export const postClimbingData = async (
   day,
@@ -38,5 +39,23 @@ export const postClimbingData = async (
     console.log(error);
     console.log(error.response.data);
     return false;
+  }
+};
+
+export const getCompany = async () => {
+  const accessToken = await EncryptedStorage.getItem('accessToken');
+
+  try {
+    const response = await axios({
+      method: 'get',
+      url: API_URL_COMPANY + '/list',
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    console.log(error.response.data);
   }
 };
