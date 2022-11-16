@@ -8,9 +8,12 @@ import {
   TouchableOpacity,
   Dimensions,
   PixelRatio,
+  Image,
 } from 'react-native';
 // 서체 import
 import {TextLight} from '../../components/common/TextFont';
+// 긴급 전화
+import {Linking} from 'react-native';
 
 // (수정) style 을 위해 크기 가져 옴
 const windowWidth = Dimensions.get('window').width;
@@ -19,7 +22,7 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 // React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
-const ClimbingButton = ({setMapType, setPlaceType}) => {
+const ClimbingButton = ({setMapType, setPlaceType, setPlaceButton}) => {
   // (공부) useRef 와 useState 차이
 
   // false가 기본값 (standard), true 일 때 (satellite)
@@ -51,6 +54,7 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
     else {
       placeTypeStatus.current = false;
       setPlaceType(false);
+      setPlaceButton(null);
     }
   }
 
@@ -95,6 +99,13 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
           </TextLight>
         </TouchableOpacity>
       )}
+      <TouchableOpacity
+        style={styles.callbackground}
+        onPress={() => Linking.openURL(`tel:${119}`)}>
+        <Image
+          source={require('../../assets/images/callIcon.png')}
+          style={styles.callimage}></Image>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -104,13 +115,17 @@ export default ClimbingButton;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: heightPixel * 0.2,
+    top: heightPixel * 0.17,
     right: widthPixel * 0.0005,
   },
   buttonbackground: {
     alignItems: 'flex-end',
     paddingBottom: widthPixel * 0.007,
     paddingRight: widthPixel * 0.01,
+  },
+  callbackground: {
+    bottom: widthPixel * 0.05,
+    right: widthPixel * 0.28,
   },
   unclickbuttontext: {
     paddingHorizontal: widthPixel * 0.015,
@@ -127,5 +142,9 @@ const styles = StyleSheet.create({
     fontSize: widthPixel * 0.015,
     color: '#FFFFFF',
     borderRadius: 15,
+  },
+  callimage: {
+    width: widthPixel * 0.035,
+    height: widthPixel * 0.035,
   },
 });
