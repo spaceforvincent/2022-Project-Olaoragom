@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
+import { Icon } from 'react-native-vector-icons/Icon/AntDesign';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const windowWidth = Dimensions.get('window').width;
@@ -68,6 +69,12 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
           value={enteredText}
           style={styles.textinput}
         />
+        <Icon
+              style={styles.checkIcon}
+              name="search1"
+              size={30}
+              color="#74B49B"
+            />
       </View>
       <View style={styles.result}>
         {result.map(r => {
