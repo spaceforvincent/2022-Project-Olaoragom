@@ -24,7 +24,7 @@ const ClimbCompanyAdd = () => {
     let name = [];
     name.push(...nickname, item.name);
     setNickname(name);
-    console.log(nickname);
+    console.log('들어온 닉네임', nickname);
   };
 
   useLayoutEffect(() => {
@@ -48,10 +48,11 @@ const ClimbCompanyAdd = () => {
         </TextBold>
       </View>
       <View style={styles.textcont}>
-        {nickname.map((nick, idx) => {
+        {/* {nickname.map((nick, idx) => {
           <TextBold style={styles.choosetext}>{nick}</TextBold>;
-          console.log(nick);
-        })}
+          console.log('선택한 닉네임', nick);
+        })} */}
+        <TextBold style={styles.choosetext}>{nickname}</TextBold>
       </View>
       <Fragment>
         <SearchableDropdown
@@ -60,7 +61,7 @@ const ClimbCompanyAdd = () => {
             companyDetail(item);
           }}
           containerStyle={{
-            backgroundColor: '#ffffff',
+            backgroundColor: '#FFFFFF',
             width: windowWidth * 0.9,
             margin: 10,
             marginHorizontal: 20,
@@ -81,7 +82,7 @@ const ClimbCompanyAdd = () => {
             color: '#222',
             marginTop: 10,
           }}
-          itemsContainerStyle={{maxHeight: 700}}
+          itemsContainerStyle={{maxHeight: 410}}
           items={items}
           defaultIndex={0}
           resetValue={false}
@@ -126,10 +127,10 @@ const styles = StyleSheet.create({
   },
   textcont: {
     width: windowWidth,
-    height: windowHeight * 0.015,
+    height: windowHeight * 0.05,
   },
   choosetext: {
-    fontSize: windowWidth * 0.3,
+    fontSize: windowWidth * 0.05,
     color: '#000000',
   },
 });
