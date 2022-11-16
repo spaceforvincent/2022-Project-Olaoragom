@@ -77,8 +77,8 @@ const LoginScreen = ({navigation}) => {
           onChangeText={onChangeLoginPassword}
         />
       
-      <TouchableOpacity style={styles.loginButton}>
-        <TextMedium style={styles.loginText} onPress = {() => login(id, password)}>로그인</TextMedium>
+      <TouchableOpacity style={styles.loginButton} onPress = {() => login(id, password)}>
+        <TextMedium style={styles.loginText}>로그인</TextMedium>
       </TouchableOpacity>
 
       <TextMedium>아직 회원이 아니신가요?</TextMedium>
