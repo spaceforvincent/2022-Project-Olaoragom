@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    markerLat: 37.573898277022,
-    markerLon: 126.9731314753,
+    markerLat: 36.34,
+    markerLon: 127.77,
 }
 
 export const mapSlice = createSlice({
