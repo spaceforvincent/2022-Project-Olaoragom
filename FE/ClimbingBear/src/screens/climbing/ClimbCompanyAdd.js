@@ -5,6 +5,14 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 // axios import
 import {getCompany} from '../../apis/Climbing';
 
+// 서체 import
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -13,11 +21,10 @@ const ClimbCompanyAdd = () => {
   const [nickname, setNickname] = useState([]);
 
   const companyDetail = item => {
-    const initialData = async () => {
-      const response = await getCompany();
-      setNickname(response);
-    };
-    initialData();
+    let name = [];
+    name.push(...nickname, item.name);
+    setNickname(name);
+    console.log(nickname);
   };
 
   useLayoutEffect(() => {
@@ -33,62 +40,96 @@ const ClimbCompanyAdd = () => {
   }, []);
 
   return (
-    <Fragment>
-      <SearchableDropdown
-        multi={true}
-        onItemSelect={item => {
-          companyDetail(item);
-        }}
-        containerStyle={{
-          backgroundColor: '#ffffff',
-          width: windowWidth * 0.9,
-          margin: 10,
-          marginHorizontal: 22,
-          borderRadius: 5,
-        }}
-        itemStyle={{
-          padding: 5,
-          marginTop: 1,
-          height: 50,
-          backgroundColor: 'white',
-          borderColor: '#DFDFDE',
-          borderWidth: 1,
-          borderRadius: 5,
-        }}
-        itemTextStyle={{
-          fontFamily: 'SeoulNamsanL',
-          fontSize: 20,
-          color: '#222',
-          marginTop: 10,
-        }}
-        itemsContainerStyle={{maxHeight: 350}}
-        items={items}
-        defaultIndex={0}
-        resetValue={false}
-        textInputProps={{
-          placeholder: '닉네임을 검색해주세요',
-          underlineColorAndroid: 'transparent',
-          style: {
-            padding: 12,
-            borderWidth: 1,
-            borderColor: '#ccc',
+    <View style={styles.container}>
+      <View style={styles.semicontainer}>
+        <TextBold style={styles.infotext}>
+          같이 갈 <TextBold style={styles.companytext}>동료</TextBold>의 {`\n`}
+          닉네임을 검색해주세요!
+        </TextBold>
+      </View>
+      <View style={styles.textcont}>
+        {nickname.map((nick, idx) => {
+          <TextBold style={styles.choosetext}>{nick}</TextBold>;
+          console.log(nick);
+        })}
+      </View>
+      <Fragment>
+        <SearchableDropdown
+          multi={true}
+          onItemSelect={item => {
+            companyDetail(item);
+          }}
+          containerStyle={{
+            backgroundColor: '#ffffff',
+            width: windowWidth * 0.9,
+            margin: 10,
+            marginHorizontal: 20,
             borderRadius: 5,
+          }}
+          itemStyle={{
+            padding: 5,
+            marginTop: 1,
+            height: 50,
+            backgroundColor: 'white',
+            borderColor: '#DFDFDE',
+            borderWidth: 1,
+            borderRadius: 5,
+          }}
+          itemTextStyle={{
             fontFamily: 'SeoulNamsanL',
-          },
-          // onTextChange: text => alert(text),
-        }}
-        listProps={{
-          nestedScrollEnabled: true,
-        }}
-      />
-    </Fragment>
+            fontSize: 20,
+            color: '#222',
+            marginTop: 10,
+          }}
+          itemsContainerStyle={{maxHeight: 700}}
+          items={items}
+          defaultIndex={0}
+          resetValue={false}
+          textInputProps={{
+            placeholder: '닉네임을 검색해주세요',
+            underlineColorAndroid: 'transparent',
+            style: {
+              padding: 12,
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              fontFamily: 'SeoulNamsanL',
+            },
+            // onTextChange: text => alert(text),
+          }}
+          listProps={{
+            nestedScrollEnabled: true,
+          }}
+        />
+      </Fragment>
+    </View>
   );
 };
 
 export default ClimbCompanyAdd;
 
 const styles = StyleSheet.create({
-  temptext: {
-    fontSize: 50,
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  semicontainer: {
+    padding: windowWidth * 0.05,
+  },
+  infotext: {
+    fontSize: windowWidth * 0.1,
+    alignSelf: 'center',
+    color: '#000000',
+  },
+  companytext: {
+    color: '#74B49B',
+  },
+  textcont: {
+    width: windowWidth,
+    height: windowHeight * 0.015,
+  },
+  choosetext: {
+    fontSize: windowWidth * 0.3,
+    color: '#000000',
   },
 });

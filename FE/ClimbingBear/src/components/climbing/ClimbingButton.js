@@ -19,7 +19,7 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 // React 와 구조 유사하며 return template 에는 View 로 무조건 감싸줘야 한다
-const ClimbingButton = ({setMapType, setPlaceType}) => {
+const ClimbingButton = ({setMapType, setPlaceType, setPlaceButton}) => {
   // (공부) useRef 와 useState 차이
 
   // false가 기본값 (standard), true 일 때 (satellite)
@@ -51,6 +51,7 @@ const ClimbingButton = ({setMapType, setPlaceType}) => {
     else {
       placeTypeStatus.current = false;
       setPlaceType(false);
+      setPlaceButton(null);
     }
   }
 
