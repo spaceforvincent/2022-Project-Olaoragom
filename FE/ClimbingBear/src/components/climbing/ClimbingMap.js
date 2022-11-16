@@ -29,7 +29,7 @@ import ClimbingButton from './ClimbingButton';
 import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 
 // (임시) 스팟 데이터 띄우기
-import new_spot_data from '../../assets/temp/new_spot_data.json';
+// import new_spot_data from '../../assets/temp/new_spot_data.json';
 
 // (논의) Dimensions 창 크기 전역 관리
 const windowWidth = Dimensions.get('window').width;
