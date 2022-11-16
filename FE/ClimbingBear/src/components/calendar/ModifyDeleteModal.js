@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#91C788',
     width: windowWidth * 0.25,
     height: windowHeight * 0.04,
+    borderRadius: 4
   },
   buttontext: {
     color: 'white',
