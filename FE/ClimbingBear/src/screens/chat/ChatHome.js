@@ -126,10 +126,10 @@ const ChatHome = () => {
           <Text style={styles.createtext}>채팅방 개설</Text>
         </TouchableOpacity>
 
-        {/* <CreateRoomModal
+        <CreateRoomModal
           modalVisible={isCreateRoomModalVisible}        
           setmodalVisible={setIsCreateRoomModalVisible}        
-        ></CreateRoomModal> */}
+        ></CreateRoomModal>
         
 
         {/* 방 검색 창 */}

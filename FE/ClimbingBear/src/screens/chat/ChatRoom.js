@@ -30,7 +30,6 @@ const ChatRoom = () => {
   const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
   // ChatHome의 타이틀 가져오기
-  
 
   // const [senderNick, setSenderNick] = useState(route.params.record.sender_nick)
   // const [receiverNick, setReceiverNick] = useState(route.params.record.receiver_nick)
