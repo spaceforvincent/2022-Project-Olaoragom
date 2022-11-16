@@ -23,7 +23,7 @@ public class User {
     @Column(name = "pw", nullable = false, unique = true)
     private String pw;
 
-    @Column(name = "nickaname", nullable = false, unique = true)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
     @Column(name = "refresh_token")
     private String refreshToken;
@@ -36,5 +36,6 @@ public class User {
         this.pw = pw;
         this.nickname = nickname;
     }
+
 
 }
