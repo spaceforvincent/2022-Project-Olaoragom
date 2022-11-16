@@ -20,11 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
 import ChatSearchBar from '../../components/chat/SearchBar';
-
-// axios instance
-// const client = axios.create({
-//   baseURL: "" 
-// });
+import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -124,10 +120,10 @@ const ChatHome = () => {
       <View style={styles.header}>
         {/* 채팅방 개설 버튼 */}
         {/* 모달 띄워야 */}      
-        <TouchableOpacity onPress={() => {
-          setIsCreateRoomModalVisible(!isCreateRoomModalVisible);
-        }}>
-          <Text style={{fontSize:18}}>채팅방 개설</Text>
+        <TouchableOpacity
+          style={styles.createbtn} 
+          onPress={() => {setIsCreateRoomModalVisible(!isCreateRoomModalVisible)}}>
+          <Text style={styles.createtext}>채팅방 개설</Text>
         </TouchableOpacity>
 
         {/* <CreateRoomModal
@@ -154,26 +150,34 @@ const ChatHome = () => {
       <View style={styles.roomlist}>
         {/* 채팅방 */}
         <View style={styles.square}>
-          {/* 채팅방장 닉네임 */}
-          <Text>방장 닉네임</Text>
-          {/* 방장이면 방 삭제 버튼 보임 */}
-          {/* {nickname === {isHost} || */}
-            <Pressable
-              onPress={() => deleteRoom(roomId)}>
-              <Icon
-                name="delete"
-                size={18}
-                color="#7C7B7B"
-              ></Icon>
-            </Pressable>
-          {/* } */}
+          <View style={styles.roomheader}>
+            {/* 채팅방장 닉네임 */}
+            <View style={styles.hostcontainer}>
+              <TextExtraBold style={styles.hosttext}>방장 닉네임</TextExtraBold>
+            </View>
+            {/* 방장이면 방 삭제 버튼 보임 */}
+            {/* {nickname === {isHost} || */}
+              <Pressable
+                onPress={() => deleteRoom(roomId)}>
+                <Icon
+                  name="delete"
+                  size={18}
+                  color="#7C7B7B"
+                ></Icon>
+              </Pressable>
+            {/* } */}
+          </View>
+
           <TouchableOpacity        
             onPress={() => {
               alert('채팅방 입장합니다.');
             }}
           >
-            {/* 채팅방 제목 */}          
-            <Text>방 제목</Text>
+            <View style={styles.titlecontainer}>
+              {/* 채팅방 제목 */}          
+              <Text style={styles.titletext}>방 제목</Text>
+            </View>
+
           </TouchableOpacity>        
         </View>
       </View>      
@@ -186,27 +190,70 @@ export default ChatHome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 6,
+    margin: 16,
+  },
+  createbtn: {
+    // width: windowWidth*0.5*0.5,
+    // height: windowHeight*0.04,
+    backgroundColor: '#5C8D89',
+    color: '#FFFFFF',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',    
+  },
+  createtext: {
+    margin: 9,
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontFamily: 'SeoulNamsanB',
   },
   roomlist: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 8,
+    justifyContent: 'space-around',
+    marginTop: 8,    
     
   },
   square: {
     width: windowWidth*0.5*0.7,
-    height: windowHeight*0.3,
-    backgroundColor: "#A7D7C5",
+    height: windowHeight*0.1,
+    backgroundColor: '#A7D7C5',
     color: '#FFFFFF',
-    borderTopRightRadius: 16,
+    borderTopRightRadius: 26,
+  },
+  roomheader: {
+    // padding: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 8,    
+  },
+  hostcontainer: {
+    borderRadius: 38,
+    backgroundColor: '#FFFFFF',
+    padding: 8,
+
+  },
+  hosttext: {
+    color: '#A7D7C5',
+    fontSize: 14,
+    fontFamily: 'SeoulNamsanB',
+  },
+  titlecontainer: {
+    marginTop: 6,
+    padding: 8,
+  },
+  titletext: {
+    color: '#FFFFFF',
+    fontSize: 19,
+    fontFamily: 'SeoulNamsanB',
   },
   deleteIcon: {
 
-  }
+  },
 });
