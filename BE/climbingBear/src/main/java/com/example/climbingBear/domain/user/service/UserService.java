@@ -54,6 +54,9 @@ public class UserService {
     public LoginResDto login(LoginReqDto dto){
         User user = userRepository.findByIdAndPw(dto.getId(), dto.getPw()).orElseThrow(() ->
                 new NoExistUserException());
+        String refreshToken = jwtProvider.getRefreshToken();
+        user.updateRefreshToken(refreshToken);
+        System.out.println(user);
         return new LoginResDto(jwtProvider.getAccessToken(user.getUserSeq()), jwtProvider.getRefreshToken(), user.getNickname());
     }
 
