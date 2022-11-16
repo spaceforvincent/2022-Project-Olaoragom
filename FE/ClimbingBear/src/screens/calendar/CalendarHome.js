@@ -491,6 +491,7 @@ const styles = StyleSheet.create({
   },
   activateddate: {
     textAlign: 'center',
+    marginBottom: windowHeight * 0.0045,
     color: 'black',
     fontSize: 15,
   },
@@ -508,21 +509,21 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.075,
     color: 'white',
     fontSize: 15,
-    marginLeft: windowWidth * 0.022,
+    marginLeft: windowWidth * 0.018,
   },
   longmountainname: {
     position: 'absolute',
-    marginTop: windowHeight * 0.075,
+    marginTop: windowHeight * 0.077,
     color: 'white',
-    fontSize: 14,
-    marginLeft: windowWidth * 0.013,
+    fontSize: 13,
+    marginLeft: windowWidth * 0.012,
   },
   shortmountainname: {
     position: 'absolute',
     marginTop: windowHeight * 0.075,
     color: 'white',
     fontSize: 16,
-    marginLeft: windowWidth * 0.033,
+    marginLeft: windowWidth * 0.03,
   },
   dday: {
     backgroundColor: 'green',
@@ -532,7 +533,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: windowHeight * 0.025,
     height: windowHeight * 0.025,
-    marginLeft: windowWidth * 0.05,
-    
+    marginLeft: windowWidth * 0.045,
   },
 });
