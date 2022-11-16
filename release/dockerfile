@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-CD /var/jenkins_home/workspace/deploy/release
+WORKDIR /var/jenkins_home/workspace/deploy/release
 COPY package*.json ./
 RUN npm install
 COPY . .
