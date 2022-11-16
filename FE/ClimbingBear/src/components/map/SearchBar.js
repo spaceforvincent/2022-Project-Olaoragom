@@ -12,7 +12,9 @@ import { mapActions } from "../../store/Map"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const SearchBar = ({navigation}) => {
+const SearchBar = (props) => {
+
+  const { setCluster } = props
   const dispatch = useDispatch()
 
   const [items, setItems] = useState([]);
@@ -30,6 +32,8 @@ const SearchBar = ({navigation}) => {
 
     setMountainId(item.id);
     setMountainName(item.name);
+
+    setCluster(false);
 
     const markerLat = item.lat;
     const markerLon = item.lon;
@@ -73,9 +77,9 @@ const SearchBar = ({navigation}) => {
           }}
           containerStyle={{
             backgroundColor: '#ffffff',
-            marginTop: windowHeight * 0.1,
-            width: windowWidth * 0.9,
-            marginLeft: windowWidth * 0.05,
+            width: windowWidth * 0.75,
+            margin: 10,
+            marginLeft: 5,  
             borderRadius: 5,
           }}
           itemStyle={{
@@ -122,6 +126,8 @@ const SearchBar = ({navigation}) => {
         mountainName={mountainName}
         mountainRegion={semiMountainData.mntnRegion}
         mountainImage={semiMountainData.mntnImg}
+        mountainLat={semiMountainData.mntnLat}
+        mountainLon={semiMountainData.mntnLon}
       />
     </View>
   );
