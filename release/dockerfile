@@ -1,0 +1,8 @@
+FROM openjdk:8-jdk-alpine
+WORKDIR /var/jenkins_home/workspace/deploy/FE/ClimbingBear
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD npm start --port 3000
