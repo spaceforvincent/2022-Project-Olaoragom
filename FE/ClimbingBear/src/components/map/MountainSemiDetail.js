@@ -82,7 +82,8 @@ const MountainSemiDetail = (props) => {
           <View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('MountainDetail', {mountainId: mountainId, mountainLat: mountainLat, mountainLon: mountainLon})
+                {setModalVisible(false),
+                navigation.navigate('MountainDetail', {mountainId: mountainId, mountainLat: mountainLat, mountainLon: mountainLon})}
               }>
               <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
               <TextBold style={styles.region}>{mountainRegion}</TextBold>
