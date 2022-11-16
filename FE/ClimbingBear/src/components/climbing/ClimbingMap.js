@@ -66,31 +66,31 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   const path = [];
 
   // 등산로 가져오기 추후 구현
-  // function pathfeature() {
-  //   tempgwanwakPath.features.forEach(item => {
-  //     const feature = {
-  //       type: 'FeatureCollection',
-  //       features: [
-  //         {
-  //           type: 'Feature',
-  //           geometry: {
-  //             type: 'MultiLineString',
-  //             coordinates: item.geometry.paths,
-  //           },
-  //           properties: {
-  //             length: item.attributes.PMNTN_LT,
-  //             level: item.attributes.PMNTN_DFFL,
-  //             upmin: item.attributes.PMNTN_UPPL,
-  //             downmin: item.attributes.PMNTN_GODN,
-  //             color: 'rgba(79, 141, 86, 0.5)',
-  //           },
-  //         },
-  //       ],
-  //     };
-  //     path.push(feature);
-  //   });
-  //   setFeatures(path);
-  // }
+  function pathfeature() {
+    tempgwanwakPath.features.forEach(item => {
+      const feature = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'MultiLineString',
+              coordinates: item.geometry.paths,
+            },
+            properties: {
+              length: item.attributes.PMNTN_LT,
+              level: item.attributes.PMNTN_DFFL,
+              upmin: item.attributes.PMNTN_UPPL,
+              downmin: item.attributes.PMNTN_GODN,
+              color: 'rgba(79, 141, 86, 0.5)',
+            },
+          },
+        ],
+      };
+      path.push(feature);
+    });
+    setFeatures(path);
+  }
 
   // (임시) 켜자마자 등산로와 spot 렌더링
   // useEffect(async () => {
@@ -124,7 +124,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   // }, []);
 
   useEffect(() => {
-    // pathfeature();
+    pathfeature();
   }, []);
 
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: widthPixel * 0.025,
     right: widthPixel * 0.025,
-    top: widthPixel * 0.31,
+    top: widthPixel * 0.28,
     color: '#000000',
   },
   pathinfo: {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPixel * 0.05,
     marginRight: widthPixel * 0.03,
     justifyContent: 'space-evenly',
-    top: widthPixel * 0.415,
+    top: widthPixel * 0.35,
   },
   pathinfotext: {
     fontSize: widthPixel * 0.017,
