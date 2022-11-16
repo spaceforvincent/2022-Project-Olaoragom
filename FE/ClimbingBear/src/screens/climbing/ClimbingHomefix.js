@@ -51,7 +51,7 @@ const year = today.getFullYear(); // 년도
 const month = today.getMonth() + 1; // 월
 const date = today.getDate(); // 날짜
 
-const ClimbingHome = ({route}) => {
+const ClimbingHomefix = ({route}) => {
   const mntnId = route.params.mntnId;
 
   // action 을 들고 올 dispatch 선언
@@ -97,6 +97,74 @@ const ClimbingHome = ({route}) => {
     ALONE: 'alone',
     TOGETHER: 'together',
   };
+  /* 
+  혼자 / 여럿 버튼 선택했을 때 등산 시작 활성화되도록 지정할 상태와 회색 버튼으로 만들 style 상태
+  (첫 렌더링 시) true일 때 비활성화이며 회색코드
+  (선택 후) false일 때 활성화이며 초록코드
+
+  (공부) 변화했을 때 값을 받아와서 띄워야하므로 useRef 대신 useState 사용
+  */
+  const [startAble, setStartAble] = useState(true);
+  const [startColor, setStartColor] = useState('#D3D3D3');
+  // 혼자 / 여럿 선택했을 때 등산 시작 버튼에서 다른 페이지로 라우트 시켜주기 위한 변수 선언
+  const checkNavigate = useRef('');
+  /* 
+  클릭시 opacity 가 변하는 애니메이션 변수 초기값 0.3으로 선언
+  opacity 같은 style 은 animated 아니면 적용이 안됨
+  */
+  const togetherOpacity = useRef(new Animated.Value(0.3)).current;
+  const aloneOpacity = useRef(new Animated.Value(0.3)).current;
+  // View 는 Animated 가 적용되지 않으므로 TouchableOpacity 객체 하나 만들어 줘야 한다
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+  // 누를 때 opacity 변하는 함수 작성
+  function togethercheck(payload) {
+    // 누르자마자 등산 시작 버튼 활성화 될 것
+    setStartAble(false);
+    setStartColor('#74B49B');
+    if (aloneorTogether.ALONE == payload) {
+      // 파라미터에 ALONE 넣어준다
+      checkNavigate.current = aloneorTogether.ALONE;
+      // 혼자 가는 옵션 활성화
+      Animated.timing(aloneOpacity, {
+        toValue: 1,
+        // 이 옵션이 없으면 WARN 뱉어낸다
+        useNativeDriver: true,
+      }).start();
+      // 여럿이 가는 옵션 비활성화
+      Animated.timing(togetherOpacity, {
+        toValue: 0.3,
+        // 이 옵션이 없으면 WARN 뱉어낸다
+        useNativeDriver: true,
+      }).start();
+    } else {
+      // 파라미터에 TOGETHER 넣어준다
+      checkNavigate.current = aloneorTogether.TOGETHER;
+      // 혼자 가는 옵션 비활성화
+      Animated.timing(aloneOpacity, {
+        toValue: 0.3,
+        // 이 옵션이 없으면 WARN 뱉어낸다
+        useNativeDriver: true,
+      }).start();
+      // 여럿이 가는 옵션 활성화
+      Animated.timing(togetherOpacity, {
+        toValue: 1,
+        // 이 옵션이 없으면 WARN 뱉어낸다
+        useNativeDriver: true,
+      }).start();
+    }
+  }
+  /* 
+  받은 파라미터 값에 따라 다른 페이지로 라우트
+  (수정) 여기서 get 요청에서 받은 방 값이 있으면 이미 초대된 방이 있다고 뜨고 등산하기로 라우트
+  get 요청은 여럿이 갑니다 눌렀을 때 보내도 되려나
+  */
+  function actualNavigate(payload) {
+    if (aloneorTogether.ALONE == payload) {
+      navigation.navigate('ClimbingGPS');
+    } else {
+      navigation.navigate('ClimbCompanyAdd');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -106,16 +174,34 @@ const ClimbingHome = ({route}) => {
           {year}년 {month}월 {date}일
         </TextMedium>
       </View>
-      <Image
-        style={styles.climbingbearimage}
-        source={require('../../assets/images/ClimbingBear.png')}
-        title="ClimbingBear"
-      />
+      <View style={styles.imagecheck}>
+        <AnimatedTouchable
+          onPress={() => togethercheck(aloneorTogether.ALONE)}
+          style={[styles.goalone, {opacity: aloneOpacity}]}>
+          <Image
+            style={styles.climbingbearimage}
+            source={require('../../assets/images/ClimbingBear.png')}
+            title="ClimbingBear"
+          />
+          <TextBold style={styles.checktext}>혼자서 갑니다</TextBold>
+        </AnimatedTouchable>
+        <AnimatedTouchable
+          onPress={() => togethercheck(aloneorTogether.TOGETHER)}
+          style={[styles.gotogether, {opacity: togetherOpacity}]}>
+          <Image
+            style={styles.climbingbearimage}
+            source={require('../../assets/images/ClimbingBearTogether.png')}
+            title="ClimbingBearTogether"
+          />
+          <TextBold style={styles.checktext}>여럿이 갑니다</TextBold>
+        </AnimatedTouchable>
+      </View>
       <TouchableOpacity
         style={styles.buttonbackground}
-        onPress={() => navigation.navigate('ClimbingGPS')}>
+        disabled={startAble}
+        onPress={() => actualNavigate(checkNavigate.current)}>
         {/* (수정) 여기서 Get 요청으로 정보 다 들고 와야 한다 */}
-        <View style={[styles.startbutton]}>
+        <View style={[styles.startbutton, {backgroundColor: startColor}]}>
           <TextLight style={styles.startbuttontext}>등산 시작</TextLight>
         </View>
       </TouchableOpacity>
@@ -123,7 +209,7 @@ const ClimbingHome = ({route}) => {
   );
 };
 // C:\Users\ssafy\Project\Third Project\S07P31D109\FE\ClimbingBear\src\screens\climbing\ClimbingHome.js
-export default ClimbingHome;
+export default ClimbingHomefix;
 
 const styles = StyleSheet.create({
   container: {
@@ -144,19 +230,26 @@ const styles = StyleSheet.create({
     padding: widthPixel * 0.005,
     fontSize: widthPixel * 0.03,
   },
+  imagecheck: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  goalone: {
+    alignItems: 'center',
+  },
+  gotogether: {
+    alignItems: 'center',
+  },
   checktext: {
     fontSize: widthPixel * 0.027,
     color: '#000000',
   },
   buttonbackground: {
-    marginHorizontal: widthPixel * 0.13,
-    borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: '#74B49B',
   },
   startbutton: {
     padding: widthPixel * 0.015,
-
+    // backgroundColor: '#74B49B',
     borderRadius: 15,
   },
   startbuttontext: {
@@ -165,8 +258,7 @@ const styles = StyleSheet.create({
   },
   climbingbearimage: {
     resizeMode: 'contain',
-    width: widthPixel * 0.2,
+    width: widthPixel * 0.16,
     height: widthPixel * 0.16 * 2,
-    alignSelf: 'center',
   },
 });
