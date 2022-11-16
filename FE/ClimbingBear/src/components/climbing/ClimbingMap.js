@@ -29,7 +29,8 @@ import ClimbingButton from './ClimbingButton';
 import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 
 // (임시) 포인트 찍기 확인용 선언
-import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
+// import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
+import temppalgongPath from '../../assets/temp/temppalgongPath';
 // import tempgwanwakSpot from '../../assets/temp/tempgwanwakSpot';
 // (임시) polyline 그려보기
 // import {line} from '../../assets/temp/temppolyline';
@@ -66,31 +67,31 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   const path = [];
 
   // 등산로 가져오기 추후 구현
-  function pathfeature() {
-    tempgwanwakPath.features.forEach(item => {
-      const feature = {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'MultiLineString',
-              coordinates: item.geometry.paths,
-            },
-            properties: {
-              length: item.attributes.PMNTN_LT,
-              level: item.attributes.PMNTN_DFFL,
-              upmin: item.attributes.PMNTN_UPPL,
-              downmin: item.attributes.PMNTN_GODN,
-              color: 'rgba(79, 141, 86, 0.5)',
-            },
-          },
-        ],
-      };
-      path.push(feature);
-    });
-    setFeatures(path);
-  }
+  // function pathfeature() {
+  //   tempgwanwakPath.features.forEach(item => {
+  //     const feature = {
+  //       type: 'FeatureCollection',
+  //       features: [
+  //         {
+  //           type: 'Feature',
+  //           geometry: {
+  //             type: 'MultiLineString',
+  //             coordinates: item.geometry.paths,
+  //           },
+  //           properties: {
+  //             length: item.attributes.PMNTN_LT,
+  //             level: item.attributes.PMNTN_DFFL,
+  //             upmin: item.attributes.PMNTN_UPPL,
+  //             downmin: item.attributes.PMNTN_GODN,
+  //             color: 'rgba(79, 141, 86, 0.5)',
+  //           },
+  //         },
+  //       ],
+  //     };
+  //     path.push(feature);
+  //   });
+  //   setFeatures(path);
+  // }
 
   // (임시) 켜자마자 등산로와 spot 렌더링
   // useEffect(async () => {
@@ -124,7 +125,8 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   // }, []);
 
   useEffect(() => {
-    pathfeature();
+    // pathfeature();
+    setFeatures(temppalgongPath);
   }, []);
 
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
