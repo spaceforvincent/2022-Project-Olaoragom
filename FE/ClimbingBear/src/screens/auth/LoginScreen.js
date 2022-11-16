@@ -47,7 +47,7 @@ const LoginScreen = ({navigation}) => {
           nickname,
           isAuthenticated
         }))
-        return navigation.navigate('Map')
+        return navigation.navigate('100대 명산')
       }
       else {
         return Alert.alert('알림', '아이디와 비밀번호를 확인해주세요.');

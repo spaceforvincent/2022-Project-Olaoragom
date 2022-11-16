@@ -4,12 +4,13 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import {StyleSheet} from 'react-native';
 
 import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
-
+import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
 const drawer = createDrawerNavigator();
@@ -24,34 +25,96 @@ function DrawerNavigator() {
           useLegacyImplementation
           initialRouteName="Login"
           screenOptions={{
-            headerTransparent: true,
-            headerTitle: '',
+            headerTransparent: false,
+            headerTitleAlign: 'center',
+            drawerStyle: {
+              width: 200,
+            },
           }}>
           <drawer.Screen
-            name="Calendar"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="등산 달력"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer2.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="Map"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="100대 명산"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer1.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={MapNavigation}
           />
           <drawer.Screen
-            name="ChatHome"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="채팅"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer3.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={ChatNavigation}
           />
           <drawer.Screen
-            name="Logout"
-            options={{unmountOnBlur: true, headerTitle: ''}}
+            name="로그아웃"
+            options={{
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
             component={AuthNavigation}
           />
         </drawer.Navigator>
       ) : (
         <drawer.Navigator useLegacyImplementation initialRouteName="Login">
           <drawer.Screen
-            name="Login"
+            name="로그인"
             component={AuthNavigation}
             options={{headerShown: false}}
           />
@@ -62,3 +125,10 @@ function DrawerNavigator() {
 }
 
 export default DrawerNavigator;
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 20,
+    height: 20,
+  },
+});

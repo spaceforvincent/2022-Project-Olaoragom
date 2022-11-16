@@ -225,7 +225,6 @@ function CalendarHome({navigation: {navigate}}) {
   //DB에서 일정 가져오기
   const loadSchedule = async () => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
-    console.log(accessToken);
     let bookedArr = [];
     let havebeenArr = [];
     try {
@@ -259,7 +258,7 @@ function CalendarHome({navigation: {navigate}}) {
           state === 'disabled' ? (
             <TouchableOpacity>
               <TextMedium style={styles.disableddate}>{date.day}</TextMedium>
-              <BlankStamp style={styles.stamp} />
+              <BlankStamp />
             </TouchableOpacity>
           ) : // 오늘 날짜 표시(등산 완료)
           dateNum === date.dateString &&
@@ -268,7 +267,7 @@ function CalendarHome({navigation: {navigate}}) {
               //등산 기록 페이지로 이동
               onPress={() => recordNavigation(havebeenDate, date)}>
               <TextMedium style={styles.dday}>{date.day}</TextMedium>
-              <HaveBeenStamp style={styles.stamp} />
+              <HaveBeenStamp />
               {checkNameLength(
                 havebeenDate.find(record => record.date === date.dateString)
                   .mountainName,
@@ -289,7 +288,7 @@ function CalendarHome({navigation: {navigate}}) {
                 );
               }}>
               <TextMedium style={styles.dday}>{date.day}</TextMedium>
-              <NotHaveBeenStamp style={styles.stamp} />
+              <NotHaveBeenStamp />
               {checkNameLength(
                 bookedDate.find(record => record.date === date.dateString)
                   .mountainName,
@@ -306,7 +305,7 @@ function CalendarHome({navigation: {navigate}}) {
               //등산 기록 페이지로 이동
               onPress={() => recordNavigation(havebeenDate, date)}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
-              <HaveBeenStamp style={styles.stamp} />
+              <HaveBeenStamp />
               {checkNameLength(
                 havebeenDate.find(record => record.date === date.dateString)
                   .mountainName,
@@ -326,7 +325,7 @@ function CalendarHome({navigation: {navigate}}) {
                 );
               }}>
               <TextMedium style={styles.activateddate}>{date.day}</TextMedium>
-              <NotHaveBeenStamp style={styles.stamp} />
+              <NotHaveBeenStamp />
               {checkNameLength(
                 bookedDate.find(record => record.date === date.dateString)
                   .mountainName,
@@ -445,8 +444,6 @@ const theme = {
     header: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
-      marginTop: windowHeight * 0.025,
-      alignItems: 'center',
     },
     monthText: {
       fontSize: 30,
@@ -460,7 +457,7 @@ const theme = {
       color: 'blue',
     },
     dayHeader: {
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'SeoulNamsanB',
     },
     week: {
@@ -490,18 +487,18 @@ const styles = StyleSheet.create({
     color: 'lightgray',
     textAlign: 'center',
     justifyContent: 'center',
-    fontSize: 20,
+    fontSize: 15,
   },
   activateddate: {
     textAlign: 'center',
     color: 'black',
-    fontSize: 20,
+    fontSize: 15,
   },
   today: {
     backgroundColor: 'green',
     borderRadius: 15,
     color: 'white',
-    fontSize: 20,
+    fontSize: 15,
     textAlign: 'center',
     width: windowHeight * 0.025,
     height: windowHeight * 0.025,
@@ -531,10 +528,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     borderRadius: 15,
     color: 'white',
-    fontSize: 20,
+    fontSize: 15,
     textAlign: 'center',
     width: windowHeight * 0.025,
     height: windowHeight * 0.025,
-    marginLeft: windowWidth * 0.04,
+    marginLeft: windowWidth * 0.05,
+    
   },
 });

@@ -1,73 +1,126 @@
-import React, {useEffect, useState} from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import Geolocation from 'react-native-geolocation-service';
-import { PermissionsAndroid, SafeAreaView, ScrollView, View, StyleSheet, Text, Dimensions } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState, useIsFocused} from 'react';
+import MapView from 'react-native-map-clustering';
+import {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {getMountainList} from '../../apis/Map';
 import SearchBar from '../../components/map/SearchBar';
-import { Image } from 'react-native';
+import {
+  TouchableOpacity,
+  SafeAreaView,
+  View,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const MapHome = () => {
-  // GPS =>
-  const [latitude, setLatitude] = useState(36.109328);
-  const [longitude, setLongitude] = useState(128.415011);
 
+  const navigation = useNavigation()
+
+  const [cluster, setCluster] = useState(true);
+  const [markers, setMarker] = useState([]);
   const markerLat = useSelector(state => state.map.markerLat);
   const markerLon = useSelector(state => state.map.markerLon);
 
   useEffect(() => {
-    // 안드로이드 위치 설정 권한
-    const gpsPermissionAndroid = async () => {
-      if (Platform.OS === 'android') {
-        const res = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
-        if (res === 'granted') {
-          Geolocation.getCurrentPosition(pos => {
-            setLatitude(pos.coords.latitude);
-            setLongitude(pos.coords.longitude);
-          });
-        }
-      }
+    const initialData = async () => {
+      const response = await getMountainList();
+      setMarker(response);
     };
-    gpsPermissionAndroid();
+    initialData();
   }, []);
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <MapView
-          region={{
-            latitude: markerLat,
-            longitude: markerLon,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.0001,
-          }}
-          style={styles.map}
-          showsUserLocation={true}
-          showsMyLocationButton={false}
-          provider={PROVIDER_GOOGLE}
-          zoomEnabled={true}>
-
-          <Marker
-            coordinate={{
-              latitude: parseFloat(markerLat),
-              longitude: parseFloat(markerLon),
-            }}>
-            <Image
-              source={require('../../assets/images/marker2.png')}
-              style={styles.marker}></Image>
-          </Marker>
-
-        </MapView>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <SearchBar/>
-      </View>
-    </SafeAreaView>
+    <>
+      {cluster ? (
+        <SafeAreaView>
+          <View style={styles.container}>
+            <MapView
+              region={{
+                latitude: 36.34,
+                longitude: 127.77,
+                latitudeDelta: 4.6,
+                longitudeDelta: 4.6,
+              }}
+              style={styles.map}
+              showsUserLocation={true}
+              showsMyLocationButton={false}
+              // onClusterPress={(cluster, markers) => {navigation.navigate('MountainDetail', {mountainId: marker.mntnSeq})}}
+              provider={PROVIDER_GOOGLE}
+              zoomEnabled={true}>
+              {markers.map((marker, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: parseFloat(marker.mntnLat),
+                    longitude: parseFloat(marker.mntnLon),
+                  }}>
+                  <Image
+                    style={styles.marker}
+                    source={require(`../../assets/images/marker6.png`)}></Image>
+                </Marker>
+              ))}
+            </MapView>
+          </View>
+          <View style={styles.searchContainer}>
+            <TouchableOpacity
+              style={styles.clusterButton}
+              onPress={() => setCluster(true)}>
+              <TextMedium style={styles.buttonTitle}>전체 산</TextMedium>
+            </TouchableOpacity>
+            <SearchBar setCluster={setCluster} />
+          </View>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView>
+          <View style={styles.container}>
+            <MapView
+              region={{
+                latitude: markerLat,
+                longitude: markerLon,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.0001,
+              }}
+              style={styles.map}
+              showsUserLocation={true}
+              showsMyLocationButton={false}
+              provider={PROVIDER_GOOGLE}
+              zoomEnabled={true}>
+              {markers.map((marker, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: parseFloat(marker.mntnLat),
+                    longitude: parseFloat(marker.mntnLon),
+                  }}>
+                  <Image
+                    style={styles.marker}
+                    source={require(`../../assets/images/marker2.png`)}></Image>
+                </Marker>
+              ))}
+            </MapView>
+          </View>
+          <View style={styles.searchContainer}>
+            <TouchableOpacity
+              style={styles.clusterButton}
+              onPress={() => setCluster(true)}>
+              <TextMedium style={styles.buttonTitle}>전체 산</TextMedium>
+            </TouchableOpacity>
+            <SearchBar setCluster={setCluster} />
+          </View>
+        </SafeAreaView>
+      )}
+    </>
   );
 };
 
@@ -77,21 +130,33 @@ const styles = StyleSheet.create({
   temptext: {
     fontSize: 50,
   },
-
-  // (임시) MapView 띄우는 확인 위한 공식 문서 style 에 dimensions 추가해서 화면 꽉 채우도록 설정
   container: {
     ...StyleSheet.absoluteFillObject,
     height: windowHeight,
     width: windowWidth,
   },
-
   map: {
     ...StyleSheet.absoluteFillObject,
     height: windowHeight,
   },
-
+  searchContainer: {
+    flexDirection: 'row',
+  },
   marker: {
     height: 35,
     width: 35,
+  },
+  clusterButton: {
+    margin: 10,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: windowWidth * 0.18,
+    backgroundColor: '#3E7C17',
+    height: windowHeight * 0.06,
+    borderRadius: 5,
+  },
+  buttonTitle: {
+    color: 'white',
   },
 });
