@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-WORKDIR /var/jenkins_home/workspace/deploy/FE/ClimbingBear
+cd /var/jenkins_home/workspace/deploy/release
 COPY package*.json ./
 RUN npm install
 COPY . .
