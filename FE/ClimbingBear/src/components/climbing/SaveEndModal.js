@@ -56,7 +56,7 @@ const SaveEndModal = ({isModalVisible, setIsModalVisible}) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                navigation.navigate('CalendarHome');
+                navigation.replace('CalendarHome');
                 setIsModalVisible(false);
               }}>
               <TextBold style={styles.buttontext}>보러 가기</TextBold>
