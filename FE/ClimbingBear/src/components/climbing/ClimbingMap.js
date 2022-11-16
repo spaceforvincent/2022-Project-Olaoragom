@@ -28,15 +28,9 @@ import {nowclimbingActions, nowclimbingSlice} from '../../store/Climbing';
 import ClimbingButton from './ClimbingButton';
 import PlaceTypeButton from '../../components/climbing/PlaceTypeButton';
 
-// (임시) 포인트 찍기 확인용 선언
-import tempgwanwakPath from '../../assets/temp/tempgwanwakPath';
-// import tempgwanwakSpot from '../../assets/temp/tempgwanwakSpot';
-// (임시) polyline 그려보기
-// import {line} from '../../assets/temp/temppolyline';
+// (임시) 스팟 데이터 띄우기
+// import new_spot_data from '../../assets/temp/new_spot_data.json';
 
-import {getPath} from '../../apis/Climb';
-
-// (임시) 맵타입 바꾸기
 // (논의) Dimensions 창 크기 전역 관리
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,9 +41,24 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 // Polyline, MapType 메인에서 받아와야할듯..
 const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   // useSelector 로 state 값을 들고오기
-  // const latitude = useSelector(state => state.nowclimblocation.latitude);
-  // const longitude = useSelector(state => state.nowclimblocation.longitude);
-  // 실시간으로 데이터 store 에서 받아오도록 해야 한다
+
+  // 등산로 들고오기
+  const JSON_URL =
+    'https://storage.googleapis.com/climbingbear/new_path_data.json';
+
+  async function funcRequest(url) {
+    await fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        const pathData = data;
+        setFeatures(pathData);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   // 세부장소 띄우는 state 상태, false일 때 안 띄우기
   const [placeType, setPlaceType] = useState(false);
@@ -61,70 +70,12 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
   const [features, setFeatures] = useState(null);
   const [pathIndex, setPathIndex] = useState(null);
 
+  const [placeButton, setPlaceButton] = useState(null);
+
   const dispatch = useDispatch();
 
-  const path = [];
-
-  // 등산로 가져오기 추후 구현
-  // function pathfeature() {
-  //   tempgwanwakPath.features.forEach(item => {
-  //     const feature = {
-  //       type: 'FeatureCollection',
-  //       features: [
-  //         {
-  //           type: 'Feature',
-  //           geometry: {
-  //             type: 'MultiLineString',
-  //             coordinates: item.geometry.paths,
-  //           },
-  //           properties: {
-  //             length: item.attributes.PMNTN_LT,
-  //             level: item.attributes.PMNTN_DFFL,
-  //             upmin: item.attributes.PMNTN_UPPL,
-  //             downmin: item.attributes.PMNTN_GODN,
-  //             color: 'rgba(79, 141, 86, 0.5)',
-  //           },
-  //         },
-  //       ],
-  //     };
-  //     path.push(feature);
-  //   });
-  //   setFeatures(path);
-  // }
-
-  // (임시) 켜자마자 등산로와 spot 렌더링
-  // useEffect(async () => {
-  //   const pathData = await getPath(10);
-  //   function pathfeature() {
-  //     pathData.forEach(item => {
-  //       const feature = {
-  //         type: 'FeatureCollection',
-  //         features: [
-  //           {
-  //             type: 'Feature',
-  //             geometry: {
-  //               type: 'MultiLineString',
-  //               coordinates: item.paths,
-  //             },
-  //             properties: {
-  //               length: item.pmntnLt,
-  //               level: item.pmtnDffl,
-  //               upmin: item.pmntnUppl,
-  //               downmin: item.pmntnGodn,
-  //               color: 'rgba(79, 141, 86, 0.5)',
-  //             },
-  //           },
-  //         ],
-  //       };
-  //       path.push(feature);
-  //     });
-  //     setFeatures(path);
-  //   }
-  //   pathfeature();
-  // }, []);
-
   useEffect(() => {
-    // pathfeature();
+    funcRequest(JSON_URL);
   }, []);
 
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
@@ -187,16 +138,61 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
         ref={map => {
           this.map = map;
         }}>
-        {/* (임시) 포인트, path 확인용 */}
         {/* Each child in a list should have a unique "key" prop 경고 해결 */}
-        {/* {palgongSpotData.map(loc => (
-          <Marker coordinate={{latitude: loc.lat, longitude: loc.lng}}>
-            <Image
-              source={require('../../assets/images/HelgiIcon.png')}
-              style={styles.tempmarker}
-            />
-          </Marker>
-        ))} */}
+        {placeButton == 'TOILET' &&
+          new_spot_data.map(
+            (item, idx) =>
+              item.geometry &&
+              item.type == '화장실' &&
+              item.geometry.map((loc, idx) => (
+                <Marker coordinate={{latitude: loc.lat, longitude: loc.lon}}>
+                  <Image
+                    source={require('../../assets/images/ToiletIcon.png')}
+                    style={styles.tempmarker}
+                  />
+                </Marker>
+              )),
+          )}
+        {placeButton == 'DANGER' &&
+          new_spot_data.map((item, idx) => {
+            item.type == '위험지역' &&
+              item.geometry &&
+              item.geometry.map((loc, idx) => (
+                <Marker coordinate={{latitude: loc.lat, longitude: loc.lon}}>
+                  <Image
+                    source={require('../../assets/images/DangerIcon.png')}
+                    style={styles.tempmarker}
+                  />
+                </Marker>
+              ));
+          })}
+        {placeButton == 'HELGI' &&
+          new_spot_data.map((item, idx) => {
+            item.type == '헬기장' &&
+              item.geometry &&
+              item.geometry.map((loc, idx) => (
+                <Marker coordinate={{latitude: loc.lat, longitude: loc.lon}}>
+                  <Image
+                    source={require('../../assets/images/HelgiIcon.png')}
+                    style={styles.tempmarker}
+                  />
+                </Marker>
+              ));
+          })}
+        {placeButton == 'SUMMIT' &&
+          new_spot_data.map(
+            (item, idx) =>
+              item.type == '정상' &&
+              item.geometry &&
+              item.geometry.map((loc, idx) => (
+                <Marker coordinate={{latitude: loc.lat, longitude: loc.lon}}>
+                  <Image
+                    source={require('../../assets/images/FlagIcon.png')}
+                    style={styles.tempmarker}
+                  />
+                </Marker>
+              )),
+          )}
         <Polyline
           coordinates={position}
           strokeColor="#2E64FE"
@@ -208,7 +204,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
               geojson={item}
               key={index}
               strokeColor={item.features[0].properties.color}
-              strokeWidth={2}
+              strokeWidth={3}
               tappable={true}
               onPress={() => {
                 pickPath(index);
@@ -216,8 +212,12 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
             />
           ))}
       </MapView>
-      <ClimbingButton setMapType={setMapType} setPlaceType={setPlaceType} />
-      {placeType && <PlaceTypeButton />}
+      <ClimbingButton
+        setMapType={setMapType}
+        setPlaceType={setPlaceType}
+        setPlaceButton={setPlaceButton}
+      />
+      {placeType && <PlaceTypeButton setPlaceButton={setPlaceButton} />}
       {pathIndex != null && (
         <TextBold style={styles.levelinfo}>
           {features[pathIndex].features[0].properties.level}
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   // (임시) MapView 띄우는 확인 위한 공식 문서 style 에 dimensions 추가해서 화면 꽉 채우도록 설정
   container: {
     // ...StyleSheet.absoluteFillObject,
-    height: windowHeight * 0.65,
+    height: windowHeight * 0.55,
     width: windowWidth,
     // position: 'relative',
   },
@@ -265,14 +265,14 @@ const styles = StyleSheet.create({
   // (임시) 마커 사이즈 조정
   // 렉이 걸려서 이미지 크기를 낮춰야 할 듯
   tempmarker: {
-    height: 15,
-    width: 30,
+    height: 25,
+    width: 20,
   },
   levelinfo: {
     position: 'absolute',
     fontSize: widthPixel * 0.025,
     right: widthPixel * 0.025,
-    top: widthPixel * 0.31,
+    top: widthPixel * 0.28,
     color: '#000000',
   },
   pathinfo: {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPixel * 0.05,
     marginRight: widthPixel * 0.03,
     justifyContent: 'space-evenly',
-    top: widthPixel * 0.415,
+    top: widthPixel * 0.35,
   },
   pathinfotext: {
     fontSize: widthPixel * 0.017,

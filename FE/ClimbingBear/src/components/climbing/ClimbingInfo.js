@@ -149,10 +149,10 @@ export default ClimbingInfo;
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    height: windowHeight * 0.4,
+    height: windowHeight * 0.37,
     width: windowWidth,
     paddingHorizontal: widthPixel * 0.025,
   },
@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
   climbinfo: {
     fontSize: widthPixel * 0.025,
     color: '#000000',
-    paddingVertical: widthPixel * 0.005,
   },
   climbinfonum: {
     // 부모 속성 무시하고 싶을 때 alignSelf
