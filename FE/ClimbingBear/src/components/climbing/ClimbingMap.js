@@ -286,6 +286,9 @@ const styles = StyleSheet.create({
     right: widthPixel * 0.025,
     top: widthPixel * 0.28,
     color: '#000000',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 5,
   },
   pathinfo: {
     flexDirection: 'row',
@@ -297,6 +300,9 @@ const styles = StyleSheet.create({
   pathinfotext: {
     fontSize: widthPixel * 0.017,
     color: '#000000',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 5,
   },
   semipathinfo: {
     flexDirection: 'column',
