@@ -46,7 +46,9 @@ public class ChallengeService {
                 sum += r.getDistance();
 //                System.out.println("sum : "+sum);
             }
-            dic.put(u.getNickname(), sum);
+            if (sum != 0){
+                dic.put(u.getNickname(), sum);
+            }
         }
 //        System.out.println("dic : "+dic);
 
