@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  Text,
-  Button,
-  View,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {Image, Text, Button, View, StyleSheet, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
@@ -32,7 +25,7 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.screen}>
       <TextBold style={styles.date}>{route.params.date}</TextBold>
       <TextExtraBold style={styles.Mountain}>{route.params.name}</TextExtraBold>
       <View style={styles.container}>
@@ -62,11 +55,13 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 30,
     textAlign: 'center',
+    color: 'black',
     padding: 20,
     marginTop: windowHeight * 0.07,
   },
   Mountain: {
     fontSize: 50,
+    color: 'black',
     textAlign: 'center',
   },
   container: {
@@ -76,6 +71,7 @@ const styles = StyleSheet.create({
   },
   category: {
     fontSize: 25,
+    color: 'black',
     textAlign: 'center',
   },
   map: {
@@ -86,5 +82,9 @@ const styles = StyleSheet.create({
   image: {
     width: windowWidth * 0.9,
     height: windowHeight * 0.5,
+  },
+  screen: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
   },
 });
