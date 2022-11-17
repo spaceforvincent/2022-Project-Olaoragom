@@ -153,10 +153,8 @@ const ChatHome = () => {
             {/* {nickname === {isHost} || */}
               <Pressable
                 onPress={() => deleteRoom(roomId)}>
-                <Icon
-                  name="delete"
-                  size={18}
-                  color="#7C7B7B"
+                <Icon style={styles.deleteIcon}
+                  name="delete"                  
                 ></Icon>
               </Pressable>
             {/* } */}
@@ -237,6 +235,11 @@ const styles = StyleSheet.create({
     color: '#A7D7C5',
     fontSize: 14,
     fontFamily: 'SeoulNamsanB',
+  },
+  deleteIcon: {
+    size: 18,
+    color: '#7C7B7B',
+
   },
   titlecontainer: {
     marginTop: 6,

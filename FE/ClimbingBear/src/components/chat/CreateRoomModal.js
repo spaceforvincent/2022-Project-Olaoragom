@@ -118,11 +118,11 @@ const CreateRoomModal = ({
       }}
     >
       {/* blur effect */}
-      <Pressable
+      {/* <Pressable
         style={styles.modalOverlay}
         onPress={() => {
           setModalVisible(!modalVisible);
-        }}></Pressable>
+        }}></Pressable> */}
 
       <View style={styles.Modal}>
         <TextBold style={styles.modaltitle}>채팅방 개설</TextBold>
@@ -181,12 +181,12 @@ const styles = StyleSheet.create({
 
   },
   inputtitle: {
-    fontSize: '16',
+    fontSize: 16,
     fontFamily: 'SeoulNamsanB',
 
   },
   inputtext: {
-    fontSize: '1',
+    fontSize: 1,
     fontFamily: 'SeoulNamsanB',
 
   },
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     color: '#ffffff',
-    fontSize: '10',
+    fontSize: 10,
     fontFamily: 'SeoulNamsanB',
 
   },  
