@@ -10,13 +10,15 @@ import lombok.Data;
 public class MntnPathJsonResDto {
     private Long mntnSeq;
     private String mntnName;
-    private String path;
+    private String pathUrl;
+    private String spotUrl;
 
     public static MntnPathJsonResDto of(Mountain mntn){
         return MntnPathJsonResDto.builder()
                 .mntnSeq(mntn.getMntnSeq())
                 .mntnName(mntn.getMntnNm())
-                .path("https://storage.googleapis.com/climbingbear/path"+mntn.getMntnSeq()+".json")
+                .pathUrl("https://storage.googleapis.com/climbingbear/path"+mntn.getMntnSeq()+".json")
+                .spotUrl("https://storage.googleapis.com/climbingbear/spot"+mntn.getMntnSeq()+".json")
                 .build();
     }
 }
