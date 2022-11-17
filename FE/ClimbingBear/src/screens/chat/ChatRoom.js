@@ -19,34 +19,68 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import { useSelector } from 'react-redux'
  
 const ChatRoom = () => {  
   const navigation = useNavigation();
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const [serverState, setServerState] = useState('Loading...');
+  const accessToken = useSelector((state) => state.auth.accessToken)
+  const nickname = useSelector((state) => state.auth.nickname)
+  // ChatHome의 타이틀 가져오기
 
   // const [senderNick, setSenderNick] = useState(route.params.record.sender_nick)
   // const [receiverNick, setReceiverNick] = useState(route.params.record.receiver_nick)
   // const [image_path, setImage_path] = useState(route.params.record.image_path)
   const ws = useRef(null);
 
+  // 현재 시각
+  const curr = new Date();
+  const utc = curr.getTime() + curr.getTimezoneOffset() * 60 * 1000;
+  const KR_TIME_DIFF = 9 * 60 * 60 * 1000; //한국 시간(KST)은 UTC시간보다 9시간 더 빠르므로 9시간을 밀리초 단위로 변환.
+  const kr_curr = new Date(utc + KR_TIME_DIFF); //UTC 시간을 한국 시간으로 변환하기 위해 utc 밀리초 값에 9시간을 더함.
+
+  // const [userNick, setUserNick] = useState('')
+
+  // const onChangeUserNick = (userNick) => {
+  //   setUserNick(userNick);
+  // }
+
+  // const getRoom = await
+
   //  const [userList, setUserList] = useState([])
   // (임시)
-  const userList = [
-    {
-      nickname: '근혜',
-      userSeq: 1,
-    },
-    {
-      nickname: '그네',
-      userSeq: 2,
-    },
-  ]
+  // const userList = [
+  //   {
+  //     nickname: '근혜',
+  //     userSeq: 1,
+  //   },
+  //   {
+  //     nickname: '그네',
+  //     userSeq: 2,
+  //   },
+  // ]
 
-  const receiverNick = userList[0].nickname
-  const senderNick = userList[1].nickname
+  // const receiverNick = userList[0].nickname
+  // const senderNick = userList[1].nickname
+
+  const [senderNick, setSenderNick] = useState(nickname)
+  const [receiversNick, setReceiversNick] = useState([])
+  const onChangeUserNick = (userNick) => {
+    setUserNick(userNick);
+  }
+
+  // async storage 해당 방의 채팅 내용 가져오기 
+  const loadChatContent = async (value) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('roomId')
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+      // error reading value      
+    }
+  }  
  
   useEffect(() => {
     console.log("소켓통신 가즈아")
@@ -73,13 +107,12 @@ const ChatRoom = () => {
   useEffect(() => {
     setMessages([
       {
-        _id: receiverNick, // receiver nickname
-        // _nick: userList[0].nickname,
+        _id: receiversNick, // receiver nickname
         text: '등산시작!',
-        createdAt: new Date(), // 현재시각
+        createdAt: kr_curr, // 현재시각
         user: {
           _id: senderNick,  // sender nick
-          // _nick: userList[1].nickname,         
+          name: senderNick, // 표시되는 닉넴
           // avatar: image_path,
         },
       },
@@ -92,12 +125,13 @@ const ChatRoom = () => {
       const response = JSON.parse(e.data);
       console.log("onmessage=>", JSON.stringify(response));
       let sentMessages = {
-        _id: response.receiverNick,
+        _id: response.receiversNick,
         text: response.message,
         createdAt: new Date(response.createdAt),
         // createdAt: new Date(response.createdAt * 1000),
         user: {          
           _id: response.senderNick,
+          name: response.senderNick,
           // avatar: image_path,
         },
       }
@@ -109,13 +143,14 @@ const ChatRoom = () => {
   const onSend = useCallback((messages = []) => {
     let obj = {
       "senderNick": senderNick,    
-      "receiverNick": receiverNick,
+      "receiversNick": receiversNick,
       "message": messages[0].text,
       "action": "message"
     }
     ws.current.send(JSON.stringify(obj))
     // 예전 메시지와 최신 메시지 병합
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    // 
   }, [])
 
   return (
@@ -123,7 +158,6 @@ const ChatRoom = () => {
       {/* 상단 바1 */}
       <View style={{
         padding: 15,
-        marginTop: 50,
         backgroundColor: "#D7FBE8",
         // color: "#858383",
         alignItems: "center",
@@ -156,8 +190,8 @@ const ChatRoom = () => {
         <Text style={{
           fontSize: 20,
           fontWeight: 'bold',
-          color: "#858383"
-        }}>{`일행과 대화 중`}</Text>
+          color: "#595757"
+        }}>{`타이틀`}</Text>
       </View>
 
       {/* 상단 바2 */}
@@ -171,7 +205,7 @@ const ChatRoom = () => {
         width: '100%'
       }}>
         <Text style={{
-            fontSize: 8,
+            fontSize: 16,
             fontWeight: 'bold',
             color: "#fff"
           }}>{serverState}</Text>
@@ -182,8 +216,38 @@ const ChatRoom = () => {
       <GiftedChat
         messages={messages}
         onSend={messages => onSend(messages)}
+        renderAvatar={null}            // 사진 제거
+        renderUsernameOnMessage={true} // default는 false
+        renderBubble={props => {
+          return (
+            <Bubble
+              {...props}
+    
+              textStyle={{
+                right: {
+                  color: '#646464',
+                  fontFamily: "CerebriSans-Book"
+                },
+                left: {
+                  color: '#646464',
+                  fontFamily: "CerebriSans-Book"
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  backgroundColor: '#F5F5F5',
+                },
+                right: {
+                  backgroundColor: "#F5F5F5",
+                },
+              }}
+            />
+          );
+        }}
         user={{
+          // 본인
           _id: senderNick,  // set sender nick
+          name: senderNick,
         }}
       />
     </View>
