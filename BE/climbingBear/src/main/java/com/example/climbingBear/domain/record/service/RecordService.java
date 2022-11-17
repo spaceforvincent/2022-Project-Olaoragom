@@ -38,9 +38,7 @@ public class RecordService {
         if (recordRepository.existsByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay())){
             Record oldRecord = recordRepository.findByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay()).orElseThrow(() ->
                     new NoRecordException());
-            if (oldRecord.isComplete() == false) {
                 recordRepository.delete(oldRecord);
-            }
         }
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
                 new NoExistMntnException());
