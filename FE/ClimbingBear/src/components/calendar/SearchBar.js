@@ -7,6 +7,7 @@ import {
   Button,
   StyleSheet,
   Dimensions,
+  Keyboard
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -85,6 +86,7 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
                   setEnteredText(r.mountainName); //검색바 내용 변경
                   getEnteredMountain(r); //enteredText 전송
                   setResult([]);
+                  Keyboard.dismiss();
                 }}></Button>
             </View>
           );
