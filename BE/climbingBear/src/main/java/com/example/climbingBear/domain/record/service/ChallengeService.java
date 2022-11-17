@@ -65,11 +65,13 @@ public class ChallengeService {
             List<Record> records = recordRepository.findByUser(u);
             for (Record r : records) {
                 if (r.isComplete() == false){
-                    continue;
+                    break;
                 }
                 sum += r.getDistance();
             }
-            dic.put(u.getNickname(), sum);
+            if (sum != 0){
+                dic.put(u.getNickname(), sum);
+            }
         }
 
         List<Map.Entry<String, Double>> entryList = new LinkedList<>(dic.entrySet());
