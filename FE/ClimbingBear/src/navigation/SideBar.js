@@ -10,6 +10,8 @@ import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
+import {RankNavigation} from './RankNavigation';
+
 import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
@@ -53,7 +55,7 @@ function DrawerNavigator() {
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="100대 명산"
+            name="100대 명산 등산"
             options={{
               drawerIcon: ({focused, size}) => (
                 <Image
@@ -93,6 +95,27 @@ function DrawerNavigator() {
               ),
             }}
             component={ChatNavigation}
+          />
+          <drawer.Screen
+            name="곰들의 전쟁"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/ranking.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
+            component={RankNavigation}
           />
           <drawer.Screen
             name="로그아웃"

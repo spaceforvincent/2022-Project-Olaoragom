@@ -1,7 +1,7 @@
 import axios from "axios";
-import EncryptedStorage from "react-native-encrypted-storage/lib/typescript/EncryptedStorage";
+import EncryptedStorage from 'react-native-encrypted-storage';
 
-const API_URL = 'http://k7d109.p.ssafy.io:8080/challenge';
+const API_URL = 'http://k7d109.p.ssafy.io:8080/chellenge';
 
 // monthly rank
 export const getMonthRank = async () => {
