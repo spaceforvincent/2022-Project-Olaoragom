@@ -40,25 +40,9 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 // Polyline, MapType 메인에서 받아와야할듯..
 const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
-  // useSelector 로 state 값을 들고오기
-
-  // 등산로 들고오기
-  const JSON_URL =
-    'https://storage.googleapis.com/climbingbear/new_path_data.json';
-
-  async function funcRequest(url) {
-    await fetch(url)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        const pathData = data;
-        setFeatures(pathData);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  // useSelector 로 들고오기
+  const pathUrl = useSelector(state => state.nowclimbing.pathUrl);
+  const placeUrl = useSelector(state => state.nowclimbing.placeUrl);
 
   // 세부장소 띄우는 state 상태, false일 때 안 띄우기
   const [placeType, setPlaceType] = useState(false);
@@ -69,13 +53,41 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
 
   const [features, setFeatures] = useState(null);
   const [pathIndex, setPathIndex] = useState(null);
+  const [spotdata, setSpotdata] = useState(null);
 
   const [placeButton, setPlaceButton] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    funcRequest(JSON_URL);
+    async function pathRequest(path) {
+      await fetch(path)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          const pathData = data;
+          setFeatures(pathData);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    async function placeRequest(path) {
+      await fetch(path)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          const placeData = data;
+          setSpotdata(placeData);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    pathRequest(pathUrl);
+    placeRequest(placeUrl);
   }, []);
 
   // 등산로 선택하는 함수 (정보 띄우기), 기존에 눌렀던 등산로와 같으면 정보 끄기 (색도)
@@ -140,7 +152,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
         }}>
         {/* Each child in a list should have a unique "key" prop 경고 해결 */}
         {placeButton == 'TOILET' &&
-          new_spot_data.map(
+          spotdata.map(
             (item, idx) =>
               item.geometry &&
               item.type == '화장실' &&
@@ -154,7 +166,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
               )),
           )}
         {placeButton == 'DANGER' &&
-          new_spot_data.map((item, idx) => {
+          spotdata.map((item, idx) => {
             item.type == '위험지역' &&
               item.geometry &&
               item.geometry.map((loc, idx) => (
@@ -167,7 +179,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
               ));
           })}
         {placeButton == 'HELGI' &&
-          new_spot_data.map((item, idx) => {
+          spotdata.map((item, idx) => {
             item.type == '헬기장' &&
               item.geometry &&
               item.geometry.map((loc, idx) => (
@@ -180,7 +192,7 @@ const ClimbingMap = ({latitude, longitude, position, finishClimb}) => {
               ));
           })}
         {placeButton == 'SUMMIT' &&
-          new_spot_data.map(
+          spotdata.map(
             (item, idx) =>
               item.type == '정상' &&
               item.geometry &&
