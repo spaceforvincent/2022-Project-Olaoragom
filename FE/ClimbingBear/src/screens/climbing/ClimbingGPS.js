@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 // GPS 모듈 import
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 // 타이머 import
 import BeforeClimbTimer from '../../components/climbing/BeforeClimbTimer';
 // 측정 관련 컴포넌트 import
