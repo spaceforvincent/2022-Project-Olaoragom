@@ -24,6 +24,7 @@ const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 const BeforeClimbTimer = () => {
   // useSelector 로 들고오기
   const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
+  console.log('산', mntnseq);
   // (공부) Vue 에서 computed 와 비슷한 기능
   const nowTime = useRef(1);
   const [time, setTime] = useState(nowTime.current);
