@@ -71,13 +71,14 @@ const ClimbingHome = ({route}) => {
     });
   }
 
+  dispatch(
+    nowclimbingActions.getMntnId({
+      mntnseq: mntnId,
+    }),
+  );
+
   useEffect(() => {
     currentPosition();
-    dispatch(
-      nowclimbingActions.getMntnId({
-        mntnseq: mntnId,
-      }),
-    );
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
       const name = response.mntnNm;
