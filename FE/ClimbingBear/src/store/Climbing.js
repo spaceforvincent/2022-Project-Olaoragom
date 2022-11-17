@@ -17,6 +17,8 @@ const initialState = {
   min: 0,
   sec: 0,
   uri: '',
+  pathUrl: '',
+  placeUrl: '',
 };
 
 export const nowclimbingSlice = createSlice({
@@ -47,6 +49,10 @@ export const nowclimbingSlice = createSlice({
     },
     mapSnapshot(state, action) {
       state.uri = action.payload.uri;
+    },
+    getPathUrl(state, action) {
+      state.pathUrl = action.payload.pathUrl;
+      state.placeUrl = action.payload.placeUrl;
     },
   },
 });

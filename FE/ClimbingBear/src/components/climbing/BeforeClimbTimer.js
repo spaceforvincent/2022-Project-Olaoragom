@@ -12,6 +12,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {nowclimbingActions} from '../../store/Climbing';
 // 서체 import
 import {TextExtraBold} from '../../components/common/TextFont';
+// axios
+import {getPath} from '../../apis/Climbing';
 
 // (논의) Dimensions 창 크기 전역 관리
 const windowWidth = Dimensions.get('window').width;
@@ -20,12 +22,29 @@ const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
 const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
 
 const BeforeClimbTimer = () => {
+  // useSelector 로 들고오기
+  const mntnseq = useSelector(state => state.nowclimbing.mntnseq);
   // (공부) Vue 에서 computed 와 비슷한 기능
   const nowTime = useRef(1);
   const [time, setTime] = useState(nowTime.current);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const mntnId = mntnseq;
+    const path = async mntnId => {
+      const URL = await getPath(mntnId);
+      const PATH_URL = URL.pathUrl;
+      const PLACE_URL = URL.spotUrl;
+      console.log('들어온 URL', URL);
+      dispatch(
+        nowclimbingActions.getPathUrl({
+          pathUrl: PATH_URL,
+          placeUrl: PLACE_URL,
+        }),
+      );
+    };
+    path(mntnId);
+
     // 등산 상태를 지정해 줄 selector 와 dispatch 선언
     // 타이머
     const interval = setInterval(() => {
