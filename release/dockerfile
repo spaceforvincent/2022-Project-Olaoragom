@@ -1,9 +1,14 @@
 FROM openjdk:8-jdk-alpine
 WORKDIR /var/jenkins_home/workspace/deploy/release
 COPY package*.json ./
+RUN apt-get install -y git-core curl build-essential openssl libssl-dev \
+ && git clone https://github.com/nodejs/node.git \
+ && cd node \
+ && ./configure \
+ && make \
+ && sudo make install
 RUN npm install
 COPY . .
-RUN yarn install
 RUN npm run build
 EXPOSE 3000
 CMD npm start --port 3000
