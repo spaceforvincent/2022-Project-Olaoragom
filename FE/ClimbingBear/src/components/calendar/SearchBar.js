@@ -7,11 +7,9 @@ import {
   Button,
   StyleSheet,
   Dimensions,
-  Keyboard,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/AntDesign';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const windowWidth = Dimensions.get('window').width;
@@ -67,12 +65,7 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
             updateChange(text);
           }}
           value={enteredText}
-          style={styles.textinput}></TextInput>
-        <Icon
-          style={styles.searchIcon}
-          name="search1"
-          size={25}
-          color="#74B49B"
+          style={styles.textinput}
         />
       </View>
       <View style={styles.result}>
@@ -86,7 +79,6 @@ const CalendarSearchBar = ({getEnteredMountain}) => {
                   setEnteredText(r.mountainName); //검색바 내용 변경
                   getEnteredMountain(r); //enteredText 전송
                   setResult([]);
-                  Keyboard.dismiss();
                 }}></Button>
             </View>
           );
@@ -100,19 +92,13 @@ export default CalendarSearchBar;
 
 const styles = StyleSheet.create({
   searchbar: {
-    flexDirection: 'row',
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#C2C2C2',
     width: windowWidth * 0.7,
     height: windowHeight * 0.05,
   },
-  searchIcon: {
-    marginLeft: windowWidth * 0.3,
-    marginTop: windowHeight * 0.005
-  },
   textinput: {
-    width: windowWidth * 0.3,
     fontFamily: 'SeoulNamsanB',
     fontSize: 15,
   },
