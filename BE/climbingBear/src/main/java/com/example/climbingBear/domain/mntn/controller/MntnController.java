@@ -48,4 +48,11 @@ public class MntnController {
         Long userSeq = jwtProvider.getUserSeqFromRequest(request);
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.getMntnFeature(mntnSeq)), HttpStatus.OK);
     }
+
+    @GetMapping("/path")
+    @ApiOperation(value = "산 등산로 json 정보", notes = "")
+    public ResponseEntity<?> getMntnPath(HttpServletRequest request, @RequestParam("mntnSeq")Long mntnSeq)throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(mntnService.getMntnPathList(mntnSeq)), HttpStatus.OK);
+    }
 }
