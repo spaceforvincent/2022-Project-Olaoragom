@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 WORKDIR /var/jenkins_home/workspace/deploy/release
 COPY package*.json ./
-RUN apt-get install -y git-core curl build-essential openssl libssl-dev \
+RUN yum install -y git-core curl build-essential openssl libssl-dev \
  && git clone https://github.com/nodejs/node.git \
  && cd node \
  && ./configure \
