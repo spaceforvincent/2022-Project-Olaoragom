@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const BlankStamp = () => {
-  const image = require('../../assets/images/Blank.png');
+  const image = require('../../assets/images/BlankStamp.png');
 
   return (
     <View style={styles.stamp}>

@@ -50,8 +50,10 @@ const ModifyDeleteModal = ({
         }}></Pressable>
       <View style={styles.Modal}>
         <View style={styles.flexrow}>
-          <TextExtraBold style={styles.text}>{selected}</TextExtraBold>
-          <TextExtraBold style={styles.text}>{mountainName}</TextExtraBold>
+          <TextExtraBold style={styles.modaltoptext}>{selected}</TextExtraBold>
+          <TextExtraBold style={styles.modaltoptext}>
+            {mountainName}
+          </TextExtraBold>
         </View>
         <TextBold style={styles.text}>일정이 예약되어 있습니다</TextBold>
         <View style={styles.flexrow}>
@@ -100,6 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     textAlign: 'center',
   },
+  modaltoptext: {
+    fontSize: 30,
+    marginTop: windowHeight * 0.04,
+    marginHorizontal: windowWidth * 0.02,
+  },
   text: {
     fontSize: 24,
     padding: 10,
@@ -116,14 +123,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#91C788',
     width: windowWidth * 0.25,
     height: windowHeight * 0.04,
-    marginBottom: windowHeight * 0.01,
+    borderRadius: 4
   },
   buttontext: {
     color: 'white',
     textAlign: 'center',
     padding: 5,
     fontSize: 20,
-    marginTop: windowHeight * 0.003,
   },
   modalOverlay: {
     flex: 1,

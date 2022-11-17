@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: 11,
     marginTop: windowHeight * 0.85,
-    marginLeft: windowWidth * 0.3,
+    marginLeft: windowWidth * 0.25,
     minWidth: 200,
     zIndex: 3,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
