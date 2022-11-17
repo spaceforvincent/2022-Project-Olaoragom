@@ -125,14 +125,15 @@ const CreateRoomModal = ({
         }}></Pressable> */}
 
       <View style={styles.Modal}>
-        <TextBold style={styles.modaltitle}>채팅방 개설</TextBold>
+        <TextExtraBold style={styles.modaltitle}>채팅방 개설</TextExtraBold>
         <View style={styles.inputelement}>
-          <Text style={styles.inputtitle}>채팅방명</Text>
+          {/* <TextBold style={styles.inputtitle}>채팅방명</TextBold> */}
           <TextInput
-            placeholder='제목을 입력하세요.'
+            placeholder='채팅방명을 입력하세요.'
             editable={!isLoading}
             onChangeText={onChangeTitleHandler}
             value={roomTitle}
+            style={styles.titleinput}
           ></TextInput>
         </View>
         {/* 최대인원6명까지 */}
@@ -167,6 +168,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
+  Modal: {
+    position: 'absolute',
+    marginVertical: windowHeight * 0.3,
+    marginHorizontal: windowWidth * 0.2,
+    width: windowWidth * 0.6,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 6,
+    borderColor: '#5C7F8D',
+    borderRadius: 18,
+    backgroundColor: 'white',
+    textAlign: 'center',    
+    padding: 16,
+  },
   modaltitle: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -178,31 +194,42 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',    
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 18,
 
   },
   inputtitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'SeoulNamsanB',
 
   },
-  inputtext: {
-    fontSize: 1,
-    fontFamily: 'SeoulNamsanB',
+  // inputtext: {
+  //   fontSize: 1,
+  //   fontFamily: 'SeoulNamsanB',
 
+  // },
+  titleinput: {
+    borderColor: '#E0E0E0',
+    borderWidth: 2,
+    borderRadius: 3,
+    backgroundColor: '#F5F5F5',
+    fontWeight: 'bold',
+    fontSize: 18,
+    padding: 6,
   },
   startbutton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: windowWidth*0.4,
+    width: windowWidth*0.2,
+    height: windowHeight*0.1*0.4,
     backgroundColor: '#1FAB89',
-    borderRadius: 4,
+    borderRadius: 6,
   },
   starttext: {
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     color: '#ffffff',
-    fontSize: 10,
+    fontSize: 16,
     fontFamily: 'SeoulNamsanB',
 
   },  
