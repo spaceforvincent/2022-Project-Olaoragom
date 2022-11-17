@@ -91,10 +91,17 @@ public class MntnService {
         return features.stream().map(MntnFeatureResDto::new).collect(Collectors.toList());
     }
 
+    // 산 정보 제공 페이지에서 정상 위도 경도 리스트
     public List<MntnPathListResDto> findMntnPath(Feature feature){
         List<Path> paths = pathRepository.findByFeature(feature);
         return paths.stream().map(MntnPathListResDto::new).collect(Collectors.toList());
     }
 
+    // 등산 기록 페이지에서 등산로 위도 경도 json
+    public MntnPathJsonResDto getMntnPathList(Long mntnSeq){
+        Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
+                new NoExistMntnException());
+        return MntnPathJsonResDto.of(mntn);
+    }
 }
 
