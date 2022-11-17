@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
-import ChatSearchBar from '../../components/chat/SearchBar';
+// import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
@@ -55,36 +55,29 @@ const ChatHome = () => {
   //     setRooms(response.data)
   //   });
   // }, []);
-  useEffect(() => {
-    loadChatList();
-  })
+
+
+  // useEffect(() => {
+  //   loadChatList();
+  // })
 
   // 백서버에서 채팅방 리스트(제목과 호스트) 가져오기
-  const loadChatList = async () => {
-    const accessToken = await EncryptedStorage.getItem('accessToken');
-    console.log(accessToken);
-    try {
-      const response = await axios({
-        method: 'get',
-        url: `http://k7d109.p.ssafy.io:8080/chat/room-list`,
-        headers: {
-          Authorization: accessToken,
-        },
-      });
-      console.log(response.data)
-      // response.data.data.map(record => {
-      //   if (record.complete) {
-      //     pushRecord(havebeenArr, record);
-      //   } else {
-      //     pushRecord(bookedArr, record);
-      //   }
-      // });
-      // setBookedDate(bookedArr);
-      // setHaveBeenDate(havebeenArr);
-    } catch (error) {
-      console.log(error);
-    }
-  }  
+  // const loadChatList = async () => {
+  //   const accessToken = await EncryptedStorage.getItem('accessToken');
+  //   console.log(accessToken);
+  //   try {
+  //     const response = await axios({
+  //       method: 'get',
+  //       url: `http://k7d109.p.ssafy.io:8080/chat/room-list`,
+  //       headers: {
+  //         Authorization: accessToken,
+  //       },
+  //     });
+  //     console.log(response.data)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }  
 
   
   // 방 삭제      
@@ -126,9 +119,10 @@ const ChatHome = () => {
           <Text style={styles.createtext}>채팅방 개설</Text>
         </TouchableOpacity>
 
+        {/* 문제1 */}
         <CreateRoomModal
           modalVisible={isCreateRoomModalVisible}        
-          setmodalVisible={setIsCreateRoomModalVisible}        
+          setModalVisible={setIsCreateRoomModalVisible}        
         ></CreateRoomModal>
         
 
