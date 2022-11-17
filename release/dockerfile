@@ -2,7 +2,6 @@ FROM node:16
 WORKDIR /var/jenkins_home/workspace/deploy/release
 COPY package*.json ./
 
-RUN apt-get install nodejs npm
 # RUN yum install -y git-core curl build-essential openssl libssl-dev \
 #  && git clone https://github.com/nodejs/node.git \
 #  && cd node \
