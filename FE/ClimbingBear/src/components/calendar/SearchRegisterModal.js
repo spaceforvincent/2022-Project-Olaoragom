@@ -9,7 +9,6 @@ import {
   Dimensions,
   Alert,
   TouchableOpacity,
-  Keyboard,
 } from 'react-native';
 import CalendarSearchBar from './SearchBar';
 import {
@@ -69,7 +68,6 @@ const SearchRegisterModal = ({
               handleToast('Register');
               getSchedule(selected, addSchedule);
               setIsModalVisible(!isModalVisible);
-              Keyboard.dismiss();
             }}>
             <View style={styles.button}>
               <TextBold style={styles.buttontext}>등록하기</TextBold>
