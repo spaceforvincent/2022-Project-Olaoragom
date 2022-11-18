@@ -57,6 +57,13 @@ public class ChatRoomController {
         return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.findByRoomId(roomSeq)), HttpStatus.OK);
     }
 
+    // 채팅방 삭제
+    @DeleteMapping("/room")
+    @ApiOperation(value = "채팅방 삭제")
+    public ResponseEntity<CommonResponse> deleteChatRoom(HttpServletRequest request, @RequestParam("roomSeq")Long roomSeq) throws Exception {
+        Long userSeq = jwtProvider.getUserSeqFromRequest(request);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(chatService.chatRoomDelete(userSeq, roomSeq)), HttpStatus.OK);
+    }
     // 특정 채팅방 조회
 //    @GetMapping("/room/{roomId}")
 //    @ResponseBody
