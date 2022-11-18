@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,10 +17,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux'
 import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
 // import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
+import { set } from 'immer/dist/internal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -28,7 +30,12 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const ChatHome = () => {
-  const [rooms, setRooms] = useState([]);
+  const accessToken = useSelector((state) => state.auth.accessToken)
+  const nickname = useSelector((state) => state.auth.nickname)
+  // const id = useSelector((state) => state.auth.)
+
+  // 개설된 방 모음
+  const [createdRooms, setCreatedRooms] = useState([]);
   // 방 개설시 방 제목
   const [roomTitle, setRoomTitle] = useState('');
 
@@ -47,57 +54,68 @@ const ChatHome = () => {
   const [isEnterRoomModalVisible, setIsEnterRoomModalVisible] =
     useState(false);
 
+  // const roomList = createdRooms.map((room) => )
 
-  // 방정보 get
-  // api 완성되면 수정 필요
-  // useEffect(() => {
-  //   client.get('').then((response) => {
-  //     setRooms(response.data)
-  //   });
-  // }, []);
+  const pushRoomRecord = (arr, record) => {
+    arr.push({
+      roomSeq: Number(record.roomSeq),
+      roomName: String(record.roomName),
+      hostUser: String(record.hostUser),
+      // roomRealName: record.roomRealName,
+    })
+  }; 
 
+  useEffect(() => {
+    loadChatList();
+  })
 
-  // useEffect(() => {
-  //   loadChatList();
-  // })
-
-  // 백서버에서 채팅방 리스트(제목과 호스트) 가져오기
-  // const loadChatList = async () => {
-  //   const accessToken = await EncryptedStorage.getItem('accessToken');
-  //   console.log(accessToken);
-  //   try {
-  //     const response = await axios({
-  //       method: 'get',
-  //       url: `http://k7d109.p.ssafy.io:8080/chat/room-list`,
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //     });
-  //     console.log(response.data)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }  
+  // 백서버에서 채팅방 리스트 가져오기
+  const loadChatList = async () => {
+    let rooms = [];
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://k7d109.p.ssafy.io:8080/chat/room-list`,
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+      // console.log(response.data.data)
+      if (response.data.status === 'success') {
+        // console.log('채팅방 정보 가져왔슴둥')
+        response.data.data.map(record => {
+          pushRoomRecord(rooms, record);
+        })
+      } else {
+        throw new Error('에러 발생!')        
+      }
+      setCreatedRooms(rooms);
+      // console.log(createdRooms)
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+    }    
+  };  
 
   
   // 방 삭제      
-  // const deleteRoom = async (roomId) => {
-  //   await client.delete(`${roomId}`);
+  // const deleteRoom = async (roomSeq) => {
+  //   await client.delete(`${roomSeq}`);
   //   setRooms(
   //     rooms.filter((room) => {
-  //       return room.roomId !== roomId;
+  //       return room.roomSeq !== roomSeq;
   //     })
   //   );
   // };
 
 
-  // const deleteRoom = async (rooomId) => {
+  // const deleteRoom = async (roomSeq) => {
   //   try {
   //     const response = await axios({
   //       method: 'delete',
-  //       url: `http://k7d109.p.ssafy.io:8080/chat/delRoom/{roomId}`,
+  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/{roomSeq}`,
   //       params: {
-  //         roomName: ,
+  //         roomName: roomSeq,
   //       },
   //     });
   //     // 방목록에 적용되어 나오게 하는 메서드
@@ -119,7 +137,6 @@ const ChatHome = () => {
           <Text style={styles.createtext}>채팅방 개설</Text>
         </TouchableOpacity>
 
-        {/* 문제1 */}
         <CreateRoomModal
           modalVisible={isCreateRoomModalVisible}        
           setModalVisible={setIsCreateRoomModalVisible}        
@@ -143,35 +160,47 @@ const ChatHome = () => {
       {/* 채팅방 목록 */}
       <View style={styles.roomlist}>
         {/* 채팅방 */}
-        <View style={styles.square}>
-          <View style={styles.roomheader}>
-            {/* 채팅방장 닉네임 */}
-            <View style={styles.hostcontainer}>
-              <TextExtraBold style={styles.hosttext}>방장 닉네임</TextExtraBold>
-            </View>
-            {/* 방장이면 방 삭제 버튼 보임 */}
-            {/* {nickname === {isHost} || */}
-              <Pressable
-                onPress={() => deleteRoom(roomId)}>
-                <Icon style={styles.deleteIcon}
-                  name="delete"                  
-                ></Icon>
-              </Pressable>
-            {/* } */}
-          </View>
-
-          <TouchableOpacity        
-            onPress={() => {
-              alert('채팅방 입장합니다.');
-            }}
-          >
-            <View style={styles.titlecontainer}>
-              {/* 채팅방 제목 */}          
-              <Text style={styles.titletext}>방 제목</Text>
+        {createdRooms && createdRooms.map((item, index) => (
+          <View style={styles.square}>
+            <View style={styles.roomheader}>
+              {/* 채팅방장 닉네임 */}
+              <View style={styles.hostcontainer}>
+                  <TextExtraBold 
+                    style={styles.hosttext}
+                    key={index}
+                    >{item.hostUser}</TextExtraBold>
+              </View>
+              {/* 방장이면 방 삭제 버튼 보임 */}
+              {/* {nickname === {isHost} || */}
+                {/* <Pressable
+                  onPress={() => deleteRoom(roomSeq)}> */}
+                  <Icon style={styles.deleteIcon}
+                    name="delete"                  
+                  ></Icon>
+                {/* </Pressable> */}
+              {/* } */}
             </View>
 
-          </TouchableOpacity>        
-        </View>
+            {/* 채팅방 제목 */}
+            <TouchableOpacity        
+              onPress={() => {
+                alert('채팅방 입장합니다.');
+              }}
+            >
+              <View style={styles.titlecontainer}>
+                <TextExtraBold 
+                  style={styles.titletext}
+                  key={index}
+                  >{item.roomName}</TextExtraBold>                              
+              </View>
+            </TouchableOpacity>
+          </View>                    
+        ))}
+        
+        <CreateRoomModal
+          modalVisible={isCreateRoomModalVisible}        
+          setModalVisible={setIsCreateRoomModalVisible}        
+        ></CreateRoomModal>
       </View>      
     </View>
   );

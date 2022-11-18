@@ -1,4 +1,3 @@
-// 문제2
 // 최대인원 후순위
 import React, {useState, useEffect} from 'react';
 import {
@@ -22,9 +21,9 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
+// import EncryptedStorage from 'react-native-encrypted-storage';
 
-// const accessToken = useSelector((state) => state.auth.accessToken)
-// const nickname = useSelector((state) => state.auth.nickname)
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -40,6 +39,8 @@ const CreateRoomModal = ({
   // const [maxMember, setmaxMember] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
   const [createRoom, setCreateRoom] = useState({});
+  const accessToken = useSelector((state) => state.auth.accessToken)
+  // const nickname = useSelector((state) => state.auth.nickname)
 
   const onChangeTitleHandler = (roomTitle) => {
     setRoomTitle(roomTitle);
@@ -48,65 +49,55 @@ const CreateRoomModal = ({
   //   setmaxMember(maxMember);
   // }
 
-  // 방개설 모달로부터 
-  // const 
+  // 제목 설정 후 방 개설
+  const onSubmitFormHandler = async (roomTitle) => {
+    if (!roomTitle.trim()) {
+      alert("채팅방명을 다시 확인해주세요.");
+      return;
+    }
+    setIsLoading(true);
+    // const accessToken = await EncryptedStorage.getItem('accessToken');
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${baseURL}/chat/room`,
+        headers: {
+          Authorization: accessToken,
+        },
+        data: {
+          roomName: roomTitle,          
+        }
+      });
 
-  // 제목, 최대인원 설정 후 방 개설
-  // const onSubmitFormHandler = async () => {
-  //   if (!roomTitle.trim()) {
-  //     alert("채팅방명을 다시 확인해주세요.");
-  //     return;
-  //   }
-  //   setIsLoading(true);
-  //   const accessToken = await EncryptedStorage.getItem('accessToken');
-  //   try {
-  //     const response = await axios({
-  //       method: 'post',
-  //       url: `${baseURL}/chat/createroom`,
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //       data: {
-  //         roomName: roomTitle,          
-  //       }
-  //     });
-  //     // setIsLoading(false);
-  //     // setRoomTitle('');
-  //     if (response.status === 201) {
-  //       alert(` 생성한 데이터: ${JSON.stringify(response.data)}`);
-  //       // console.log(response.data.roomSeq)                
-  //       // 생성한 채팅방으로 넘어가기
-  //       // gotoChatRoom();
-  //       setIsLoading(false);
-  //       setRoomTitle('');
-  //       // setmaxMember('2');
-  //     } else {
-  //       throw new Error("에러가 발생했습니다.");
-  //     }
-  //   } catch (error) {
-  //     alert("에러가 발생했습니다.");
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const gotoChatRoom = async () => {
-  //   try {
-  //     const response = await axios({
-  //       method: 'get',
-  //       url: `${baseURL}/chat/`,
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //       data: {
-  //         ,          
-  //       }
-  //     });
-
-  //   } catch (error) {
-
-  //   }
-  // }
-  
+      console.log(response.data.status)
+      setIsLoading(false);
+      setRoomTitle('');
+      if (response.data.status === 'success') {
+        alert(`채팅방이 생성되었습니다.`)
+        // alert(` 생성한 데이터: ${JSON.stringify(response.data)}`);
+        console.log('성공!')
+        // console.log(response.data.roomSeq)                
+        // 생성한 채팅방으로 넘어가기
+        // gotoChatRoom();
+        setIsLoading(false);
+        setRoomTitle('');
+        // setmaxMember('2');
+      } else {
+        // throw new Error("111에러가 발생했습니다.");
+        setIsLoading(false);
+        setRoomTitle('');
+        console.log(error)
+        console.log(error.message)
+      }
+    } catch (error) {
+      // alert("222에러가 발생했습니다.");
+      // setIsLoading(false);
+      console.log(error)
+      console.log(error.message)
+      setRoomTitle('');
+      setIsLoading(false);
+    }
+  };  
   
   return (
     <Modal
@@ -118,11 +109,11 @@ const CreateRoomModal = ({
       }}
     >
       {/* blur effect */}
-      {/* <Pressable
+      <Pressable
         style={styles.modalOverlay}
         onPress={() => {
           setModalVisible(!modalVisible);
-        }}></Pressable> */}
+        }}></Pressable>
 
       <View style={styles.Modal}>
         <TextExtraBold style={styles.modaltitle}>채팅방 개설</TextExtraBold>
@@ -151,9 +142,12 @@ const CreateRoomModal = ({
           <Picker.Item label="6" value="6" />
         </Picker> */}
 
+
+        {/* (논의) 버튼 누를 때 async storage에 방 생성해놓아야하나? */}
         <Pressable
           style={styles.startbutton} 
-          onPress={() => onSubmitFormHandler() && navigation.navigate('ChatRoom', {roomSeq: roomSeq}) }>
+          onPress={() => onSubmitFormHandler(roomTitle)  }>
+            {/* && navigation.navigate('ChatRoom', {roomSeq: roomSeq}) */}
           <Text style={styles.starttext}>시작하기</Text>
         </Pressable>  
       </View>
