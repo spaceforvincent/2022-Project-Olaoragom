@@ -9,7 +9,6 @@ import {
   Dimensions,
   Alert,
   TouchableOpacity,
-  Keyboard,
 } from 'react-native';
 import CalendarSearchBar from './SearchBar';
 import {
@@ -69,7 +68,6 @@ const SearchRegisterModal = ({
               handleToast('Register');
               getSchedule(selected, addSchedule);
               setIsModalVisible(!isModalVisible);
-              Keyboard.dismiss()
             }}>
             <View style={styles.button}>
               <TextBold style={styles.buttontext}>등록하기</TextBold>
@@ -92,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 5,
-    borderColor: 'lightgreen',
+    borderColor: '#9ECD96',
     borderRadius: 10,
     backgroundColor: 'white',
     textAlign: 'center',
@@ -112,15 +110,14 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#91C788',
     width: windowWidth * 0.3,
-    height: windowHeight * 0.04,
+    height: windowHeight * 0.05,
     marginBottom: windowHeight * 0.01,
-    padding: 3,
     borderRadius: 4,
   },
   buttontext: {
     color: 'white',
     textAlign: 'center',
-    padding: 5,
+    marginTop: windowHeight * 0.01,
     fontSize: 20,
   },
   modalOverlay: {

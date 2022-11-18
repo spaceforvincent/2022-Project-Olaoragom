@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, Button, View, StyleSheet, Dimensions, AsyncStorage} from 'react-native';
+import {Image, Text, Button, View, StyleSheet, Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   TextLight,
@@ -13,16 +14,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const CalendarRecord = ({navigation: {navigate}, route}) => {
-  //이미지 url(지도, 위성, 고도)
-  const mapImage = require('../../assets/images/DummyMap.jpg');
-  const heightImage = require('../../assets/images/DummyHeight.png');
-  const orbitImage = require('../../assets/images/DummyOrbit.png');
-  //화면에 띄울 이미지 상태값(지도, 위성, 고도)
-  const [imageState, setImageState] = useState('map');
-  //버튼 클릭 상태 확인(지도, 위성, 고도)
-  const [isHeightClicked, setIsHeightClicked] = useState(false);
-  const [isOrbitClicked, setIsOrbitClicked] = useState(false);
-  const [isMapClicked, setIsMapClicked] = useState(true);
   const [uri, setUri] = useState('');
   const load = async () => {
     const uri = await AsyncStorage.getItem('uri');
@@ -33,23 +24,8 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
     load();
   }, []);
 
-  //고도 측정 기록
-  const heightRecord = '500';
-  //이미지 상태값 변경(지도)
-  const mapState = () => {
-    setImageState('map');
-  };
-  //이미지 상태값 변경(위성)
-  const orbitState = () => {
-    setImageState('orbit');
-  };
-  //이미지 상태값 변경(고도)
-  // const heightState = () => {
-  //   setImageState('height');
-  // };
-
   return (
-    <View>
+    <View style={styles.screen}>
       <TextBold style={styles.date}>{route.params.date}</TextBold>
       <TextExtraBold style={styles.Mountain}>{route.params.name}</TextExtraBold>
       <View style={styles.container}>
@@ -65,79 +41,9 @@ const CalendarRecord = ({navigation: {navigate}, route}) => {
             {route.params.time}
           </TextExtraBold>
         </View>
-        {/* <View>
-          <TextExtraBold style={styles.category}>최고 고도</TextExtraBold>
-          <TextExtraBold style={styles.category}>{heightRecord}m</TextExtraBold>
-        </View> */}
       </View>
       <View style={styles.map}>
-        {/* 이미지 상태값에 따라 띄워줄 사진 변경 */}
-        {imageState === 'map' ? (
-          <Image style={styles.image} source={{uri: uri}} />
-        ) : imageState === 'orbit' ? (
-          <Image style={styles.image} source={orbitImage} />
-        ) : (
-          <Image style={styles.image} source={heightImage} />
-        )}
-        <View style={styles.buttoncontainer}>
-          {/* 이미지 상태값 변경 버튼(지도) */}
-          <TouchableOpacity
-            onPress={() => {
-              mapState();
-              setIsMapClicked(true);
-              setIsOrbitClicked(false);
-              setIsHeightClicked(false);
-            }}>
-            {/* 버튼 눌려진 상태 표시 */}
-            {isMapClicked ? (
-              <View style={styles.clickedbutton}>
-                <TextMedium style={styles.buttontext}>지도사진</TextMedium>
-              </View>
-            ) : (
-              <View style={styles.button}>
-                <TextMedium style={styles.buttontext}>지도사진</TextMedium>
-              </View>
-            )}
-          </TouchableOpacity>
-          {/* 이미지 상태값 변경 버튼(위성) */}
-          <TouchableOpacity
-            onPress={() => {
-              orbitState();
-              setIsOrbitClicked(true);
-              setIsHeightClicked(false);
-              setIsMapClicked(false);
-            }}>
-            {/* 버튼 눌려진 상태 표시 */}
-            {isOrbitClicked ? (
-              <View style={styles.clickedbutton}>
-                <TextMedium style={styles.buttontext}>위성사진</TextMedium>
-              </View>
-            ) : (
-              <View style={styles.button}>
-                <TextMedium style={styles.buttontext}>위성사진</TextMedium>
-              </View>
-            )}
-          </TouchableOpacity>
-          {/* 이미지 상태값 변경 버튼(고도) */}
-          <TouchableOpacity
-            onPress={() => {
-              heightState();
-              setIsHeightClicked(true);
-              setIsOrbitClicked(false);
-              setIsMapClicked(false);
-            }}>
-            {/* 버튼 눌려진 상태 표시
-            {isHeightClicked ? (
-              <View style={styles.clickedbutton}>
-                <TextMedium style={styles.buttontext}>고도사진</TextMedium>
-              </View>
-            ) : (
-              <View style={styles.button}>
-                <TextMedium style={styles.buttontext}>고도사진</TextMedium>
-              </View>
-            )} */}
-          </TouchableOpacity>
-        </View>
+        <Image style={styles.image} source={{uri: uri}} />
       </View>
     </View>
   );
@@ -149,17 +55,14 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 30,
     textAlign: 'center',
+    color: 'black',
     padding: 20,
     marginTop: windowHeight * 0.07,
   },
   Mountain: {
     fontSize: 50,
+    color: 'black',
     textAlign: 'center',
-  },
-  recordtext: {
-    fontSize: 20,
-    marginTop: windowHeight * 0.05,
-    marginLeft: windowWidth * 0.05,
   },
   container: {
     flexDirection: 'row',
@@ -167,36 +70,21 @@ const styles = StyleSheet.create({
     marginTop: windowHeight * 0.05,
   },
   category: {
-    fontSize: 30,
+    fontSize: 25,
+    color: 'black',
     textAlign: 'center',
   },
   map: {
-    marginTop: windowHeight * 0.05,
-    position: 'relative',
+    marginTop: windowHeight * 0.03,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  image: {width: windowWidth, height: windowHeight * 0.5},
-  buttoncontainer: {
-    position: 'absolute',
-    justifyContent: 'flex-end',
-    width: windowWidth * 0.2,
-    marginTop: windowHeight * 0.35,
-    marginLeft: windowWidth * 0.78,
+  image: {
+    width: windowWidth * 0.9,
+    height: windowHeight * 0.5,
   },
-  button: {
-    backgroundColor: '#91C788',
-    height: windowHeight * 0.035,
-    borderRadius: 15,
-    marginBottom: windowHeight * 0.01,
-  },
-  clickedbutton: {
-    backgroundColor: 'gray',
-    height: windowHeight * 0.035,
-    borderRadius: 15,
-    marginBottom: windowHeight * 0.01,
-  },
-  buttontext: {
-    color: 'white',
-    textAlign: 'center',
-    marginTop: windowHeight * 0.01,
+  screen: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
   },
 });

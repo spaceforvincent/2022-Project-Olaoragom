@@ -14,7 +14,7 @@ import {
 // 자식 컴포넌트에서 navigation 을 사용하기 위한 모듈 import
 import {useNavigation} from '@react-navigation/native';
 // GPS 모듈 import
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 // 서체 import
 import {
   TextLight,
@@ -71,13 +71,14 @@ const ClimbingHome = ({route}) => {
     });
   }
 
+  dispatch(
+    nowclimbingActions.getMntnId({
+      mntnseq: mntnId,
+    }),
+  );
+
   useEffect(() => {
     currentPosition();
-    dispatch(
-      nowclimbingActions.getMntnId({
-        mntnseq: mntnId,
-      }),
-    );
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
       const name = response.mntnNm;
