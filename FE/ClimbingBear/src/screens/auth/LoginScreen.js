@@ -45,7 +45,8 @@ const LoginScreen = ({navigation}) => {
         dispatch(authActions.authenticate({
           accessToken,
           nickname,
-          isAuthenticated
+          isAuthenticated,
+          id,
         }))
         return navigation.navigate('100대 명산 등산')
       }
