@@ -32,7 +32,7 @@ const Stack = createStackNavigator();
 const ChatHome = () => {
   const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
-  // const id = useSelector((state) => state.auth.)
+  // const id = useSelector((state) => state.auth.id)
 
   // 개설된 방 모음
   const [createdRooms, setCreatedRooms] = useState([]);
@@ -95,7 +95,24 @@ const ChatHome = () => {
       console.log(error);
       console.log(error.message);
     }    
-  };  
+  };
+
+  // const enterRoom = async (roomSeq) => {
+  //   try {
+  //     const response = await axios({
+  //       method: 'get',
+  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/{roomSeq}`,
+  //       headers: {
+  //         Authorization: accessToken,
+  //       },
+  //       params: {
+  //         roomSeq: roomSeq,
+  //       },
+  //     });   
+  //   } catch (error) {
+  //     console.log(error);
+  //   }    
+  // };
 
   
   // 방 삭제      
@@ -113,12 +130,12 @@ const ChatHome = () => {
   //   try {
   //     const response = await axios({
   //       method: 'delete',
-  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/{roomSeq}`,
+  //       url: `http://k7d109.p.ssafy.io:8080/chat/room`,
   //       params: {
-  //         roomName: roomSeq,
+  //         roomSeq: roomSeq,
   //       },
   //     });
-  //     // 방목록에 적용되어 나오게 하는 메서드
+  //     // 다시 방목록 로드시킴
   //     loadChatList();
   //   } catch (error) {
   //     console.log(error);
@@ -171,7 +188,7 @@ const ChatHome = () => {
                     >{item.hostUser}</TextExtraBold>
               </View>
               {/* 방장이면 방 삭제 버튼 보임 */}
-              {/* {nickname === {isHost} || */}
+              {/* {id === {item.hostUser} || */}
                 {/* <Pressable
                   onPress={() => deleteRoom(roomSeq)}> */}
                   <Icon style={styles.deleteIcon}
@@ -184,7 +201,8 @@ const ChatHome = () => {
             {/* 채팅방 제목 */}
             <TouchableOpacity        
               onPress={() => {
-                alert('채팅방 입장합니다.');
+                alert('채팅방 입장합니다.')
+                // enterRoom(roomSeq) && navigation.navigate('ChatRoom', {roomSeq: roomSeq})
               }}
             >
               <View style={styles.titlecontainer}>
