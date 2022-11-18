@@ -4,12 +4,19 @@ import com.example.climbingBear.domain.chat.dto.ChatRoomDto;
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostReqDto;
 import com.example.climbingBear.domain.chat.dto.ChatRoomPostResDto;
 import com.example.climbingBear.domain.chat.entity.ChatRoom;
+import com.example.climbingBear.domain.chat.exception.NoExistChatRoomException;
+import com.example.climbingBear.domain.chat.exception.NoPermissoinChatRoomException;
 import com.example.climbingBear.domain.chat.repository.ChatRoomRepository;
+import com.example.climbingBear.domain.chat.repository.RoomRepository;
+import com.example.climbingBear.domain.record.Exception.NoExistDiaryException;
+import com.example.climbingBear.domain.record.Exception.NoPermissionDeleteDiaryException;
+import com.example.climbingBear.domain.record.entity.Record;
 import com.example.climbingBear.domain.user.entity.User;
 import com.example.climbingBear.domain.user.exception.NoExistUserException;
 import com.example.climbingBear.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +31,7 @@ public class ChatService {
 //    private Map<String, ChatRoom> chatRooms;
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final RoomRepository roomRepository;
 
 //    @PostConstruct
 //    //의존관게 주입완료되면 실행되는 코드
@@ -60,5 +68,19 @@ public class ChatService {
 
 
         return ChatRoomPostResDto.of(chatRoom.getRoomSeq());
+    }
+
+    // 채팅방 삭제
+    public ChatRoomPostResDto chatRoomDelete(Long userSeq, Long roomSeq) throws Exception {
+        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
+                new NoExistUserException());
+        ChatRoom chatRoom = roomRepository.findByRoomSeq(roomSeq).orElseThrow(() ->
+                new NoExistChatRoomException());
+        if (user.getUserSeq() == chatRoom.getUser().getUserSeq()){
+            roomRepository.delete(chatRoom);
+            return ChatRoomPostResDto.of(chatRoom.getRoomSeq());
+        } else {
+            throw new NoPermissoinChatRoomException();
+        }
     }
 }
