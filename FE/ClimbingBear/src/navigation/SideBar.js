@@ -10,6 +10,9 @@ import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
 import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
+import {RankNavigation} from './RankNavigation';
+import {RankGraphNavigation} from './RankGraphNavigaion';
+
 import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
@@ -28,7 +31,7 @@ function DrawerNavigator() {
             headerTransparent: false,
             headerTitleAlign: 'center',
             drawerStyle: {
-              width: 200,
+              width: 250,
             },
           }}>
           <drawer.Screen
@@ -53,7 +56,7 @@ function DrawerNavigator() {
             component={CalendarNavigation}
           />
           <drawer.Screen
-            name="100대 명산"
+            name="100대 명산 등산"
             options={{
               drawerIcon: ({focused, size}) => (
                 <Image
@@ -93,6 +96,48 @@ function DrawerNavigator() {
               ),
             }}
             component={ChatNavigation}
+          />
+          <drawer.Screen
+            name="곰들의 전쟁"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/ranking.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
+            component={RankNavigation}
+          />
+          <drawer.Screen
+            name="명예의 곰 전당"
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/award.png')}></Image>
+              ),
+              unmountOnBlur: true,
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
+            component={RankGraphNavigation}
           />
           <drawer.Screen
             name="로그아웃"
