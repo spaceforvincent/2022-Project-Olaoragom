@@ -23,6 +23,8 @@ const ChatSearchBar = ({getEnteredChatRoomList}) => {
   const [chatRoomList, setChatRoomList] = useState([]);
   const [enteredText, setEnteredText] = useState('');
   const [foundRoom, setFoundRoom] = useState([]);
+  const accessToken = useSelector((state) => state.auth.accessToken)
+
   const updateSearch = text => {
     let filterData = ChatRoomList
       .filter(d => d.title.includes(text))

@@ -22,7 +22,6 @@ import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
 // import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
-import { set } from 'immer/dist/internal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -32,7 +31,7 @@ const Stack = createStackNavigator();
 const ChatHome = () => {
   const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
-  // const id = useSelector((state) => state.auth.id)
+  const id = useSelector((state) => state.auth.id)
 
   // 개설된 방 모음
   const [createdRooms, setCreatedRooms] = useState([]);
@@ -53,8 +52,6 @@ const ChatHome = () => {
   // 방 들어갈 때 확인 모달 ON/OFF  
   const [isEnterRoomModalVisible, setIsEnterRoomModalVisible] =
     useState(false);
-
-  // const roomList = createdRooms.map((room) => )
 
   const pushRoomRecord = (arr, record) => {
     arr.push({
@@ -101,12 +98,9 @@ const ChatHome = () => {
   //   try {
   //     const response = await axios({
   //       method: 'get',
-  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/{roomSeq}`,
+  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/${roomSeq}`,
   //       headers: {
   //         Authorization: accessToken,
-  //       },
-  //       params: {
-  //         roomSeq: roomSeq,
   //       },
   //     });   
   //   } catch (error) {
@@ -188,14 +182,14 @@ const ChatHome = () => {
                     >{item.hostUser}</TextExtraBold>
               </View>
               {/* 방장이면 방 삭제 버튼 보임 */}
-              {/* {id === {item.hostUser} || */}
-                {/* <Pressable
-                  onPress={() => deleteRoom(roomSeq)}> */}
+              {id === item.hostUser ||
+                // <Pressable
+                //   onPress={() => deleteRoom(roomSeq)}>
                   <Icon style={styles.deleteIcon}
                     name="delete"                  
                   ></Icon>
-                {/* </Pressable> */}
-              {/* } */}
+                // </Pressable>
+              } 
             </View>
 
             {/* 채팅방 제목 */}
