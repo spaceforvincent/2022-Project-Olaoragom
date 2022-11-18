@@ -21,6 +21,7 @@ import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
 // import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
+import { useSelector } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -50,11 +51,11 @@ const ChatHome = () => {
 
   // 방정보 get
   // api 완성되면 수정 필요
-  // useEffect(() => {
-  //   client.get('').then((response) => {
-  //     setRooms(response.data)
-  //   });
-  // }, []);
+  useEffect(() => {
+    // client.get('').then((response) => {
+    //   setRooms(response.data)
+    // });
+  }, []);
 
 
   // useEffect(() => {
@@ -138,6 +139,7 @@ const ChatHome = () => {
           <></>
         )} */}
       </View>
+          
 
             
       {/* 채팅방 목록 */}
