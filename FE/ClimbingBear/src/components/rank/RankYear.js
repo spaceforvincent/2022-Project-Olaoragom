@@ -48,6 +48,7 @@ const RankYear = ({year, setYear}) => {
         setItems={setItems}
         maxHeight={500}
         onChangeItem={(item) => setValue(item.value)}
+        textStyle={{fontSize: 11, fontFamily: 'SeoulNamsanM', alignItems: 'center'}}
       />
     </View>
   )
@@ -57,7 +58,9 @@ export default RankYear;
 
 const styles = StyleSheet.create({
   yearPicker: {
-    width: windowWidth * 0.4
+    width: windowWidth * 0.5,
+    marginRight: 0,
+    margin: 10,
   }
 });
 

@@ -51,6 +51,7 @@ const RankMonth = ({month, setMonth}) => {
         setItems={setMonthItems}
         maxHeight={500}
         onChangeItem={(item) => setValue(item.value)}
+        textStyle={{fontSize: 11, fontFamily: 'SeoulNamsanM', alignItems: 'center'}}
       />
     </View>
   )
@@ -60,7 +61,8 @@ export default RankMonth;
 
 const styles = StyleSheet.create({
   monthPicker: {
-    width: windowWidth * 0.4
+    width: windowWidth * 0.3,
+    margin: 10
   }
 });
 
