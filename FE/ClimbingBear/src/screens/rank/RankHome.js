@@ -64,6 +64,7 @@ const RankHome = () => {
             containerStyle={active => ({
               borderBottomWidth: active ? 1 : 1,
               backgroundColor: active ? '#A4BE7B' : undefined,
+              borderRightWidth: 1,
               borderTopEndRadius: 10,
             })}>
             월별 등산기록
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     width: 60,
   },
   table: {
-    height: windowHeight * 0.74,
+    height: windowHeight * 0.72,
     marginTop: 10,
   },
   picker: {
