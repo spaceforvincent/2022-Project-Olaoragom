@@ -4,7 +4,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 const API_URL = 'http://k7d109.p.ssafy.io:8080/chellenge';
 
 // monthly rank
-export const getMonthRank = async () => {
+export const getMonthRank = async (month, year) => {
   const accessToken = await EncryptedStorage.getItem('accessToken');
 
   try {
@@ -14,6 +14,10 @@ export const getMonthRank = async () => {
       Headers: {
         Authorization: accessToken,
       },
+      params: {
+        year: year,
+        month: month, 
+      }
     });
     return response.data;
   } catch (error) {
