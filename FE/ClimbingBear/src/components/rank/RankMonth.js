@@ -22,10 +22,10 @@ import RankItem from '../../components/rank/RankItem';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const RankYear = ({year, setYear}) => {
+const RankMonth = ({month, setMonth}) => {
 
-  const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
+  const [monthOpen, setMonthOpen] = useState(false);
+  const [monthItems, setMonthItems] = useState([
     {label: '1', value: '1'},
     {label: '2', value: '2'},
     {label: '3', value: '3'},
@@ -41,22 +41,26 @@ const RankYear = ({year, setYear}) => {
   ]);
 
   return (
-    <View>
+    <View style={styles.monthPicker}>
         <DropDownPicker
-        open={open}
-        value={year}
-        items={items}
-        setOpen={setOpen}
-        setValue={setYear}
-        setItems={setItems}
+        open={monthOpen}
+        value={month}
+        items={monthItems}
+        setOpen={setMonthOpen}
+        setValue={setMonth}
+        setItems={setMonthItems}
+        maxHeight={500}
+        onChangeItem={(item) => setValue(item.value)}
       />
     </View>
   )
 };
 
-export default RankYear;
+export default RankMonth;
 
 const styles = StyleSheet.create({
-  
+  monthPicker: {
+    width: windowWidth * 0.4
+  }
 });
 
