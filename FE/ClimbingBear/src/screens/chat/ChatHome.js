@@ -29,11 +29,14 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const ChatHome = () => {
+  // {navigation, route}
   const navigation = useNavigation();
   const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
   const id = useSelector((state) => state.auth.id)
 
+  // const roomSeq = route.params.roomSeq
+  
   // 개설된 방 모음
   const [createdRooms, setCreatedRooms] = useState([]);
   // 방 개설시 방 제목
@@ -110,7 +113,7 @@ const ChatHome = () => {
         AsyncStorage.setItem('wschat.sender', sender)
         AsyncStorage.setItem('wschat.roomSeq', roomSeq)
         // AsyncStorage.setItem('wschat.roomName', roomName)
-        location.href="/chat/room/enter/"+roomSeq // 뒤로가기 가능
+        // location.href="/chat/room/enter/"+roomSeq // 뒤로가기 가능
       }  
     } catch (error) {
       console.log(error);

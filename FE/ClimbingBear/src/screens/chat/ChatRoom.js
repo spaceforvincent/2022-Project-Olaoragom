@@ -13,7 +13,7 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+// import { useNavigation, useRoute } from '@react-navigation/native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import { useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,7 +37,7 @@ const ChatRoom = ({navigation, route}) => {
   // const [serverState, setServerState] = useState('Loading...');
 
   // websocket & stomp initialize
-  let sock = new SockJS("http://localhost:8080/ws/chat");
+  let sock = new SockJS("http://k7d109.p.ssafy.io:8080/ws/chat");
   let ws = Stomp.over(sock);
   let reconnect = 0;
 
@@ -55,7 +55,7 @@ const ChatRoom = ({navigation, route}) => {
   useEffect(() => {
     connect();
     findRoom();
-    console.log('asdfkl')
+    // console.log('asdfkl')
   },[])
 
   const onChangeMessageHandler = (message) => {
@@ -72,7 +72,7 @@ const ChatRoom = ({navigation, route}) => {
         },
       });
       if (response.data.status === 'success') {
-        console.log(response.data.data)
+        // console.log(response.data.data)
         setRoom(response.data.data)
       } else {
         throw new Error('에러 발생!')        
@@ -80,13 +80,6 @@ const ChatRoom = ({navigation, route}) => {
       // console.log(response.data.data)
       // setRoom(response.data.data)
 
-      // let sender = nickname
-      // if (sender !== "") {
-      //   AsyncStorage.setItem('wschat.sender', sender)
-      //   AsyncStorage.setItem('wschat.roomSeq', roomSequence)
-      //   AsyncStorage.setItem('wschat.roomName', roomName)
-      //   location.href="/chat/room/enter/"+roomSequence // 뒤로가기 가능
-      // }  
     } catch (error) {
       console.log(error);
       console.log(error.message);
@@ -94,8 +87,9 @@ const ChatRoom = ({navigation, route}) => {
   };
 
   const sendMessage = async () => {    
+    console.log('메시지', message)
     ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomSeq:roomSequence, sender:sender, message:message}));
-    setMessage = ''
+    // setMessage = ''
   }
 
   const recvMessage = async (recv) => {
@@ -105,7 +99,7 @@ const ChatRoom = ({navigation, route}) => {
 
   const connect = () => {    
     // pub/sub event
-    console.log('커넥트ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+    // console.log('커넥트ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
     ws.connect({}, function(frame) {
       ws.subscribe("/topic/chat/room/"+roomSequence, function(message) {
           let recv = JSON.parse(message.body);
@@ -116,7 +110,7 @@ const ChatRoom = ({navigation, route}) => {
         if(reconnect++ <= 5) {          
           setTimeout(function() {
               console.log("connection reconnect");
-              sock = new SockJS("http://localhost:8080/ws/chat");
+              sock = new SockJS("http://k7d109.p.ssafy.io:8080/ws/chat");
               ws = Stomp.over(sock);
               connect();
           },10*1000);
@@ -183,7 +177,7 @@ const ChatRoom = ({navigation, route}) => {
       </View> */}
 
       <View style={styles.list_group}>
-        {messages && messages.map((item) => (
+        {messages && messages.map((item, idx) => (
           <View>
             {nickname === item.sender ||
               <View 
@@ -313,7 +307,7 @@ const styles = StyleSheet.create({
 
   },
   btn_send: {
-
+    backgroundColor:'green'
   },
 
 });

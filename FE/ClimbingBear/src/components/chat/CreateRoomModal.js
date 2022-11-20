@@ -156,7 +156,7 @@ const CreateRoomModal = ({
         {/* (논의) 버튼 누를 때 async storage에 방 생성해놓아야하나? */}
         <Pressable
           style={styles.startbutton} 
-          onPress={() => onSubmitFormHandler(roomName) && navigation.navigate('ChatRoom', {roomSeq: roomSeq}) }>            
+          onPress={() => {onSubmitFormHandler(roomName), navigation.navigate('ChatRoom', {roomSeq: roomSeq})} }>            
           <Text style={styles.starttext}>시작하기</Text>
         </Pressable>  
       </View>
