@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 const API_URL = 'http://k7d109.p.ssafy.io:8080/chellenge';
@@ -16,8 +16,8 @@ export const getMonthRank = async (month, year) => {
       },
       params: {
         year: year,
-        month: month, 
-      }
+        month: month,
+      },
     });
     return response.data;
   } catch (error) {

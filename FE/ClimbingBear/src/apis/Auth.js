@@ -47,9 +47,6 @@ export const postLogin = async (id, password) => {
         pw: password,
       },
     });
-    // console.log(response.data)
-    // console.log(response.data.data.accessToken)
-    // console.log(response.data.status)
 
     const accessToken = response.data.data.accessToken;
     storeToken(accessToken);
@@ -74,8 +71,6 @@ export const existNickname = async nickname => {
         nickName: nickname,
       },
     });
-    // (임시)
-    // console.log(response.data.data.isExist)
 
     if (response.data.data.isExist === true) {
       return true;
@@ -99,7 +94,6 @@ export const existId = async id => {
         id: id,
       },
     });
-    // console.log(response.data.data.isExist)
 
     if (response.data.data.isExist === true) {
       return true;
@@ -125,8 +119,6 @@ export const postSignUp = async (id, nickname, password) => {
         pw: password,
       },
     });
-    // console.log('결과', response.data)
-    // console.log(response.data.status)
 
     if (response.data.status === 'success') {
       console.log('회원가입 성공!');

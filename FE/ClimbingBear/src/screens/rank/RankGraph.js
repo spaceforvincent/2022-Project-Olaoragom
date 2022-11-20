@@ -1,7 +1,7 @@
 import {BarChart} from 'react-native-chart-kit';
 import {useLayoutEffect, useState} from 'react';
+
 import {View, StyleSheet, Image, Dimensions} from 'react-native';
-import {getTotalRank} from '../../apis/Rank';
 import {
   TextLight,
   TextMedium,
@@ -9,7 +9,8 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
+import {getTotalRank} from '../../apis/Rank';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -22,12 +23,12 @@ const chartConfig = {
   fillShadowGradientOpacity: 1,
   color: (opacity = 100) => `#3E7C17`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, 1)`,
-    propsForLabels: {
+  propsForLabels: {
     fontFamily: 'SeoulNamsanM',
   },
-  propsForVerticalLabels:{
+  propsForVerticalLabels: {
     width: 40,
-  }
+  },
 };
 
 const RankGraph = () => {
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
     fontSize: 30,
@@ -125,6 +126,6 @@ const styles = StyleSheet.create({
     width: 50,
   },
   graph: {
-    margin: windowHeight * 0.15
-  }
+    margin: windowHeight * 0.15,
+  },
 });

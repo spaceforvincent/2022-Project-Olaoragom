@@ -1,14 +1,16 @@
 import React, {useLayoutEffect, useState, useEffect} from 'react';
+
 import {Tab, TabView} from '@rneui/themed';
 import {View, Image, StyleSheet, Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {getMonthRank, getTotalRank} from '../../apis/Rank';
 import {TextExtraBold} from '../../components/common/TextFont';
+
 import RankItem from '../../components/rank/RankItem';
 import RankYear from '../../components/rank/RankYear';
 import RankMonth from '../../components/rank/RankMonth';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
+import {getMonthRank, getTotalRank} from '../../apis/Rank';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -89,15 +91,15 @@ const RankHome = () => {
               <RankMonth month={month} setMonth={setMonth}></RankMonth>
             </View>
             <View style={styles.monthTable}>
-            <ScrollView>
-              {monthRanks.map((monthRank, index) => (
-                <RankItem
-                  key={index}
-                  index={index}
-                  nickname={monthRank.nickname}
-                  distance={monthRank.distance}></RankItem>
-              ))}
-            </ScrollView>
+              <ScrollView>
+                {monthRanks.map((monthRank, index) => (
+                  <RankItem
+                    key={index}
+                    index={index}
+                    nickname={monthRank.nickname}
+                    distance={monthRank.distance}></RankItem>
+                ))}
+              </ScrollView>
             </View>
           </View>
         )}
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
   picker: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   tabItem: {
     color: 'black',
@@ -154,5 +156,5 @@ const styles = StyleSheet.create({
   monthTable: {
     height: windowHeight * 0.65,
     marginTop: 5,
-  }
+  },
 });
