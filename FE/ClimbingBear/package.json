@@ -15,6 +15,10 @@
     "@chartiful/react-native-vertical-bar-graph": "^0.1.2",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-community/geolocation": "^3.0.3",
+<<<<<<< HEAD
+=======
+    "@react-native-picker/picker": "^2.4.8",
+>>>>>>> e04566dc61eca9def18df734dca1cec7f2732ba7
     "@react-navigation/drawer": "^6.5.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
@@ -42,6 +46,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.6.0",
     "react-native-vector-icons": "^9.2.0",
+<<<<<<< HEAD
     "react-redux": "^8.0.4",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.2.0",
@@ -49,6 +54,13 @@
     "sockjs-client": "^1.6.1",
     "webstomp-client": "^1.2.6",
     "ws": "^8.11.0"
+=======
+    "react-native-wheel-pick": "^1.2.0",
+    "react-redux": "^8.0.4",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
+    "redux": "^4.2.0",
+    "ws": "^8.10.0"
+>>>>>>> e04566dc61eca9def18df734dca1cec7f2732ba7
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
