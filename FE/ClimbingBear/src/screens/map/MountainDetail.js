@@ -28,7 +28,7 @@ const MountainDetail = ({navigation, route}) => {
   const lat = route.params.mountainLat;
   const lon = route.params.mountainLon;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
       console.log(response);
@@ -37,13 +37,13 @@ const MountainDetail = ({navigation, route}) => {
     initialData();
   }, []);
 
-  // useEffect(() => {
-  //   const tempData = async() => {
-  //     const response = await getMountainWeather(lat, lon)
-  //     setMountainWeather(response)
-  //   }
-  //   tempData();
-  // }, [])
+  useEffect(() => {
+    const tempData = async() => {
+      const response = await getMountainWeather(lat, lon)
+      setMountainWeather(response)
+    }
+    tempData();
+  }, [])
 
   return (
     <ScrollView>
@@ -141,7 +141,7 @@ const MountainDetail = ({navigation, route}) => {
         </View>
 
         {/* 날씨 */}
-        {/* <View style={styles.weatherContainer}>
+        <View style={styles.weatherContainer}>
         <TextBold style={styles.weatherTemp}>{Math.round(mountainWeather.main.temp - 272)}</TextBold>
           <View style={styles.weatherHeader}>
           <TextBold style={styles.weatherText}>{mountainWeather.weather[0].main}</TextBold>
@@ -152,7 +152,7 @@ const MountainDetail = ({navigation, route}) => {
             source={{
               uri: `http://openweathermap.org/img/wn/${mountainWeather.weather[0].icon}.png`,
             }}></Image>
-        </View> */}
+        </View>
       </View>
 
       {/* 등산로 */}
@@ -192,9 +192,9 @@ const styles = StyleSheet.create({
   detailTitle: {
     flexDirection: 'row',
   },
-  // detailBody: {
-  //   flexDirection: 'row'
-  // },
+  detailBody: {
+    flexDirection: 'row'
+  },
   difficultyContainer: {
     margin: 10,
     // marginRight: windowWidth * 0.01,
@@ -214,8 +214,8 @@ const styles = StyleSheet.create({
     borderColor: '#B2B2B2',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#F6F6F6',
-    width: windowWidth * 0.35,
+    backgroundColor: '#FFFFFF',
+    width: windowWidth * 0.33,
   },
   detailHeader: {
     flexDirection: 'row',
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   difficultyImage: {
     margin: 10,
-    marginRight: 20,
+    marginRight: 10,
     width: windowWidth * 0.1,
     height: windowHeight * 0.05,
   },

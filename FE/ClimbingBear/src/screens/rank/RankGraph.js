@@ -79,7 +79,7 @@ const RankGraph = () => {
           segments={10}
           data={data}
           width={windowWidth * 0.8}
-          height={windowHeight * 0.5}
+          height={windowHeight * 0.9}
           yAxisSuffix=" km"
           chartConfig={chartConfig}
           verticalLabelRotation={0}
@@ -111,9 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    height: windowHeight * 0.6,
-    borderWidth: 1,
-    borderRadius: 10,
+    height: windowHeight * 0.9,
     justifyContent: 'center',
     alignItems: 'center',
   },
