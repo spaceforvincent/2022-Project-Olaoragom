@@ -8,17 +8,20 @@ import {
   Button,
   StyleSheet,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux'
 import axios from 'axios';
-import EncryptedStorage from 'react-native-encrypted-storage';
+import Icon from 'react-native-vector-icons/AntDesign';
+// import EncryptedStorage from 'react-native-encrypted-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ChatSearchBar = ({getEnteredChatRoomList}) => {
   useEffect(() => {
-    getChatRoomtData();    
+    getChatRoomData();    
   }, [enteredText]);
   const [chatRoomList, setChatRoomList] = useState([]);
   const [enteredText, setEnteredText] = useState('');
@@ -26,33 +29,40 @@ const ChatSearchBar = ({getEnteredChatRoomList}) => {
   const accessToken = useSelector((state) => state.auth.accessToken)
 
   const updateSearch = text => {
-    let filterData = ChatRoomList
-      .filter(d => d.title.includes(text))
+    let filterData = chatRoomList
+      .filter(d => d.roomName.includes(text))
     if (text.length === 0) {
       filterData = [];
     }
     setFoundRoom(filterData);      
   };
-  // const getChatRoomData = async () => {
-  //   const accessToken = await EncryptedStorage.getItem('accessToken');
-  //   let tempArr = [];
-  //   try {
-  //     const response = await axios({
-  //       method: 'get',
-  //       url: `http://k7d109.p.ssafy.io:8080/`,
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //     });
+  const getChatRoomData = async () => {
+    let tempArr = [];
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://k7d109.p.ssafy.io:8080/chat/room-list`,
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+      response.data.data.map(record => {
+        tempArr.push({
+          roomName: record.roomName,
+          roomSeq: record.roomSeq,
+          hostUser: record.hostUser,
+        });
+      });
+      setChatRoomList(tempArr)
           
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // };
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
   return (
     <>
-      <View style={StyleSheet.chatsearchbar}>
+      <View style={styles.chatsearchbar}>
         <TextInput
           placeholder="채팅방을 검색하세요"
           onChangeText={text => {
@@ -62,35 +72,48 @@ const ChatSearchBar = ({getEnteredChatRoomList}) => {
           value={enteredText}
           style={styles.textinput}
         />
+        <Icon
+          style={styles.searchIcon}
+          name="search1"
+          size={25}
+          color="#74B49B"
+        />
       </View>
       <View style={styles.foundRoom}>
-        {/* {foundRoom.map(r => {
+        {foundRoom.map(r => {
           return (
-            <View key={r.} style={styles.foundRoomElement}>
+            <View key={r.roomSeq} style={styles.foundRoomElement}>
               <Button
-                title={r.}
-                color=
+                title={r.roomName}
+                color="yellow"
                 onPress={() => {
                   setEnteredText(r.roomName); //검색바 내용 변경
                   getEnteredChatRoomList(r); //enteredText 전송
                   setFoundRoom([]);
+                  Keyboard.dismiss();
                 }}></Button>
             </View>
           );
-        })} */}
+        })}
       </View>
     </>
   );
 };
 
 export default ChatSearchBar;
-const styles = styleSheet.create({
+const styles = StyleSheet.create({
   chatsearchbar: {
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#C2C2C2',
     width: windowWidth * 0.3,
     height: windowHeight * 0.05,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchIcon: {
+    marginLeft: 14,
+    // marginTop: windowHeight * 0.005,
   },
   textinput: {
     fontFamily: 'SeoulNamsanB',

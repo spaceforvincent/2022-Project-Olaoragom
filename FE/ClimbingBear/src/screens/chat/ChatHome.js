@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux'
 import axios from "axios";
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
-// import ChatSearchBar from '../../components/chat/SearchBar';
+import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
 
 const windowWidth = Dimensions.get('window').width;
@@ -167,9 +167,9 @@ const ChatHome = () => {
         
 
         {/* 방 검색 창 */}
-        {/* <ChatSearchBar 
+        <ChatSearchBar 
           getEnteredChatRoomList={getEnteredChatRoomList}
-        ></ChatSearchBar> */}
+        ></ChatSearchBar>
         
         {/* 모달 띄우는 상황일 때 페이지 backgroundColor 어둡게 함*/}
         {/* {isCreateRoomModalVisible || isDeleteRoomModalVisible || isEnterRoomModalVisible ? (
@@ -271,7 +271,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#A7D7C5',
     color: '#FFFFFF',
     borderTopRightRadius: 26,
-    margin: 16,
+    marginTop: 16,
+    marginBottom: 16,
+    marginLeft: 6,
+    marginRight: 6,
+    shadowColor: "#83c4f8",
+    shadowOpacity: 0.1,
+    shadowOffset: {
+      height: -10,
+      width: 0,
+    },
+
   },
   roomheader: {
     // padding: 8,
