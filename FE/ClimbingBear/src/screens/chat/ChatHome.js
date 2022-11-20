@@ -1,4 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,12 +19,12 @@ import {
   Dimensions,
   Pressable,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux'
-import axios from "axios";
+import {useSelector} from 'react-redux';
+import axios from 'axios';
 import CreateRoomModal from '../../components/chat/CreateRoomModal';
 import ChatSearchBar from '../../components/chat/SearchBar';
 import { TextBold, TextExtraBold, TextLight, TextMedium } from '../../components/common/TextFont';
@@ -31,12 +37,12 @@ const Stack = createStackNavigator();
 const ChatHome = () => {
   // {navigation, route}
   const navigation = useNavigation();
-  const accessToken = useSelector((state) => state.auth.accessToken)
-  const nickname = useSelector((state) => state.auth.nickname)
-  const id = useSelector((state) => state.auth.id)
+  const accessToken = useSelector(state => state.auth.accessToken);
+  const nickname = useSelector(state => state.auth.nickname);
+  const id = useSelector(state => state.auth.id);
 
   // const roomSeq = route.params.roomSeq
-  
+
   // 개설된 방 모음
   const [createdRooms, setCreatedRooms] = useState([]);
   // 방 개설시 방 제목
@@ -44,18 +50,17 @@ const ChatHome = () => {
 
   const [enteredChatRoomList, setEnteredChatRoomList] = useState({});
   const getEnteredChatRoomList = obj => {
-    setEnteredChatRoomList(obj)
+    setEnteredChatRoomList(obj);
   };
 
   // 방 개설 모달 ON/OFF
   const [isCreateRoomModalVisible, setIsCreateRoomModalVisible] =
-    useState(false);  
+    useState(false);
   // 삭제 확인 모달 ON/OFF
   const [isDeleteRoomModalVisible, setIsDeleteRoomModalVisible] =
     useState(false);
-  // 방 들어갈 때 확인 모달 ON/OFF  
-  const [isEnterRoomModalVisible, setIsEnterRoomModalVisible] =
-    useState(false);
+  // 방 들어갈 때 확인 모달 ON/OFF
+  const [isEnterRoomModalVisible, setIsEnterRoomModalVisible] = useState(false);
 
   const pushRoomRecord = (arr, record) => {
     arr.push({
@@ -63,12 +68,12 @@ const ChatHome = () => {
       roomName: String(record.roomName),
       hostUser: String(record.hostUser),
       // roomRealName: record.roomRealName,
-    })
-  }; 
+    });
+  };
 
   useEffect(() => {
     loadChatList();
-  })
+  });
 
   // 백서버에서 채팅방 리스트 가져오기
   const loadChatList = async () => {
@@ -86,19 +91,19 @@ const ChatHome = () => {
         // console.log('채팅방 정보 가져왔슴둥')
         response.data.data.map(record => {
           pushRoomRecord(rooms, record);
-        })
+        });
       } else {
-        throw new Error('에러 발생!')        
+        throw new Error('에러 발생!');
       }
       setCreatedRooms(rooms);
       // console.log(createdRooms)
     } catch (error) {
       console.log(error);
       console.log(error.message);
-    }    
+    }
   };
 
-  const enterRoom = async (roomSeq) => {
+  const enterRoom = async roomSeq => {
     try {
       const response = await axios({
         method: 'get',
@@ -107,21 +112,20 @@ const ChatHome = () => {
           Authorization: accessToken,
         },
       });
-      console.log()
-      let sender = nickname
-      if (sender !== "") {
-        AsyncStorage.setItem('wschat.sender', sender)
-        AsyncStorage.setItem('wschat.roomSeq', roomSeq)
-        // AsyncStorage.setItem('wschat.roomName', roomName)
-        // location.href="/chat/room/enter/"+roomSeq // 뒤로가기 가능
-      }  
+      console.log();
+      let sender = nickname;
+      if (sender !== '') {
+        await AsyncStorage.setItem('wschat.sender', JSON.stringify(sender));
+        await AsyncStorage.setItem('wschat.roomSeq', JSON.stringify(roomSeq));
+        //   // AsyncStorage.setItem('wschat.roomName', roomName)
+        //   // location.href="/chat/room/enter/"+roomSeq // 뒤로가기 가능
+      }
     } catch (error) {
       console.log(error);
-    }    
+    }
   };
 
-  
-  // 방 삭제      
+  // 방 삭제
   // const deleteRoom = async (roomSeq) => {
   //   await client.delete(`${roomSeq}`);
   //   setRooms(
@@ -130,7 +134,6 @@ const ChatHome = () => {
   //     })
   //   );
   // };
-
 
   // const deleteRoom = async (roomSeq) => {
   //   try {
@@ -145,26 +148,25 @@ const ChatHome = () => {
   //     loadChatList();
   //   } catch (error) {
   //     console.log(error);
-  //   }    
+  //   }
   // };
-
 
   return (
     <View>
       <View style={styles.header}>
         {/* 채팅방 개설 버튼 */}
-        {/* 모달 띄워야 */}      
+        {/* 모달 띄워야 */}
         <TouchableOpacity
-          style={styles.createbtn} 
-          onPress={() => {setIsCreateRoomModalVisible(!isCreateRoomModalVisible)}}>
+          style={styles.createbtn}
+          onPress={() => {
+            setIsCreateRoomModalVisible(!isCreateRoomModalVisible);
+          }}>
           <Text style={styles.createtext}>채팅방 개설</Text>
         </TouchableOpacity>
 
         <CreateRoomModal
-          modalVisible={isCreateRoomModalVisible}        
-          setModalVisible={setIsCreateRoomModalVisible}        
-        ></CreateRoomModal>
-        
+          modalVisible={isCreateRoomModalVisible}
+          setModalVisible={setIsCreateRoomModalVisible}></CreateRoomModal>
 
         {/* 방 검색 창 */}
         <ChatSearchBar 
@@ -179,54 +181,50 @@ const ChatHome = () => {
         )} */}
       </View>
 
-            
       {/* 채팅방 목록 */}
       <View style={styles.roomlist}>
         {/* 채팅방 */}
-        {createdRooms && createdRooms.map((item, index) => (
-          <View style={styles.square}>
-            <View style={styles.roomheader}>
-              {/* 채팅방장 닉네임 */}
-              <View style={styles.hostcontainer}>
-                  <TextExtraBold 
-                    style={styles.hosttext}
-                    key="{item.roomSeq}"
-                    >{item.hostUser}</TextExtraBold>
+        {createdRooms &&
+          createdRooms.map((item, index) => (
+            <View style={styles.square}>
+              <View style={styles.roomheader}>
+                {/* 채팅방장 닉네임 */}
+                <View style={styles.hostcontainer}>
+                  <TextExtraBold style={styles.hosttext} key="{item.roomSeq}">
+                    {item.hostUser}
+                  </TextExtraBold>
+                </View>
+                {/* 방장이면 방 삭제 버튼 보임 */}
+                {
+                  nickname === item.hostUser || (
+                    // <Pressable
+                    //   onPress={() => deleteRoom(item.roomSeq)}>
+                    <Icon style={styles.deleteIcon} name="delete"></Icon>
+                  )
+                  // </Pressable>
+                }
               </View>
-              {/* 방장이면 방 삭제 버튼 보임 */}
-              {nickname === item.hostUser ||
-                // <Pressable
-                //   onPress={() => deleteRoom(item.roomSeq)}>
-                  <Icon style={styles.deleteIcon}
-                    name="delete"                  
-                  ></Icon>
-                // </Pressable>
-              } 
-            </View>
 
-            {/* 채팅방 제목 */}
-            <TouchableOpacity        
-              onPress={() => {
-                alert('채팅방 입장합니다.'),
-                enterRoom(String(item.roomSeq)), 
-                navigation.navigate('ChatRoom', {roomSeq: item.roomSeq})
-              }}
-            >
-              <View style={styles.titlecontainer}>
-                <TextExtraBold 
-                  style={styles.titletext}
-                  key="{item.roomSeq}"
-                  >{item.roomName}</TextExtraBold>                              
-              </View>
-            </TouchableOpacity>
-          </View>                    
-        ))}
-        
+              {/* 채팅방 제목 */}
+              <TouchableOpacity
+                onPress={() => {
+                  alert('채팅방 입장합니다.'),
+                    enterRoom(String(item.roomSeq)),
+                    navigation.navigate('ChatRoom', {roomSeq: item.roomSeq});
+                }}>
+                <View style={styles.titlecontainer}>
+                  <TextExtraBold style={styles.titletext} key="{item.roomSeq}">
+                    {item.roomName}
+                  </TextExtraBold>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ))}
+
         <CreateRoomModal
-          modalVisible={isCreateRoomModalVisible}        
-          setModalVisible={setIsCreateRoomModalVisible}        
-        ></CreateRoomModal>
-      </View>      
+          modalVisible={isCreateRoomModalVisible}
+          setModalVisible={setIsCreateRoomModalVisible}></CreateRoomModal>
+      </View>
     </View>
   );
 };
@@ -250,7 +248,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     borderRadius: 6,
     justifyContent: 'center',
-    alignItems: 'center',    
+    alignItems: 'center',
   },
   createtext: {
     margin: 9,
@@ -262,12 +260,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    marginTop: 8,    
-    
+    marginTop: 8,
   },
   square: {
-    width: windowWidth*0.5*0.7,
-    height: windowHeight*0.1,
+    width: windowWidth * 0.5 * 0.7,
+    height: windowHeight * 0.1,
     backgroundColor: '#A7D7C5',
     color: '#FFFFFF',
     borderTopRightRadius: 26,
@@ -288,13 +285,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 8,    
+    margin: 8,
   },
   hostcontainer: {
     borderRadius: 38,
     backgroundColor: '#FFFFFF',
     padding: 8,
-
   },
   hosttext: {
     color: '#A7D7C5',
@@ -304,7 +300,6 @@ const styles = StyleSheet.create({
   deleteIcon: {
     size: 18,
     color: '#7C7B7B',
-
   },
   titlecontainer: {
     marginTop: 6,
@@ -315,7 +310,5 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontFamily: 'SeoulNamsanB',
   },
-  deleteIcon: {
-
-  },
+  deleteIcon: {},
 });
