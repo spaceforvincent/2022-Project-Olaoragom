@@ -76,7 +76,7 @@ const CreateRoomModal = ({
       setIsLoading(false);
       setRoomName('');
       if (response.data.status === 'success') {
-        alert(response.data.data.roomName+`방이 개설되었습니다.`)
+        // alert(response.data.data.roomName+`방이 개설되었습니다.`)
         // alert(` 생성한 데이터: ${JSON.stringify(response.data)}`);
         console.log('성공!')             
         // 생성한 채팅방으로 넘어가기
@@ -92,7 +92,7 @@ const CreateRoomModal = ({
         console.log(error.message)
       }
     } catch (error) {      
-      alert(`채팅방 개설에 실패하였습니다.`)
+      // alert(`채팅방 개설에 실패하였습니다.`)
       console.log(error)
       console.log(error.message)
       setRoomName('');

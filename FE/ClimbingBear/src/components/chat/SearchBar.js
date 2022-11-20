@@ -106,18 +106,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#C2C2C2',
-    width: windowWidth * 0.3,
+    width: windowWidth * 0.5,
     height: windowHeight * 0.05,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-around',
+    marginLeft: 36,
   },
   searchIcon: {
-    marginLeft: 14,
+    // marginLeft: 14,
     // marginTop: windowHeight * 0.005,
   },
   textinput: {
     fontFamily: 'SeoulNamsanB',
     fontSize: 15,
+    width: windowWidth*0.4,
   },
   buttontext: {
     fontFamily: 'SeoulNamsanB',

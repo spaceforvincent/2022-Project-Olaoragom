@@ -208,7 +208,6 @@ const ChatHome = () => {
               {/* 채팅방 제목 */}
               <TouchableOpacity
                 onPress={() => {
-                  alert('채팅방 입장합니다.'),
                     enterRoom(String(item.roomSeq)),
                     navigation.navigate('ChatRoom', {roomSeq: item.roomSeq});
                 }}>
@@ -249,6 +248,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 18,
+    paddingHorizontal: 3,
   },
   createtext: {
     margin: 9,
@@ -272,12 +273,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginLeft: 6,
     marginRight: 6,
-    shadowColor: "#83c4f8",
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      height: -10,
-      width: 0,
-    },
+    elevation: 10,
+    // shadowColor: "#83c4f8",
+    // shadowOpacity: 0.7,
+    // shadowOffset: {
+    //   height: 6,
+    //   width: 0,
+    // },
 
   },
   roomheader: {
@@ -298,8 +300,10 @@ const styles = StyleSheet.create({
     fontFamily: 'SeoulNamsanB',
   },
   deleteIcon: {
-    size: 18,
+    fontSize: 24,
     color: '#7C7B7B',
+    marginRight: 8,
+    
   },
   titlecontainer: {
     marginTop: 6,
@@ -310,5 +314,5 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontFamily: 'SeoulNamsanB',
   },
-  deleteIcon: {},
+  // deleteIcon: {},
 });
