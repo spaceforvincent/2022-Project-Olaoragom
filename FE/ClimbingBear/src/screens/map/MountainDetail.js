@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -197,13 +197,14 @@ const styles = StyleSheet.create({
   },
   difficultyContainer: {
     margin: 10,
-    // marginRight: windowWidth * 0.01,
+    
     marginBottom: 0,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: windowWidth * 0.95
   },
   weatherContainer: {
     marginLeft: 0,
