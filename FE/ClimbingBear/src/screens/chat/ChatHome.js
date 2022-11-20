@@ -29,6 +29,7 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const ChatHome = () => {
+  const navigation = useNavigation();
   const accessToken = useSelector((state) => state.auth.accessToken)
   const nickname = useSelector((state) => state.auth.nickname)
   const id = useSelector((state) => state.auth.id)
@@ -94,19 +95,27 @@ const ChatHome = () => {
     }    
   };
 
-  // const enterRoom = async (roomSeq) => {
-  //   try {
-  //     const response = await axios({
-  //       method: 'get',
-  //       url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/${roomSeq}`,
-  //       headers: {
-  //         Authorization: accessToken,
-  //       },
-  //     });   
-  //   } catch (error) {
-  //     console.log(error);
-  //   }    
-  // };
+  const enterRoom = async (roomSeq) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://k7d109.p.ssafy.io:8080/chat/room/enter/${roomSeq}`,
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+      console.log()
+      let sender = nickname
+      if (sender !== "") {
+        AsyncStorage.setItem('wschat.sender', sender)
+        AsyncStorage.setItem('wschat.roomSeq', roomSeq)
+        // AsyncStorage.setItem('wschat.roomName', roomName)
+        location.href="/chat/room/enter/"+roomSeq // 뒤로가기 가능
+      }  
+    } catch (error) {
+      console.log(error);
+    }    
+  };
 
   
   // 방 삭제      
@@ -178,13 +187,13 @@ const ChatHome = () => {
               <View style={styles.hostcontainer}>
                   <TextExtraBold 
                     style={styles.hosttext}
-                    key={index}
+                    key="{item.roomSeq}"
                     >{item.hostUser}</TextExtraBold>
               </View>
               {/* 방장이면 방 삭제 버튼 보임 */}
-              {id === item.hostUser ||
+              {nickname === item.hostUser ||
                 // <Pressable
-                //   onPress={() => deleteRoom(roomSeq)}>
+                //   onPress={() => deleteRoom(item.roomSeq)}>
                   <Icon style={styles.deleteIcon}
                     name="delete"                  
                   ></Icon>
@@ -195,14 +204,15 @@ const ChatHome = () => {
             {/* 채팅방 제목 */}
             <TouchableOpacity        
               onPress={() => {
-                alert('채팅방 입장합니다.')
-                // enterRoom(roomSeq) && navigation.navigate('ChatRoom', {roomSeq: roomSeq})
+                alert('채팅방 입장합니다.'),
+                enterRoom(String(item.roomSeq)), 
+                navigation.navigate('ChatRoom', {roomSeq: item.roomSeq})
               }}
             >
               <View style={styles.titlecontainer}>
                 <TextExtraBold 
                   style={styles.titletext}
-                  key={index}
+                  key="{item.roomSeq}"
                   >{item.roomName}</TextExtraBold>                              
               </View>
             </TouchableOpacity>
@@ -258,6 +268,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#A7D7C5',
     color: '#FFFFFF',
     borderTopRightRadius: 26,
+    margin: 16,
   },
   roomheader: {
     // padding: 8,

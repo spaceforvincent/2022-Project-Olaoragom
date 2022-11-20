@@ -20,8 +20,9 @@ import {
 // import { Picker } from 'react-native-wheel-pick';
 import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import EncryptedStorage from 'react-native-encrypted-storage';
 
 
@@ -33,30 +34,32 @@ const baseURL = "http://k7d109.p.ssafy.io:8080"
 const CreateRoomModal = ({
   modalVisible,
   setModalVisible,
+  roomSeq
 }) => {
-  const navigation = useNavigation()
-  const [roomTitle, setRoomTitle] = useState(''); 
+  const navigation = useNavigation();
+  // const route = useRoute();
+  const [roomName, setRoomName] = useState(''); 
   // const [maxMember, setmaxMember] = useState('2');
   const [isLoading, setIsLoading] = useState(false);
   const [createRoom, setCreateRoom] = useState({});
   const accessToken = useSelector((state) => state.auth.accessToken)
-  // const nickname = useSelector((state) => state.auth.nickname)
+  const nickname = useSelector((state) => state.auth.nickname)
+  // const roomSeqeunce = route.params.roomSeq
 
-  const onChangeTitleHandler = (roomTitle) => {
-    setRoomTitle(roomTitle);
+  const onChangeTitleHandler = (roomName) => {
+    setRoomName(roomName);
   }
   // const onChangeMaxMemberHandler = (maxMember) => {
   //   setmaxMember(maxMember);
   // }
 
   // 제목 설정 후 방 개설
-  const onSubmitFormHandler = async (roomTitle) => {
-    if (!roomTitle.trim()) {
-      alert("채팅방명을 다시 확인해주세요.");
+  const onSubmitFormHandler = async (roomName) => {
+    if (!roomName.trim()) {
+      alert("채팅방명을 입력해주십시오.");
       return;
     }
     setIsLoading(true);
-    // const accessToken = await EncryptedStorage.getItem('accessToken');
     try {
       const response = await axios({
         method: 'post',
@@ -65,39 +68,46 @@ const CreateRoomModal = ({
           Authorization: accessToken,
         },
         data: {
-          roomName: roomTitle,          
+          roomName: roomName,          
         }
       });
 
       console.log(response.data.status)
       setIsLoading(false);
-      setRoomTitle('');
+      setRoomName('');
       if (response.data.status === 'success') {
-        alert(`채팅방이 생성되었습니다.`)
+        alert(response.data.data.roomName+`방이 개설되었습니다.`)
         // alert(` 생성한 데이터: ${JSON.stringify(response.data)}`);
-        console.log('성공!')
-        // console.log(response.data.roomSeq)                
+        console.log('성공!')             
         // 생성한 채팅방으로 넘어가기
         // gotoChatRoom();
         setIsLoading(false);
-        setRoomTitle('');
+        setRoomName('');
         // setmaxMember('2');
       } else {
         // throw new Error("111에러가 발생했습니다.");
         setIsLoading(false);
-        setRoomTitle('');
+        setRoomName('');
         console.log(error)
         console.log(error.message)
       }
-    } catch (error) {
-      // alert("222에러가 발생했습니다.");
-      // setIsLoading(false);
+    } catch (error) {      
+      alert(`채팅방 개설에 실패하였습니다.`)
       console.log(error)
       console.log(error.message)
-      setRoomTitle('');
+      setRoomName('');
       setIsLoading(false);
     }
-  };  
+  };
+  
+  // const enterRoom = async (roomSeq) => {
+  //   let sender = nickname
+  //   if (sender !== "") {
+  //     AsyncStorage.setItem('wschat.sender',sender);
+  //     AsyncStorage.setItem('wschat.roomId',roomSeq);
+  //     location.href="/chat/room/enter/"+roomSeq;      
+  //   }
+  // }
   
   return (
     <Modal
@@ -123,7 +133,7 @@ const CreateRoomModal = ({
             placeholder='채팅방명을 입력하세요.'
             editable={!isLoading}
             onChangeText={onChangeTitleHandler}
-            value={roomTitle}
+            value={roomName}
             style={styles.titleinput}
           ></TextInput>
         </View>
@@ -146,8 +156,7 @@ const CreateRoomModal = ({
         {/* (논의) 버튼 누를 때 async storage에 방 생성해놓아야하나? */}
         <Pressable
           style={styles.startbutton} 
-          onPress={() => onSubmitFormHandler(roomTitle)  }>
-            {/* && navigation.navigate('ChatRoom', {roomSeq: roomSeq}) */}
+          onPress={() => onSubmitFormHandler(roomName) && navigation.navigate('ChatRoom', {roomSeq: roomSeq}) }>            
           <Text style={styles.starttext}>시작하기</Text>
         </Pressable>  
       </View>
