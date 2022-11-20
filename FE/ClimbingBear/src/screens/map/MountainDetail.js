@@ -37,13 +37,13 @@ const MountainDetail = ({navigation, route}) => {
     initialData();
   }, []);
 
-  useEffect(() => {
-    const tempData = async() => {
-      const response = await getMountainWeather(lat, lon)
-      setMountainWeather(response)
-    }
-    tempData();
-  }, [])
+  // useEffect(() => {
+  //   const tempData = async() => {
+  //     const response = await getMountainWeather(lat, lon)
+  //     setMountainWeather(response)
+  //   }
+  //   tempData();
+  // }, [])
 
   return (
     <ScrollView>
@@ -141,7 +141,7 @@ const MountainDetail = ({navigation, route}) => {
         </View>
 
         {/* 날씨 */}
-        <View style={styles.weatherContainer}>
+        {/* <View style={styles.weatherContainer}>
         <TextBold style={styles.weatherTemp}>{Math.round(mountainWeather.main.temp - 272)}</TextBold>
           <View style={styles.weatherHeader}>
           <TextBold style={styles.weatherText}>{mountainWeather.weather[0].main}</TextBold>
@@ -152,7 +152,7 @@ const MountainDetail = ({navigation, route}) => {
             source={{
               uri: `http://openweathermap.org/img/wn/${mountainWeather.weather[0].icon}.png`,
             }}></Image>
-        </View>
+        </View> */}
       </View>
 
       {/* 등산로 */}
