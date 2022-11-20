@@ -6,7 +6,7 @@ const API_URL = 'http://k7d109.p.ssafy.io:8080/mntn';
 // mountain list
 export const getMountainList = async () => {
   const accessToken = await EncryptedStorage.getItem('accessToken');
-
+  
   try {
     const response = await axios({
       method: 'get',
@@ -45,17 +45,17 @@ export const getMountainDetail = async mountainId => {
 };
 
 // mountain weather
-export const getMountainWeather = async(lat, lng) => {
+export const getMountainWeather = async (lat, lng) => {
   try {
     const response = await axios({
       method: 'get',
       url: `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&exclude=hourly,daily&appid=70be5caf0468b9040e9c7465ff5001c0`,
       // url: `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&exclude=hourly,daily&appid=70be5caf0468b9040e9c7465ff5001c0`,
-    })
-    console.log('날씨', response.data)
-    return response.data
+    });
+    // console.log('날씨', response.data)
+    return response.data;
   } catch (error) {
-    console.log(error)
-    console.log(error.response.data)
+    console.log(error);
+    console.log(error.response.data);
   }
-}
+};

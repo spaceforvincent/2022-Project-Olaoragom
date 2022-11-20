@@ -1,26 +1,34 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import { ScrollView , View, Text, Image, StyleSheet, Dimensions, PixelRatio, TouchableOpacity } from 'react-native';
-import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+import React, {useEffect, useState} from 'react';
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  PixelRatio,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 
-import { getMountainDetail, getMountainWeather } from '../../apis/Map';
+import {getMountainDetail, getMountainWeather} from '../../apis/Map';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-// dp 를 pixel 로 바꿔주는 모듈
-const widthPixel = PixelRatio.getPixelSizeForLayoutSize(windowWidth);
-const heightPixel = PixelRatio.getPixelSizeForLayoutSize(windowHeight);
-
 const MountainDetail = ({navigation, route}) => {
-
   const [mountainData, setMountainData] = useState([]);
-  const [ mountainWeather, setMountainWeather ] = useState([]);
+  const [mountainWeather, setMountainWeather] = useState([]);
   const mntnId = route.params.mountainId;
   const lat = route.params.mountainLat;
   const lon = route.params.mountainLon;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
       console.log(response);
@@ -29,13 +37,13 @@ const MountainDetail = ({navigation, route}) => {
     initialData();
   }, []);
 
-  // useEffect(() => {
-  //   const tempData = async() => {
-  //     const response = await getMountainWeather(lat, lon)
-  //     setMountainWeather(response)
-  //   }
-  //   tempData();
-  // }, [])
+  useEffect(() => {
+    const tempData = async() => {
+      const response = await getMountainWeather(lat, lon)
+      setMountainWeather(response)
+    }
+    tempData();
+  }, [])
 
   return (
     <ScrollView>
@@ -133,7 +141,7 @@ const MountainDetail = ({navigation, route}) => {
         </View>
 
         {/* 날씨 */}
-        {/* <View style={styles.weatherContainer}>
+        <View style={styles.weatherContainer}>
         <TextBold style={styles.weatherTemp}>{Math.round(mountainWeather.main.temp - 272)}</TextBold>
           <View style={styles.weatherHeader}>
           <TextBold style={styles.weatherText}>{mountainWeather.weather[0].main}</TextBold>
@@ -144,7 +152,7 @@ const MountainDetail = ({navigation, route}) => {
             source={{
               uri: `http://openweathermap.org/img/wn/${mountainWeather.weather[0].icon}.png`,
             }}></Image>
-        </View> */}
+        </View>
       </View>
 
       {/* 등산로 */}
@@ -167,32 +175,31 @@ const MountainDetail = ({navigation, route}) => {
 export default MountainDetail;
 
 const styles = StyleSheet.create({
-
   detailContainer: {
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     margin: 10,
     marginTop: 0,
     marginBottom: 0,
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   textContainer: {
     margin: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   detailTitle: {
+    flexDirection: 'row',
+  },
+  detailBody: {
     flexDirection: 'row'
   },
-  // detailBody: {
-  //   flexDirection: 'row'
-  // },
   difficultyContainer: {
     margin: 10,
     // marginRight: windowWidth * 0.01,
     marginBottom: 0,
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     flexDirection: 'row',
@@ -202,23 +209,23 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     margin: 10,
     marginBottom: 0,
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#F6F6F6',
-    width: windowWidth * 0.35
+    backgroundColor: '#FFFFFF',
+    width: windowWidth * 0.33,
   },
   detailHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   mntnImage: {
     margin: 10,
     height: windowHeight * 0.3,
     borderRadius: 10,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
   },
   mntnTitle: {
     fontSize: 30,
@@ -241,16 +248,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subnm: {
-    color: '#367E18'
+    color: '#367E18',
   },
   detail: {
     marginTop: 10,
   },
   buttonTitle: {
-    color: 'white'
+    color: 'white',
   },
   difficultyHeader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   difficultyTitle: {
     fontSize: 15,
@@ -263,13 +270,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 10,
     marginBottom: 0,
-    color: '#FF6464'
+    color: '#FF6464',
   },
   difficultText: {
     margin: 10,
   },
   difficultyTextContainer: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   climbingButton: {
     alignItems: 'center',
@@ -283,17 +290,17 @@ const styles = StyleSheet.create({
     margin: 10,
     height: windowHeight * 0.3,
     borderRadius: 10,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
   },
   nopathImage: {
     margin: 10,
     height: windowHeight * 0.3,
-    borderWidth: 1, 
+    borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   icon: {
     marginTop: 0,
@@ -302,7 +309,7 @@ const styles = StyleSheet.create({
   },
   difficultyImage: {
     margin: 10,
-    marginRight: 20,
+    marginRight: 10,
     width: windowWidth * 0.1,
     height: windowHeight * 0.05,
   },
@@ -319,5 +326,5 @@ const styles = StyleSheet.create({
   weatherHeader: {
     flexDirection: 'column',
     marginTop: 20,
-  }
+  },
 });
