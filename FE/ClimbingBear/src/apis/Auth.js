@@ -29,7 +29,6 @@ export const getToken = async () => {
 export const removeToken = async () => {
   try {
     await EncryptedStorage.removeItem('accessToken');
-    console.log('삭제?');
   } catch (error) {
     console.log(error);
     console.log(error.message);
@@ -121,12 +120,11 @@ export const postSignUp = async (id, nickname, password) => {
     });
 
     if (response.data.status === 'success') {
-      console.log('회원가입 성공!');
       return true;
     }
   } catch (error) {
     console.log(error);
-    console.log('에러', error.response.data);
+    console.log(error.response.data);
     return false;
   }
 };
