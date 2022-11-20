@@ -31,12 +31,12 @@ const MountainDetail = ({navigation, route}) => {
   useLayoutEffect(() => {
     const initialData = async () => {
       const response = await getMountainDetail(mntnId);
-      console.log(response);
       setMountainData(response);
     };
     initialData();
   }, []);
 
+  // 날씨
   // useEffect(() => {
   //   const tempData = async() => {
   //     const response = await getMountainWeather(lat, lon)
@@ -88,8 +88,6 @@ const MountainDetail = ({navigation, route}) => {
           </TextLight>
           <TextBold style={styles.reasonTitle}>100대 명산 선정 이유</TextBold>
           <TextLight style={styles.reason}>{mountainData.mntnReason}</TextLight>
-          {/* <Text>{mountainData.mntnEtccourse}오는 길</Text>
-          <Text>{mountainData.mntnTransport}교통수단</Text> */}
         </View>
       </View>
 
@@ -193,18 +191,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   detailBody: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   difficultyContainer: {
     margin: 10,
-    
+
     marginBottom: 0,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#B2B2B2',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: windowWidth * 0.95
+    width: windowWidth * 0.95,
   },
   weatherContainer: {
     marginLeft: 0,
