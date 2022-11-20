@@ -4,7 +4,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacityComponent} from 'react-native';
 
 import {AuthNavigation} from './AuthNavigation';
 import {CalendarNavigation} from './CalendarNavigation';
@@ -12,9 +12,14 @@ import {MapNavigation} from './MapNavigation';
 import {ChatNavigation} from './ChatNavigation';
 import {RankNavigation} from './RankNavigation';
 import {RankGraphNavigation} from './RankGraphNavigaion';
+import { LogoutNavigation } from './LogoutNavigation';
 
-import {Image} from 'react-native';
+import {Image, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
+
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const drawer = createDrawerNavigator();
 
@@ -33,28 +38,9 @@ function DrawerNavigator() {
             drawerStyle: {
               width: 250,
             },
+            drawerActiveBackgroundColor: '#E9EFC0',
+            drawerActiveTintColor: 'black',
           }}>
-          <drawer.Screen
-            name="등산 달력"
-            options={{
-              drawerIcon: ({focused, size}) => (
-                <Image
-                  style={styles.icon}
-                  source={require('../assets/images/drawer2.png')}></Image>
-              ),
-              unmountOnBlur: true,
-              headerTitle: () => (
-                <Image
-                  style={{
-                    width: 50,
-                    height: 50,
-                  }}
-                  source={require('../assets/images/LoginLogo.png')}
-                />
-              ),
-            }}
-            component={CalendarNavigation}
-          />
           <drawer.Screen
             name="100대 명산 등산"
             options={{
@@ -63,6 +49,7 @@ function DrawerNavigator() {
                   style={styles.icon}
                   source={require('../assets/images/drawer1.png')}></Image>
               ),
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -77,13 +64,14 @@ function DrawerNavigator() {
             component={MapNavigation}
           />
           <drawer.Screen
-            name="채팅"
+            name="등산 달력"
             options={{
               drawerIcon: ({focused, size}) => (
                 <Image
                   style={styles.icon}
-                  source={require('../assets/images/drawer3.png')}></Image>
+                  source={require('../assets/images/drawer2.png')}></Image>
               ),
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -95,7 +83,7 @@ function DrawerNavigator() {
                 />
               ),
             }}
-            component={ChatNavigation}
+            component={CalendarNavigation}
           />
           <drawer.Screen
             name="곰들의 전쟁"
@@ -105,6 +93,7 @@ function DrawerNavigator() {
                   style={styles.icon}
                   source={require('../assets/images/ranking.png')}></Image>
               ),
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -126,6 +115,7 @@ function DrawerNavigator() {
                   style={styles.icon}
                   source={require('../assets/images/award.png')}></Image>
               ),
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -140,8 +130,15 @@ function DrawerNavigator() {
             component={RankGraphNavigation}
           />
           <drawer.Screen
-            name="로그아웃"
+            name="채팅"
+            style={{fontSize: 60}}
             options={{
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/drawer3.png')}></Image>
+              ),
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
               unmountOnBlur: true,
               headerTitle: () => (
                 <Image
@@ -153,7 +150,29 @@ function DrawerNavigator() {
                 />
               ),
             }}
-            component={AuthNavigation}
+            component={ChatNavigation}
+          />
+          <drawer.Screen
+            name="로그아웃"
+            options={{
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
+              unmountOnBlur: true,
+              drawerIcon: ({focused, size}) => (
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/images/logout.png')}></Image>
+              ),
+              headerTitle: () => (
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                  }}
+                  source={require('../assets/images/LoginLogo.png')}
+                />
+              ),
+            }}
+            component={LogoutNavigation}
           />
         </drawer.Navigator>
       ) : (
@@ -161,7 +180,10 @@ function DrawerNavigator() {
           <drawer.Screen
             name="로그인"
             component={AuthNavigation}
-            options={{headerShown: false}}
+            options={{
+              drawerLabelStyle: {fontSize: 15, fontFamily: 'SeoulNamsanL'},
+              headerShown: false,
+            }}
           />
         </drawer.Navigator>
       )}
@@ -173,7 +195,10 @@ export default DrawerNavigator;
 
 const styles = StyleSheet.create({
   icon: {
-    width: 20,
-    height: 20,
+    width: windowWidth * 0.06,
+    height: windowWidth * 0.06,
+  },
+  drawerItem: {
+    fontSize: 50,
   },
 });
