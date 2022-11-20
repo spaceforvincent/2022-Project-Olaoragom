@@ -137,12 +137,7 @@ const ChatRoom = ({navigation, route}) => {
             sender: nickname,
             message: message,
           }),
-          // JSON.stringify({
-          //   type: 'ENTER',
-          //   roomSeq: roomSequence,
-          //   sender: sender,
-          // }),
-        )
+        );
       },
       function (error) {
         if (reconnect++ <= 5) {
