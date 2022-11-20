@@ -95,11 +95,7 @@ const ChatRoom = ({navigation, route}) => {
       {},
     );
     recvMessage(message);
-    // setMessage = ''
-  };
-
-  const makeMessageArray = () => {
-    setMessages(messages => [...messages, message]);
+    setMessage('');
   };
 
   const recvMessage = async recv => {
@@ -113,9 +109,6 @@ const ChatRoom = ({navigation, route}) => {
         message: recv.message,
       },
     ]);
-    // console.log(messages);
-    // setMessage(recv);
-    // makeMessageArray();
   };
 
   const connect = () => {
@@ -158,8 +151,7 @@ const ChatRoom = ({navigation, route}) => {
       <View
         style={{
           padding: 15,
-          backgroundColor: '#D7FBE8',
-          // color: "#858383",
+          backgroundColor: '#91C788',
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
@@ -181,7 +173,7 @@ const ChatRoom = ({navigation, route}) => {
             style={{
               fontSize: 15,
               fontWeight: 'bold',
-              color: '#858383',
+              color: '#FFFFFF',
             }}>{`Back`}</Text>
         </TouchableOpacity>
         {/* 제목 */}
@@ -189,50 +181,37 @@ const ChatRoom = ({navigation, route}) => {
           style={{
             fontSize: 20,
             fontWeight: 'bold',
-            color: '#595757',
+            color: '#000000',
           }}>
           {room.roomName}
         </Text>
       </View>
 
-      {/* 상단 바2 */}
-      {/* <View style={{
-        padding: 6,
-        // marginTop: 18,
-        backgroundColor: "#E0E0E0",
-        // color: "#858383",
-        alignItems: "center",
-        justifyContent: 'center',
-        width: '100%'
-      }}>
-        <Text style={{
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: "#fff"
-          }}>{serverState}</Text>
-      </View> */}
-
       <View style={styles.list_group}>
         {messages &&
           messages.map((item, idx) => (
             // <Text style={styles.content}>{item}</Text>
-            <View>
-              {nickname === item.sender || (
-                <View style={styles.right} key={item.sender}>
-                  {/* 닉네임 */}
-                  <Text style={styles.nickname}>{item.sender}</Text>
-                  {/* 대화내용 */}
-                  <Text style={styles.content}>{item.message}</Text>
-                </View>
-              )}
-              {nickname !== item.sender || (
-                <View style={styles.left} key={item.sender}>
-                  {/* 닉네임 */}
-                  <Text style={styles.nickname}>{item.sender}</Text>
-                  {/* 대화내용 */}
-                  <Text style={styles.content}>{item.message}</Text>
-                </View>
-              )}
+            <View sytle={styles.list}>
+              <View style={styles.rightcon}>
+                {nickname === item.sender || (
+                  <View style={styles.right} key={item.sender}>
+                    {/* 닉네임 */}
+                    <Text style={styles.nicknameright}>{item.sender}</Text>
+                    {/* 대화내용 */}
+                    <Text style={styles.contentleft}>{item.message}</Text>
+                  </View>
+                )}
+              </View>
+              <View style={styles.leftcon}>
+                {nickname !== item.sender || (
+                  <View style={styles.left} key={item.sender}>
+                    {/* 닉네임 */}
+                    <Text style={styles.nicknameleft}>{item.sender}</Text>
+                    {/* 대화내용 */}
+                    <Text style={styles.contentright}>{item.message}</Text>
+                  </View>
+                )}
+              </View>
             </View>
           ))}
       </View>
@@ -252,48 +231,10 @@ const ChatRoom = ({navigation, route}) => {
             onPress={() => {
               sendMessage();
             }}>
-            <Text style={styles.sendtext}>send</Text>
+            <Text style={styles.sendtext}>보내기</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       </View>
-
-      {/* <GiftedChat
-        messages={messages}
-        onSend={messages => onSend(messages)}
-        renderAvatar={null}            // 사진 제거
-        renderUsernameOnMessage={true} // default는 false
-        renderBubble={props => {
-          return (
-            <Bubble
-              {...props}
-    
-              textStyle={{
-                right: {
-                  color: '#646464',
-                  fontFamily: "CerebriSans-Book"
-                },
-                left: {
-                  color: '#646464',
-                  fontFamily: "CerebriSans-Book"
-                },
-              }}
-              wrapperStyle={{
-                left: {
-                  backgroundColor: '#F5F5F5',
-                },
-                right: {
-                  backgroundColor: "#F5F5F5",
-                },
-              }}
-            />
-          );
-        }}
-        user={{
-          // 본인
-          _id: id,  // set sender
-          name: sender,
-        }}
-      /> */}
     </View>
   );
 };
@@ -301,35 +242,69 @@ const ChatRoom = ({navigation, route}) => {
 export default ChatRoom;
 
 const styles = StyleSheet.create({
-  list_group: {
-    height: 200,
-  },
-  right: {
-    right: 1,
+  container: {
+    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F4F9F4',
+  },
+  list_group: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    // height: 600,
+    // backgroundColor: 'black',
   },
   left: {
-    left: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  nickname: {},
-  content: {
+  list: {},
+  leftcon: {
+    alignSelf: 'flex-end',
+  },
+  rightcon: {
+    alignSelf: 'flex-start',
+  },
+  right: {
+    flexDirection: 'column',
+    paddingHorizontal: 10,
+  },
+  nicknameright: {
+    alignSelf: 'flex-start',
+    // marginHorizontal: 10,
+    // marginVertical: 5,
+  },
+  nicknameleft: {
+    alignSelf: 'flex-end',
+    // marginHorizontal: 10,
+  },
+  contentright: {
     fontSize: 20,
+    color: '#000000',
+    paddingVertical: 5,
   },
-  input_group: {},
+  contentleft: {
+    fontSize: 20,
+    color: '#000000',
+    paddingVertical: 5,
+  },
+  input_group: {
+    flexDirection: 'row',
+  },
   text_input: {
-    width: windowWidth * 0.7,
-    height: windowHeight * 0.1,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 6,
+    width: windowWidth * 0.85,
+    height: windowHeight * 0.06,
+    backgroundColor: '#DEEFE9',
+    padding: 10,
   },
   input_group_append: {},
   btn_send: {
-    backgroundColor: 'green',
-    padding: 20,
+    backgroundColor: '#74B49B',
+    padding: 15,
+    height: windowHeight * 0.06,
+  },
+  sendtext: {
+    color: '#FFFFFF',
   },
 });
