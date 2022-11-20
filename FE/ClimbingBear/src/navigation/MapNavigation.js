@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MapHome from '../screens/map/MapHome';
 import MountainDetail from '../screens/map/MountainDetail';
 
-// ClimbingNavigation 에서 사용(이동)할 페이지 import
 import ClimbingHome from '../screens/climbing/ClimbingHome';
 import ClimbingGPS from '../screens/climbing/ClimbingGPS';
 import ClimbingFinish from '../screens/climbing/ClimbingFinish';

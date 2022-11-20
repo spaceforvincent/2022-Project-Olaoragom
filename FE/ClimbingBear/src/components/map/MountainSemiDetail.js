@@ -1,16 +1,39 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, Text, Modal, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, Image, TouchableOpacity } from 'react-native';
-import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
-import { useNavigation } from '@react-navigation/native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Modal,
+  Animated,
+  TouchableWithoutFeedback,
+  Dimensions,
+  PanResponder,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
+import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const MountainSemiDetail = (props) => {
+const MountainSemiDetail = props => {
+  const navigation = useNavigation();
 
-  const navigation = useNavigation()
-
-  const { modalVisible, setModalVisible, mountainId, mountainName, mountainRegion, mountainLat, mountainLon } = props
+  const {
+    modalVisible,
+    setModalVisible,
+    mountainId,
+    mountainName,
+    mountainRegion,
+    mountainLat,
+    mountainLon,
+  } = props;
 
   const screenHeight = Dimensions.get('screen').height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
@@ -50,7 +73,7 @@ const MountainSemiDetail = (props) => {
     }),
   ).current;
 
-  // 모달창 열고 닫기
+  // 모달창
   useEffect(() => {
     if (props.modalVisible) {
       resetBottomSheet.start();
@@ -81,10 +104,14 @@ const MountainSemiDetail = (props) => {
           {...panResponders.panHandlers}>
           <View>
             <TouchableOpacity
-              onPress={() =>
-                {setModalVisible(false),
-                navigation.navigate('MountainDetail', {mountainId: mountainId, mountainLat: mountainLat, mountainLon: mountainLon})}
-              }>
+              onPress={() => {
+                setModalVisible(false),
+                  navigation.navigate('MountainDetail', {
+                    mountainId: mountainId,
+                    mountainLat: mountainLat,
+                    mountainLon: mountainLon,
+                  });
+              }}>
               <TextExtraBold style={styles.title}>{mountainName}</TextExtraBold>
               <TextBold style={styles.region}>{mountainRegion}</TextBold>
             </TouchableOpacity>
@@ -133,7 +160,7 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.9,
     height: windowHeight * 0.2,
     borderRadius: 5,
-  }
+  },
 });
 
 export default MountainSemiDetail;

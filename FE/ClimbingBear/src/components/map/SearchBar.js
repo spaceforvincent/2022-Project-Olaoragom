@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from "react"
+import { Fragment, useLayoutEffect, useState } from "react"
 
-import { View, StyleSheet, Dimensions } from "react-native"
+import { View, Dimensions } from "react-native"
 import { useDispatch } from "react-redux"
 
 import SearchableDropdown from 'react-native-searchable-dropdown'
@@ -111,7 +111,6 @@ const SearchBar = (props) => {
               borderRadius: 5,
               fontFamily: 'SeoulNamsanL',
             },
-            // onTextChange: text => alert(text),
           }}
           listProps={{
             nestedScrollEnabled: true,

@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 // 로딩화면(SplashScreen) 사용 위한 import
 import SplashScreen from 'react-native-splash-screen';
 // NavigationContainer 로 app 을 감싸줘야 Navigation 기능 사용 가능
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {StatusBar} from 'react-native';
 import store from './src/store';
 // Provider 로 app 을 감싸줘야 redux 의 store 를 갖고 올 수 있다
@@ -17,9 +17,17 @@ function App() {
     SplashScreen.hide();
   }, []);
 
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: 'white'
+    },
+  };
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer theme={MyTheme}>
         <StatusBar
           backgroundColor={'transparent'}
           barStyle="dark-content"
