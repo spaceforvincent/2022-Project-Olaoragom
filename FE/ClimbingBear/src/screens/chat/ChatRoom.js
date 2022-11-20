@@ -43,11 +43,10 @@ const ChatRoom = ({navigation, route}) => {
 
   const roomId = AsyncStorage.getItem('wschat.roomSeq');
   // const roomN = AsyncStorage.getItem('wschat.roomName')
-  const sender_nickname = AsyncStorage.getItem('wschat.sender');
+  // const sender = AsyncStorage.getItem('wschat.sender');
 
   const [roomSeq, setRoomSeq] = useState(roomId);
   const [room, setRoom] = useState({});
-  const [sender, setSender] = useState(sender_nickname);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -85,16 +84,15 @@ const ChatRoom = ({navigation, route}) => {
   };
 
   const sendMessage = async () => {
-    console.log('메시지', message);
     ws.send(
-      'app/message/' + roomSequence,
-      {},
+      '/app/chat/message',
       JSON.stringify({
         type: 'TALK',
-        roomSeq: roomSequence,
-        sender: sender,
+        roomId: `${roomSequence}`,
+        sender: nickname,
         message: message,
       }),
+      {},
     );
     recvMessage(message);
     // setMessage = ''
@@ -105,15 +103,17 @@ const ChatRoom = ({navigation, route}) => {
   };
 
   const recvMessage = async recv => {
+    console.log('메시지', recv);
     // 배열 맨앞에 값 추가
     // setMessages(messages => [
     //   ...messages,
     //   {
     //     type: recv.type,
-    //     sender: recv.type == 'ENTER' ? '[알림]' : recv.sender,
+    //     sender: recv.type,
     //     message: recv.message,
     //   },
     // ]);
+    // console.log(messages);
     setMessage(recv);
     makeMessageArray();
   };
@@ -123,19 +123,25 @@ const ChatRoom = ({navigation, route}) => {
     // console.log('커넥트ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
     ws.connect(
       {},
-      function (frame) {
-        ws.subscribe('join/room/' + roomSequence, function (frame) {
-          // let recv = JSON.parse(message.body);
-          // recvMessage(recv)
+      frame => {
+        ws.subscribe('/topic/chat/room/' + roomSequence, message => {
+          let recv = JSON.parse(message.body);
+          recvMessage(recv);
         });
         ws.send(
-          'app/message/' + roomSequence,
+          '/app/chat/message',
           {},
           JSON.stringify({
             type: 'ENTER',
-            roomSeq: roomSequence,
-            sender: sender,
+            roomId: `${roomSequence}`,
+            sender: nickname,
+            message: message,
           }),
+          // JSON.stringify({
+          //   type: 'ENTER',
+          //   roomSeq: roomSequence,
+          //   sender: sender,
+          // }),
         );
       },
       function (error) {
