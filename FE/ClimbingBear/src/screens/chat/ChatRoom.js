@@ -105,17 +105,17 @@ const ChatRoom = ({navigation, route}) => {
   const recvMessage = async recv => {
     console.log('메시지', recv);
     // 배열 맨앞에 값 추가
-    // setMessages(messages => [
-    //   ...messages,
-    //   {
-    //     type: recv.type,
-    //     sender: recv.type,
-    //     message: recv.message,
-    //   },
-    // ]);
+    setMessages(messages => [
+      ...messages,
+      {
+        type: recv.type,
+        sender: recv.sender,
+        message: recv.message,
+      },
+    ]);
     // console.log(messages);
-    setMessage(recv);
-    makeMessageArray();
+    // setMessage(recv);
+    // makeMessageArray();
   };
 
   const connect = () => {
@@ -131,7 +131,7 @@ const ChatRoom = ({navigation, route}) => {
         ws.send(
           '/app/chat/message',
           {},
-          {
+          JSON.stringify({
             type: 'ENTER',
             roomId: `${roomSequence}`,
             sender: nickname,
@@ -142,7 +142,7 @@ const ChatRoom = ({navigation, route}) => {
           //   roomSeq: roomSequence,
           //   sender: sender,
           // }),
-        );
+        )
       },
       function (error) {
         if (reconnect++ <= 5) {
@@ -220,25 +220,25 @@ const ChatRoom = ({navigation, route}) => {
       <View style={styles.list_group}>
         {messages &&
           messages.map((item, idx) => (
-            <Text style={styles.content}>{item}</Text>
-            // <View>
-            //   {nickname === item.sender || (
-            //     <View style={styles.right} key={item.sender}>
-            //       {/* 닉네임 */}
-            //       <Text style={styles.nickname}>{item.sender}</Text>
-            //       {/* 대화내용 */}
-            //       <Text style={styles.content}>{item.message}</Text>
-            //     </View>
-            //   )}
-            //   {nickname !== item.sender || (
-            //     <View style={styles.left} key={item.sender}>
-            //       {/* 닉네임 */}
-            //       <Text style={styles.nickname}>{item.sender}</Text>
-            //       {/* 대화내용 */}
-            //       <Text style={styles.content}>{item.message}</Text>
-            //     </View>
-            //   )}
-            // </View>
+            // <Text style={styles.content}>{item}</Text>
+            <View>
+              {nickname === item.sender || (
+                <View style={styles.right} key={item.sender}>
+                  {/* 닉네임 */}
+                  <Text style={styles.nickname}>{item.sender}</Text>
+                  {/* 대화내용 */}
+                  <Text style={styles.content}>{item.message}</Text>
+                </View>
+              )}
+              {nickname !== item.sender || (
+                <View style={styles.left} key={item.sender}>
+                  {/* 닉네임 */}
+                  <Text style={styles.nickname}>{item.sender}</Text>
+                  {/* 대화내용 */}
+                  <Text style={styles.content}>{item.message}</Text>
+                </View>
+              )}
+            </View>
           ))}
       </View>
 
