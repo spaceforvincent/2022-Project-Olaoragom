@@ -1,10 +1,10 @@
 import React, {useEffect, useState, useIsFocused} from 'react';
-import MapView from 'react-native-map-clustering';
-import {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {getMountainList} from '../../apis/Map';
-import SearchBar from '../../components/map/SearchBar';
+
+import MapView from 'react-native-map-clustering';
+import {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -20,12 +20,15 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 
+import SearchBar from '../../components/map/SearchBar';
+
+import {getMountainList} from '../../apis/Map';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const MapHome = () => {
-
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [cluster, setCluster] = useState(true);
   const [markers, setMarker] = useState([]);
@@ -55,7 +58,7 @@ const MapHome = () => {
               style={styles.map}
               showsUserLocation={true}
               showsMyLocationButton={false}
-              clusterColor={"#F4A442"}
+              clusterColor={'#F4A442'}
               // onClusterPress={(cluster, markers) => {navigation.navigate('MountainDetail', {mountainId: marker.mntnSeq})}}
               provider={PROVIDER_GOOGLE}
               zoomEnabled={true}>
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: windowWidth * 0.18,
     backgroundColor: '#3E7C17',
-    height: windowHeight * 0.07,
+    height: windowHeight * 0.058,
     borderRadius: 5,
   },
   buttonTitle: {
@@ -163,5 +166,5 @@ const styles = StyleSheet.create({
   markerClose: {
     height: 50,
     width: 50,
-  }
+  },
 });

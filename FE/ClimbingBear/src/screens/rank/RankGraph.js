@@ -1,7 +1,7 @@
 import {BarChart} from 'react-native-chart-kit';
 import {useLayoutEffect, useState} from 'react';
+
 import {View, StyleSheet, Image, Dimensions} from 'react-native';
-import {getTotalRank} from '../../apis/Rank';
 import {
   TextLight,
   TextMedium,
@@ -9,7 +9,8 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
+import {getTotalRank} from '../../apis/Rank';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -18,9 +19,16 @@ const chartConfig = {
   backgroundGradientTo: '#ffffff',
   barPercentage: 0.8,
   decimalPlaces: 0, // optional, defaults to 2dp
-  color: (opacity = 1) => `#3E7C17`,
+  fillShadowGradient: `#3E7C17`,
+  fillShadowGradientOpacity: 1,
+  color: (opacity = 100) => `#3E7C17`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, 1)`,
-  propsForLabels: 'TextLight',
+  propsForLabels: {
+    fontFamily: 'SeoulNamsanM',
+  },
+  propsForVerticalLabels: {
+    width: 40,
+  },
 };
 
 const RankGraph = () => {
@@ -64,14 +72,14 @@ const RankGraph = () => {
       </View>
       <View style={styles.chartContainer}>
         <BarChart
-          style={styles.graphStyle}
+          style={styles.graph}
           showBarTops={true}
           showValuesOnTopOfBars={true}
           withInnerLines={true}
           segments={10}
           data={data}
-          width={windowWidth * 0.9}
-          height={windowHeight * 0.8}
+          width={windowWidth * 0.8}
+          height={windowHeight * 0.9}
           yAxisSuffix=" km"
           chartConfig={chartConfig}
           verticalLabelRotation={0}
@@ -86,17 +94,24 @@ export default RankGraph;
 
 const styles = StyleSheet.create({
   container: {
+    margin: windowHeight * 0.03,
     marginTop: 0,
     flexDirection: 'column',
   },
   header: {
     margin: 20,
+    marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
   },
   chartContainer: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: windowHeight * 0.9,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -105,7 +120,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 10,
-    height: 40,
-    width: 40,
+    height: 50,
+    width: 50,
+  },
+  graph: {
+    margin: windowHeight * 0.15,
   },
 });

@@ -1,78 +1,96 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
-import { postSignUp, existNickname, existId } from '../../apis/Auth'
-
-import { Image, View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { TextLight, TextMedium, TextBold, TextExtraBold } from '../../components/common/TextFont';
+import {
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {
+  TextLight,
+  TextMedium,
+  TextBold,
+  TextExtraBold,
+} from '../../components/common/TextFont';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import AuthInput from '../../components/auth/AuthInput';
 
+import {postSignUp, existNickname, existId} from '../../apis/Auth';
+
 const SignupScreen = ({navigation}) => {
-  
-  const [ id, setId ] = useState('');
-  const [ nickname, setNickname ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ password2, setPassword2 ] = useState('');
+  const [id, setId] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
   // 중복검사
-  const [ isId, setIsId ] = useState('');
-  const [ isNickname, setIsNickname ] = useState('');
-  
+  const [isId, setIsId] = useState('');
+  const [isNickname, setIsNickname] = useState('');
+
   // input onchange
   const onchangeSignUpId = useCallback(text => {
-    setId(text.trim())
-  }, [])
+    setId(text.trim());
+  }, []);
   const onchangeSignUpNickname = useCallback(text => {
-    setNickname(text.trim())
-  }, [])
+    setNickname(text.trim());
+  }, []);
   const onchangeSignUpPassword = useCallback(text => {
-    setPassword(text.trim())
-  }, [])
+    setPassword(text.trim());
+  }, []);
 
   // 아이디 중복확인
-  const checkId = async( id ) => {
+  const checkId = async id => {
     if (!id || !id.trim()) {
-      return Alert.alert('알림', '아이디를 입력해주세요.')
+      return Alert.alert('알림', '아이디를 입력해주세요.');
     } else {
-      const res = await existId(id)
-      setIsId(res)
+      const res = await existId(id);
+      setIsId(res);
     }
-  }
+  };
 
   // 닉네임 중복확인
-  const checkNickname = async(nickname) => {
+  const checkNickname = async nickname => {
     if (!nickname || !nickname.trim()) {
       return Alert.alert('알림', '닉네임을 입력해주세요.');
     } else {
-      const res = await existNickname(nickname)
-      setIsNickname(res)
+      const res = await existNickname(nickname);
+      setIsNickname(res);
     }
-  }
+  };
 
   // 회원가입
-  const signUp = async(id, password, password2, nickname, isId, isNickname) => {
+  const signUp = async (
+    id,
+    password,
+    password2,
+    nickname,
+    isId,
+    isNickname,
+  ) => {
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요!');
-    }
-    else if (isId === '' || isId === true || isNickname === '' || isNickname === true) {
-      return Alert.alert('알림', '아이디 및 닉네임 중복확인을 진행해주세요😥')
-    }
-    else {
-      const isUser = await postSignUp(id, nickname, password)
+    } else if (
+      isId === '' ||
+      isId === true ||
+      isNickname === '' ||
+      isNickname === true
+    ) {
+      return Alert.alert('알림', '아이디 및 닉네임 중복확인을 진행해주세요😥');
+    } else {
+      const isUser = await postSignUp(id, nickname, password);
       if (isUser === true) {
-        return navigation.navigate('LoginScreen')        
-      }
-      else {
-        return Alert.alert('알림', '회원가입 폼을 다시 한 번 확인해주세요😥')
+        return navigation.navigate('LoginScreen');
+      } else {
+        return Alert.alert('알림', '회원가입 폼을 다시 한 번 확인해주세요😥');
       }
     }
   };
 
   return (
-
     <View style={styles.container}>
-
       <Image
         source={require(`../../assets/images/LoginLogo.png`)}
         style={styles.image}
@@ -146,11 +164,11 @@ const SignupScreen = ({navigation}) => {
           {/* 닉네임 중복검사 완료 */}
           {isNickname === false && (
             <Icon
-            style={styles.checkIcon}
-            name="check"
-            size={30}
-            color="#74B49B"
-          />
+              style={styles.checkIcon}
+              name="check"
+              size={30}
+              color="#74B49B"
+            />
           )}
         </View>
       </View>
@@ -176,13 +194,17 @@ const SignupScreen = ({navigation}) => {
       />
       <View style={styles.checkWarn}>
         {password !== password2 && (
-          <TextLight style={styles.checkWarn}>비밀번호가 일치하지 않습니다!</TextLight>
+          <TextLight style={styles.checkWarn}>
+            비밀번호가 일치하지 않습니다!
+          </TextLight>
         )}
       </View>
 
       <TouchableOpacity
         style={styles.signUpButton}
-        onPress={() => signUp(id, password, password2, nickname, isId, isNickname)}>
+        onPress={() =>
+          signUp(id, password, password2, nickname, isId, isNickname)
+        }>
         <Text style={styles.signUpText}>회원가입</Text>
       </TouchableOpacity>
     </View>
@@ -190,7 +212,6 @@ const SignupScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -234,13 +255,11 @@ const styles = StyleSheet.create({
     color: 'red',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   checkIcon: {
-    marginTop: 15
-  }
-
+    marginTop: 15,
+  },
 });
 
 export default SignupScreen;
-
