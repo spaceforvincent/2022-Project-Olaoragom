@@ -1,14 +1,5 @@
-import React, {useLayoutEffect, useState, useIsFocused} from 'react';
-import {
-  TouchableOpacity,
-  SafeAreaView,
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {getTotalRank} from '../../apis/Rank';
+import React, {useState} from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {
   TextLight,
   TextMedium,
@@ -16,14 +7,11 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 import DropDownPicker from 'react-native-dropdown-picker';
-import RankItem from '../../components/rank/RankItem';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const RankMonth = ({month, setMonth}) => {
-
   const [monthOpen, setMonthOpen] = useState(false);
   const [monthItems, setMonthItems] = useState([
     {label: '1', value: '1'},
@@ -42,7 +30,7 @@ const RankMonth = ({month, setMonth}) => {
 
   return (
     <View style={styles.monthPicker}>
-        <DropDownPicker
+      <DropDownPicker
         open={monthOpen}
         value={month}
         items={monthItems}
@@ -50,11 +38,15 @@ const RankMonth = ({month, setMonth}) => {
         setValue={setMonth}
         setItems={setMonthItems}
         maxHeight={500}
-        onChangeItem={(item) => setValue(item.value)}
-        textStyle={{fontSize: 11, fontFamily: 'SeoulNamsanM', alignItems: 'center'}}
+        onChangeItem={item => setValue(item.value)}
+        textStyle={{
+          fontSize: 11,
+          fontFamily: 'SeoulNamsanM',
+          alignItems: 'center',
+        }}
       />
     </View>
-  )
+  );
 };
 
 export default RankMonth;
@@ -62,7 +54,6 @@ export default RankMonth;
 const styles = StyleSheet.create({
   monthPicker: {
     width: windowWidth * 0.3,
-    margin: 10
-  }
+    margin: 10,
+  },
 });
-

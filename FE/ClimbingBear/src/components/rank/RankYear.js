@@ -1,14 +1,5 @@
-import React, {useLayoutEffect, useState, useIsFocused} from 'react';
-import {
-  TouchableOpacity,
-  SafeAreaView,
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {getTotalRank} from '../../apis/Rank';
+import React, {useState} from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import {
   TextLight,
   TextMedium,
@@ -16,14 +7,11 @@ import {
   TextExtraBold,
 } from '../../components/common/TextFont';
 import DropDownPicker from 'react-native-dropdown-picker';
-import RankItem from '../../components/rank/RankItem';
 
-// 현재 디바이스 창 크기(dp)를 가져오는 모듈
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const RankYear = ({year, setYear}) => {
-
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: '2022', value: '2022'},
@@ -39,7 +27,7 @@ const RankYear = ({year, setYear}) => {
 
   return (
     <View style={styles.yearPicker}>
-        <DropDownPicker
+      <DropDownPicker
         open={open}
         value={year}
         items={items}
@@ -47,11 +35,15 @@ const RankYear = ({year, setYear}) => {
         setValue={setYear}
         setItems={setItems}
         maxHeight={500}
-        onChangeItem={(item) => setValue(item.value)}
-        textStyle={{fontSize: 11, fontFamily: 'SeoulNamsanM', alignItems: 'center'}}
+        onChangeItem={item => setValue(item.value)}
+        textStyle={{
+          fontSize: 11,
+          fontFamily: 'SeoulNamsanM',
+          alignItems: 'center',
+        }}
       />
     </View>
-  )
+  );
 };
 
 export default RankYear;
@@ -61,6 +53,5 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.5,
     marginRight: 0,
     margin: 10,
-  }
+  },
 });
-
