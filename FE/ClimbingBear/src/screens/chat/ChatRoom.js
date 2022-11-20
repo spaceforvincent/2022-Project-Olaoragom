@@ -87,7 +87,7 @@ const ChatRoom = ({navigation, route}) => {
   const sendMessage = async () => {
     console.log('메시지', message);
     ws.send(
-      '/app/chat/message',
+      'app/message/' + roomSequence,
       {},
       JSON.stringify({
         type: 'TALK',
@@ -101,17 +101,19 @@ const ChatRoom = ({navigation, route}) => {
   };
 
   const makeMessageArray = () => {
-    console.log('잘 들어왔나?', message);
     setMessages(messages => [...messages, message]);
   };
 
   const recvMessage = async recv => {
     // 배열 맨앞에 값 추가
-    // setMessages.unshift({
-    //   type: recv.type,
-    //   sender: recv.type == 'ENTER' ? '[알림]' : recv.sender,
-    //   message: recv.message,
-    // });
+    // setMessages(messages => [
+    //   ...messages,
+    //   {
+    //     type: recv.type,
+    //     sender: recv.type == 'ENTER' ? '[알림]' : recv.sender,
+    //     message: recv.message,
+    //   },
+    // ]);
     setMessage(recv);
     makeMessageArray();
   };
@@ -122,12 +124,12 @@ const ChatRoom = ({navigation, route}) => {
     ws.connect(
       {},
       function (frame) {
-        ws.subscribe('/topic/chat/room/' + roomSequence, function (message) {
-          let recv = JSON.parse(message.body);
-          recvMessage(recv);
+        ws.subscribe('join/room/' + roomSequence, function (frame) {
+          // let recv = JSON.parse(message.body);
+          // recvMessage(recv)
         });
         ws.send(
-          '/app/chat/message',
+          'app/message/' + roomSequence,
           {},
           JSON.stringify({
             type: 'ENTER',
