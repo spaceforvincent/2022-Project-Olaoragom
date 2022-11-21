@@ -1,0 +1,4 @@
+<resources>
+<!-- (수정) 앱 이름 바꿀 수 있는 곳 -->
+    <string name="app_name">올라오라곰</string>
+</resources>
