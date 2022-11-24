@@ -49,9 +49,10 @@
 
 - 사용자는 회원가입시, 아이디, 닉네임, 비밀번호 입력이 필요하며, 아이디 중복확인, 닉네임 중복확인 절차를 거쳐야합니다.
 
-![Untitled](img_source/Untitled.png)
-
-![Untitled](img_source/Untitled%201.png)
+<div>
+<img src="img_source/Untitled.png" width="300" height="1000">
+<img src="img_source/Untitled%201.png" width="300" height="1000">
+</div>
 
 ## 100대 명산 지도 및 검색
 
@@ -59,16 +60,17 @@
 - 사용자는 산 검색을 할 수 있으며, 검색 완료 시 마커 이동과 함께 하단 모달창(bottomsheet)로 간단한 정보를 확인할 수 있습니다.
 - 사용자는 하단 모달창(bottomsheet)에서 산 이름 혹은 정보 클릭 시, 상세 정보 페이지로 이동할 수 있습니다.
 
-![클러스터링.gif](img_source/%25ED%2581%25B4%25EB%259F%25AC%25EC%258A%25A4%25ED%2584%25B0%25EB%25A7%2581.gif)
-
-![Untitled](img_source/Untitled.gif)
+<div>
+<img src="img_source/%25ED%2581%25B4%25EB%259F%25AC%25EC%258A%25A4%25ED%2584%25B0%25EB%25A7%2581.gif" width="300" height="800">
+<img src="img_source/Untitled.gif" width="300" height="800">
+</div>
 
 ## 산 상세 정보 조회
 
 - 사용자는 상세 정보 페이지에서 산림청 데이터 기반, 산 정보(높이, 주소, 별칭), 상세 설명, 100대 명산 선정 이유, 난이도, 등산로 경로를 조회할 수 있습니다.
 - 사용자는 open weather 데이터 기반, 산 현재 날씨(온도, 습도, 메인날씨)를 확인할 수 있습니다.
 
-![Untitled](img_source/Untitled%202.png)
+<img src="img_source/Untitled%202.png" width="300" height="1000">
 
 ## 등산 기록
 
@@ -77,42 +79,44 @@
 - 사용자는 등산한 누적 거리와 시간, 고도 파악이 가능합니다.
 - 사용자는 긴급 전화 버튼으로 119 연결이 가능합니다.
 
-![Untitled](img_source/Untitled%203.png)
-
-![Untitled](img_source/Untitled%204.png)
+<div>
+<img src="img_source/Untitled%203.png" width="300" height="500">
+<img src="img_source/Untitled%204.png" width="300" height="500">
+</div>
 
 ## 등산 달력
 
 - 사용자는 등산한 정보 확인이 가능합니다.
 - 사용자는 날짜, 산 이름, 등산 거리와 시간, 경로 확인이 가능합니다.
 
-![Untitled](img_source/Untitled%205.png)
-
-![Untitled](img_source/Untitled%206.png)
-
-![Untitled](img_source/Untitled%207.png)
+<div>
+<img src="img_source/Untitled%205.png" width="300" height="500">
+<img src="img_source/Untitled%206.png" width="300" height="500">
+<img src="img_source/Untitled%207.png" width="300" height="500">
+</div>
 
 ## 커뮤니티 - 등산챌린지
 
 - 사용자는 등산기록과 전체 사용자 기준으로 전체 누적거리, 월별 누적거리를 통해 랭킹을 확인할 수 있습니다.
 - 사용자는 전체 누적거리 Top5 등산거리 차트를 확인할 수 있습니다.
-
-![KakaoTalk_20221124_144350942.gif](img_source/KakaoTalk_20221124_144350942.gif)
-
-![Untitled](img_source/Untitled%208.png)
+<div>
+<img src="img_source/KakaoTalk_20221124_144350942.gif" width="300" height="800">
+<img src="img_source/Untitled%208.png" width="300" height="800">
+</div>
 
 ## 커뮤니티 - 채팅
 
 - 사용자는 채팅방을 생성할 수 있습니다.
 - 사용자는 사용자 간 실시간 대화가 가능합니다.
 
-![Untitled](img_source/Untitled%209.png)
-
-![Untitled](img_source/Untitled%2010.png)
+<div>
+<img src="img_source/Untitled%209.png" width="300" height="500">
+<img src="img_source/Untitled%2010.png" width="300" height="500">
+</div>
 
 # 6. 시스템 아키텍처
 
-![시스템구성도.PNG](img_source/%25EC%258B%259C%25EC%258A%25A4%25ED%2585%259C%25EA%25B5%25AC%25EC%2584%25B1%25EB%258F%2584.png)
+<img src="img_source/%25EC%258B%259C%25EC%258A%25A4%25ED%2585%259C%25EA%25B5%25AC%25EC%2584%25B1%25EB%258F%2584.png" width="850" height="600">
 
 # 7. 기술 스택
 
