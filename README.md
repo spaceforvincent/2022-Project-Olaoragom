@@ -17,10 +17,7 @@
 | 이름 | 강동관 | 정윤해 | 장수영 | 배근혜 | 이현정 | 최혁주 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 포지션 | Team Leader & Data & CI/CD | Back-end & CI/CD | Front-end & UI/UX | Front-end & UI/UX | Front-end & UI/UX | Front-end & UI/UX |
-| 담당기능 | - 산림청 공공 데이터 처리
-- Spring Boot Dockerize & 배포 | - Spring Boot Dockerize & 배포 | - 회원
-- 산 지도 & 정보
-- 등산 챌린지 | - 채팅 | - 등산 기록 | - 등산 일정 |
+| 담당기능 | 산림청 공공 데이터 처리,Spring Boot Dockerize & 배포 | Spring Boot API, Spring Boot Dockerize & 배포 | 회원, 산 지도 & 정보, 등산 챌린지 | 채팅 | 등산 기록 | 등산 일정 |
 | Git | @whatisthematter823 | @jyh6456 | @dearsyjang | @hyehye66 | @Hyunbird | @spaceforvincent |
 
 # 5. 기능 소개
