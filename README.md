@@ -21,7 +21,7 @@
 - Spring Boot Dockerize & 배포 | - Spring Boot Dockerize & 배포 | - 회원
 - 산 지도 & 정보
 - 등산 챌린지 | - 채팅 | - 등산 기록 | - 등산 일정 |
-| Git | @whatisthematter823 | @jyh6456 | @dearsyjang |  | @Hyunbird | @spaceforvincent |
+| Git | @whatisthematter823 | @jyh6456 | @dearsyjang | @hyehye66 | @Hyunbird | @spaceforvincent |
 
 # 5. 기능 소개
 
@@ -175,7 +175,7 @@ npm run android
 
 **[ FRONT-END ]**
 
-```
+```markdown
 🗂ClimbingBear
 	├── 📁.bundle
 	├── 📁__tests__
@@ -254,7 +254,7 @@ npm run android
 
 **[ BACK-END ]**
 
-```
+```markdown
 └── src
      ├── main
      │    ├── java
