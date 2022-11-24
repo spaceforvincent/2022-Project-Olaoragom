@@ -26,13 +26,8 @@ public class RecordService {
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
-//    public List<RecordListResDto> MyRecordList(Long userSeq) throws Exception {
-//        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-//                new NoExistUserException());
-//        List<Record> records = recordRepository.findByUser(user);
-//        return records.stream().map(RecordListResDto::new).collect(Collectors.toList());
-//    }
-    public RecordPostResDto recordSave(RecordPostReqDto dto, Long userSeq) throws Exception {
+    // 등산 기록 저장
+    public RecordPostResDto createRecord(RecordPostReqDto dto, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         if (recordRepository.existsByUserAndYearAndMonthAndDay(user, dto.getYear(), dto.getMonth(), dto.getDay())){
@@ -46,17 +41,4 @@ public class RecordService {
         recordRepository.save(record);
         return RecordPostResDto.of(record.getRecordSeq());
     }
-    public RecordDetailResDto recordDetail (RecordDetailReqDto dto, Long userSeq) throws Exception {
-        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-                new NoExistUserException());
-        Record record = recordRepository.findByRecordSeq(dto.getRecordSeq()).orElseThrow(() ->
-                new NoRecordException());
-        if (user.getUserSeq() == record.getUser().getUserSeq()){
-            return RecordDetailResDto.of(record);
-        }else{
-            throw new NoRecordException();
-        }
-    }
-
-
 }

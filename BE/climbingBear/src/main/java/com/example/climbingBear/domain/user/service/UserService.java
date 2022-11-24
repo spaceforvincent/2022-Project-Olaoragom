@@ -23,6 +23,7 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
 
+    // 회원가입
     public SignupResDto signup (SignupReqDto dto) throws Exception {
 
         isExistResDto checkedId;
@@ -45,12 +46,14 @@ public class UserService {
         return SignupResDto.of(accessToken, refreshToken);
     }
 
+    // accessToken 조회
     public GetAccessTokenResponseDto getAccessToken(String refreshToken) {
         User user = userRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
                 new NoExistUserException());
         return new GetAccessTokenResponseDto(jwtProvider.getAccessToken(user.getUserSeq()));
     }
 
+    // 로그인
     public LoginResDto login(LoginReqDto dto){
         User user = userRepository.findByIdAndPw(dto.getId(), dto.getPw()).orElseThrow(() ->
                 new NoExistUserException());
@@ -60,6 +63,7 @@ public class UserService {
         return new LoginResDto(jwtProvider.getAccessToken(user.getUserSeq()), jwtProvider.getRefreshToken(), user.getNickname());
     }
 
+    // 닉네임 중복 확인
     public isExistResDto checkNickname(String nickname) throws Exception {
         isExistResDto isExist = new isExistResDto();
         if(userRepository.existsUserByNickname(nickname)){
@@ -69,6 +73,8 @@ public class UserService {
         }
         return isExist;
     }
+
+    // 아이디 중복확인
     public isExistResDto checkId(String id) throws Exception {
         isExistResDto isExist = new isExistResDto();
         if(userRepository.existsUserById(id)){
@@ -79,15 +85,9 @@ public class UserService {
         return isExist;
     }
 
+    // 사용자 전체 조회
     public List<UserListResDto> findAllUser() {
         List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userSeq"));
         return users.stream().map(UserListResDto::new).collect(Collectors.toList());
     }
-
-    public String findNicknameBySeq(Long userSeq){
-        User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
-                new NoExistUserException());
-        return user.getNickname();
-    }
-
 }

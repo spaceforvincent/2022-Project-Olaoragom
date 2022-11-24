@@ -10,7 +10,6 @@ import javax.naming.ldap.PagedResultsControl;
 @Builder
 public class ChatRoomPostResDto {
     private Long roomSeq;
-
     public static ChatRoomPostResDto of(Long roomSeq){
         return ChatRoomPostResDto.builder()
                 .roomSeq(roomSeq)

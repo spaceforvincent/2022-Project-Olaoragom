@@ -23,15 +23,17 @@ public class ChallengeController {
     private final JwtProvider jwtProvider;
     private final ChallengeService challengeService;
 
+    // 월별 등산 거리 랭킹
     @GetMapping("/month")
     @ApiOperation(value = "월별 등산 거리 랭킹", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getMonthRank(HttpServletRequest request, @RequestParam Integer year, @RequestParam Integer month) throws Exception {
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(challengeService.rankByMonth(year, month)), HttpStatus.OK);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(challengeService.getMonthRank(year, month)), HttpStatus.OK);
     }
 
+    // 누적 등산 거리 랭킹
     @GetMapping("/total")
     @ApiOperation(value = "월별 등산 거리 랭킹", notes = "header에 token 입력")
     public ResponseEntity<CommonResponse> getTotalRank(HttpServletRequest request) throws Exception {
-        return new ResponseEntity<>(CommonResponse.getSuccessResponse(challengeService.rankAll()), HttpStatus.OK);
+        return new ResponseEntity<>(CommonResponse.getSuccessResponse(challengeService.getAllRank()), HttpStatus.OK);
     }
 }

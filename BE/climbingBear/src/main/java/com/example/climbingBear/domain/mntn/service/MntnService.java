@@ -14,7 +14,7 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static jdk.nashorn.internal.objects.NativeMath.max;
+import static sun.swing.MenuItemLayoutHelper.max;
 
 @Service
 @RequiredArgsConstructor
@@ -27,21 +27,14 @@ public class MntnService {
     private final PathRepository pathRepository;
     private final MntnPlaceRepository mntnPlaceRepository;
 
-//    public MntnResDto mntnDetail(Long mntnSeq){
-//        Mountain mntn = mntnRepository.findByMntnSeq((mntnSeq)).orElseThrow(() ->
-//                new NoExistMntnException());
-//        Spot spot = spotRepository.findByMntnNm(mntn).orElseThrow(() ->
-//                new NoExistUserException());
-//        MntnResDto mntnResDto = MntnResDto.ofSpot(spot);
-//        return mntnResDto;
-//    }
-
+    // 전체 산 조회
     @Transactional
     public List<MntnListResDto> findAllMountain(){
         List<Mountain>  mountains = mntnRepository.findAll(Sort.by(Sort.Direction.ASC, "mntnSeq"));
         return mountains.stream().map(MntnListResDto::new).collect(Collectors.toList());
     }
 
+    // 특정 산 상세정보 조회
     @Transactional
     public MntnDetailResDto getMntnDetail(Long mntnSeq) {
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
@@ -62,6 +55,7 @@ public class MntnService {
                 hard += 1;
             }
         }
+        // 등산로 전체 중 가장 빈도 높은 난이도를 대표 난이도로 선정
         String result = null;
         if (max(easy, middle, hard) == easy) {
             result = "쉬움";
@@ -73,11 +67,13 @@ public class MntnService {
         return MntnDetailResDto.ofMntnDetail(mntn, place, result);
     }
 
+    // 산 특정 장소 조회
     public List<MntnPlaceListResDto> findMntnPlace(Mountain mntn){
         List<MountainPlace> mntnPlace = mntnPlaceRepository.findByMntn(mntn);
         return mntnPlace.stream().map(MntnPlaceListResDto::new).collect(Collectors.toList());
     }
 
+    // 특정 산 특징 조회
     public List<MntnFeatureResDto> getMntnFeature(Long mntnSeq){
         Mountain mntn = mntnRepository.findByMntnSeq(mntnSeq).orElseThrow(() ->
                 new NoExistMntnException());

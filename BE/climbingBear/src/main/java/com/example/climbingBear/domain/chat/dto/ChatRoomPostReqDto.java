@@ -13,7 +13,6 @@ import java.util.UUID;
 public class ChatRoomPostReqDto {
     private String roomName;
 
-
     public ChatRoom create(User user) {
         return ChatRoom.builder()
                 .roomRealName(UUID.randomUUID().toString())
