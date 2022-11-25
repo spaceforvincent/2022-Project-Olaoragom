@@ -14,36 +14,26 @@
 
 # 4. 팀원 소개 및 기여도
 
-|   이름   |                          강동관                          |                      정윤해                      |                 장수영                  |      배근혜       |      이현정       |      최혁주       |
-| :------: | :------------------------------------------------------: | :----------------------------------------------: | :-------------------------------------: | :---------------: | :---------------: | :---------------: |
-|  포지션  |               Team Leader<br/>Data & CI/CD               |                 Back-end & CI/CD                 |            Front-end & UI/UX            | Front-end & UI/UX | Front-end & UI/UX | Front-end & UI/UX |
-| 담당기능 | 산림청 공공 데이터 처리<br/>Spring Boot Dockerize & 배포 | Spring Boot API<br/>Spring Boot Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
-|   Git    |                   @whatisthematter823                    |                     @jyh6456                     |               @dearsyjang               |     @hyehye66     |     @Hyunbird     | @spaceforvincent  |
+|   이름   |                            강동관                            |              정윤해               |                 장수영                  |      배근혜       |      이현정       |      최혁주       |
+| :------: | :----------------------------------------------------------: | :-------------------------------: | :-------------------------------------: | :---------------: | :---------------: | :---------------: |
+|  포지션  |                 Team Leader<br/>Data & CI/CD                 |         Back-end & CI/CD          |            Front-end & UI/UX            | Front-end & UI/UX | Front-end & UI/UX | Front-end & UI/UX |
+| 담당기능 | 산림청 공공 데이터 처리<br/>Spring Boot<br> Dockerize & 배포 | Spring Boot <br/>Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
+|   Git    |                     @whatisthematter823                      |           @JEONGYOONHAE           |               @dearsyjang               |     @hyehye66     |     @Hyunbird     | @spaceforvincent  |
 
 # 5. 기능 소개
 
 | 구분                             | 기능                           | 설명                                    |
 | -------------------------------- | ------------------------------ | --------------------------------------- |
-| 회원                             | 회원가입<br/>로그인 & 로그아웃 | - id, pw, nickname 작성을 통한 회원관리 |
-| <br/>- id, nicname 중복 검사     |
+| 회원                             | 회원가입<br/>로그인 & 로그아웃 | - id, pw, nickname 작성을 통한 회원관리<br/>- id, nicname 중복 검사 |
 | 산 지도                          | 산 지도 조회                   | - 100대 명산 클러스터 & 마커            |
-| 산 지도                          | 산 검색                        | - 100대 명산 검색                       |
-| <br/>- 하단 모달창 세미정보 조회 |
-| 산 정보                          | 산 상세정보                    | - 산 기본정보 (높이, 지역, 소개)        |
+| 산 지도                          | 산 검색                        | - 100대 명산 검색<br/>- 하단 모달창 세미정보 조회  |
+| 산 정보 |산 상세정보|- 산 기본정보 (높이, 지역, 소개)<br />\- 100대 명산 선정 이유 <br />- 등산로 이미지, 등산로 나이도 <br />- 현재 날씨 ( 온도, 습도, 날씨)|
+| 등산 달력 | 등산 달력                      | \- 등산 일정 등록, 수정, 취소 가능 <br />- 등산 기록 조회    |
+| 등산 기록 | 등산 기록                      | \- 위성 지도 및 주요 시설 위치 <br />- 등산 경로 별 거리, 소요시간 <br />- 현재 위치 및 고도 확인 <br />- 등산 누적 거리 및 시간 저장 |
+| 커뮤니티  | 등산 챌린지                    | \- 전체 및 월별 누적 거리 기준 회원 랭킹 <br />- 전체 누적 거리 Top5 차트 |
+| 커뮤니티  | 채팅                           | - 채팅방 생성<br />- 채팅방 검색                             |
 
-<br/>- 100대 명산 선정 이유
-<br/>- 등산로 이미지, 등산로 나이도
-<br/>- 현재 날씨 ( 온도, 습도, 날씨) |
-| 등산 달력 | 등산 달력 | - 등산 일정 등록, 수정, 취소 가능
-<br/>- 등산 기록 조회 |
-| 등산 기록 | 등산 기록 | - 위성 지도 및 주요 시설 위치
-<br/>- 등산 경로 별 거리, 소요시간
-<br/>- 현재 위치 및 고도 확인
-<br/>- 등산 누적 거리 및 시간 저장 |
-| 커뮤니티 | 채팅 | - 채팅방 생성
-<br/>- 채팅방 검색 |
-| 커뮤니티 | 등산 챌린지 | - 전체 및 월별 누적 거리 기준 회원 랭킹
-<br/>- 전체 누적 거리 Top5 차트 |
+
 
 ## 회원
 
@@ -255,61 +245,59 @@ npm run android
 
 **[ BACK-END ]**
 
-```markdown
+```
 └── src
-├── main
-│ ├── java
-│ │ └── com
-│ │ └── 📁 dearme
-│ │ └── 📁 demo
-│ │ ├── 📄 Application.java
-│ │ ├── 📁 domain
-│ │ │ ├── 📁 user
-│ │ │ │ ├── 📁 controller
-│ │ │ │ ├── 📁 dto
-│ │ │ │ ├── 📁 exception
-│ │ │ │ ├── 📁 repository
-│ │ │ │ ├── 📁 service
-│ │ │ │ └── 📁 entity
-│ │ │ ├── 📁 chat
-│ │ │ │ ├── 📁 controller
-│ │ │ │ ├── 📁 dto
-│ │ │ │ ├── 📁 exception
-│ │ │ │ ├── 📁 repository
-│ │ │ │ ├── 📁 service
-│ │ │ │ └── 📁 entity
-│ │ │ ├── 📁 mntn
-│ │ │ │ ├── 📁 controller
-│ │ │ │ ├── 📁 dto
-│ │ │ │ ├── 📁 exception
-│ │ │ │ ├── 📁 repository
-│ │ │ │ ├── 📁 service
-│ │ │ │ └── 📁 entity
-│ │ │ └── 📁 record
-│ │ │ │ ├── 📁 controller
-│ │ │ │ ├── 📁 dto
-│ │ │ │ ├── 📁 exception
-│ │ │ │ ├── 📁 repository
-│ │ │ │ ├── 📁 service
-│ │ │ │ └── 📁 entity
-│ │ └── 📁 global
-│ │ ├── 📁 config
-│ │ │ └── 📁 swagger
-│ │ │ ├── 📄 SecurityConfig
-│ │ │ └── 📄 SwaggerConfig
-│ │ ├── 📁 util
-│ │ │ └── 📁 jwt
-│ │ │ ├── 📄 AccessTokenInterceptor
-│ │ │ ├── 📄 RefreshTokenInterceptor
-│ │ │ └── 📄 JwtProvider
-│ │ └── 📁 common
-│ │ └── 📄 CommonResponse
-│ │  
- │ │  
- │ │  
- │ └── 📁 resources
-│ ├── 📁 static
-│ │ └── 📄 climbingbear-367901-07c9a11fe26a.json
-│ ├── 📁 templates
-│ └── 📄 application.properties
+    ├── main
+    │ 	├── java
+    │ 	│ 	└── com
+    │ 	│ 	└── 📁 climbingBear
+    │ 	│ 	└── 📁 demo
+    │ 	│ 	├── 📄 Application.java
+    │ 	│ 	├── 📁 domain
+    │ 	│ 	│ 	├── 📁 user
+    │ 	│ 	│ 	│ 	├── 📁 controller
+    │ 	│ 	│ 	│ 	├── 📁 dto
+    │ 	│ 	│ 	│ 	├── 📁 exception
+    │ 	│ 	│ 	│ 	├── 📁 repository
+    │ 	│ 	│ 	│ 	├── 📁 service
+    │ 	│ 	│ 	│ 	└── 📁 entity
+    │ 	│ 	│ 	├── 📁 chat
+    │ 	│ 	│ 	│ 	├── 📁 controller
+    │ 	│ 	│ 	│ 	├── 📁 dto
+    │ 	│ 	│ 	│ 	├── 📁 exception
+    │ 	│ 	│ 	│ 	├── 📁 repository
+    │ 	│ 	│ 	│ 	├── 📁 service
+    │ 	│ 	│ 	│ 	└── 📁 entity
+    │ 	│ 	│ 	├── 📁 mntn
+    │ 	│ 	│ 	│ 	├── 📁 controller
+    │ 	│ 	│ 	│ 	├── 📁 dto
+    │ 	│ 	│ 	│ 	├── 📁 exception
+    │ 	│ 	│ 	│ 	├── 📁 repository
+    │ 	│ 	│ 	│ 	├── 📁 service
+    │ 	│ 	│ 	│ 	└── 📁 entity
+    │ 	│ 	│ 	└── 📁 record
+    │ 	│ 	│ 	 	├── 📁 controller
+    │ 	│ 	│ 	 	├── 📁 dto
+    │ 	│ 	│ 	 	├── 📁 exception
+    │ 	│ 	│ 	 	├── 📁 repository
+    │ 	│ 	│ 	 	├── 📁 service
+    │ 	│ 	│ 	 	└── 📁 entity
+    │ 	│ 	└── 📁 global
+    │ 	│ 	├── 📁 config
+    │ 	│ 	│ 	└── 📁 swagger
+    │ 	│ 	│ 	├── 📄 SecurityConfig
+    │ 	│ 	│ 	└── 📄 SwaggerConfig
+    │ 	│ 	├── 📁 util
+    │ 	│ 	│ 	└── 📁 jwt
+    │ 	│ 	│ 	├── 📄 AccessTokenInterceptor
+    │ 	│ 	│ 	├── 📄 RefreshTokenInterceptor
+    │ 	│ 	│ 	└── 📄 JwtProvider
+    │ 	│ 	└── 📁 common
+    │ 	│ 	└── 📄 CommonResponse
+    │ 	│  
+    │ 	└── 📁 resources
+    │ 	├── 📁 static
+    │ 	│ 	└── 📄 climbingbear-367901-07c9a11fe26a.json
+    │ 	├── 📁 templates
+    │ 	└── 📄 application.properties
 ```
