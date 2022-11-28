@@ -1,41 +1,41 @@
-# 올라오라곰
+# 올라오라곰 ⛰️🐻
 
-## 0. 목차
-[기획배경](#기획배경)
-[프로젝트 소개](#2.-프로젝트-소개)
-[프로젝트 기간](#5.-프로젝트-기간)
-[주요 자료](#4.-주요-자료)
-[팀원 소개 및 기여도](#5.-팀원-소개-및-기여도)
-[기능 소개](#6.-기능-)
-[시스템 아키텍처](#7.-시스템-아키텍처)
-[기술 스택](#8.-기술-스택)
-[설치](#9.-설치)
-[폴더 구조](#10.-폴더-구조)
+## 목차
+- [기획배경](#기획배경)
+- [프로젝트 소개](#프로젝트-소개)
+- [프로젝트 기간](#프로젝트-기간)
+- [주요 자료](#주요-자료)
+- [팀원 소개 및 기여도](#팀원-소개-및-기여도)
+- [기능 소개](#기능)
+- [시스템 아키텍처](#시스템-아키텍처)
+- [기술 스택](#기술-스택)
+- [설치](#설치)
+- [폴더 구조](#폴더-구조)
 
-##기획배경
+## 기획배경
 
 - 포스트 코로나 시대를 맞아 타인과의 접촉을 줄이면서 건강을 챙길 수 있는 방법으로 등산이 대두되었다. 특히, 스마트폰을 적극 활용할 수 있는 2030세대 산행족이 늘면서, 등산 때 활용할 수 있는 모바일 앱 서비스를 기획하게 되었다.
 
-## 2. 프로젝트 소개
+## 프로젝트 소개
 
 - 산림청 공공데이터를 기반으로 100대 명산 지도 및 정보를 확인하고 폴리라인을 통해 해당산 등산 기록을 통해 나만의 등산 달력을 만드는 등산 어플 서비스
 
-## 3. 프로젝트 기간
+## 프로젝트 기간
 
 - SSAFY 자율 프로젝트 2022.10.11 ~ 2022.11.18 (6주)
 
-## 4. 주요 자료
-##### [SSAFY 7기 D109 올라오라곰 Notion](https://forest-dungeon-7d8.notion.site/116186235dda438bad3335ffa9e722fa)
-##### [SSAFY 7기 D109 올라오라곰 Figma](https://www.figma.com/file/x1mGmXckprJQ1jdGI3qefr/%EC%98%AC%EB%9D%BC%EC%98%A4%EB%9D%BC%EA%B3%B0?node-id=0%3A1&t=MSlrJ63e2KduK9kE-1)
+## 주요 자료
+- [SSAFY 7기 D109 올라오라곰 Notion](https://forest-dungeon-7d8.notion.site/116186235dda438bad3335ffa9e722fa)
+- [SSAFY 7기 D109 올라오라곰 Figma](https://www.figma.com/file/x1mGmXckprJQ1jdGI3qefr/%EC%98%AC%EB%9D%BC%EC%98%A4%EB%9D%BC%EA%B3%B0?node-id=0%3A1&t=MSlrJ63e2KduK9kE-1)
 
-## 5. 팀원 소개 및 기여도
+## 팀원 소개 및 기여도
 
 |   이름   |     [강동관](https://github.com/whatistheMatter823)         |     [정윤해](https://github.com/JEONGYOONHAE)     |     [장수영](https://github.com/dearsyjang)     |     [배근혜](https://github.com/hyehye66)     |     [이현정](https://github.com/Hyunbird)     |     [최혁주](https://github.com/spaceforvincent)     |
 | :------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
 |  포지션  |                 Team Leader<br/>Data<br/>CI/CD                 |         Back-end<br/>CI/CD          |            Front-end<br/>UI/UX            | Front-end<br/>UI/UX | Front-end<br/>UI/UX | Front-end<br/>UI/UX |
 | 담당<br/>기능 | 데이터 처리<br/>Spring Boot<br> Dockerize & 배포 | Spring Boot <br/>Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
 
-## 6. 기능 소개
+## 기능 소개
 
 | 구분                             | 기능                           | 설명                                    |
 | ---------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------- |
@@ -119,11 +119,11 @@
 <img src="img_source/Untitled%2010.png" width="400" height="700">
 </div>
 
-## 7. 시스템 아키텍처
+## 시스템 아키텍처
 
 ![Untitled](img_source/%25EC%258B%259C%25EC%258A%25A4%25ED%2585%259C%25EA%25B5%25AC%25EC%2584%25B1%25EB%258F%2584.png)
 
-## 8. 기술 스택
+## 기술 스택
 
 ![Untitled](img_source/Untitled%2011.png)
 
@@ -156,7 +156,7 @@
 - **산림청 공공데이터 100대 명산**
 - **Open Weather**
 
-## 9. 설치
+## 설치
 
 서비스를 사용하기 위해서는 다음과 같은 방법으로 실행합니다.
 
@@ -177,7 +177,7 @@ run application
 npm run android
 ```
 
-## 10. 폴더 구조
+## 폴더 구조
 
 **[ FRONT-END ]**
 
