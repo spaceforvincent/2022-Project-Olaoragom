@@ -1,29 +1,44 @@
-# README
+# 올라오라곰
 
-# 1. 기획배경
+## 0. 목차
+1. [기획배경](#1.-기획배경)
+2. [프로젝트 소개](#2.-프로젝트-소개)
+3. [프로젝트 기간](#5.-프로젝트-기간)
+4. [주요 자료](#4.-주요-자료)
+5. [팀원 소개 및 기여도](#5.-팀원-소개-및-기여도)
+6. [기능 소개](#6.-기능-)
+7. [시스템 아키텍처](#7.-시스템-아키텍처)
+8. [기술 스택](#8.-기술-스택)
+9. [설치](#9.-설치)
+10. [폴더 구조](#10.-폴더-구조)
+
+## 1. 기획배경
 
 - 포스트 코로나 시대를 맞아 타인과의 접촉을 줄이면서 건강을 챙길 수 있는 방법으로 등산이 대두되었다. 특히, 스마트폰을 적극 활용할 수 있는 2030세대 산행족이 늘면서, 등산 때 활용할 수 있는 모바일 앱 서비스를 기획하게 되었다.
 
-# 2. 프로젝트 소개
+## 2. 프로젝트 소개
 
 - 산림청 공공데이터를 기반으로 100대 명산 지도 및 정보를 확인하고 폴리라인을 통해 해당산 등산 기록을 통해 나만의 등산 달력을 만드는 등산 어플 서비스
 
-# 3. 프로젝트 기간
+## 3. 프로젝트 기간
 
 - SSAFY 자율 프로젝트 2022.10.11 ~ 2022.11.18 (6주)
 
-# 4. 팀원 소개 및 기여도
+## 4. 주요 자료
+##### [SSAFY 7기 D109 올라오라곰 Notion](https://forest-dungeon-7d8.notion.site/116186235dda438bad3335ffa9e722fa)
+##### [SSAFY 7기 D109 올라오라곰 Figma](https://www.figma.com/file/x1mGmXckprJQ1jdGI3qefr/%EC%98%AC%EB%9D%BC%EC%98%A4%EB%9D%BC%EA%B3%B0?node-id=0%3A1&t=MSlrJ63e2KduK9kE-1)
 
-|   이름   |                            강동관                            |              정윤해               |                 장수영                  |      배근혜       |      이현정       |      최혁주       |
-| :------: | :----------------------------------------------------------: | :-------------------------------: | :-------------------------------------: | :---------------: | :---------------: | :---------------: |
-|  포지션  |                 Team Leader<br/>Data & CI/CD                 |         Back-end & CI/CD          |            Front-end & UI/UX            | Front-end & UI/UX | Front-end & UI/UX | Front-end & UI/UX |
-| 담당기능 | 산림청 공공 데이터 처리<br/>Spring Boot<br> Dockerize & 배포 | Spring Boot <br/>Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
-|   Git    |                     @whatisthematter823                      |           @JEONGYOONHAE           |               @dearsyjang               |     @hyehye66     |     @Hyunbird     | @spaceforvincent  |
+## 5. 팀원 소개 및 기여도
 
-# 5. 기능 소개
+|   이름   |     [강동관](https://github.com/whatistheMatter823)         |     [정윤해](https://github.com/JEONGYOONHAE)     |     [장수영](https://github.com/dearsyjang)     |     [배근혜](https://github.com/hyehye66)     |     [이현정](https://github.com/Hyunbird)     |     [최혁주](https://github.com/spaceforvincent)     |
+| :------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
+|  포지션  |                 Team Leader<br/>Data<br/>CI/CD                 |         Back-end<br/>CI/CD          |            Front-end<br/>UI/UX            | Front-end<br/>UI/UX | Front-end<br/>UI/UX | Front-end<br/>UI/UX |
+| 담당<br/>기능 | 데이터 처리<br/>Spring Boot<br> Dockerize & 배포 | Spring Boot <br/>Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
+
+## 6. 기능 소개
 
 | 구분                             | 기능                           | 설명                                    |
-| -------------------------------- | ------------------------------ | --------------------------------------- |
+| ---------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------- |
 | 회원                             | 회원가입<br/>로그인 & 로그아웃 | - id, pw, nickname 작성을 통한 회원관리<br/>- id, nicname 중복 검사 |
 | 산 지도                          | 산 지도 조회                   | - 100대 명산 클러스터 & 마커            |
 | 산 지도                          | 산 검색                        | - 100대 명산 검색<br/>- 하단 모달창 세미정보 조회  |
@@ -35,16 +50,16 @@
 
 
 
-## 회원
+### 회원
 
 - 사용자는 회원가입시, 아이디, 닉네임, 비밀번호 입력이 필요하며, 아이디 중복확인, 닉네임 중복확인 절차를 거쳐야합니다.
 
 <div>
-<img src="img_source/Untitled.png" width="300" height="1000">
-<img src="img_source/Untitled%201.png" width="300" height="1000">
+<img src="img_source/Untitled.png" width="400" height="900">
+<img src="img_source/Untitled%201.png" width="400" height="900">
 </div>
 
-## 100대 명산 지도 및 검색
+### 100대 명산 지도 및 검색
 
 - 사용자는 구글지도를 통해 100대 명산 클러스터와 마커를 확인할 수 있습니다.
 - 사용자는 산 검색을 할 수 있으며, 검색 완료 시 마커 이동과 함께 하단 모달창(bottomsheet)로 간단한 정보를 확인할 수 있습니다.
@@ -55,14 +70,14 @@
 <img src="img_source/Untitled.gif" width="300" height="800">
 </div>
 
-## 산 상세 정보 조회
+### 산 상세 정보 조회
 
 - 사용자는 상세 정보 페이지에서 산림청 데이터 기반, 산 정보(높이, 주소, 별칭), 상세 설명, 100대 명산 선정 이유, 난이도, 등산로 경로를 조회할 수 있습니다.
 - 사용자는 open weather 데이터 기반, 산 현재 날씨(온도, 습도, 메인날씨)를 확인할 수 있습니다.
 
-<img src="img_source/Untitled%202.png" width="300" height="1000">
+<img src="img_source/Untitled%202.png" width="400" height="1000">
 
-## 등산 기록
+### 등산 기록
 
 - 사용자는 현재 사용자의 위치 파악이 가능합니다.
 - 사용자는 현재 사용자의 실시간 위치 데이터 기반 경로를 작성할 수 있습니다.
@@ -70,45 +85,45 @@
 - 사용자는 긴급 전화 버튼으로 119 연결이 가능합니다.
 
 <div>
-<img src="img_source/Untitled%203.png" width="300" height="500">
-<img src="img_source/Untitled%204.png" width="300" height="500">
+<img src="img_source/Untitled%203.png" width="400" height="700">
+<img src="img_source/Untitled%204.png" width="400" height="700">
 </div>
 
-## 등산 달력
+### 등산 달력
 
 - 사용자는 등산한 정보 확인이 가능합니다.
 - 사용자는 날짜, 산 이름, 등산 거리와 시간, 경로 확인이 가능합니다.
 
 <div>
-<img src="img_source/Untitled%205.png" width="300" height="500">
-<img src="img_source/Untitled%206.png" width="300" height="500">
-<img src="img_source/Untitled%207.png" width="300" height="500">
+<img src="img_source/Untitled%205.png" width="400" height="700">
+<img src="img_source/Untitled%206.png" width="400" height="700">
+<img src="img_source/Untitled%207.png" width="400" height="700">
 </div>
 
-## 커뮤니티 - 등산챌린지
+### 커뮤니티 - 등산챌린지
 
 - 사용자는 등산기록과 전체 사용자 기준으로 전체 누적거리, 월별 누적거리를 통해 랭킹을 확인할 수 있습니다.
 - 사용자는 전체 누적거리 Top5 등산거리 차트를 확인할 수 있습니다.
 <div>
-<img src="img_source/KakaoTalk_20221124_144350942.gif" width="300" height="800">
-<img src="img_source/Untitled%208.png" width="300" height="800">
+<img src="img_source/KakaoTalk_20221124_144350942.gif" width="400" height="900">
+<img src="img_source/Untitled%208.png" width="400" height="900">
 </div>
 
-## 커뮤니티 - 채팅
+### 커뮤니티 - 채팅
 
 - 사용자는 채팅방을 생성할 수 있습니다.
 - 사용자는 사용자 간 실시간 대화가 가능합니다.
 
 <div>
-<img src="img_source/Untitled%209.png" width="300" height="500">
-<img src="img_source/Untitled%2010.png" width="300" height="500">
+<img src="img_source/Untitled%209.png" width="400" height="700">
+<img src="img_source/Untitled%2010.png" width="400" height="700">
 </div>
 
-# 6. 시스템 아키텍처
+## 7. 시스템 아키텍처
 
 ![Untitled](img_source/%25EC%258B%259C%25EC%258A%25A4%25ED%2585%259C%25EA%25B5%25AC%25EC%2584%25B1%25EB%258F%2584.png)
 
-# 7. 기술 스택
+## 8. 기술 스택
 
 ![Untitled](img_source/Untitled%2011.png)
 
@@ -141,7 +156,7 @@
 - **산림청 공공데이터 100대 명산**
 - **Open Weather**
 
-# 8. 설치
+## 9. 설치
 
 서비스를 사용하기 위해서는 다음과 같은 방법으로 실행합니다.
 
@@ -162,7 +177,7 @@ run application
 npm run android
 ```
 
-# 9. 폴더 구조
+## 10. 폴더 구조
 
 **[ FRONT-END ]**
 
@@ -190,7 +205,7 @@ npm run android
 │ ├── 📁common
 │ ├── 📁map
 │ │ 📄MountainSemiDetail.js  
- │ └─ 📄SearchBar.js
+│ └─ 📄SearchBar.js
 │ └─ 📁rank
 │ │ 📄RankItem.js
 │ │ 📄RankMonth.js
