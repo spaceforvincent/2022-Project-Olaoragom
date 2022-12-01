@@ -27,17 +27,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ChatService {
 
-
-//    private Map<String, ChatRoom> chatRooms;
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final RoomRepository roomRepository;
 
-//    @PostConstruct
-//    //의존관게 주입완료되면 실행되는 코드
-//    private void init() {
-//        chatRooms = new LinkedHashMap<>();
-//    }
 
     //채팅방 불러오기
     public List<ChatRoomDto> findAllRoom() {
@@ -71,7 +64,7 @@ public class ChatService {
     }
 
     // 채팅방 삭제
-    public ChatRoomPostResDto chatRoomDelete(Long userSeq, Long roomSeq) throws Exception {
+    public ChatRoomPostResDto deleteRoom(Long userSeq, Long roomSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         ChatRoom chatRoom = roomRepository.findByRoomSeq(roomSeq).orElseThrow(() ->

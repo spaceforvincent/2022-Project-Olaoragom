@@ -27,15 +27,18 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final MntnRepository mntnRepository;
 
+    // 등산 계획 조회 : 등산 계획, 등산 기록 포함
     @Transactional
-    public List<DiaryListResDto> myDiarylist (Long userSeq){
+    public List<DiaryListResDto> getDiarylist (Long userSeq){
         System.out.println("userSeq :" + userSeq);
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         List<Record> diaries = recordRepository.findByUser(user);
         return diaries.stream().map(DiaryListResDto::new).collect(Collectors.toList());
     }
-    public DiaryPostResDto diarySave (DiaryPostReqDto dto, Long userSeq) throws Exception {
+
+    // 등산 계획 생성
+    public DiaryPostResDto createDiary (DiaryPostReqDto dto, Long userSeq) throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
@@ -44,7 +47,9 @@ public class DiaryService {
         recordRepository.save(record);
         return DiaryPostResDto.of(record.getRecordSeq());
     }
-    public DiaryUpdateResDto diaryUpdate (DiaryUpdateReqDto dto, Long userSeq)throws Exception {
+
+    // 등산 계획 수정
+    public DiaryUpdateResDto updateDiary (DiaryUpdateReqDto dto, Long userSeq)throws Exception {
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         Mountain mntn = mntnRepository.findByMntnSeq(dto.getMntnSeq()).orElseThrow(() ->
@@ -59,7 +64,8 @@ public class DiaryService {
         }
     }
 
-    public void diaryDelete(Long userSeq, Long recordSeq)throws Exception{
+    // 등산 계획 삭제
+    public void deleteDiary(Long userSeq, Long recordSeq)throws Exception{
         User user = userRepository.findByUserSeq(userSeq).orElseThrow(() ->
                 new NoExistUserException());
         Record record = recordRepository.findByRecordSeq(recordSeq).orElseThrow(() ->

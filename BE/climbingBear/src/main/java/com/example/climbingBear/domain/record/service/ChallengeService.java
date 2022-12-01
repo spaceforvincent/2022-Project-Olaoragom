@@ -24,41 +24,32 @@ public class ChallengeService {
     private final UserRepository userRepository;
 
     // 월별 거리 순위
-    public List<RankByMonthResDto> rankByMonth (Integer year, Integer month) throws Exception {
+    public List<RankByMonthResDto> getMonthRank (Integer year, Integer month) throws Exception {
         List<User> users = userRepository.findAll();
-//        System.out.println("users : "+users);
         Map<String, Double> dic = new HashMap<>();
-//        dic.put(1, 23.4);
-//        dic.put(2, 233.4);
-//        System.out.println("dic : "+dic);
 
+        // 반복문을 통해 사용자별 월별 랭킹 List로 생성
         for (User u : users) {
-//            dic.put(u.getUserSeq(), u.getNickname());
             Double sum = 0.0;
             List<Record> records = recordRepository.findByUserAndYearAndMonth(u, year, month);
-//            System.out.println("userSeq : "+u.getUserSeq());
-//            System.out.println("records : "+records);
             for (Record r : records) {
-//                System.out.println("records : "+r.getDistance());
                 if (r.isComplete() == false){
                     continue;
                 }
                 sum += r.getDistance();
-//                System.out.println("sum : "+sum);
             }
             if (sum != 0){
                 dic.put(u.getNickname(), sum);
             }
         }
-//        System.out.println("dic : "+dic);
 
         List<Map.Entry<String, Double>> entryList = new LinkedList<>(dic.entrySet());
         entryList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-//        System.out.println("List : "+entryList);
         return entryList.stream().map(RankByMonthResDto::new).collect(Collectors.toList());
     }
+
     // 누적 거리 순위
-    public List<RankByAllResDto> rankAll () throws Exception {
+    public List<RankByAllResDto> getAllRank () throws Exception {
         List<User> users = userRepository.findAll();
         Map<String, Double> dic = new HashMap<>();
 

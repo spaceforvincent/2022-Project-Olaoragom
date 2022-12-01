@@ -12,6 +12,7 @@ public class MessageController {
 
     private final SimpMessageSendingOperations sendingOperations;
 
+    // 메시지 전송
     @MessageMapping("/chat/message")
     public void enter(ChatMessageDto message) {
         if (ChatMessageDto.MessageType.ENTER.equals(message.getType())) {
