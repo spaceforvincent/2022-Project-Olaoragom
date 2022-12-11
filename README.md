@@ -6,10 +6,10 @@
 - [프로젝트 기간](#프로젝트-기간)
 - [주요 자료](#주요-자료)
 - [팀원 소개 및 기여도](#팀원-소개-및-기여도)
-- [기능 소개](#기능)
+- [설치](#설치)
+- [기능 소개](#기능-소개)
 - [시스템 아키텍처](#시스템-아키텍처)
 - [기술 스택](#기술-스택)
-- [설치](#설치)
 - [폴더 구조](#폴더-구조)
 
 ## 기획배경
@@ -25,8 +25,9 @@
 - SSAFY 자율 프로젝트 2022.10.11 ~ 2022.11.18 (6주)
 
 ## 주요 자료
-- [SSAFY 7기 D109 올라오라곰 Notion](https://forest-dungeon-7d8.notion.site/116186235dda438bad3335ffa9e722fa)
-- [SSAFY 7기 D109 올라오라곰 Figma](https://www.figma.com/file/x1mGmXckprJQ1jdGI3qefr/%EC%98%AC%EB%9D%BC%EC%98%A4%EB%9D%BC%EA%B3%B0?node-id=0%3A1&t=MSlrJ63e2KduK9kE-1)
+- [NOTION🖋️](https://forest-dungeon-7d8.notion.site/116186235dda438bad3335ffa9e722fa)
+- [FIGMA🎨](https://www.figma.com/file/x1mGmXckprJQ1jdGI3qefr/%EC%98%AC%EB%9D%BC%EC%98%A4%EB%9D%BC%EA%B3%B0?node-id=0%3A1&t=MSlrJ63e2KduK9kE-1)
+- [UCC🎥](https://youtu.be/vP4pGheT7BA)
 
 ## 팀원 소개 및 기여도
 
@@ -34,6 +35,32 @@
 | :------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
 |  포지션  |                 Team Leader<br/>Data<br/>CI/CD                 |         Back-end<br/>CI/CD          |            Front-end<br/>UI/UX            | Front-end<br/>UI/UX | Front-end<br/>UI/UX | Front-end<br/>UI/UX |
 | 담당<br/>기능 | 데이터 처리<br/>Spring Boot<br> Dockerize & 배포 | Spring Boot <br/>Dockerize & 배포 | 회원<br/>산 지도 & 정보<br/>등산 챌린지 |       채팅        |     등산 기록     |     등산 달력     |
+
+## 설치
+
+서비스를 사용하기 위해서는 다음과 같은 방법으로 실행합니다.
+레포지토리를 clone 받습니다.
+
+**[ BACK-END ]**
+
+1. 백엔드를 실행합니다.
+
+```java
+run application
+```
+
+**[ FRONT-END ]**
+
+1. 안드로이드 폰에서 apk 설치 및 실행합니다.
+2. 안드로이드 스튜디오를 이용할 경우, pacakge.json에 정의된 패키지 및 모듈을 설치합니다.
+```jsx
+npm install
+```
+3. 설치 완료 후, 프론트엔드를 실행합니다.
+```jsx
+npm run android
+```
+
 
 ## 기능 소개
 
@@ -50,7 +77,7 @@
 
 
 
-### 회원
+### 💚회원
 
 - 사용자는 회원가입시, 아이디, 닉네임, 비밀번호 입력이 필요하며, 아이디 중복확인, 닉네임 중복확인 절차를 거쳐야합니다.
 
@@ -59,25 +86,25 @@
 <img src="img_source/Untitled%201.png" width="400" height="900">
 </div>
 
-### 100대 명산 지도 및 검색
+### 💚100대 명산 지도 및 검색
 
 - 사용자는 구글지도를 통해 100대 명산 클러스터와 마커를 확인할 수 있습니다.
 - 사용자는 산 검색을 할 수 있으며, 검색 완료 시 마커 이동과 함께 하단 모달창(bottomsheet)로 간단한 정보를 확인할 수 있습니다.
 - 사용자는 하단 모달창(bottomsheet)에서 산 이름 혹은 정보 클릭 시, 상세 정보 페이지로 이동할 수 있습니다.
 
 <div>
-<img src="img_source/%25ED%2581%25B4%25EB%259F%25AC%25EC%258A%25A4%25ED%2584%25B0%25EB%25A7%2581.gif" width="300" height="800">
-<img src="img_source/Untitled.gif" width="300" height="800">
+<img src="img_source/%25ED%2581%25B4%25EB%259F%25AC%25EC%258A%25A4%25ED%2584%25B0%25EB%25A7%2581.gif" width="400" height="800">
+<img src="img_source/Untitled.gif" width="400" height="800">
 </div>
 
-### 산 상세 정보 조회
+### 💚산 상세 정보 조회
 
 - 사용자는 상세 정보 페이지에서 산림청 데이터 기반, 산 정보(높이, 주소, 별칭), 상세 설명, 100대 명산 선정 이유, 난이도, 등산로 경로를 조회할 수 있습니다.
 - 사용자는 open weather 데이터 기반, 산 현재 날씨(온도, 습도, 메인날씨)를 확인할 수 있습니다.
 
 <img src="img_source/Untitled%202.png" width="400" height="1000">
 
-### 등산 기록
+### 💚등산 기록
 
 - 사용자는 현재 사용자의 위치 파악이 가능합니다.
 - 사용자는 현재 사용자의 실시간 위치 데이터 기반 경로를 작성할 수 있습니다.
@@ -85,22 +112,22 @@
 - 사용자는 긴급 전화 버튼으로 119 연결이 가능합니다.
 
 <div>
-<img src="img_source/Untitled%203.png" width="400" height="700">
-<img src="img_source/Untitled%204.png" width="400" height="700">
+<img src="img_source/Untitled%203.png" width="300" height="700">
+<img src="img_source/Untitled%204.png" width="300" height="700">
 </div>
 
-### 등산 달력
+### 💚등산 달력
 
 - 사용자는 등산한 정보 확인이 가능합니다.
 - 사용자는 날짜, 산 이름, 등산 거리와 시간, 경로 확인이 가능합니다.
 
 <div>
-<img src="img_source/Untitled%205.png" width="400" height="700">
-<img src="img_source/Untitled%206.png" width="400" height="700">
-<img src="img_source/Untitled%207.png" width="400" height="700">
+<img src="img_source/Untitled%205.png" width="300" height="700">
+<img src="img_source/Untitled%206.png" width="300" height="700">
+<img src="img_source/Untitled%207.png" width="300" height="700">
 </div>
 
-### 커뮤니티 - 등산챌린지
+### 💚커뮤니티 - 등산챌린지
 
 - 사용자는 등산기록과 전체 사용자 기준으로 전체 누적거리, 월별 누적거리를 통해 랭킹을 확인할 수 있습니다.
 - 사용자는 전체 누적거리 Top5 등산거리 차트를 확인할 수 있습니다.
@@ -109,14 +136,14 @@
 <img src="img_source/Untitled%208.png" width="400" height="900">
 </div>
 
-### 커뮤니티 - 채팅
+### 💚커뮤니티 - 채팅
 
 - 사용자는 채팅방을 생성할 수 있습니다.
 - 사용자는 사용자 간 실시간 대화가 가능합니다.
 
 <div>
-<img src="img_source/Untitled%209.png" width="400" height="700">
-<img src="img_source/Untitled%2010.png" width="400" height="700">
+<img src="img_source/Untitled%209.png" width="300" height="700">
+<img src="img_source/Untitled%2010.png" width="300" height="700">
 </div>
 
 ## 시스템 아키텍처
@@ -156,27 +183,6 @@
 - **산림청 공공데이터 100대 명산**
 - **Open Weather**
 
-## 설치
-
-서비스를 사용하기 위해서는 다음과 같은 방법으로 실행합니다.
-
-**[ BACK-END ]**
-
-1. 백엔드를 실행합니다.
-
-```java
-run application
-```
-
-**[ FRONT-END ]**
-
-1. 안드로이드 폰에서 apk 설치 및 실행합니다.
-2. 안드로이드 스튜디오를 이용할 경우, 프론트엔드를 실행합니다.
-
-```jsx
-npm run android
-```
-
 ## 폴더 구조
 
 **[ FRONT-END ]**
@@ -188,56 +194,87 @@ npm run android
 ├── 📁android
 ├── 📁ios
 ├── 📁src
-│ ├── 📁apis # Axios 데이터 통신
-│ │ 📄Auth.js
-│ │ 📄Climbing.js
-│ │ 📄Map.js
-│ └─ 📄Rank.js
+│ ├── 📁apis          # Axios 데이터 통신
+│   ├── 📄Auth.js
+│   ├── 📄Climbing.js
+│   ├── 📄Map.js
+│   └── 📄Rank.js
 │ ├── 📁assets
-│ │ 📁fonts
-│ │ 📁images
-│ └─ 📁temp
+│   ├── 📁fonts
+│   ├── 📁images
+│   └── 📁temp
 │ ├── 📁components
-│ ├── 📁auth
-│ └─ 📄AuthInput.js
-│ ├── 📁calendar
-│ ├── 📁climbing
-│ ├── 📁common
-│ ├── 📁map
-│ │ 📄MountainSemiDetail.js  
-│ └─ 📄SearchBar.js
-│ └─ 📁rank
-│ │ 📄RankItem.js
-│ │ 📄RankMonth.js
-│ └─ 📄RankYear.js
+│   ├── 📁auth
+│     └──📄AuthInput.js
+│   ├── 📁calendar
+│     ├──📄ArrowLeft.js
+│     ├──📄ArrowRight.js
+│     ├──📄BlankStamp.js
+│     ├──📄HaveBeenStamp.js
+│     ├──📄ModifyDeleteModal.js
+│     ├──📄NotHaveBeenStamp.js
+│     ├──📄SearchBar.js
+│     ├──📄SearchRegisterModal.js
+│     └──📄ToastMessage.js
+│   ├── 📁chat
+│     ├──📄CreateRoomInput.js
+│     ├──📄CreateRoomModal.js
+│     ├──📄DeleteRoomModal.js
+│     ├──📄EnterRoomModal.js
+│     └──📄SearchBar.js
+│   ├── 📁climbing
+│     ├──📄BeforeClimbTimer.js
+│     ├──📄ClimbintButton.js
+│     ├──📄ClimbingFinishInfo.js
+│     ├──📄ClimbingInfo.js
+│     ├──📄ClimbingMap.js
+│     ├──📄PlaceTypeButton.js
+│     └──📄SaveEndModal.js
+│   ├── 📁common
+│     └──📄TextFont.js
+│   ├── 📁map
+│     ├── 📄MountainSemiDetail.js  
+│     └── 📄SearchBar.js
+│   └─ 📁rank
+│     ├── 📄RankItem.js
+│     ├── 📄RankMonth.js
+│     └── 📄RankYear.js
 │ ├── 📁navigation
-│ │ 📄AuthNavigation.js
-│ │ 📄CalendarNavigation.js
-│ │ 📄ChatNavigation.js
-│ │ 📄LogoutNavigation.js
-│ │ 📄MapNavigation.js
-│ │ 📄RankGraphNavigation.js
-│ │ 📄RankNavigation.js
-│ └─ 📄SideBar.js # 통합 DrawerNavigation 사이드바
+│   ├── 📄AuthNavigation.js
+│   ├── 📄CalendarNavigation.js
+│   ├── 📄ChatNavigation.js
+│   ├── 📄LogoutNavigation.js
+│   ├── 📄MapNavigation.js
+│   ├── 📄RankGraphNavigation.js
+│   ├── 📄RankNavigation.js
+│   └── 📄SideBar.js          # 통합 DrawerNavigation 사이드바
 │ ├── 📁screens
-│ ├── 📁auth
-│ │ 📄LoginScreen.js
-│ │ 📄LogoutScreen.js
-│ └─ 📄SignupScreen.js
-│ ├── 📁calendar
-│ ├── 📁chat
-│ ├── 📁climbing
-│ ├── 📁map
-│ │ 📄MapHome.js
-│ └─ 📄MountainDetail.js
-│ └── 📁rank
-│ │ 📄RankGraph.js
-│ └─ 📄RankHome.js
-│ └── 📁store # redux-toolkit
-│ ├── 📄Auth.js
-│ ├── 📄Climbing.js
-│ ├── 📄Map.js
-│ └── 📄index.js
+│   ├── 📁auth
+│     ├── 📄LoginScreen.js
+│     ├── 📄LogoutScreen.js
+│     └── 📄SignupScreen.js
+│   ├── 📁calendar
+│     ├── 📄CalendarHome.js
+│     └── 📄CalendarRecord.js
+│   ├── 📁chat
+│     ├── 📄ChatHome.js
+│     └── 📄ChatRoom.js
+│   ├── 📁climbing
+│     ├── 📄ClimbingFinish.js
+│     ├── 📄ClimbingGPS.js
+│     ├── 📄ClimbingHome.js
+│     └── 📄ClimbingHomefix.js
+│   ├── 📁map
+│     ├── 📄MapHome.js
+│     └── 📄MountainDetail.js
+│   └── 📁rank
+│     ├── 📄RankGraph.js
+│     └── 📄RankHome.js
+│ └── 📁store          # redux-toolkit
+│   ├── 📄Auth.js
+│   ├── 📄Climbing.js
+│   ├── 📄Map.js
+│   └── 📄index.js
 ├── 📄.buckconfig
 ├── 📄.eslintrc.js
 ├── 📄.flowconfig
