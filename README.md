@@ -1,4 +1,6 @@
-# 올라오라곰 ⛰️🐻
+<div align=center>
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/97591083/206909591-b2ddad55-e407-43b3-be1a-2581d68544f3.png">
+</div>
 
 ## 목차
 - [기획배경](#기획배경)
