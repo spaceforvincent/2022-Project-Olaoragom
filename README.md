@@ -188,7 +188,7 @@ npm run android
 **[ FRONT-END ]**
 
 ```markdown
-🗂ClimbingBear
+📁 ClimbingBear
 ├── 📁.bundle
 ├── 📁**tests**
 ├── 📁android
